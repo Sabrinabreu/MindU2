@@ -6,6 +6,7 @@ import Cadastro from "./Pages/Cadastro";
 import TabelaUsuarios from "./Pages/ListaUsuarios";
 import Agendarconsulta from "./Pages/AgendarConsulta";
 import SaibaMais from './Pages/SaibaMais';
+import Planos from './Pages/Planos';
 import Perfil from './Pages/Perfil';
 import AcessoFuncionarios from './Pages/AcessoFuncionarios';
 
@@ -21,6 +22,7 @@ const Rotas = () => {
         <Route path="/saibamais" element={<SaibaMais />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/acessoFuncionarios" element={<AcessoFuncionarios />} />
+        <Route path="/planos" element={<Planos />} />  
       </Routes>
 
     </>

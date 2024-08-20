@@ -246,7 +246,7 @@ function AgendarConsulta() {
         </div>
       </div>
       <Container>
-        <h2 className='tituloAgenda'>Agendar Consulta</h2>
+        <h2 className='tituloAgenda p-4'>Agendar Consulta</h2>
 
         {filteredSlidesContent.length > 0 ? (
           filteredSlidesContent.map((slide, index) => {
