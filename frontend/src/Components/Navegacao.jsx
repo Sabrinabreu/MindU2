@@ -6,7 +6,7 @@ const Header = () => {
     <header>
       <nav>
         <ul>
-          <li>
+        <li>
             <Link to="/">Home</Link>
           </li>
           <li>
@@ -19,10 +19,20 @@ const Header = () => {
             <Link to="/listaUsuarios">Lista de Usuários</Link>
           </li>
           <li>
+
+            <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/criarcontafuncionarios">Criar conta para funcionários</Link>
+          </li>
+          <li>
             <Link to="/agendarconsulta">Agendar Consultas</Link>
           </li>
           <li>
             <Link to="/perfil">Perfil</Link>
+          </li>
+          <li>
+            <Link to="/acessoFuncionarios">Acesso Funcionarios</Link>
           </li>
         </ul>
       </nav>
