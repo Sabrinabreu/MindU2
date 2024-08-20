@@ -100,4 +100,16 @@ body {
     background-color: #7866c663 !important;
     border-radius: 20px;
     border: 2px solid #46467a;
+    transition: all 0.4s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.cardporque:hover {
+    box-shadow: 0px 8px 10px #46467a8f;
+    transform: translateY(-10px);
+}
+
+.cardporque:active {
+    transform: translateY(-4px);
 }
