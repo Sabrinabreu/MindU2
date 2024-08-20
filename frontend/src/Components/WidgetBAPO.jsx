@@ -1,6 +1,7 @@
 // ChatWidget.js
 import React, { useState } from 'react';
 import "../css/WidgetBAPO.css";
+import fotoBAPO from '../img/IABAPO.webp';
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,9 +18,11 @@ const ChatWidget = () => {
       {isOpen && (
         <div className="chat-box">
           <div className="chat-header">
-            <span className="chat-title">Olá!</span>
+            <span className="chat-title">Precisa de ajuda?</span>
           </div>
           <div className="chat-body">
+            <img className="fotoBAPO" src={fotoBAPO} alt="foto da atendente" />
+            <div class="talk-bubble tri-right left-top"/>
             <p>Tem alguma pergunta? Ficarei feliz em ajudar.</p>
             <div className="chat-options">
               <button className="chat-option">Falar com time pessoal</button>

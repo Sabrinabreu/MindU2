@@ -19,7 +19,7 @@ body {
 }
 
 .chat-button {
-  background-color: #25D366;
+  background-color: #d325aa;
   color: white;
   border: none;
   border-radius: 50%;
@@ -41,7 +41,7 @@ body {
   position: absolute;
   bottom: 70px;
   right: 0;
-  width: 250px;
+  width: 280px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -50,7 +50,7 @@ body {
 }
 
 .chat-header {
-  background-color: #25D366;
+  background-color: #d325aa;
   color: white;
   padding: 10px;
   font-weight: bold;
@@ -84,4 +84,12 @@ body {
 
 .chat-option:hover {
   background-color: #e1e1e1;
+}
+
+
+.fotoBAPO {
+  width: 60px;
+  border-radius: 100%;
+  float: inline-start;
+  margin-right: 10px;
 }
