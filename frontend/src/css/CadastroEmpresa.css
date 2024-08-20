@@ -16,6 +16,7 @@ body {background-color: #fffcfb;
     background-color: #ffdea1;
     padding: 20px 0px;
     overflow: hidden;
+    margin-top: 60px;
 }
 .textoInfo {
     background-color: #ffe7ba;
@@ -206,6 +207,53 @@ body {background-color: #fffcfb;
 
 
 
-  .result-text {
+  .resultado-direito p {
     font-size: 20px !important;
   }
+
+  .resultado-direito span {
+    font-size: 30px !important;
+  }
+  
+  .resultado-direito h2 {
+    margin-bottom: 16px;
+  }
+
+
+
+
+
+
+
+
+
+
+
+  .resultado-container {
+    display: flex;
+    border-radius: 15px;
+    color: #71357e;
+    font-size: 17px;
+    overflow: hidden;
+
+    /* quadriculado */
+    --color: #ecd5f1e0;
+    background-color: #faf4f2;
+    background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+        linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+    background-size: 55px 55px;
+  }
+  
+  .resultado-esquerdo {
+    width: 35%;
+    font-size: 19px !important;
+    text-align: start;
+    padding: 20px;
+    height:auto;
+    background-color: #fff7f7;
+  }
+  
+  .resultado-direito {
+    width: 80%;
+    padding: 20px;
+  }  

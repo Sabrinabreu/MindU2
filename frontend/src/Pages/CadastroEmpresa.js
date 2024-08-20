@@ -50,15 +50,15 @@ const Cadastro = () => {
     // valores base e porcentagem
     switch (faixa) {
       case '20-30':
-        custoBasePorFuncionario = 1240.04;
+        custoBasePorFuncionario = 1440.04;
         percentualReducao = 35.00;
         break;
       case '30-40':
-        custoBasePorFuncionario = 1561.08;
+        custoBasePorFuncionario = 1861.08;
         percentualReducao = 40.00;
         break;
       case '40-50':
-        custoBasePorFuncionario = 2324.23;
+        custoBasePorFuncionario = 2724.23;
         percentualReducao = 45.00;
         break;
       default:
@@ -81,17 +81,6 @@ const Cadastro = () => {
       }).format(valor);
     };
 
-    // Atualiza o resultado
-    setResult(`
-      <h2>Resultados:</h2>
-      <p className="result-text" >Problemas de saúde mental custam à sua empresa cerca de: ${formatarMoeda(custoTotalInicial)}</p>
-      <p className="result-text" >Com a MindU você pode diminuir esse custo em até: ${formatarMoeda(economiaPotencial)}</p>
-      <p className="result-text" >Custo reduzido após a MindU: ${formatarMoeda(custoReduzido)}</p>
-    `);
-
-    setShowResult(true);
-  };
-
   const resetForm = () => {
     setSalario('');
     setNumeroColaboradores('');
@@ -104,6 +93,30 @@ const Cadastro = () => {
     setResult('');
     setShowResult(false); // Volta pro formulário
   };
+
+
+    // Atualiza o resultado
+    setResult(`
+      <div class="resultado-container">
+        <div class="resultado-esquerdo">
+          <p>Resultado para</p>
+          <p>${numColaboradores} colaboradores</p>
+          <p>${formatarMoeda(custoColabAno)}</p>
+          <p>${faixa}</p>
+          <button type="button" class="botaoBanner botaoBranco" onClick={resetForm}>REFAZER Cálculo</button>
+        </div>
+        <div class="resultado-direito">
+          <p>Problemas de saúde mental custam à sua empresa cerca de: <span>${formatarMoeda(custoTotalInicial)}</span></p>
+          <p>Você pode diminuir esse custo em até: <span>${formatarMoeda(economiaPotencial)} (${percentualReducao}%)</span></p>
+          <p>Custo reduzido após a MindU: <span>${formatarMoeda(custoReduzido)}</span></p>
+        </div>
+      </div>
+    `);
+
+    setShowResult(true);
+  };
+
+
 
   return (
     <>
@@ -130,9 +143,8 @@ const Cadastro = () => {
             <h2 className="my-4 textRoxo centralizar">Calcule os custos de saúde mental na sua empresa</h2>
 
             {showResult ? (
-              <Col md={6} sm={12} className="centralizar textoCalc">
-                <div id="result" dangerouslySetInnerHTML={{ __html: result }}></div>
-                <button type="button" className="botaoBanner botaoBranco" onClick={resetForm}>REFAZER CÁLCULO</button>
+              <Col md={6} sm={12} className="centralizar">
+                <div className="bloqueio-divisoria" id="result" dangerouslySetInnerHTML={{ __html: result }}></div>
               </Col>
             ) : (
 
