@@ -15,14 +15,20 @@ const AcessoFuncionarios = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const contasCriadas = [];
     try {
-      const response = await axios.post("http://localhost:3001/contaPrvsFuncionarios", { nContas });
-      console.log("Resposta da API: ", response.data); // Verifica a resposta da API
-      setResultados(response.data); // Atualiza o estado com as novas contas
-      alert("Contas criadas com sucesso!");
+      for (let i = 0; i < nContas; i++) {
+        const response = await axios.post('http://localhost:3001/contaPrvsFuncionarios', { nContas });
+        console.log("Resposta da API: ", response.data); // Verifica a resposta da API
+      }
+  
+      setResultados(contasCriadas);
+      alert('Contas criadas com sucesso!');
+      console.log('Contas criadas: ', contasCriadas);
+      console.log("Número de contas: ", nContas);
     } catch (error) {
-      console.error("Erro ao criar contas:", error);
-      alert("Erro ao criar contas. Verifique o console para mais detalhes.");
+      console.error('Erro ao criar contas:', error);
+      alert('Erro ao criar contas. Verifique o console para mais detalhes.');
     }
   };
 

@@ -1,13 +1,14 @@
-/* sobre */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 .perfilPsico {
     background-color: #ecc8ec;
     position: fixed;
     padding: 0;
     border-radius: 20px;
-    height: 370px;
+    height: 375px;
     width: 450px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-top: 100px;
 }
 
 .fundoPsico {
@@ -51,15 +52,56 @@
     margin-left: 90px;
     position: absolute;
 }
+  .crp{
+    font-size: 15px;
+    margin-left: 27px;
+    margin-top: 14px;
+  }
 
 .agenda {
     background-color: #ffffff;
     padding: 1em;
     border-radius: 10px;
-    height: 500px;
+    height: 600px;
     width: 650px;
     margin-left: -90px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
+}
+
+.agendaConsulta {
+    padding: 1.3em 3em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: rgb(245, 205, 245);
+    border: 1.7px solid #252525;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    margin-left: 55%;
+}
+
+.agendaConsulta:hover {
+    box-shadow: 0px 15px 20px rgb(148, 108, 148);
+    transform: translateY(-7px);
+}
+
+.agendaConsulta:active {
+    transform: translateY(-1px);
+}
+
+.salvar{
+    background-color: #d886d7;
+    border-color: #704170;
+}
+
+.salvar:hover{
+    background-color: #c799c5;
 }
 
 .nomePsico {
@@ -81,7 +123,7 @@
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.contato{
+.contato {
     background-color: white;
     border-radius: 15px;
     margin-left: 43%;
@@ -90,6 +132,140 @@
     margin-top: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
+/* MODAL */
+.tipo{
+    background-color: #d88dd8;
+    color: rgb(255, 255, 255);
+    border: none;
+    margin-left: 1px;
+    border-radius: 8px;
+}
+
+/* CALENDARIO */
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+:root {
+    --c-theme-primary: #008FFD;
+    --c-theme-primary-accent: #CBE8FF;
+    --c-bg-primary: #D6DAE0;
+    --c-bg-secondary: #EAEBEC;
+    --c-bg-tertiary: #FDFDFD;
+    --c-text-primary: #1F1F25;
+    --c-text-secondary: #999FA6;
+}
+
+.displayCalendario {
+    margin-left: 8%;
+}
+
+.datepicker {
+    width: 95%;
+    max-width: 510px;
+    height: 400px;
+    background-color: var(--c-bg-tertiary);
+    border-radius: 10px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, .2), 0 5px 10px 0 rgba(0, 0, 0, .1);
+    padding: 1rem;
+    margin-bottom: 20px;
+}
+
+.datepicker-top {
+    margin-bottom: 1rem;
+}
+
+.tag {
+    margin-right: .5rem;
+    margin-top: .5rem;
+    border: 0;
+    background-color: var(--c-bg-secondary);
+    border-radius: 10px;
+    padding: .5em .75em;
+    font-weight: 600;
+}
+
+.month-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background-color: #FFF;
+    border-radius: 12px;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, .25), 0 0 10px 0 rgba(0, 0, 0, .15);
+}
+
+.month-name {
+    font-weight: 600;
+}
+
+.datepicker-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day,
+.date {
+    justify-self: center;
+}
+
+.day {
+    color: var(--c-text-secondary);
+    font-size: .875em;
+    font-weight: 500;
+    justify-self: center;
+}
+
+.date {
+    border: 0;
+    padding: 0;
+    width: 50px;
+    height: 50px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+    font-weight: 600;
+    border: 2px solid transparent;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+
+.current-day {
+    color: #FFF;
+    background-color: rgb(239, 173, 239);
+    border-radius: 100%;
+    border: none;
+}
+
+.current-day:focus {
+    background-color: var(--c-theme-primary-accent);
+}
+
+.selected-day {
+    background-color: purple;
+    color: #fff !important;
+    border-radius: 100%;
+}
+
+/* CALENDARIO */
+.date.inactive {
+    color: rgb(177, 177, 177);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 
 @media (max-width: 768px) {
     .perfilPsico {
@@ -118,9 +294,17 @@
         width: 375px;
     }
 
-    .contato{
+    .contato {
         margin-right: 100%;
         width: 375px;
+    }
+
+    .displayCalendario {
+        margin-right: -20%;
+    }
+
+    .agendaConsulta {
+        margin-left: 13%;
     }
 }
 
@@ -149,7 +333,12 @@
         margin-left: 0;
     }
 
-    .contato{
+    .contato {
         margin-left: 0;
+    }
+
+    .displayCalendario {
+        margin-right: 1%;
+        margin-left: 20%;
     }
 }
