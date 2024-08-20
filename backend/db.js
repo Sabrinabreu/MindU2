@@ -5,7 +5,7 @@ const dbConfig = {
   host: 'localhost', // Host do banco de dados
   user: 'root', // Usuário do banco de dados
   password: 'Desenvolvedor@123', // Senha do banco de dados
-  database: 'aula' // Nome do banco de dados
+  database: 'bancomindu' // Nome do banco de dados
 };
 
 // Criação da conexão com o banco de dados
