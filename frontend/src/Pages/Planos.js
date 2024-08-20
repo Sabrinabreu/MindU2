@@ -4,10 +4,13 @@ import '../css/Planos.css';
 import { Container, Row, Col } from "react-bootstrap";
 import Rodape from "../Components/Rodape";
 import "../css/Rodape.css";
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
 
 const Cadastro = () => {
     return (
         <>
+        <BAPO/>
             <Container className="caixaPlanos">
                 <Row>
                     <Col className="text-center">
@@ -29,7 +32,7 @@ const Cadastro = () => {
                                     <li>Acesso a material educativo sobre bem-estar psicológico </li>
                                     <li class="disabled">Suporte online 24/7</li>
                                     <li class="disabled">Sessões de coaching psicológico personalizadas (1 vez por mês)</li>
-                                </ul><br></br><br></br>
+                                </ul><br></br>
                                 <div class="action">
                                     <a class="botaoPlan" href="#">
                                         Escolher plano
