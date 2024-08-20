@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 body {
-    background-color: #f5e8cd !important;
+    background-color: #f7f8fc !important;
     font-family: "Montserrat", serif !important;
     font-optical-sizing: auto;
     font-weight: 420;
@@ -27,27 +27,27 @@ body {
     transform: translateY(0);
 }
 
-
-.cardBanner {
+.cardBannerMaior {
     position: absolute !important;
     width: 300px !important;
     border-radius: 140px 140px 10px 10px !important;
     height: 500px !important;
-    left: 100% !important;
-    border-color: #704170 !important;
+    top: 18% !important;
+    left: 64% !important;
+    border-color: #7866c6d2 !important;
     border-width: 4px !important;
-    background-color: #704170 !important;
+    background-color: #7766C6 !important;
 }
 
-.cardProfs {
+.cardProfsMenor {
     left: 115% !important;
     bottom: 20% !important;
     border-radius: 100% !important;
     height: 200px !important;
     width: 200px !important;
-    border-color: #b37ebf !important;
+    border-color: #46467a !important;
     border-width: 4px !important;
-    background-color: #b37ebf !important;
+    background-color: #46467a !important;
 }
 
 .imagem1 {
@@ -61,19 +61,6 @@ body {
     border-top-right-radius: 20% !important;
     margin-top: 56% !important;
     margin-left: 2px !important;
-}
-
-
-.cardBanner {
-    position: absolute !important;
-    width: 300px !important;
-    border-radius: 140px 140px 10px 10px !important;
-    height: 500px !important;
-    top: 18% !important;
-    left: 64% !important;
-    border-color: #704170 !important;
-    border-width: 4px !important;
-    background-color: #704170 !important;
 }
 
 .txtSobre {
@@ -97,8 +84,8 @@ body {
     letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;
-    background-color: #b37ebf36;
-    border: 1.7px solid #252525;
+    background-color: #ffd34e63;
+    border: 1.7px solid #f1c951;
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
@@ -152,8 +139,8 @@ body {
     letter-spacing: 1px;
     font-weight: 500;
     color: #000;
-    background-color: #b37ebf77;
-    border: 2px solid #704170;
+    background-color: #ffe1876a;
+    border: 3px solid #fab0c3;
     border-radius: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease 0s;
@@ -165,7 +152,7 @@ body {
 
 
 .cardQualidades:hover {
-    box-shadow: 0px 15px 20px #e5cc9d;
+    box-shadow: 0px 8px 10px #fab0c3;
     transform: translateY(-10px);
 }
 
@@ -204,7 +191,7 @@ body {
 .slide {
     justify-content: center !important;
     background: transparent !important;
-    border-color: #704170 !important;
+    border: 2px solid #7766C6 !important;
     border-width: 20% !important;
     border-radius: 10px;
     padding: 28px;
@@ -216,7 +203,7 @@ body {
     /* Reduz o tamanho dos slides não centrais */
     z-index: 0;
     /* Slides não centrais estão atrás */
-    box-shadow: 0 4px 6px #714071;
+    box-shadow: 0 4px 6px #7766C6;
     /* Adiciona uma sombra sutil */
     padding: 1em 3em;
     font-size: 12px;
@@ -289,8 +276,8 @@ body {
 }
 
 .ratestar {
-    font-size: 20px !important;
-    color: #fabb45 !important;
+    font-size: 24px !important;
+    color: #7766C6 !important;
 }
 
 .colabs {
@@ -319,17 +306,17 @@ body {
 
 .accordion-button:not(.collapsed) {
     font-size: 16px !important;
-    color: #704170 !important;
-    background-color: #8d519a64 !important;
+    color: #46467a !important;
+    background-color: #7866c663 !important;
 }
 
 .accordion {
     --bs-border-radius: 16px !important;
     --bs-accordion-inner-border-radius: calc(var(16px) -(var(1px)));
     --bs-accordion-border-radius: 16px !important;
-    --bs-accordion-bg: #b37ebf77;
+    --bs-accordion-bg: #7866c663;
     --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
-    --bs-accordion-btn-focus-box-shadow: #b37ebfb3;
+    --bs-accordion-btn-focus-box-shadow: #46467a;
     position: relative !important;
     top: 40% !important;
     bottom: 40% !important;
@@ -353,8 +340,8 @@ body {
     letter-spacing: 1px;
     font-weight: 500;
     color: #000;
-    background-color: #b37ebf77;
-    border: 2px solid #704170;
+    background-color: #ffe1876a;
+    border: 3px solid #fab0c3;
     border-radius: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease 0s;
@@ -365,7 +352,7 @@ body {
 
 
 .results:hover {
-    box-shadow: 0px 15px 20px #e5cc9d;
+    box-shadow: 0px 15px 20px #fab0c3;
     transform: translateY(-10px);
 }
 
