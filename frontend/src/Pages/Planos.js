@@ -4,13 +4,10 @@ import '../css/Planos.css';
 import { Container, Row, Col } from "react-bootstrap";
 import Rodape from "../Components/Rodape";
 import "../css/Rodape.css";
-import BAPO from "../Components/WidgetBAPO";
-import "../css/WidgetBAPO.css";
 
 const Cadastro = () => {
     return (
         <>
-        <BAPO/>
             <Container className="caixaPlanos">
                 <Row>
                     <Col className="text-center">
