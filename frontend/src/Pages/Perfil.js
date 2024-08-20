@@ -8,13 +8,18 @@ function Perfil() {
         <Container>
             <h2>Meu Perfil</h2>
             <Row>
-                <Col>
+                <Col md={5}>
                     <div className="perfil-container">
                         <img className="meuPerfil" src={perfilPsicologo} alt="Perfil Psicólogo" />
                         <div className="perfil-overlay">
                             <p>BLABLANLA!</p>
                         </div>
                     </div>
+                </Col>
+                <Col className='p-4 mt-5' md={7}>
+               <p>Username:</p>
+               <p>E-mail:</p>
+               <p>Senha:</p>
                 </Col>
             </Row>
 
