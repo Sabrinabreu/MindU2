@@ -1,0 +1,33 @@
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-item {
+    margin-right: 15px;
+    /* Ajuste o espaço entre os itens conforme necessário */
+
+}
+
+.nav-item a {
+    color: rgb(255, 255, 255);
+    /* Cor do texto do link */
+    text-decoration: none;
+    /* Remove o sublinhado dos links */
+
+}
+
+.nav-link:hover {
+    color: #ffffff;
+    /* Cor do texto ao passar o mouse */
+    text-decoration: underline;
+    /* Adiciona o sublinhado ao passar o mouse */
+}
+
+.navbar {
+    background-color: #8d519a !important;
+    padding: 15px 15px 15px;
+
+}

@@ -1,0 +1,155 @@
+/* sobre */
+
+.perfilPsico {
+    background-color: #ecc8ec;
+    position: fixed;
+    padding: 0;
+    border-radius: 20px;
+    height: 370px;
+    width: 450px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.fundoPsico {
+    height: 150px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    filter: blur(1.5px);
+}
+
+.psicologo {
+    border-radius: 20px;
+    width: 25%;
+    max-width: 170px;
+    position: relative;
+    margin-top: 110px;
+    padding: 2px;
+    margin-left: 35px;
+    background-color: #af6faf;
+    /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
+}
+
+.valores {
+    padding: 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 500;
+    background-color: #d886d7;
+    border: none;
+    /* border: 1.7px solid #252525;*/
+    border-radius: 15px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    color: rgb(85, 0, 94);
+    margin-top: 160px;
+    margin-left: 90px;
+    position: absolute;
+}
+
+.agenda {
+    background-color: #ffffff;
+    padding: 1em;
+    border-radius: 10px;
+    height: 500px;
+    width: 650px;
+    margin-left: -90px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.nomePsico {
+    color: #704170;
+    margin-bottom: -10px;
+}
+
+.infoPsico {
+    margin-left: 27px;
+}
+
+.biografia {
+    background-color: white;
+    border-radius: 15px;
+    margin-left: 88%;
+    width: 650px;
+    position: relative;
+    margin-top: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contato{
+    background-color: white;
+    border-radius: 15px;
+    margin-left: 43%;
+    width: 650px;
+    position: relative;
+    margin-top: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .perfilPsico {
+        width: 95%;
+        position: relative;
+        height: 250px;
+    }
+
+    .agenda {
+        width: 375px;
+        margin-left: 5px;
+
+    }
+
+    .psicologo {
+        width: 95%;
+        max-width: 130px;
+    }
+
+    .valores {
+        margin-top: 10px;
+    }
+
+    .biografia {
+        margin-right: 100%;
+        width: 375px;
+    }
+
+    .contato{
+        margin-right: 100%;
+        width: 375px;
+    }
+}
+
+@media (max-width: 576px) {
+    .psicologo {
+        width: 50%;
+        max-width: 100px;
+        margin-top: 10px;
+    }
+
+    .fundoPsico {
+        height: 120px;
+    }
+
+    .valores {
+        margin-top: 10px;
+    }
+
+    .agenda {
+        margin-top: 20px;
+        margin-left: 0;
+
+    }
+
+    .biografia {
+        margin-left: 0;
+    }
+
+    .contato{
+        margin-left: 0;
+    }
+}

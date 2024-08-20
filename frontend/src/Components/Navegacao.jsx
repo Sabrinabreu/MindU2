@@ -1,40 +1,46 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
-const Header = () => {
+function ColorSchemesExample() {
   return (
-    <header>
-      <nav>
-        <ul>
-        <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/cadastroempresa">Para sua empresa</Link>
-          </li>
-          <li>
-            <Link to="/cadastro">Cadastro</Link>
-          </li>
-          <li>
-            <Link to="/listaUsuarios">Lista de Usuários</Link>
-          </li>
-          <li>
-
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/agendarconsulta">Agendar Consultas</Link>
-          </li>
-          <li>
-            <Link to="/perfil">Perfil</Link>
-          </li>
-          <li>
-            <Link to="/acessoFuncionarios">Acesso Funcionarios</Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <Navbar bg="dark" variant="dark" fixed="top" expand="lg">
+      <Container>
+        <Navbar.Brand as={Link} to="/">Brand</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Link as={Link} to="/cadastroempresa">
+              Para sua empresa
+            </Nav.Link>
+            <Nav.Link as={Link} to="/contato">
+              Contato
+            </Nav.Link>
+            <Nav.Link as={Link} to="/cadastro">
+              Cadastro
+            </Nav.Link>
+            <Nav.Link as={Link} to="/listaUsuarios">
+              Lista de Usuários
+            </Nav.Link>
+            <Nav.Link as={Link} to="/agendarconsulta">
+              Agendar Consultas
+            </Nav.Link>
+            <Nav.Link as={Link} to="/planos">
+              Planos Empresáriais
+            </Nav.Link>
+            <Nav.Link as={Link} to="/acessoFuncionarios">
+              Acesso Funcionarios
+            </Nav.Link>
+            <Nav.Link as={Link} to="/perfil">
+              Perfil
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
-};
+}
 
-export default Header;
+export default ColorSchemesExample;
