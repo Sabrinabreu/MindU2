@@ -1,21 +1,22 @@
+// TabelaFuncionarios.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const TabelaFuncionarios = () => {
+const TabelaFuncionarios = ({ contas }) => {
   const [contasFuncionarios, setcontasFuncionarios] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get("http://localhost:3001/contaPrvsFuncionarios");
-        setcontasFuncionarios(data);
-      } catch (error) {
-        console.error("Erro ao buscar usuários:", error); // Adiciona este log de erro
+    if (contas.length > 0) {
+      setcontasFuncionarios(contas);
+    } else {
+      async function fetchData() {
+        const result = await fetch(`http://localhost:3001/contaPrvsFuncionarios`);
+        const body = await result.json();
+        setcontasFuncionarios(body);
       }
-    };
-
-    fetchData();
-  }, []);
+      fetchData();
+    }
+  }, [contas]);
 
   const handleExcluirUsuario = async (login) => {
     try {
@@ -34,15 +35,14 @@ const TabelaFuncionarios = () => {
       <table border={2} cellPadding={5} cellSpacing={5}>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Login</th>
             <th>Senha</th>
             <th>Ação</th>
-            {/* Adicione mais colunas, se necessário */}
           </tr>
         </thead>
         <tbody>
-          {contasFuncionarios.map((contaFuncionario) => (
-            <tr key={contaFuncionario.login}>
+          {contasFuncionarios.map((contaFuncionario, index) => (
+            <tr key={index}>
               <td>{contaFuncionario.login}</td>
               <td>{contaFuncionario.senha}</td>
               <td>
@@ -53,7 +53,6 @@ const TabelaFuncionarios = () => {
                   Excluir
                 </button>
               </td>
-              {/* Renderizar outras colunas, se necessário */}
             </tr>
           ))}
         </tbody>
