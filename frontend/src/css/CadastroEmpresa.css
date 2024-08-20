@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-body {background-color: #e0dffd !important;
+body {background-color: #f7f8fc !important;
 
   font-family: "Montserrat", serif !important;
   font-optical-sizing: auto;
@@ -42,9 +42,9 @@ body {background-color: #e0dffd !important;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 
 /* quadriculado */
-  --color: #efd5f1e0;
+  --color: #e4d5f1e0;
   padding: 20px 0px;
-  background-color: #fffaf8;
+  background-color: #fdf8ff;
   background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
       linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
   background-size: 55px 55px;
@@ -58,7 +58,7 @@ body {background-color: #e0dffd !important;
 }
 .fundoColorido {
   background: rgb(244,231,204);
-  background: linear-gradient(180deg, #f7f8fc 0%, #f9bcce 100%);
+  background: linear-gradient(180deg, #f7f8fc 0%, #afa5dd 100%);
 }
 .titCalc {
   font-size: 30px;
@@ -79,7 +79,7 @@ body {background-color: #e0dffd !important;
 
 /* quadriculado */
   padding: 20px 0px;
-  background-color: #fffbfa;
+  background-color: #fdf8ff;
   background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
       linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
   background-size: 55px 55px;
@@ -201,7 +201,7 @@ body {background-color: #e0dffd !important;
    
    /* quadriculado */
    --color: #ecd5f1e0;
-   background-color: #faf4f2;
+   background-color: #fdf8ff;
    background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
        linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
    background-size: 55px 55px;
@@ -212,7 +212,7 @@ body {background-color: #e0dffd !important;
         text-align: start;
         padding: 20px;
         height:auto;
-        background-color: #fff7f7;
+        background-color: #fcf5ff;
       }
       .resultado-esquerdo p{
         margin: 0;

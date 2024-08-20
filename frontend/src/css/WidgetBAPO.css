@@ -97,7 +97,7 @@ body {
 .speech-bubble {
   margin-left: 15px !important;
 	position: relative;
-	background: #e0dffd;
+	background: #d6d4ff;
 	border-radius: .4em;
 }
 
@@ -109,7 +109,7 @@ body {
 	width: 0;
 	height: 0;
 	border: 20px solid transparent;
-	border-right-color: #e0dffd;
+	border-right-color: #d6d4ff;
 	border-left: 0;
 	border-bottom: 0;
 	margin-top: -10px;
