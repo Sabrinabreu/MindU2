@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 
 function ColorSchemesExample() {
   return (
-    <Navbar bg="dark" variant="dark" fixed="top" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/">Brand</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -20,6 +20,9 @@ function ColorSchemesExample() {
             </Nav.Link>
             <Nav.Link as={Link} to="/cadastro">
               Cadastro
+            </Nav.Link>
+            <Nav.Link as={Link} to="/cadastroPsicologos">
+              Cadastro de psicólogos
             </Nav.Link>
             <Nav.Link as={Link} to="/listaUsuarios">
               Lista de Usuários

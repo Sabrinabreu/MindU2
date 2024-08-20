@@ -12,12 +12,13 @@ function CardSobreMindU() {
         <Container className='container'>
             <Row >
                 <Col md="4" sm='12'>
-                    <Card className='cardBanner'>
+                    <Card className='cardBannerMaior'>
                         <img className='imagem2' src={HappyWork} alt="" />
-                    </Card></Col>
+                    </Card>
+                </Col>
             </Row>
             <Row >
-                <Col md='6' sm='12'> <Card className='cardProfs' >
+                <Col md='6' sm='12'> <Card className='cardProfsMenor' >
                     <img className='imagem1' src={HappyFamily} alt="" />
                 </Card></Col>
             </Row>
