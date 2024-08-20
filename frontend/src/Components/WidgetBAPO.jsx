@@ -26,8 +26,8 @@ const ChatWidget = () => {
             <span className="chat-title">Precisa de ajuda?</span>
           </div>
           <div className="chat-body">
-            <Row>
-              <Col md={3}><img className="fotoBAPO" src={fotoBAPO} alt="foto da atendente"/></Col>
+            <Row className='rowBAPO'>
+              <Col md={3} sm={2}><img className="fotoBAPO" src={fotoBAPO} alt="foto da atendente"/></Col>
               <Col> <p className='speech-bubble p-2'>Tem alguma pergunta? Ficarei feliz em ajudar.</p></Col>
             </Row>
             
