@@ -36,6 +36,9 @@ function ColorSchemesExample() {
             <Nav.Link as={Link} to="/perfil">
               Perfil
             </Nav.Link>
+            <Nav.Link as={Link} to="/login">
+              Login
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

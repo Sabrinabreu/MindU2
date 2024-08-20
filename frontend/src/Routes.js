@@ -10,6 +10,7 @@ import SaibaMais from './Pages/SaibaMais';
 import Planos from './Pages/Planos';
 import Perfil from './Pages/Perfil';
 import AcessoFuncionarios from './Pages/AcessoFuncionarios';
+import Login from './Pages/Login';
 
 
 const Rotas = () => {
@@ -25,7 +26,8 @@ const Rotas = () => {
         <Route path="/saibamais" element={<SaibaMais />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/acessoFuncionarios" element={<AcessoFuncionarios />} />
-        <Route path="/planos" element={<Planos />} />  
+        <Route path="/planos" element={<Planos />} />
+        <Route path="/login" element={<Login />}/>
       </Routes>
 
     </>
