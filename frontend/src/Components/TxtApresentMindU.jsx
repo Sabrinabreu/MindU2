@@ -18,7 +18,7 @@ function TxtSobreMindU() {
 
                             <br /> Nosso objetivo é apoiar a saúde mental dos colaboradores e melhorar o ambiente de trabalho. Conheça nossos planos e garanta uma boa saúde mental para você!!</p>
                         <br />
-                        <button className='botaoSobre'>Veja os nossos planos aqui. </button>
+                        <div><button className='botaoSobre'>Veja os nossos planos aqui. </button></div>
                     </div>
                 </Col>
             </Row>

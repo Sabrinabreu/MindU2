@@ -1,20 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
 body {
     background-color: #f5e8cd !important;
-    overflow-x: hidden !important;
-    scroll-behavior: smooth !important;
+    font-family: "Montserrat", serif !important;
+    font-optical-sizing: auto;
+    font-weight: 420;
+    font-style: normal;
 }
 
 
 .d-flex {
-    display: flex;
-    justify-content: space-between;
+    display: flex !important;
+
 }
 
 .scroll-section {
     opacity: 0;
     transform: translateY(50px);
     /* Inicialmente deslocado para baixo */
-    transition: opacity 0.6s ease, transform 2s ease;
+    transition: opacity 0.6s ease, transform 3s ease;
     /* Transições suaves */
 }
 
@@ -29,10 +33,21 @@ body {
     width: 300px !important;
     border-radius: 140px 140px 10px 10px !important;
     height: 500px !important;
-    right: 8% !important;
+    left: 100% !important;
     border-color: #704170 !important;
     border-width: 4px !important;
     background-color: #704170 !important;
+}
+
+.cardProfs {
+    left: 115% !important;
+    bottom: 20% !important;
+    border-radius: 100% !important;
+    height: 200px !important;
+    width: 200px !important;
+    border-color: #b37ebf !important;
+    border-width: 4px !important;
+    background-color: #b37ebf !important;
 }
 
 .imagem1 {
@@ -48,20 +63,21 @@ body {
     margin-left: 2px !important;
 }
 
-.cardProfs {
-    left: 125% !important;
-    top: 185% !important;
-    border-radius: 100% !important;
-    height: 200px !important;
-    width: 200px !important;
-    border-color: #b37ebf !important;
-    border-width: 4px !important;
-    background-color: #b37ebf !important;
 
+.cardBanner {
+    position: absolute !important;
+    width: 300px !important;
+    border-radius: 140px 140px 10px 10px !important;
+    height: 500px !important;
+    top: 18% !important;
+    left: 64% !important;
+    border-color: #704170 !important;
+    border-width: 4px !important;
+    background-color: #704170 !important;
 }
 
 .txtSobre {
-    position: absolute !important;
+    position: relative !important;
     top: 20% !important;
     bottom: 20% !important;
     left: 6% !important;
@@ -73,8 +89,8 @@ body {
 }
 
 .botaoSobre {
-    position: absolute !important;
-    z-index: 0 !important;
+    position: relative !important;
+    z-index: 99 !important;
     padding: 1.3em 3em;
     font-size: 12px;
     text-transform: uppercase;
@@ -100,7 +116,6 @@ body {
 }
 
 .qualidadesMindU {
-    margin-top: 24% !important;
     text-align: center;
     /* Centraliza o texto dentro da div */
     margin: 0 auto;
@@ -133,7 +148,7 @@ body {
     max-width: 300px !important;
     margin: 16px !important;
     padding: 1em 3em;
-    font-size: 11px;
+    font-size: 10.5px;
     letter-spacing: 1px;
     font-weight: 500;
     color: #000;
@@ -172,12 +187,11 @@ body {
 }
 
 .titlecardQualidades {
-    font-size: 18px !important;
+    font-size: 16px !important;
 }
 
 .titlecardQualidadesBig {
-    font-size: 16px !important;
-    font-weight: 600;
+    font-size: 14px !important;
 }
 
 .carousel-container {
@@ -219,7 +233,7 @@ body {
     /* Slide central está no tamanho total */
     z-index: 1;
     /* Garante que o slide central fique acima dos outros */
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
     /* Adiciona uma sombra mais pronunciada */
 }
 
@@ -310,27 +324,115 @@ body {
 }
 
 .accordion {
+    --bs-border-radius: 16px !important;
+    --bs-accordion-inner-border-radius: calc(var(16px) -(var(1px)));
+    --bs-accordion-border-radius: 16px !important;
     --bs-accordion-bg: #b37ebf77;
-    --bs-accordion-btn-icon-width: 1.25rem;
-    --bs-accordion-btn-icon-transform: rotate(-180deg);
     --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
     --bs-accordion-btn-focus-box-shadow: #b37ebfb3;
-    --bs-accordion-body-padding-x: 1.25rem;
-    --bs-accordion-body-padding-y: 1rem;
-    --bs-accordion-active-color: var(--bs-primary-text-emphasis);
-    --bs-accordion-active-bg: var(--bs-primary-bg-subtle);
     position: relative !important;
-    top: 30% !important;
+    top: 40% !important;
+    bottom: 40% !important;
     font-size: 16px !important;
     letter-spacing: 2px !important;
 }
 
 .results-container {
-    margin-top: 20% !important;
+    margin-top: 10% !important;
 
 }
 
 .results {
     text-align: center !important;
-    padding: 20px !important
+    padding: 20px !important;
+    flex: auto !important;
+    width: 500px !important;
+    margin: 14px !important;
+    padding: 1em 3em;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: #000;
+    background-color: #b37ebf77;
+    border: 2px solid #704170;
+    border-radius: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease 0s;
+    cursor: pointer;
+    outline: none;
+    height: 200px !important;
+}
+
+
+.results:hover {
+    box-shadow: 0px 15px 20px #e5cc9d;
+    transform: translateY(-10px);
+}
+
+.results:active {
+    transform: translateY(-4px);
+}
+
+.cardmaior {
+    height: 400px !important;
+    padding: 30px !important;
+}
+
+.cardmaior h1 {
+    padding-top: 4% !important;
+    font-size: 4rem;
+    text-align: left !important;
+}
+
+.numeromenor {
+    font-size: 3em !important;
+    right: 4% !important;
+    position: relative !important;
+}
+
+.cifrao {
+    margin-top: 26% !important;
+    font-size: 1.8em !important;
+    left: 0.5% !important;
+}
+
+.textresults {
+    text-align: left !important;
+    font-size: 1.4em !important;
+    padding-left: 6% !important;
+    padding-top: 4% !important;
+}
+
+.invest {
+    padding-left: 2% !important;
+    padding-top: 2% !important;
+}
+
+.palavrachave {
+    font-weight: bold !important;
+}
+
+.cardmenor {
+    height: 192px !important;
+    padding: 18px !important;
+}
+
+.titulocardmenor {
+    bottom: 6px !important;
+    position: relative !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+    text-align: left !important;
+}
+
+.conteudocardmenor {
+    padding-left: 10% !important;
+}
+
+.textcardmenor {
+    text-align: left !important;
+    font-size: 13px !important;
+    list-style: none !important;
+    bottom: 10px !important;
+    position: relative !important;
 }
