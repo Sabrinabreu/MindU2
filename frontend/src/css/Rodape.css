@@ -1,24 +1,102 @@
 .footer-content {
-    background-color: rgb(192, 123, 245);
+    background-color: #46467A;
     max-width: 100%;
     margin-top: 8%;
-    padding: 3%;
+    padding: 2%;
     color: black !important;
+    padding-bottom: -50%;
 }
 
 .footer-content li {
     text-decoration: none !important;
-    
+
 }
 
 .colortwo {
-    background-color: rgb(187, 183, 183);
+    background-color: rgb(202, 202, 202);
     max-width: 100%;
 }
+
 .cnes {
     font-size: 20px;
+    margin-bottom: -20px;
 }
 
 .direitos {
     font-size: 12px;
+}
+
+.info {
+    font-size: 15px;
+}
+
+.info a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+
+.info p:hover {
+    transform: scale(1.1); /* Aumenta o tamanho do texto em 20% */
+    transition:  transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.redes {
+    margin-top: 10px; /* Espaçamento entre o logo e os ícones */
+
+}
+
+.redes img:hover {
+    transform: scale(1.2); /* Aumenta o tamanho do texto em 20% */
+    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    cursor: pointer;
+}
+
+.redesum, .redesdois {
+    display: flex;
+    justify-content: center; /* Centraliza os ícones horizontalmente */
+    gap: 10px; /* Espaçamento entre os ícones */
+}
+
+
+.face {
+    margin: 3%;
+}
+
+.insta {
+    margin: 3%;
+}
+
+.x {
+    margin: 3%;
+}
+
+.link {
+    margin: 3%;
+}
+
+.yt {
+    margin: 3%;
+}
+
+@media (max-width: 600px) {
+
+    .cert {
+        display: none;
+    }
+
+    .redes {
+        gap: 10px; /* Espaçamento entre grupos de ícones */
+        display: flex;
+        margin-left: 14%;
+    }
+    
+    .redesum, .redesdois {
+        margin-left: 5%;
+    }
+
+    .redes img {
+        width: 40px; /* Ajusta o tamanho dos ícones para caber melhor na tela pequena */
+    }
+
 }
