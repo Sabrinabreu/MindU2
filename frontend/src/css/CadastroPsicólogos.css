@@ -86,15 +86,21 @@ body {
 }
 
 .conteinerporque {
-    margin: 10% !important;
+    margin: 14% !important;
+}
+
+.imgporque {
+    margin-top: 10% !important;
+    margin-left: -100px !important;
 }
 
 .cardporque {
     text-align: left !important;
-    padding: 30px !important;
+    padding: 20px !important;
     flex: auto !important;
-    width: auto !important;
-    margin: 4% !important;
+    max-width: 500px !important;
+    height: 200px !important;
+    margin: 2% !important;
     font-size: 14px;
     letter-spacing: 1px;
     background-color: #7866c663 !important;

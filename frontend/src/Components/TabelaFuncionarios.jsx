@@ -1,6 +1,7 @@
 // TabelaFuncionarios.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../css/TabelaFuncionarios.css"
 
 const TabelaFuncionarios = ({ contas }) => {
   const [contasFuncionarios, setcontasFuncionarios] = useState([]);
@@ -32,7 +33,8 @@ const TabelaFuncionarios = ({ contas }) => {
 
   return (
     <div>
-      <table border={2} cellPadding={5} cellSpacing={5}>
+      <table className="tabelaF" cellPadding={5} cellSpacing={5}>
+        <div className="tabelaDiv">
         <thead>
           <tr>
             <th>Login</th>
@@ -55,7 +57,7 @@ const TabelaFuncionarios = ({ contas }) => {
               </td>
             </tr>
           ))}
-        </tbody>
+        </tbody></div>
       </table>
     </div>
   );

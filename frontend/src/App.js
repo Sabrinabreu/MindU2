@@ -13,7 +13,7 @@ const App = () => {
   return (
     <>
       <Router>
-        <Navegacao />
+        <Navegacao/>
         <Rotas />
       </Router>
     </>

@@ -11,15 +11,6 @@ const port = 3001; // Defina a porta que deseja utilizar
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-// Middleware
-app.use(cors()); // Adicione se você precisar permitir requisições de diferentes origens
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
-// Servir arquivos estáticos da pasta uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 
 // Usa as rotas do backend
 app.use('/', rotaempresa);
