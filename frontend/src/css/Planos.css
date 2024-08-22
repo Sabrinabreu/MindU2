@@ -1,14 +1,14 @@
 :root {
 
-  --redTick: url("data:image/svg+xml,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 x%3D%220px%22 y%3D%220px%22 width%3D%2218%22 height%3D%2218%22 viewBox%3D%220%200%2024%2024%22 style%3D%22fill%3Anone2%3B%22%3E%3Cpath d%3D%22M12%2C2C6.477%2C2%2C2%2C6.477%2C2%2C12c0%2C5.523%2C4.477%2C10%2C10%2C10s10-4.477%2C10-10C22%2C6.477%2C17.523%2C2%2C12%2C2z%20M17.707%2C9.707l-7%2C7%20C10.512%2C16.902%2C10.256%2C17%2C10%2C17s-0.512-0.098-0.707-0.293l-3-3c-0.391-0.391-0.391-1.023%2C0-1.414s1.023-0.391%2C1.414%2C0L10%2C14.586%20l6.293-6.293c0.391-0.391%2C1.023-0.391%2C1.414%2C0S18.098%2C9.316%2C17.707%2C9.707z%22/%3E%3C/svg%3E");
+  --redTick: url("data:image/svg+xml,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 x%3D%220px%22 y%3D%220px%22 width%3D%2218%22 height%3D%2218%22 viewBox%3D%220%200%2024%2024%22 style%3D%22fill%3A%23FFFFFF%3B%22%3E%3Cpath d%3D%22M12%2C2C6.477%2C2%2C2%2C6.477%2C2%2C12c0%2C5.523%2C4.477%2C10%2C10%2C10s10-4.477%2C10-10C22%2C6.477%2C17.523%2C2%2C12%2C2z%20M17.707%2C9.707l-7%2C7%20C10.512%2C16.902%2C10.256%2C17%2C10%2C17s-0.512-0.098-0.707-0.293l-3-3c-0.391-0.391-0.391-1.023%2C0-1.414s1.023-0.391%2C1.414%2C0L10%2C14.586%20l6.293-6.293c0.391-0.391%2C1.023-0.391%2C1.414%2C0S18.098%2C9.316%2C17.707%2C9.707z%22/%3E%3C/svg%3E");
   
-  --close: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20x%3D%220px%22%20y%3D%220px%22%20width%3D%22100%22%20height%3D%22100%22%20viewBox%3D%220%2C0%2C300%2C150%22%20style%3D%22fill%3A%231A1A1A%3B%22%3E%3Cg%20fill%3D%22%23786f6f%22%20fill-rule%3D%22nonzero%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22miter%22%20stroke-miterlimit%3D%2210%22%20stroke-dasharray%3D%22%22%20stroke-dashoffset%3D%220%22%20font-family%3D%22none%22%20font-weight%3D%22none%22%20font-size%3D%22none%22%20text-anchor%3D%22none%22%20style%3D%22mix-blend-mode%3A%20normal%3B%22%3E%3Cg%20transform%3D%22scale%2810.66667%2C10.66667%29%22%3E%3Cpath%20d%3D%22M4.70703%2C3.29297l-1.41406%2C1.41406l7.29297%2C7.29297l-7.29297%2C7.29297l1.41406%2C1.41406l7.29297%2C-7.29297l7.29297%2C7.29297l1.41406%2C-1.41406l-7.29297%2C-7.29297l7.29297%2C-7.29297l-1.41406%2C-1.41406l-7.29297%2C7.29297z%22%2F%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  --close: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20x%3D%220px%22%20y%3D%220px%22%20width%3D%22100%22%20height%3D%22100%22%20viewBox%3D%220%2C0%2C300%2C150%22%20style%3D%22fill%3A%231A1A1A%3B%22%3E%3Cg%20fill%3D%22%234f4f4f%22%20fill-rule%3D%22nonzero%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22miter%22%20stroke-miterlimit%3D%2210%22%20stroke-dasharray%3D%22%22%20stroke-dashoffset%3D%220%22%20font-family%3D%22none%22%20font-weight%3D%22none%22%20font-size%3D%22none%22%20text-anchor%3D%22none%22%20style%3D%22mix-blend-mode%3A%20normal%3B%22%3E%3Cg%20transform%3D%22scale%2810.66667%2C10.66667%29%22%3E%3Cpath%20d%3D%22M4.70703%2C3.29297l-1.41406%2C1.41406l7.29297%2C7.29297l-7.29297%2C7.29297l1.41406%2C1.41406l7.29297%2C-7.29297l7.29297%2C7.29297l1.41406%2C-1.41406l-7.29297%2C-7.29297l7.29297%2C-7.29297l-1.41406%2C-1.41406l-7.29297%2C7.29297z%22%2F%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
  
-body {background-color: #fffcfb;
- 
+body {
+  background-color: #f7f8fc !important;
   font-family: "Montserrat", serif !important;
   font-optical-sizing: auto;
   font-weight: 420;
@@ -43,20 +43,19 @@ body {background-color: #fffcfb;
 .plan {
   border-radius: 16px;
   box-shadow: 0 30px 30px -25px rgba(0, 38, 255, 0.205);
-  background-color: #b182bb !important;
-  color: #000000;
-  border: double #704170;
+  color: #ffffff;
+  border: double #46467A;
 }
 
 .plan strong {
   font-weight: 600;
-  color: #425275;
+  color: #ffffff;
 }
 
 .plan .inner {
   padding: 5%;
   padding-top: 6%;
-  background-color: #bb9ad9;
+  background-color: #7766C6;
   border-radius: 12px;
   position: relative;
 }
@@ -64,7 +63,7 @@ body {background-color: #fffcfb;
 .plan .title {
   font-weight: 600;
   font-size: 1.45rem;
-  color: #000000;
+  color: #ffffff;
 }
 
 .plan .title+* {
@@ -88,8 +87,8 @@ body {background-color: #fffcfb;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500;
-  color: #000;
-  background-color: #9462b0;
+  color: #ffffff;
+  background-color: #46467A;
   border: 1.7px solid #252525;
   border-radius: 45px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -101,7 +100,7 @@ body {background-color: #fffcfb;
 }
 
 .botaoPlan:hover {
-  box-shadow: 0px 15px 20px #704170;
+  box-shadow: 0px 15px 20px #46467A;
   transform: translateY(-7px);
 }
 
@@ -110,7 +109,7 @@ body {background-color: #fffcfb;
 }
 
 .price {
-  --color: #000;
+  --color: #ffffff;
   --priceMargin: 0;
 
   display: flex;
@@ -130,7 +129,7 @@ body {background-color: #fffcfb;
 }
 
 .featureList {
-  --color: #000;
+  --color: #ffffff;
   --icon: var(--redTick);
   --height: 1.20rem;
 
@@ -164,7 +163,7 @@ body {background-color: #fffcfb;
     }
 
     &.disabled {
-      --color: #786f6f;
+      --color: #4f4f4f;
       --height: 1.400rem;
       --icon: var(--close);
     }

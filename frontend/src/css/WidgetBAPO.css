@@ -19,7 +19,7 @@ body {
 }
 
 .chat-button {
-  background-color: #d325aa;
+  background-color: #f3819f;
   color: white;
   border: none;
   border-radius: 50%;
@@ -50,7 +50,7 @@ body {
 }
 
 .chat-header {
-  background-color: #d325aa;
+  background-color: #f3819f;
   color: white;
   padding: 10px;
   font-weight: bold;
@@ -90,6 +90,32 @@ body {
 .fotoBAPO {
   width: 60px;
   border-radius: 100%;
-  float: inline-start;
   margin-right: 10px;
 }
+
+
+.speech-bubble {
+  margin-left: 15px !important;
+	position: relative;
+	background: #d6d4ff;
+	border-radius: .4em;
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-right-color: #d6d4ff;
+	border-left: 0;
+	border-bottom: 0;
+	margin-top: -10px;
+	margin-left: -20px;
+}
+
+.rowBAPO>* {
+  width: 23%;
+  }

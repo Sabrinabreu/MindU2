@@ -2,6 +2,11 @@
 import React, { useState } from 'react';
 import "../css/WidgetBAPO.css";
 import fotoBAPO from '../img/IABAPO.webp';
+import Nav from 'react-bootstrap/Nav';
+import { Link } from 'react-router-dom';
+import { Row, Col } from "react-bootstrap";
+
+
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,18 +22,21 @@ const ChatWidget = () => {
       </button>
       {isOpen && (
         <div className="chat-box">
-          <div className="chat-header">
+          <div className="chat-header"> 
             <span className="chat-title">Precisa de ajuda?</span>
           </div>
           <div className="chat-body">
-            <img className="fotoBAPO" src={fotoBAPO} alt="foto da atendente" />
-            <div class="talk-bubble tri-right left-top"/>
-            <p>Tem alguma pergunta? Ficarei feliz em ajudar.</p>
+            <Row className='rowBAPO'>
+              <Col md={3} sm={2}><img className="fotoBAPO" src={fotoBAPO} alt="foto da atendente"/></Col>
+              <Col> <p className='speech-bubble p-2'>Tem alguma pergunta? Ficarei feliz em ajudar.</p></Col>
+            </Row>
+            
+           
             <div className="chat-options">
-              <button className="chat-option">Falar com time pessoal</button>
-              <button className="chat-option">Sou cliente</button>
-              <button className="chat-option">Sou paciente e preciso de ajuda</button>
-              <button className="chat-option">Agendar demonstração</button>
+              <Nav.Link className="chat-option" as={Link} to="/contato">Falar com time pessoal</Nav.Link>
+              <Nav.Link className="chat-option" as={Link} to="/cadastroempresa">Sou empresa</Nav.Link>
+              <Nav.Link className="chat-option" as={Link} to="/contato">Sou paciente e preciso de ajuda</Nav.Link>
+              <Nav.Link className="chat-option" as={Link} to="/agendarconsulta">Agendar demonstração</Nav.Link>
             </div>
           </div>
         </div>

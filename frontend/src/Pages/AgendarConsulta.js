@@ -11,6 +11,8 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Form } from 'react-bootstrap';
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -140,14 +142,34 @@ function AgendarConsulta() {
   const getAvailableTimes = (psicologoIndex) => {
     const times = {
       0: {
-        "2024-08-15": ["09:00", "10:00", "11:00"],
-        "2024-08-16": ["14:00", "15:00"],
+        "2024-08-20": ["09:00", "10:00", "11:00"],
+        "2024-08-21": ["14:00", "15:00"],
+        "2024-08-23": ["17:00", "20:00"],
       },
       1: {
+        "2024-08-20": ["08:00", "09:30"],
+        "2024-08-30": ["13:00", "15:00"],
+      },
+      3: {
+        "2024-08-22": ["07:30", "10:30", "15:00"],
+        "2024-08-24": ["15:00", "18:00", "20:00"],
+      },
+      4: {
+        "2024-08-20": ["08:00", "09:30"],
+        "2024-08-24": ["07:00", "11:00"],
+      },
+      5: {
+        "2024-08-30": ["08:00", "09:30"],
+        "2024-09-01": ["13:00", "15:00"],
+      },
+      6: {
         "2024-08-15": ["08:00", "09:30"],
         "2024-08-16": ["13:00", "15:00"],
       },
-      // Adicione mais horários conforme necessário
+      7: {
+        "2024-08-15": ["08:00", "09:30"],
+        "2024-08-16": ["13:00", "15:00"],
+      },
     };
 
     if (typeof psicologoIndex !== 'number' || !times[psicologoIndex]) {
@@ -197,6 +219,7 @@ function AgendarConsulta() {
     }
 
     return (
+     
       <div className="calendar-grid">
         <div className="calendar-day-headers">
           {dayHeaders}
@@ -222,7 +245,8 @@ function AgendarConsulta() {
   };
 
   return (
-    <div>
+    <>
+    <BAPO/>
       <div className='fundoFiltro'>
         <div className="d-flex mb-4 align-items-center">
           <Form.Control
@@ -370,7 +394,7 @@ function AgendarConsulta() {
           <p>Nenhum psicólogo encontrado.</p>
         )}
       </Container>
-    </div>
+      </>
   );
 }
 

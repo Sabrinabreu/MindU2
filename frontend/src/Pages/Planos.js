@@ -29,7 +29,7 @@ const Cadastro = () => {
                                     <li>Acesso a material educativo sobre bem-estar psicológico </li>
                                     <li class="disabled">Suporte online 24/7</li>
                                     <li class="disabled">Sessões de coaching psicológico personalizadas (1 vez por mês)</li>
-                                </ul><br></br><br></br>
+                                </ul><br></br>
                                 <div class="action">
                                     <a class="botaoPlan" href="#">
                                         Escolher plano

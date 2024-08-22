@@ -21,6 +21,9 @@ function ColorSchemesExample() {
             <Nav.Link as={Link} to="/cadastro">
               Cadastro
             </Nav.Link>
+            <Nav.Link as={Link} to="/cadastroPsicologos">
+              Cadastro de psicólogos
+            </Nav.Link>
             <Nav.Link as={Link} to="/listaUsuarios">
               Lista de Usuários
             </Nav.Link>

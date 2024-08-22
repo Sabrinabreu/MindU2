@@ -33,7 +33,7 @@ function Resultados() {
                     <Card className="results cardmenor">
                         <Card.Body>
                             <div className="d-flex">
-                                <div> <TrendingDown size={120} color='#704170' /></div>
+                                <div> <TrendingDown size={120} color='#7766C6' /></div>
                                 <div className='conteudocardmenor'>
                                     <Card.Title className='titulocardmenor'>Diminua</Card.Title>
                                     <Card.Text className='textcardmenor' >
@@ -53,7 +53,7 @@ function Resultados() {
                         <Card className="results cardmenor">
                             <Card.Body>
                                 <div className="d-flex">
-                                    <div> <TrendingUp size={120} color='#704170' /></div>
+                                    <div> <TrendingUp size={120} color='#7766C6' /></div>
                                     <div className='conteudocardmenor'>
                                         <Card.Title className='titulocardmenor'>Promova</Card.Title>
                                         <Card.Text className='textcardmenor' >

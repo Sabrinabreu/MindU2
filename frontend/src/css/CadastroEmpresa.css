@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-body {background-color: #fffcfb;
+body {background-color: #f7f8fc !important;
 
   font-family: "Montserrat", serif !important;
   font-optical-sizing: auto;
@@ -13,25 +13,58 @@ body {background-color: #fffcfb;
 }
 
 .fundoInfo {
-    background-color: #ffdea1;
-    padding: 20px 0px;
+    background-color: #f7f8fc;
+    padding: 15px 0px;
     overflow: hidden;
+    margin-top: 60px;
 }
-.textoInfo {
-    background-color: #ffe7ba;
-    padding: 1.6rem !important;
-    border-radius: 5px 50px;
-    color: #613b0d;
-    font-size: 17px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    .textoInfo {
+        padding: 1.3rem !important;
+        color: #380d61;
+        font-size: 17px;
+    }
+    .textoInfo p {
+      text-align: justify;
+  }
+    .fotoInfo {
+        border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        object-fit:scale-down;
+        filter: contrast(1.1);
+    }
+
+.textoCalc{
+  padding: 1.6rem !important;
+  border-radius: 15px;
+  color: #71357e;
+  font-size: 17px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+/* quadriculado */
+  --color: #e4d5f1e0;
+  padding: 20px 0px;
+  background-color: #fdf8ff;
+  background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+  background-size: 55px 55px;
 }
-.fotoInfo {
-    border-radius: 10px;
-    width: 100%;
-    height: 100%;
-    object-fit:scale-down;
-    filter: contrast(1.1);
+.textoCalc h1 {
+  font-size: 25px;
 }
+.textRoxo {
+  font-size: 34px;
+  color: #71357e;
+}
+.fundoColorido {
+  background: rgb(244,231,204);
+  background: linear-gradient(180deg, #f7f8fc 0%, #afa5dd 100%);
+}
+.titCalc {
+  font-size: 30px;
+  font-weight: 650;
+}
+
 
 .fundoForms {
   padding: 20px 0px;
@@ -46,44 +79,11 @@ body {background-color: #fffcfb;
 
 /* quadriculado */
   padding: 20px 0px;
-  background-color: #fffbfa;
+  background-color: #fdf8ff;
   background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
       linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
   background-size: 55px 55px;
-
 }
-
-.textoCalc{
-    padding: 1.6rem !important;
-    border-radius: 15px;
-    color: #71357e;
-    font-size: 17px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-
-/* quadriculado */
-    --color: #ecd5f1e0;
-    padding: 20px 0px;
-    background-color: #faf4f2;
-    background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
-        linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
-    background-size: 55px 55px;
-
-}
-.textoCalc h1 {
-  font-size: 25px;
-}
-.textRoxo {
-  font-size: 34px;
-  color: #71357e;
-}
-
-
-.fundoColorido {
-  background: rgb(244,231,204);
-  background: linear-gradient(180deg, rgba(244,231,204,1) 0%, rgba(249,188,206,1) 100%);
-}
-
-
 
 .botaoBanner {
     padding: 1.3em 3em;
@@ -100,13 +100,13 @@ body {background-color: #fffcfb;
     cursor: pointer;
     outline: none;
   }
-  .botaoBanner:hover {
-    box-shadow: 0px 15px 20px #e5cc9d;
-    transform: translateY(-7px);
-  }
-  .botaoBanner:active {
-    transform: translateY(-1px);
-  }
+      .botaoBanner:hover {
+        box-shadow: 0px 15px 20px #e5cc9d;
+        transform: translateY(-7px);
+      }
+      .botaoBanner:active {
+        transform: translateY(-1px);
+      }
       .botaoBranco:hover {
         box-shadow: 0px 15px 20px #cbc7cd;
       }
@@ -121,91 +121,116 @@ body {background-color: #fffcfb;
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
     box-shadow: 0px 0px 20px -18px;
   }
-  .inputgeral:hover {
-    border: 2px solid lightgrey;
-    box-shadow: 0px 0px 20px -17px;
-  }
-  .inputgeral:active {
-    transform: scale(0.96);
-  }
-  .inputgeral:focus {
-    border: 2px solid grey;
-  }
-  
-
-  .inputgeral.cadEmp {
-    margin: 5px 0px 10px 0px;
-  } 
-
-  .labelForms {
-    font-weight: 650;
-  }
+      .inputgeral:hover {
+        border: 2px solid lightgrey;
+        box-shadow: 0px 0px 20px -17px;
+      }
+      .inputgeral:active {
+        transform: scale(0.96);
+      }
+      .inputgeral:focus {
+        border: 2px solid grey;
+      }
+      .inputgeral.cadEmp {
+        margin: 5px 0px 10px 0px;
+      } 
+      .labelForms {
+        font-weight: 650;
+      }
 
 
-
-  .titCalc {
-    font-size: 30px;
-    font-weight: 650;
-  }
- 
   .radio-button {
     display: flex;
     align-items: center;
     margin-bottom: 7px;
     cursor: pointer;
   }
-  .radio-button input[type="radio"] {
-    display: none;
-  }
-  
-  .circulo-radio {
-    width: 15px;
-    height: 15px;
-    border-radius: 100%;
-    border: 2px solid #683972;
-    position: relative;
-    margin-right: 10px;
-  }
-  
-  .circulo-radio::before {
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
-    border-radius: 100%;
-    background-color: #8d519a;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    transition: all 0.2s ease-in-out;
-  }
-  .radio-button input[type="radio"]:checked + .circulo-radio::before {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  
-  .radio-button:hover .circulo-radio {
-    border-color: #683972;
-  }
-  .radio-button:hover input[type="radio"]:checked + .circulo-radio::before {
-    background-color: #683972;
-  }
+        .radio-button input[type="radio"] {
+          display: none;
+        }
+        .circulo-radio {
+          width: 15px;
+          height: 15px;
+          border-radius: 100%;
+          border: 2px solid #683972;
+          position: relative;
+          margin-right: 10px;
+        }
+        .circulo-radio::before {
+          content: "";
+          display: block;
+          width: 12px;
+          height: 12px;
+          border-radius: 100%;
+          background-color: #8d519a;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(0);
+          transition: all 0.2s ease-in-out;
+        }
+        .radio-button input[type="radio"]:checked + .circulo-radio::before {
+          transform: translate(-50%, -50%) scale(1);
+        }
+        .radio-button:hover .circulo-radio {
+          border-color: #683972;
+        }
+        .radio-button:hover input[type="radio"]:checked + .circulo-radio::before {
+          background-color: #683972;
+        }
 
 
 
   .input-erro {
     border: 2px solid red;
   }
-  
   .mensagem-erro {
     color: red;
     font-size: 0.875rem;
     margin-top: 0.25rem;
   }
   
+/* resultado do calculo */
 
-
-
-  .result-text {
-    font-size: 20px !important;
+  .resultado-container {
+   display: flex;
+   border-radius: 15px;
+   color: #71357e;
+   font-size: 17px;
+   overflow: hidden;
+   
+   /* quadriculado */
+   --color: #ecd5f1e0;
+   background-color: #fdf8ff;
+   background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+       linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+   background-size: 55px 55px;
   }
+      .resultado-esquerdo {
+        width: 35%;
+        font-size: 17px !important;
+        text-align: start;
+        padding: 20px;
+        height:auto;
+        background-color: #fcf5ff;
+      }
+      .resultado-esquerdo p{
+        margin: 0;
+        padding: 0;
+      }
+      .resultado-esquerdo button{
+        padding: .7em 2.7em;
+      }
+      .resultado-direito {
+        width: 80%;
+        padding: 20px;
+      }  
+      .resultado-direito p {
+        font-size: 19px !important;
+        font-weight: 450;
+        text-align: start;
+      }
+      .resultado-direito span {
+        font-size: 28px !important;
+        font-weight: 600;
+      }

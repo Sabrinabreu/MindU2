@@ -4,20 +4,27 @@ import CadastroForm from "../Components/CadastroFormEmpresa";
 import BAPO from "../Components/WidgetBAPO";
 import "../css/CadastroEmpresa.css";
 import "../css/WidgetBAPO.css";
-import bannerEMP from '../img/BannerEMP.png';
+import bannerSM from '../img/BannerSM.png';
 import { Row, Col } from "react-bootstrap";
 
 const Cadastro = () => {
   const [salario, setSalario] = useState('');
   const [numeroColaboradores, setNumeroColaboradores] = useState('');
   const [faixa, setFaixa] = useState('');
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState({});
   const [errors, setErrors] = useState({
     salario: '',
     numeroColaboradores: '',
     faixa: '',
   });
   const [showResult, setShowResult] = useState(false);
+
+  const formatarMoeda = (valor) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(valor);
+  };
 
   const calcularCustos = () => {
     let isValid = true;
@@ -50,15 +57,15 @@ const Cadastro = () => {
     // valores base e porcentagem
     switch (faixa) {
       case '20-30':
-        custoBasePorFuncionario = 1240.04;
+        custoBasePorFuncionario = 1440.04;
         percentualReducao = 35.00;
         break;
       case '30-40':
-        custoBasePorFuncionario = 1561.08;
+        custoBasePorFuncionario = 1861.08;
         percentualReducao = 40.00;
         break;
       case '40-50':
-        custoBasePorFuncionario = 2324.23;
+        custoBasePorFuncionario = 2724.23;
         percentualReducao = 45.00;
         break;
       default:
@@ -74,20 +81,15 @@ const Cadastro = () => {
     const economiaPotencial = custoTotalInicial * (percentualReducao / 100);
     const custoReduzido = custoTotalInicial - economiaPotencial;
 
-    const formatarMoeda = (valor) => {
-      return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(valor);
-    };
-
     // Atualiza o resultado
-    setResult(`
-      <h2>Resultados:</h2>
-      <p className="result-text" >Problemas de saúde mental custam à sua empresa cerca de: ${formatarMoeda(custoTotalInicial)}</p>
-      <p className="result-text" >Com a MindU você pode diminuir esse custo em até: ${formatarMoeda(economiaPotencial)}</p>
-      <p className="result-text" >Custo reduzido após a MindU: ${formatarMoeda(custoReduzido)}</p>
-    `);
+    setResult({
+      salario,
+      custoTotalInicial,
+      economiaPotencial,
+      percentualReducao,
+      custoReduzido,
+      numColaboradores,
+    });
 
     setShowResult(true);
   };
@@ -101,7 +103,7 @@ const Cadastro = () => {
       numeroColaboradores: '',
       faixa: '',
     });
-    setResult('');
+    setResult({});
     setShowResult(false); // Volta pro formulário
   };
 
@@ -111,7 +113,7 @@ const Cadastro = () => {
       <div>
         <div className="fundoInfo">
           <Row className="justify-content-center g-4 p-3">
-            <Col md={7} sm={12} className="textoInfo">
+            <Col md={6} sm={12} className="textoInfo">
               <h1 className="mb-4">Cuidar da saúde da sua equipe te ajuda a economizar!</h1>
               <p>Investir na saúde mental dos seus colaboradores não é apenas uma ação de cuidado, mas uma estratégia inteligente para o sucesso da sua empresa. Com nosso plano de psicologia especializado, você proporciona um ambiente mais saudável e produtivo, <b>promovendo maior satisfação e engajamento no trabalho. </b>
                 Nosso time de psicólogos é dedicado a entender as necessidades específicas da sua empresa, oferecendo suporte contínuo para promover o bem-estar emocional e mental dos seus colaboradores.
@@ -119,8 +121,8 @@ const Cadastro = () => {
 
               <a href="#header"><button className="botaoBanner">INVESTIR NO BEM ESTAR</button></a>
             </Col>
-            <Col className="centralizar" md={4} sm={12}>
-              <img className="fotoInfo" src={bannerEMP} alt="Banner Emp" />
+            <Col className="centralizar" md={5} sm={12}>
+              <img className="fotoInfo" src={bannerSM} alt="Banner" />
             </Col>
           </Row>
         </div>
@@ -130,11 +132,25 @@ const Cadastro = () => {
             <h2 className="my-4 textRoxo centralizar">Calcule os custos de saúde mental na sua empresa</h2>
 
             {showResult ? (
-              <Col md={6} sm={12} className="centralizar textoCalc">
-                <div id="result" dangerouslySetInnerHTML={{ __html: result }}></div>
-                <button type="button" className="botaoBanner botaoBranco" onClick={resetForm}>REFAZER CÁLCULO</button>
+              <Col md={6} sm={12} className="centralizar">
+                <div className="bloqueio-divisoria" id="result">
+                  <div className="resultado-container">
+                    <div className="resultado-esquerdo">
+                      <h4 className="mb-3">Resultado para</h4>
+                      <p>{result.numColaboradores} colaboradores</p>
+                      <p>Salário: {formatarMoeda(parseFloat(result.salario))}</p>
+                      <p>{faixa} anos</p>
+                      <button type="button" className="mt-3 botaoBanner botaoBranco" onClick={resetForm}>REFAZER Cálculo</button>
+                    </div>
+                    <div className="resultado-direito">
+                      <p>Atualmente, o custo estimado com saúde mental para sua equipe é de <span>{formatarMoeda(result.custoTotalInicial)}</span> por ano.</p>
+                      <p>Com a MindU, você tem a oportunidade de diminuir esse custo em até <span>{result.percentualReducao}%</span> o que representa uma economia de <span>{formatarMoeda(result.economiaPotencial)}</span>.</p>
+                    </div>
+                  </div>
+                </div>
               </Col>
             ) : (
+
 
               <form id="calcForm">
                 <Col md={5} sm={12} className="textoCalc">
