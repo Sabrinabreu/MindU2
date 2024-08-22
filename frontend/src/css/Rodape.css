@@ -37,25 +37,31 @@
 }
 
 .info p:hover {
-    transform: scale(1.1); /* Aumenta o tamanho do texto em 20% */
-    transition:  transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transform: scale(1.1);
+    /* Aumenta o tamanho do texto em 20% */
+    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .redes {
-    margin-top: 10px; /* Espaçamento entre o logo e os ícones */
+    margin-top: 10px;
+    /* Espaçamento entre o logo e os ícones */
 
 }
 
 .redes img:hover {
-    transform: scale(1.2); /* Aumenta o tamanho do texto em 20% */
+    transform: scale(1.2);
+    /* Aumenta o tamanho do texto em 20% */
     transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
     cursor: pointer;
 }
 
-.redesum, .redesdois {
+.redesum,
+.redesdois {
     display: flex;
-    justify-content: center; /* Centraliza os ícones horizontalmente */
-    gap: 10px; /* Espaçamento entre os ícones */
+    justify-content: center;
+    /* Centraliza os ícones horizontalmente */
+    gap: 10px;
+    /* Espaçamento entre os ícones */
 }
 
 
@@ -79,6 +85,10 @@
     margin: 3%;
 }
 
+.logo {
+    margin-left: 18%;
+}
+
 @media (max-width: 600px) {
 
     .cert {
@@ -86,17 +96,24 @@
     }
 
     .redes {
-        gap: 10px; /* Espaçamento entre grupos de ícones */
+        gap: 10px;
+        /* Espaçamento entre grupos de ícones */
         display: flex;
         margin-left: 14%;
     }
-    
-    .redesum, .redesdois {
+
+    .redesum,
+    .redesdois {
         margin-left: 5%;
     }
 
     .redes img {
-        width: 40px; /* Ajusta o tamanho dos ícones para caber melhor na tela pequena */
+        width: 40px;
+        /* Ajusta o tamanho dos ícones para caber melhor na tela pequena */
+    }
+
+    .logo {
+        width: 70%;
     }
 
 }
