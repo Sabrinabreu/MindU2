@@ -11,6 +11,8 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Form } from 'react-bootstrap';
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -217,6 +219,7 @@ function AgendarConsulta() {
     }
 
     return (
+     
       <div className="calendar-grid">
         <div className="calendar-day-headers">
           {dayHeaders}
@@ -242,7 +245,8 @@ function AgendarConsulta() {
   };
 
   return (
-    <div>
+    <>
+    <BAPO/>
       <div className='fundoFiltro'>
         <div className="d-flex mb-4 align-items-center">
           <Form.Control
@@ -390,7 +394,7 @@ function AgendarConsulta() {
           <p>Nenhum psicólogo encontrado.</p>
         )}
       </Container>
-    </div>
+      </>
   );
 }
 

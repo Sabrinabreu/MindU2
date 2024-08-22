@@ -1,0 +1,10 @@
+.tabelaF {
+    margin: auto;
+}
+
+.tabelaDiv {
+    background-color: #E0DFFD;
+    border: 2px solid #46467A;
+    border-radius: 20px !important;
+    padding: 10px 20px;
+}

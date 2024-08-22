@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 .perfilPsico {
-    background-color: #ecc8ec;
+    background-color: #7866C663;
     position: fixed;
     padding: 0;
     border-radius: 20px;
-    height: 375px;
+    height: 380px;
     width: 450px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     margin-top: 100px;
@@ -31,7 +31,7 @@
     margin-top: 110px;
     padding: 2px;
     margin-left: 35px;
-    background-color: #af6faf;
+    background-color: #55459b63;
     /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
 }
 
@@ -41,7 +41,7 @@
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-weight: 500;
-    background-color: #d886d7;
+    background-color: #55459b63;
     border: none;
     /* border: 1.7px solid #252525;*/
     border-radius: 15px;
@@ -51,6 +51,7 @@
     margin-top: 160px;
     margin-left: 90px;
     position: absolute;
+    color: white;
 }
   .crp{
     font-size: 15px;
@@ -76,7 +77,7 @@
     letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;
-    background-color: rgb(245, 205, 245);
+    background-color: #55459b63;
     border: 1.7px solid #252525;
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -87,7 +88,7 @@
 }
 
 .agendaConsulta:hover {
-    box-shadow: 0px 15px 20px rgb(148, 108, 148);
+    box-shadow: 0px 15px 20px #9486d163;
     transform: translateY(-7px);
 }
 
@@ -132,6 +133,7 @@
     margin-top: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
+
 /* MODAL */
 .tipo{
     background-color: #d88dd8;
@@ -244,7 +246,7 @@
 
 .current-day {
     color: #FFF;
-    background-color: rgb(239, 173, 239);
+    background-color: #afa3e363;
     border-radius: 100%;
     border: none;
 }
@@ -254,7 +256,7 @@
 }
 
 .selected-day {
-    background-color: purple;
+    background-color: #5740be8c;
     color: #fff !important;
     border-radius: 100%;
 }
