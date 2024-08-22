@@ -4,70 +4,137 @@ import CadastroFormPsicologos from '../Components/CadastroFormPsicologos'
 import '../css/CadastroPsicólogos.css'
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
-import { Col, Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import Psicologos from '../img/mindu psicologos.png'
+import PsicologosImg1 from '../img/psico1.png'
+import { useEffect, useState } from 'react';
 
+const sectionsConfig = [
+    { id: 'section1', delay: '0.2s' },
+    { id: 'section2', delay: '0.3s' },
+    { id: 'section3', delay: '0.4s' },
+    { id: 'section4', delay: '0.7s' },
+    { id: 'section5', delay: '0.8s' },
+    { id: 'section6', delay: '0.9s' },
+    { id: 'section7', delay: '1s' },
+    { id: 'section8', delay: '0.8s' }
+];
 
+function CadastroPsicólogos() {
+    const [hasScrolled, setHasScrolled] = useState(false);
 
-function Home() {
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!hasScrolled && window.scrollY > 0) {
+                setHasScrolled(true);
+            }
+
+            sectionsConfig.forEach(({ id, delay }) => {
+                const section = document.getElementById(id);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        section.classList.add('visible');
+                        if (hasScrolled) {
+                            section.classList.add('no-animate');
+                        }
+                        section.style.transitionDelay = delay;
+                    } else {
+                        if (!hasScrolled) {
+                            section.classList.remove('visible');
+                            section.style.transitionDelay = '0s'; // Remove o atraso quando a seção não estiver visível
+                        }
+                    }
+                }
+            });
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll(); // Verifica visibilidade ao carregar
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [hasScrolled]);
+
     return (
-
-
         <Container>
             <BAPO />
-            <div id="header" className="fundoFormsPsi centralizar">
-                <div className='cadastro'>
-                    <p>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? Na MindU, acreditamos que a saúde mental é fundamental para o bem-estar geral, e estamos em busca de profissionais dedicados como você para se juntar à nossa rede de excelência.</p>
-                </div>
-                <h2 lassName="m-4 centralizar">Por que ser MindU??</h2>
-
-                <div className='d-flex conteinerporque'>
-                    <img className='imgporque' src={Psicologos} width={600} height={400}></img>
-                    <Col md='4'>
-                        <h4>1. Flexibilidade de Horários</h4>
-                        <div className='cardporque'>
-                            <p>
-                                <h6>Horários Personalizáveis:</h6> Permite ajustar os horários de trabalho para melhor atender às necessidades pessoais e profissionais.
-                            </p>
+            <Row>
+                <div className="scroll-section" id="section1">
+                    <div id="header" className="fundoFormsPsi d-flex">
+                        <img width={800} height={400} src={PsicologosImg1}></img>
+                        <div className='cadastro'>
+                            <p>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? Na MindU, acreditamos que a saúde mental é fundamental para o bem-estar geral, e estamos em busca de profissionais dedicados como você para se juntar à nossa rede de excelência.</p>
                         </div>
-
-                        <div className='cardporque'>
-                            <p>  <h6>Opções de Trabalho Remoto:</h6>  Oferece a possibilidade de realizar atendimentos online, facilitando a gestão do tempo.</p>
-                        </div>
-                    </Col>
-
-                    <Col md='4'>
-                        <h4>2. Desenvolvimento profissional</h4>
-                        <div className='cardporque'>
-                            <p>
-                                <h6>Treinamentos Contínuos:</h6> Acesso a cursos, workshops e seminários para aprimorar habilidades e conhecimentos.
-                            </p>
-                        </div>
-                        <div className='cardporque'>
-                            <p> <h6>Oportunidades de Especialização:</h6> Possibilidade de se especializar em áreas específicas da psicologia com suporte da empresa.</p>
-                        </div>
-                    </Col>
-
-                </div>
-
-
-
-
-
-
-                <Col md={9} sm={12} className="blocoFormsPsi">
-                    <h2 className="m-4 centralizar"> Cadastre-se no nosso convênio!</h2>
-                    <div>
-                        <CadastroFormPsicologos />
                     </div>
-                </Col>
-            </div >
+                </div>
+                <div className="scroll-section" id="section2">
+                    <h2 className=" titleporque m-4 centralizar">Por que ser MindU?</h2>
+                </div>
+                <div>
+                    <div className='d-flex conteinerporque'>
+
+                        <div className="scroll-section" id="section3">
+                            <img className='imgporque' src={Psicologos} width={600} height={400} alt="Psicólogos" />
+                        </div>
+
+                        <Col md='4'>
+
+                            <div className="scroll-section" id="section4">
+                                <h4>1. Flexibilidade de Horários</h4>
+                                <div className='cardporque'>
+                                    <p>
+                                        <h6>Horários Personalizáveis:</h6> Permite ajustar os horários de trabalho para melhor atender às necessidades pessoais e profissionais.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="scroll-section" id="section5">
+                                <div className='cardporque'>
+                                    <p>
+                                        <h6>Opções de Trabalho Remoto:</h6> Oferece a possibilidade de realizar atendimentos online, facilitando a gestão do tempo.
+                                    </p>
+                                </div>
+                            </div>
+                        </Col>
+
+                        <Col md='4'>
+
+                            <div className="scroll-section" id="section6">
+                                <h4>2. Desenvolvimento profissional</h4>
+                                <div className='cardporque'>
+                                    <p>
+                                        <h6>Treinamentos Contínuos:</h6> Acesso a cursos, workshops e seminários para aprimorar habilidades e conhecimentos.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="scroll-section" id="section7">
+                                <div className='cardporque'>
+                                    <p>
+                                        <h6>Oportunidades de Especialização:</h6> Possibilidade de se especializar em áreas específicas da psicologia com suporte da empresa.
+                                    </p>
+                                </div>
+                            </div>
+                        </Col>
+                    </div>
+                </div>
+
+                <div className="scroll-section" id="section8" >
+                    <div className='container align-self-center d-flex justify-content-center'>
+                        <Col md={9} sm={12} className="blocoFormsPsi centralizar">
+                            <h2 className="m-4 centralizar">Cadastre-se no nosso convênio!</h2>
+                            <div>
+                                <CadastroFormPsicologos />
+                            </div>
+
+                        </Col>
+                    </div>
+
+                </div>
+            </Row>
+
+
         </Container>
-
-
-
-
     );
 }
 
-export default Home;
+export default CadastroPsicólogos;
