@@ -4,7 +4,7 @@ import CadastroFormPsicologos from '../Components/CadastroFormPsicologos'
 import '../css/CadastroPsicólogos.css'
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
-import { Col } from 'react-bootstrap';
+import { Col, Container } from 'react-bootstrap';
 import Psicologos from '../img/mindu psicologos.png'
 
 
@@ -12,7 +12,9 @@ import Psicologos from '../img/mindu psicologos.png'
 function Home() {
     return (
 
-        <><BAPO />
+
+        <Container>
+            <BAPO />
             <div id="header" className="fundoFormsPsi centralizar">
                 <div className='cadastro'>
                     <p>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? Na MindU, acreditamos que a saúde mental é fundamental para o bem-estar geral, e estamos em busca de profissionais dedicados como você para se juntar à nossa rede de excelência.</p>
@@ -20,9 +22,9 @@ function Home() {
                 <h2 lassName="m-4 centralizar">Por que ser MindU??</h2>
 
                 <div className='d-flex conteinerporque'>
-                    <img className='imgporque' src={Psicologos} width={500} height={300}></img>
-                    <div>
-                        <h4>1. Flexibilidade <br /> de Horários</h4>
+                    <img className='imgporque' src={Psicologos} width={600} height={400}></img>
+                    <Col md='4'>
+                        <h4>1. Flexibilidade de Horários</h4>
                         <div className='cardporque'>
                             <p>
                                 <h6>Horários Personalizáveis:</h6> Permite ajustar os horários de trabalho para melhor atender às necessidades pessoais e profissionais.
@@ -32,8 +34,9 @@ function Home() {
                         <div className='cardporque'>
                             <p>  <h6>Opções de Trabalho Remoto:</h6>  Oferece a possibilidade de realizar atendimentos online, facilitando a gestão do tempo.</p>
                         </div>
-                    </div>
-                    <div>
+                    </Col>
+
+                    <Col md='4'>
                         <h4>2. Desenvolvimento profissional</h4>
                         <div className='cardporque'>
                             <p>
@@ -43,7 +46,8 @@ function Home() {
                         <div className='cardporque'>
                             <p> <h6>Oportunidades de Especialização:</h6> Possibilidade de se especializar em áreas específicas da psicologia com suporte da empresa.</p>
                         </div>
-                    </div>
+                    </Col>
+
                 </div>
 
 
@@ -57,7 +61,9 @@ function Home() {
                         <CadastroFormPsicologos />
                     </div>
                 </Col>
-            </div ></>
+            </div >
+        </Container>
+
 
 
 
