@@ -19,7 +19,7 @@ const Cadastro = () => {
                         <div class="plan">
                             <div class="inner">
                                 <p class="title">Bem-Estar</p>
-                                <p class="info">Ideal para quem busca suporte psicológico básico e orientação.</p><br></br>
+                                <p class="info">Ideal para quem busca suporte psicológico básico e orientação.</p>
                                 <div class="price">R$5.199<span>/ mês</span></div>
 
                                 <ul class="featureList">
@@ -29,7 +29,7 @@ const Cadastro = () => {
                                     <li>Acesso a material educativo sobre bem-estar psicológico </li>
                                     <li class="disabled">Suporte online 24/7</li>
                                     <li class="disabled">Sessões de coaching psicológico personalizadas (1 vez por mês)</li>
-                                </ul><br></br>
+                                </ul><br></br><br></br>
                                 <div class="action">
                                     <a class="botaoPlan" href="#">
                                         Escolher plano
@@ -42,8 +42,14 @@ const Cadastro = () => {
                     <Col>
                         <div class="plan">
                             <div class="inner">
-                                <p class="title">Equilíbrio </p>
-
+                                <div className="pop">
+                                    <div>
+                                        <p class="title">Equilíbrio </p>
+                                    </div>
+                                    <div className="poptext">
+                                        <p>Popular</p>
+                                    </div>
+                                </div>
                                 <p class="info">Para quem deseja um suporte psicológico mais abrangente e contínuo.</p>
                                 <div class="price">R$10.349<span>/ mês</span></div>
 
@@ -88,7 +94,6 @@ const Cadastro = () => {
                     </Col>
                 </Row>
             </Container >
-            <Rodape />
         </>
     );
 };
