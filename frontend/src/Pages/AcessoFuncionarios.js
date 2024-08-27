@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import TabelaFuncionarios from "../Components/TabelaFuncionarios";
 
+import "../css/AcessoFuncionarios.css"
+
 const AcessoFuncionarios = () => {
   const [nContas, setNContas] = useState(1);
   const [resultados, setResultados] = useState([]);
@@ -33,23 +35,24 @@ const AcessoFuncionarios = () => {
   };
 
   return (
-    <>
+    <div className="divGeralAcesso">
       <form onSubmit={handleSubmit}>
-        <h2>Página Acesso Funcionários</h2>
-        <label>Quantas contas deseja criar?</label>
+        <label>Quantas contas deseja criar?</label><br/>
         <input
+          className="opcaoNumero"
           type="number"
-          placeholder="Digite um número de contas"
+          placeholder="Digite um número"
           value={nContas}
           onChange={handleChange}
+          min={1}
         />
-        <button type="submit">Criar</button>
+        <button className="btnCriar" type="submit">Criar</button>
       </form>
       <div>
         {/* Passa os resultados para a TabelaFuncionarios como prop */}
         <TabelaFuncionarios contas={resultados} />
       </div>
-    </>
+    </ div>
   );
 };
 
