@@ -61,10 +61,14 @@ function CadastroPsicólogos() {
             <Row>
                 <div className="scroll-section" id="section1">
                     <div id="header" className="fundoFormsPsi d-flex">
-                        <img width={800} height={400} src={PsicologosImg1}></img>
-                        <div className='cadastro'>
-                            <p>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? Na MindU, acreditamos que a saúde mental é fundamental para o bem-estar geral, e estamos em busca de profissionais dedicados como você para se juntar à nossa rede de excelência.</p>
-                        </div>
+                        <img width={600} height={400} src={PsicologosImg1} />
+                        <Col md='4' className='blococadastropsi'>
+                            <h6>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? </h6>
+                            <div className='cardcadastropsi'>
+                                <p> Na MindU, acreditamos que a saúde mental é fundamental para o bem-estar geral, e estamos em busca de profissionais dedicados como você para se juntar à nossa rede de excelência. </p>
+                            </div>
+                        </Col>
+
                     </div>
                 </div>
                 <div className="scroll-section" id="section2">

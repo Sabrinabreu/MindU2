@@ -1,4 +1,4 @@
-import Card from 'react-bootstrap/Card';
+
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -16,7 +16,7 @@ function TxtSobreMindU() {
 
                             Para as empresas, fornecemos programas de bem-estar e consultoria para ambientes de trabalho saudáveis. Para os funcionários, oferecemos terapia híbrida (presencial e online) e workshops sobre manejo de estresse e desenvolvimento pessoal.
 
-                            <br /> Nosso objetivo é apoiar a saúde mental dos colaboradores e melhorar o ambiente de trabalho. Conheça nossos planos e garanta uma boa saúde mental para você!!</p>
+                            <br /> Conheça nossos planos e garanta uma boa saúde mental para você!!</p>
                         <br />
                         <div><button className='botaoSobre'>Veja os nossos planos aqui. </button></div>
                     </div>

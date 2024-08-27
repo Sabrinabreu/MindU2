@@ -13,8 +13,11 @@ body {
   text-align: -webkit-center;
 }
 
+.fundo-site {
+  background: rgb(244, 231, 204);
+  background: linear-gradient(180deg,  #afa5dd 0%, #f7f8fc 100%);
+}
 .fundoInfo {
-  background-color: #f7f8fc;
   overflow: hidden;
 }
 
@@ -61,10 +64,10 @@ body {
   color: #71357e;
 }
 
-.fundoColorido {
+/* .fundoColorido {
   background: rgb(244, 231, 204);
   background: linear-gradient(180deg, #f7f8fc 0%, #afa5dd 100%);
-}
+} */
 
 .titCalc {
   font-size: 30px;

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-@import url(https://fortissima.com.br/wp-content/uploads/2013/11/trabalho-doutissima-istock.jpg);
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {background-color: #f7f8fc !important;
 
@@ -12,6 +12,42 @@ body {background-color: #f7f8fc !important;
     display: block;
     text-align: -webkit-center;
 }
+      /* versao mobile  */
+      @media (max-width: 600px) {
+        .cardMapa-container{
+         display: block;
+        }
+        .cardMapa-esquerdo {
+          width: 100%;
+        }
+        .cardMapa-direito {
+          width: 100%;
+        }  
+        .Contato-Tit {
+          font-size: 15vw;
+        }
+        .Contato-Txt {
+          font-size: 8vw;
+        }
+       }
+       /* versao desktop */
+     @media (min-width: 601px) {
+        .cardMapa-container{
+         display: flex;
+        }
+        .cardMapa-esquerdo {
+          width: 70%;
+        }
+        .cardMapa-direito {
+          width: 30%;
+        }  
+        .Contato-Tit {
+          font-size: calc(20px + 4.5vw);
+        }
+        .Contato-Txt {
+          font-size: calc(10px + 2vw);
+        }
+       }
 
 .botaoBanner {
     padding: 1.3em 3em;
@@ -36,6 +72,34 @@ body {background-color: #f7f8fc !important;
         transform: translateY(-1px);
       }
 
+.bannerContato {
+  background-color: #ab9ee2;
+  height: 400px;
+  width: 100%;
+  overflow: hidden;
+  font-family: "Public Sans", sans-serif;
+}
+      .bannerCT-IMG {
+        height: auto;
+        width: 90%;
+      }
+      .textobanner {
+        color: #fcf5ff;
+        padding: 50px;
+        font-weight: 400;
+      }
+      .Contato-Tit {
+        letter-spacing: -4px;
+        line-height: 70px;
+      }
+      .Contato-Txt {
+        letter-spacing: -1px;
+        line-height: 30px;
+        background-color: #9485d4;
+        padding: 5px;
+        margin: 0;
+        width: fit-content;
+      }
 
 .card-contato {
   padding: 20px;
@@ -50,35 +114,23 @@ body {background-color: #f7f8fc !important;
       width: 100px !important;
     }
 
-.fundoContact {
-  background-color: #cac7cd;
-  height: 400px;
-  background-image: url(https://fortissima.com.br/wp-content/uploads/2013/11/trabalho-doutissima-istock.jpg);
-}
-
-
-
-
 
 .card-mapa {
   padding: 20px;
-  margin: 30px 70px;
+  margin: 0vw 4vw;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   border: 0;
 }
-
-      .cardMapa-container {
-        display: flex;
-
-      }
      .cardMapa-esquerdo {
-       width: 70%;
        padding: 20px;
-       height:auto;
+       height: 420px;
        background-color: #fcf5ff;
      }
+     .cardMapa-esquerdo iframe {
+      width: 100%;
+      height: 100%;
+    }
      .cardMapa-direito {
-       width: 30%;
        padding: 20px;
      }  
      .cardMapa-direito p {
@@ -90,3 +142,14 @@ body {background-color: #f7f8fc !important;
       font-weight: 550;
       text-align: start;
     }
+
+.card-clinicas {
+    padding: 0px;
+    margin: 0 3vw;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border: 0;
+} 
+      .Img-clinica {
+        width: 100%;
+        height: auto;
+      }
