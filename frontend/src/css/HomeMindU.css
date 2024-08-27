@@ -1,25 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
+/* Base Styles */
 body {
     background-color: #f7f8fc !important;
     font-family: "Montserrat", serif !important;
     font-optical-sizing: auto;
     font-weight: 420;
     font-style: normal;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Transition for smooth changes */
 }
 
+/* Modo Escuro */
+[data-theme='dark'] {
+    background-color: #1e2736 !important;
+    /* Cor de fundo do modo escuro */
+    color: #f0f0f0;
+}
 
+/* Flex Container */
 .d-flex {
     display: flex !important;
-
 }
 
+/* Scroll Section */
 .scroll-section {
     opacity: 0;
     transform: translateY(50px);
-    /* Inicialmente deslocado para baixo */
     transition: opacity 0.6s ease, transform 3s ease;
-    /* Transições suaves */
 }
 
 .scroll-section.visible {
@@ -27,6 +35,7 @@ body {
     transform: translateY(0);
 }
 
+/* Card Styles */
 .cardBannerMaior {
     position: absolute !important;
     width: 280px !important;
@@ -37,6 +46,11 @@ body {
     border-color: #7866c6d2 !important;
     border-width: 4px !important;
     background-color: #7766C6 !important;
+}
+
+[data-theme='dark'] .cardBannerMaior {
+    border-color: #f9b0c3 !important;
+    background-color: #f9b0c3 !important;
 }
 
 .cardProfsMenor {
@@ -50,6 +64,12 @@ body {
     background-color: #46467a !important;
 }
 
+[data-theme='dark'] .cardProfsMenor {
+    border-color: #edc8e0 !important;
+    background-color: #edc8e0 !important;
+}
+
+/* Image Styles */
 .imagem1 {
     border-radius: 140% !important;
     margin-top: 20% !important;
@@ -63,6 +83,7 @@ body {
     margin-left: 2px !important;
 }
 
+/* Text and Button Styles */
 .txtSobre {
     position: relative !important;
     top: 4% !important;
@@ -73,6 +94,17 @@ body {
     padding: 1.3em 3em;
     font-size: 16px;
     letter-spacing: 2px;
+}
+
+[data-theme='dark'] .botaoSobre {
+    color: #000000;
+    background-color: #e0dffdaf;
+    border: 1.7px solid #e0dffd;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
 }
 
 .botaoSobre {
@@ -94,7 +126,7 @@ body {
 }
 
 .botaoSobre:hover {
-    box-shadow: 0px 15px 20px #e5cc9d !important;
+    box-shadow: 0px 8px 8px 0px #e0dffd86 !important;
     transform: translateY(-7px) !important;
 }
 
@@ -102,13 +134,11 @@ body {
     transform: translateY(-1px) !important;
 }
 
+/* Qualities Section */
 .qualidadesMindU {
     text-align: center;
-    /* Centraliza o texto dentro da div */
     margin: 0 auto;
-    /* Centraliza a div no container pai */
     padding: 140px !important;
-    /* Ajuste o padding conforme necessário */
     margin-top: -140px !important;
 }
 
@@ -116,19 +146,6 @@ body {
     display: flex !important;
     justify-content: center !important;
     gap: 14px !important;
-
-}
-
-.cardQualidades {
-    flex: auto !important;
-    max-width: 300px !important;
-    margin: 16px !important;
-}
-
-.text-center {
-    padding: 1.3em 3em;
-    font-size: 28px;
-    letter-spacing: 3px;
 }
 
 .cardQualidades {
@@ -151,9 +168,29 @@ body {
     height: 300px !important;
 }
 
+[data-theme='dark'] .cardQualidades {
+    flex: auto !important;
+    max-width: 300px !important;
+    margin: 16px !important;
+    padding: 1em 3em;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: #fff;
+    border: 3px solid #7866c689;
+    background-color: #46467a;
+    border-radius: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 250px !important;
+    height: 300px !important;
+}
+
 
 .cardQualidades:hover {
-    box-shadow: 0px 8px 10px #fab0c3;
+    box-shadow: 0px 8px 8px 0px #e0dffdbb;
     transform: translateY(-10px);
 }
 
@@ -161,19 +198,20 @@ body {
     transform: translateY(-4px);
 }
 
-.calendarimg {
+/* Image Styles */
+.calendarimg,
+.transformationimg,
+.diplomaimg,
+.cadeadoimg {
     margin-bottom: 10% !important;
 }
 
+
 .transformationimg {
-    margin-bottom: 10% !important;
     width: 80px !important;
 }
 
-.diplomaimg {
-    margin-bottom: 10% !important;
-}
-
+/* Text Styles */
 .titlecardQualidades {
     font-size: 16px !important;
 }
@@ -186,11 +224,17 @@ body {
     margin-top: -60px !important;
 }
 
+/* Carousel Styles */
 .carousel-container {
     width: 100%;
     position: relative;
 }
 
+[data-theme='dark'] .slide {
+    justify-content: center !important;
+    border: 2px solid #e0dffd !important;
+    box-shadow: 0 4px 6px #e0dffd91;
+}
 
 .slide {
     justify-content: center !important;
@@ -201,14 +245,10 @@ body {
     padding: 28px;
     text-align: center;
     opacity: 30%;
-    /* Slides não centrais são um pouco opacos */
     transition: opacity 0.2s ease, transform 0.8s ease, box-shadow 0.2s ease;
     transform: scale(0.5);
-    /* Reduz o tamanho dos slides não centrais */
     z-index: 0;
-    /* Slides não centrais estão atrás */
     box-shadow: 0 4px 6px #7766C6;
-    /* Adiciona uma sombra sutil */
     padding: 1em 3em;
     font-size: 12px;
     letter-spacing: 1px;
@@ -219,13 +259,9 @@ body {
 
 .slick-center .slide {
     opacity: 1;
-    /* Slide central é totalmente opaco */
     transform: scale(0.9);
-    /* Slide central está no tamanho total */
     z-index: 1;
-    /* Garante que o slide central fique acima dos outros */
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
-    /* Adiciona uma sombra mais pronunciada */
 }
 
 .slick-slide {
@@ -235,8 +271,16 @@ body {
 .slick-dots {
     bottom: -30px;
     left: 2%;
-
 }
+
+[data-theme='dark'] .slick-dots li.slick-active button:before {
+    color: #ffff;
+}
+
+[data-theme='dark'] .slick-dots li button:before {
+    color: #ffffffb2;
+}
+
 
 .slick-dots li button {
     font-size: 0;
@@ -246,19 +290,29 @@ body {
     height: 20px;
     padding: 5px;
     cursor: pointer;
-    color: transparent;
     border: 0;
     outline: none;
-    background: transparent;
 }
 
-.slick-prev {
-    left: 10px !important;
-
+[data-theme='dark'] .slick-prev:before {
+    color: #e0dffd !important;
 }
+
 
 .slick-next {
     right: 20px !important;
+}
+
+.slick-next:before {
+    color: #28096b !important;
+}
+
+.slick-prev:before {
+    color: #28096b !important;
+}
+
+[data-theme='dark'] .slick-next:before {
+    color: #e0dffd !important;
 }
 
 .slick-prev,
@@ -279,9 +333,16 @@ body {
     background: transparent !important;
 }
 
+/* Rating and Collaboration */
 .ratestar {
     font-size: 24px !important;
     color: #7766C6 !important;
+}
+
+/* Rating and Collaboration */
+[data-theme='dark'] .ratestar {
+    font-size: 24px !important;
+    color: #e0dffd !important;
 }
 
 .colabs {
@@ -304,6 +365,7 @@ body {
     position: relative !important;
 }
 
+/* Accordion Styles */
 .accordion-button {
     letter-spacing: 2px !important;
 }
@@ -328,10 +390,33 @@ body {
     letter-spacing: 2px !important;
 }
 
+[data-theme='dark'] .accordion {
+    --bs-border-radius: 16px !important;
+    --bs-accordion-inner-border-radius: calc(var(16px) -(var(1px)));
+    --bs-accordion-border-radius: 16px !important;
+    --bs-accordion-bg: #ceccf9bb !important;
+    --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
+    --bs-accordion-btn-focus-box-shadow: #28096b;
+    position: relative !important;
+    top: 20% !important;
+    margin-bottom: 18% !important;
+    font-size: 16px !important;
+    letter-spacing: 2px !important;
+}
+
+[data-theme='dark'] .accordion-body {
+    background-color: #e0dffd !important;
+}
+
+[data-theme='dark'] .accordion-button:not(.collapsed) {
+    color: #e0dffd !important;
+    background-color: #7866c69a !important;
+}
+
+/* Results Section */
 .results-container {
     margin-top: 10% !important;
     margin-left: 48px !important;
-
 }
 
 .results {
@@ -355,9 +440,14 @@ body {
     height: 200px !important;
 }
 
+[data-theme='dark'] .results {
+    color: #fff;
+    background-color: #28096b84;
+    border: 3px solid #7866c689;
+}
 
 .results:hover {
-    box-shadow: 0px 15px 20px #fab0c3;
+    box-shadow: 0px 15px 20px #7866c689;
     transform: translateY(-10px);
 }
 
@@ -365,6 +455,7 @@ body {
     transform: translateY(-4px);
 }
 
+/* Card Styles */
 .cardmaior {
     height: 400px !important;
     padding: 30px !important;

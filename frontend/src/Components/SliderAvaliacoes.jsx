@@ -21,7 +21,7 @@ function Avaliacoes() {
         infinite: true,
         speed: 500,
         slidesToShow: 3,
-        slidesToScroll: 1,
+        slidesToScroll: 3,
         centerMode: true, // Habilita o modo de centralização
         centerPadding: '20px', // Ajusta a quantidade de espaço ao redor do slide central
         focusOnSelect: true, // Permite seleção ao clicar nos slides

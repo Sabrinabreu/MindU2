@@ -9,17 +9,17 @@
 
 .footer-content li {
     text-decoration: none !important;
-
 }
 
 .colortwo {
-    background-color: rgb(202, 202, 202);
+    background-color: #7766c6;
     max-width: 100%;
+    color: white;
 }
 
 .cnes {
     font-size: 20px;
-    margin-bottom: -20px;
+    margin-bottom: -30px;
 }
 
 .direitos {
@@ -28,6 +28,7 @@
 
 .info {
     font-size: 15px;
+    text-align: start !important;
 }
 
 .info a {
@@ -38,19 +39,15 @@
 
 .info p:hover {
     transform: scale(1.1);
-    /* Aumenta o tamanho do texto em 20% */
     transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .redes {
     margin-top: 10px;
-    /* Espaçamento entre o logo e os ícones */
-
 }
 
 .redes img:hover {
     transform: scale(1.2);
-    /* Aumenta o tamanho do texto em 20% */
     transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
     cursor: pointer;
 }
@@ -59,29 +56,11 @@
 .redesdois {
     display: flex;
     justify-content: center;
-    /* Centraliza os ícones horizontalmente */
     gap: 10px;
-    /* Espaçamento entre os ícones */
 }
 
 
-.face {
-    margin: 3%;
-}
-
-.insta {
-    margin: 3%;
-}
-
-.x {
-    margin: 3%;
-}
-
-.link {
-    margin: 3%;
-}
-
-.yt {
+.redesociais {
     margin: 3%;
 }
 
@@ -97,7 +76,6 @@
 
     .redes {
         gap: 10px;
-        /* Espaçamento entre grupos de ícones */
         display: flex;
         margin-left: 14%;
     }
@@ -109,7 +87,6 @@
 
     .redes img {
         width: 40px;
-        /* Ajusta o tamanho dos ícones para caber melhor na tela pequena */
     }
 
     .logo {
