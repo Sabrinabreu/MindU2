@@ -141,7 +141,7 @@ const Cadastro = () => {
   return (
     <>
       <BAPO />
-      <div>
+      <div  className="fundo-site">
         <div className="scroll-section" id="section1">
           <div className="fundoInfo">
             <Row className="justify-content-center g-4 p-3">
