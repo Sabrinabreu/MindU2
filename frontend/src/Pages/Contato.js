@@ -5,36 +5,41 @@ import "../css/WidgetBAPO.css";
 import "../css/Contato.css";
 import telefoneIcon from "../img/telefoneAntigo.png";
 import ajudaIcon from "../img/helpIcon.png";
+import clinica1 from "../img/clinica1.jpg";
+import clinica2 from "../img/clinica2.jpg";
+import clinica3 from "../img/clinica3.jpg";
+import clinica4 from "../img/clinica4.jpg";
+import clinica5 from "../img/clinica5.jpg";
 import bannerCONT from "../img/bannerCONT.jpg";
 import { Row, Col, Card, CardGroup } from "react-bootstrap";
 
 const Contato = () => {
   const [slides, setslides] = useState([
       {
-          foto: ajudaIcon,
+          foto: clinica1,
           nome: "Manaus - AM",
-          endereco: "60 Anson Road Mapletree Anson, #10-03 Singapore 079914",
-          telefone: "+65 6000-6000"
+          endereco: "Av. Santos Dumont, 1300 - Tarumã, Manaus - AM, 60001-000",
+          telefone: "+55 (97) 1000-6000"
       }, {
-          foto: ajudaIcon,
+          foto: clinica2,
           nome: "Belém - PA",
-          endereco: "Um espresso duplo, feito com água e café moido.",
-          telefone: "+61 6000-6000"
+          endereco: "Av. Tavares Bastos, 987 - Marambaia, Belém - PA, 30011-000",
+          telefone: "+55 (91) 2000-6000"
       }, {
-          foto: ajudaIcon,
+          foto: clinica3,
           nome: "São Paulo - SP",
-          endereco: "É um café pouco concentrado, café diluido em muita água.",
-          telefone: "+65 6000-6000"
+          endereco: "Av. Dr. Gastão Vidigal - Vila Leopoldina, São Paulo - SP, 00005-000",
+          telefone: "+55 (11) 3000-6000"
       }, {
-          foto: ajudaIcon,
+          foto: clinica4,
           nome: "Recife - CE",
-          endereco: "Um espresso duplo espesso, feito com água e café moido fresco.",
-          telefone: "+65 6000-6000"
+          endereco: "Av. Dois Rios, 1234 - Ibura, Recife - PE, 51000-000",
+          telefone: "+55 (85) 4000-6000"
       }, {
-          foto: ajudaIcon,
+          foto: clinica5,
           nome: "Uberlândia - MG",
-          endereco: "Um espresso duplo espesso, feito com água e café moido fresco.",
-          telefone: "+65 6000-6000"
+          endereco: "Av. João Naves de Ávila, 1333 - Tibery, Uberlândia - MG, 0008-000",
+          telefone: "+55 (31) 5000-6000"
       }
   ]);
 
@@ -107,20 +112,24 @@ const Contato = () => {
 
         </Col>
 
-        <div className="clinicas">
+        <div className="clinicas centralizar">
         {slides.map((conteudo, index) => (
-
-                  <Card className="centralizar card-contato">
-                  <Card.Body>
-                    <img className="mb-3" src={conteudo.foto}/>
-                  <Card.Title className="tit-Cont">{conteudo.nome}</Card.Title>
-                  <h4>Endereço</h4>
-                  <Card.Text>{conteudo.endereco}</Card.Text>
-                  <h4>Telefone</h4>
-                  <Card.Text>{conteudo.telefone}</Card.Text>
-                </Card.Body>
-                </Card>
-                 
+          <Col md={10} sm={12}>
+          <div className="card-clinicas my-5">
+          <Row className="justify-content-center g-4 p-3">
+              <Col md={5} sm={12} className="textoInfo text-start">
+                  <h2 className="mb-4 tit-Cont">{conteudo.nome}</h2>
+                      <h4>Endereço</h4>
+                      <p>{conteudo.endereco}</p>
+                      <h4>Telefone</h4>
+                      <p>{conteudo.telefone}</p>
+              </Col>
+              <Col className="centralizar" md={5} sm={12}>
+                  <img className="Img-clinica" src={conteudo.foto}/> 
+              </Col>
+          </Row>            
+          </div>
+</Col>
             ))}
         </div>
         
