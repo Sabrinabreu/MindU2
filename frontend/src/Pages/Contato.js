@@ -12,24 +12,29 @@ const Contato = () => {
   const [slides, setslides] = useState([
       {
           foto: ajudaIcon,
-          nome: "Singapore (Asia-Pacific HQ)",
-          endereco: "Address 60 Anson Road Mapletree Anson, #10-03 Singapore 079914"
-          telefone: "Phone +65 6955 6000"
+          nome: "Manaus - AM",
+          endereco: "60 Anson Road Mapletree Anson, #10-03 Singapore 079914",
+          telefone: "+65 6000-6000"
       }, {
           foto: ajudaIcon,
-          nome: "Doppio",
+          nome: "Belém - PA",
           endereco: "Um espresso duplo, feito com água e café moido.",
-          telefone: "A partir de R$15,00"
+          telefone: "+61 6000-6000"
       }, {
           foto: ajudaIcon,
-          nome: "Americano",
+          nome: "São Paulo - SP",
           endereco: "É um café pouco concentrado, café diluido em muita água.",
-          telefone: "A partir de R$6,50"
+          telefone: "+65 6000-6000"
       }, {
           foto: ajudaIcon,
-          nome: "Naked",
+          nome: "Recife - CE",
           endereco: "Um espresso duplo espesso, feito com água e café moido fresco.",
-          telefone: "A partir de R$12,90"
+          telefone: "+65 6000-6000"
+      }, {
+          foto: ajudaIcon,
+          nome: "Uberlândia - MG",
+          endereco: "Um espresso duplo espesso, feito com água e café moido fresco.",
+          telefone: "+65 6000-6000"
       }
   ]);
 
