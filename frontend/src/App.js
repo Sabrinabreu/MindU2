@@ -8,6 +8,7 @@ import Rotas from "./Routes";
 
 //Importar componentes aqui
 import Navegacao from "./Components/Navegacao";
+import Rodape from './Components/Rodape';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
       <Router>
         <Navegacao/>
         <Rotas />
+        <Rodape />
       </Router>
     </>
   );

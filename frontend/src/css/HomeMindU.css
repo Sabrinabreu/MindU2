@@ -29,10 +29,10 @@ body {
 
 .cardBannerMaior {
     position: absolute !important;
-    width: 300px !important;
+    width: 280px !important;
     border-radius: 140px 140px 10px 10px !important;
-    height: 500px !important;
-    top: 18% !important;
+    height: 440px !important;
+    top: 4% !important;
     left: 64% !important;
     border-color: #7866c6d2 !important;
     border-width: 4px !important;
@@ -40,11 +40,11 @@ body {
 }
 
 .cardProfsMenor {
-    left: 115% !important;
-    bottom: 20% !important;
+    left: 114% !important;
+    bottom: 94% !important;
     border-radius: 100% !important;
-    height: 200px !important;
-    width: 200px !important;
+    height: 180px !important;
+    width: 180px !important;
     border-color: #46467a !important;
     border-width: 4px !important;
     background-color: #46467a !important;
@@ -59,13 +59,13 @@ body {
 .imagem2 {
     border-top-left-radius: 20% !important;
     border-top-right-radius: 20% !important;
-    margin-top: 56% !important;
+    margin-top: 46% !important;
     margin-left: 2px !important;
 }
 
 .txtSobre {
     position: relative !important;
-    top: 20% !important;
+    top: 4% !important;
     bottom: 20% !important;
     left: 6% !important;
     width: 600px !important;
@@ -109,6 +109,7 @@ body {
     /* Centraliza a div no container pai */
     padding: 140px !important;
     /* Ajuste o padding conforme necessário */
+    margin-top: -140px !important;
 }
 
 .cards {
@@ -181,9 +182,12 @@ body {
     font-size: 14px !important;
 }
 
+.colab {
+    margin-top: -60px !important;
+}
+
 .carousel-container {
     width: 100%;
-    margin: 0 auto;
     position: relative;
 }
 
@@ -318,14 +322,15 @@ body {
     --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
     --bs-accordion-btn-focus-box-shadow: #46467a;
     position: relative !important;
-    top: 40% !important;
-    bottom: 40% !important;
+    top: 20% !important;
+    margin-bottom: 18% !important;
     font-size: 16px !important;
     letter-spacing: 2px !important;
 }
 
 .results-container {
     margin-top: 10% !important;
+    margin-left: 48px !important;
 
 }
 
@@ -334,7 +339,7 @@ body {
     padding: 20px !important;
     flex: auto !important;
     width: 500px !important;
-    margin: 14px !important;
+    margin: 16px !important;
     padding: 1em 3em;
     font-size: 11px;
     letter-spacing: 1px;

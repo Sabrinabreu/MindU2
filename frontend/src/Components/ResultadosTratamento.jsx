@@ -7,7 +7,6 @@ function Resultados() {
 
         <Container className='results-container'> <Row>
             <h1 className='text-center'> Resultados mensuráveis: </h1>
-
             <div className="d-flex"> <Col md='6'>
                 <Card className="results cardmaior">
                     <Card.Body>

@@ -4,7 +4,7 @@
     margin-top: 8%;
     padding: 2%;
     color: black !important;
-    padding-bottom: -50%;
+    height: 250px;
 }
 
 .footer-content li {
@@ -114,6 +114,10 @@
 
     .logo {
         width: 70%;
+    }
+
+    .footer-content {
+        height: 650px;
     }
 
 }

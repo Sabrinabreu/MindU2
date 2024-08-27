@@ -1,0 +1,36 @@
+.divGeralAcesso {
+    text-align: center;
+}
+
+.divGeralAcesso label {
+    margin: 3% 0;
+    font-size: calc( 14px + 1vw );
+}
+
+.opcaoNumero {
+    width: 180px;
+    height: 40px;
+    border: 1.5px solid;
+    border-radius: 10px 0 0 10px;
+    margin-top: 1px;
+}
+
+.opcaoNumero:focus {
+    border: 1.8px solid;
+    border-radius: 10px 0 0 10px !important;
+}
+
+.btnCriar {
+    height: 40px;
+    border-radius: 0 10px 10px 0;
+    border-style: solid solid solid none;
+    border-width: 1.5px;
+    padding: 0 15px;
+    margin: 0;
+}
+
+.divAcaoTabela {
+    background-color: #E0DFFD;
+    padding: 15px;
+    border-radius: 15px 15px 0 0;
+}

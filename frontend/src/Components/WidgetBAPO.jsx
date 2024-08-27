@@ -37,6 +37,7 @@ const ChatWidget = () => {
               <Nav.Link className="chat-option" as={Link} to="/cadastroempresa">Sou empresa</Nav.Link>
               <Nav.Link className="chat-option" as={Link} to="/contato">Sou paciente e preciso de ajuda</Nav.Link>
               <Nav.Link className="chat-option" as={Link} to="/agendarconsulta">Agendar demonstração</Nav.Link>
+              <Nav.Link className="chat-option" as={Link} to="/BAPO">Conversar com a MILA</Nav.Link>
             </div>
           </div>
         </div>

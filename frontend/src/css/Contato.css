@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {background-color: #f7f8fc !important;
+
+  font-family: "Montserrat", serif !important;
+  font-optical-sizing: auto;
+  font-weight: 420; 
+  font-style: normal;
+}
+.centralizar {
+    display: block;
+    text-align: -webkit-center;
+}
+      /* versao mobile  */
+      @media (max-width: 600px) {
+        .cardMapa-container{
+         display: block;
+        }
+        .cardMapa-esquerdo {
+          width: 100%;
+        }
+        .cardMapa-direito {
+          width: 100%;
+        }  
+        .Contato-Tit {
+          font-size: 15vw;
+        }
+        .Contato-Txt {
+          font-size: 8vw;
+        }
+       }
+       /* versao desktop */
+     @media (min-width: 601px) {
+        .cardMapa-container{
+         display: flex;
+        }
+        .cardMapa-esquerdo {
+          width: 70%;
+        }
+        .cardMapa-direito {
+          width: 30%;
+        }  
+        .Contato-Tit {
+          font-size: calc(20px + 4.5vw);
+        }
+        .Contato-Txt {
+          font-size: calc(10px + 2vw);
+        }
+       }
+
+.botaoBanner {
+    padding: 1.3em 3em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500 !important;
+    color: #000;
+    background-color: transparent;
+    border: 1.7px solid #252525;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+  }
+      .botaoBanner:hover {
+        box-shadow: 0px 15px 20px #cac7cd;
+        transform: translateY(-7px);
+      }
+      .botaoBanner:active {
+        transform: translateY(-1px);
+      }
+
+.bannerContato {
+  background-color: #ab9ee2;
+  height: 400px;
+  width: 100%;
+  overflow: hidden;
+  font-family: "Public Sans", sans-serif;
+}
+      .bannerCT-IMG {
+        height: auto;
+        width: 90%;
+      }
+      .textobanner {
+        color: #fcf5ff;
+        padding: 50px;
+        font-weight: 400;
+      }
+      .Contato-Tit {
+        letter-spacing: -4px;
+        line-height: 70px;
+      }
+      .Contato-Txt {
+        letter-spacing: -1px;
+        line-height: 30px;
+        background-color: #9485d4;
+        padding: 5px;
+        margin: 0;
+        width: fit-content;
+      }
+
+.card-contato {
+  padding: 20px;
+  margin: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  border: 0;
+}
+    .tit-Cont{
+      font-weight: 550;
+    }
+    .Icon-card-contato {
+      width: 100px !important;
+    }
+
+
+.card-mapa {
+  padding: 20px;
+  margin: 0vw 4vw;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  border: 0;
+}
+     .cardMapa-esquerdo {
+       padding: 20px;
+       height: 420px;
+       background-color: #fcf5ff;
+     }
+     .cardMapa-esquerdo iframe {
+      width: 100%;
+      height: 100%;
+    }
+     .cardMapa-direito {
+       padding: 20px;
+     }  
+     .cardMapa-direito p {
+       font-size: 17px !important;
+       font-weight: 450;
+       text-align: start;
+     }
+     .cardMapa-direito h4 {
+      font-weight: 550;
+      text-align: start;
+    }
+
+.card-clinicas {
+    padding: 0px;
+    margin: 0 3vw;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border: 0;
+} 
+      .Img-clinica {
+        width: 100%;
+        height: auto;
+      }

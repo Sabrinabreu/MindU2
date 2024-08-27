@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Cadastroempresa from "./Pages/CadastroEmpresa";
+import Contato from "./Pages/Contato";
 import CadastroPsicólogos from './Pages/CadastroPsicólogos'
 import Cadastro from "./Pages/Cadastro";
 import TabelaUsuarios from "./Pages/ListaUsuarios";
@@ -20,6 +21,7 @@ const Rotas = () => {
       <Routes>
         <Route path="/" exact element={<Home />} />
         <Route path="/cadastroempresa" element={<Cadastroempresa />} />
+        <Route path="/contato" element={<Contato />} />
         <Route path="/cadastropsicologos" element={<CadastroPsicólogos />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/listaUsuarios" element={<TabelaUsuarios />} />
