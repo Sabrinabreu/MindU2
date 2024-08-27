@@ -9,6 +9,30 @@ import bannerCONT from "../img/bannerCONT.jpg";
 import { Row, Col, Card, CardGroup } from "react-bootstrap";
 
 const Contato = () => {
+  const [slides, setslides] = useState([
+      {
+          foto: ajudaIcon,
+          nome: "Singapore (Asia-Pacific HQ)",
+          endereco: "Address 60 Anson Road Mapletree Anson, #10-03 Singapore 079914"
+          telefone: "Phone +65 6955 6000"
+      }, {
+          foto: ajudaIcon,
+          nome: "Doppio",
+          endereco: "Um espresso duplo, feito com água e café moido.",
+          telefone: "A partir de R$15,00"
+      }, {
+          foto: ajudaIcon,
+          nome: "Americano",
+          endereco: "É um café pouco concentrado, café diluido em muita água.",
+          telefone: "A partir de R$6,50"
+      }, {
+          foto: ajudaIcon,
+          nome: "Naked",
+          endereco: "Um espresso duplo espesso, feito com água e café moido fresco.",
+          telefone: "A partir de R$12,90"
+      }
+  ]);
+
   return (
     <>
     <BAPO/>
@@ -46,10 +70,7 @@ const Contato = () => {
 
         <h1 className="centralizar my-5">Conecte-se com um de nossos escritórios globais</h1>
 
-        <div className="mapa">
-
-
-
+        <Col md={12} sm={12} className="mapa">
         <Card className="centralizar card-mapa my-2">
 
 
@@ -60,18 +81,18 @@ const Contato = () => {
               <div className="cardMapa-direito">
 
                 <Col sm={12} className="mb-4">
-                <h4>Global Headquarters</h4>
-                <p>2 Canal Park<br/>
-                    Cambridge, MA 02141<br/>
-                    United States</p>
+                <h4>Clinica MindU</h4>
+                <p>Rua Santo André, 680<br/>
+                Boa Vista<br/>
+                São Caetano do Sul/SP</p>
                 </Col>
 
                 <Col sm={12} className="mt-4">
-                <h4>Phone / Fax</h4>
-                <p>+ 1 888 HUBSPOT<br/>
-                  (+1 888 482 7768)<br/></p>
+                <h4>Telefone / Fax</h4>
+                <p>+55 11 1000-0000<br/>
+                  +55 21 1100-0000<br/></p>
 
-                  <p>Fax: +1 617 812 5820</p>
+                  <p>Fax: +1 117 012 2220</p>
                 </Col>
               </div>
             </div>
@@ -79,10 +100,23 @@ const Contato = () => {
           
         </Card>
 
-        </div>
+        </Col>
 
         <div className="clinicas">
-                {/* fazer um map pra isso */}
+        {slides.map((conteudo, index) => (
+
+                  <Card className="centralizar card-contato">
+                  <Card.Body>
+                    <img className="mb-3" src={conteudo.foto}/>
+                  <Card.Title className="tit-Cont">{conteudo.nome}</Card.Title>
+                  <h4>Endereço</h4>
+                  <Card.Text>{conteudo.endereco}</Card.Text>
+                  <h4>Telefone</h4>
+                  <Card.Text>{conteudo.telefone}</Card.Text>
+                </Card.Body>
+                </Card>
+                 
+            ))}
         </div>
         
       </div>

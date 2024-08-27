@@ -62,21 +62,23 @@ body {background-color: #f7f8fc !important;
 
 .card-mapa {
   padding: 20px;
-  margin: 30px 70px;
+  margin: 0vw 4vw;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   border: 0;
 }
-
       .cardMapa-container {
         display: flex;
-
       }
      .cardMapa-esquerdo {
        width: 70%;
        padding: 20px;
-       height:auto;
+       height: 420px;
        background-color: #fcf5ff;
      }
+     .cardMapa-esquerdo iframe {
+      width: 100%;
+      height: 100%;
+    }
      .cardMapa-direito {
        width: 30%;
        padding: 20px;
