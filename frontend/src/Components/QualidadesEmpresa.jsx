@@ -21,7 +21,7 @@ function QualidadesMindU() {
                             <Card className="text-center cardQualidades">
 
                                 <Card.Body>
-                                    <CalendarCog className="calendarimg" size={80} color="black" strokeWidth={0.8} />
+                                    <CalendarCog className="calendarimg" size={80} strokeWidth={0.8} />
 
                                     <Card.Title className='titlecardQualidades'>Adaptabilidade</Card.Title>
                                     <Card.Text>
@@ -49,7 +49,7 @@ function QualidadesMindU() {
                             <Card className="text-center cardQualidades">
 
                                 <Card.Body>
-                                    <GiDiploma className='diplomaimg' size={80} color="black" strokeWidth={0.8} />
+                                    <GiDiploma className='diplomaimg' size={80} strokeWidth={0.8} />
                                     <Card.Title className='titlecardQualidades'>Competência</Card.Title>
                                     <Card.Text>
                                         Profissionais altamente qualificados e atualizados, garantindo atendimento eficaz e de alta qualidade.
@@ -62,7 +62,7 @@ function QualidadesMindU() {
                             <Card className="text-center cardQualidades">
 
                                 <Card.Body>
-                                    <LockKeyhole className='diplomaimg' size={80} color="black" strokeWidth={0.8} />
+                                    <LockKeyhole className='cadeadoimg' size={80} strokeWidth={0.8} />
                                     <Card.Title className='titlecardQualidadesBig' >Confidencialidade</Card.Title>
                                     <Card.Text>
                                         Proteção rigorosa das informações dos pacientes colaboradores, mantendo um ambiente seguro e conforme as normas éticas e legais.

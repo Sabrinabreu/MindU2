@@ -1,11 +1,10 @@
-// Home
+import React, { useEffect } from 'react';
 import TxtSobreMindU from "../Components/TxtApresentMindU";
 import CardSobreMindU from "../Components/CardSobreMindU";
 import QualidadesMindU from "../Components/QualidadesEmpresa";
 import Avaliacoes from "../Components/SliderAvaliacoes";
 import FAQ from "../Components/faq";
 import Resultados from "../Components/ResultadosTratamento";
-import React, { useEffect } from 'react';
 
 const sectionsConfig = [
   { id: 'section1', delay: '0.2s' },
@@ -16,6 +15,7 @@ const sectionsConfig = [
 ];
 
 function Home() {
+  
   useEffect(() => {
     const handleScroll = () => {
       sectionsConfig.forEach(({ id, delay }) => {
@@ -27,14 +27,14 @@ function Home() {
             section.style.transitionDelay = delay;
           } else {
             section.classList.remove('visible');
-            section.style.transitionDelay = '0s'; // Remove o atraso quando a seção não estiver visível
+            section.style.transitionDelay = '0s';
           }
         }
       });
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Verifica visibilidade ao carregar
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -62,4 +62,3 @@ function Home() {
 }
 
 export default Home;
-
