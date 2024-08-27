@@ -8,9 +8,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-// Dados para os horários disponíveis
+// Horários disponíveis
 const availableTimes = {
-    '2024-08-20': ['08:00', '09:00', '10:00'],
     '2024-08-22': ['13:00', '14:00', '15:00'],
     '2024-08-29': ['16:00', '17:00'],
     '2024-08-30': ['16:00', '17:00'],
@@ -52,10 +51,9 @@ const DatePicker = ({ onDateSelect }) => {
     };
 
     const generateDays = () => {
-        const daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
         const startDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
         const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
-        
+
         const dates = [];
         const availableDates = Object.keys(availableTimes);
 
@@ -64,7 +62,7 @@ const DatePicker = ({ onDateSelect }) => {
             dates.push(<button key={`empty-${i}`} className="date faded" disabled></button>);
         }
 
-        // Dias e mes
+        // Dias e mês
         for (let i = 1; i <= daysInMonth; i++) {
             const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
             const formattedDate = date.toISOString().split('T')[0];
@@ -95,9 +93,13 @@ const DatePicker = ({ onDateSelect }) => {
         <div className="datepicker">
             <div className="datepicker-top">
                 <div className="month-selector">
-                    <button className="arrow" onClick={handlePrevMonth}><i className="material-icons">chevron_left</i></button>
+                    <button className="arrow" onClick={handlePrevMonth}><i className="material-icons"><span className="material-symbols-outlined p-3">
+                        chevron_left
+                    </span></i></button>
                     <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
-                    <button className="arrow" onClick={handleNextMonth}><i className="material-icons">chevron_right</i></button>
+                    <button className="arrow" onClick={handleNextMonth}><i className="material-icons"><span className="material-symbols-outlined p-3">
+                        chevron_right
+                    </span></i></button>
                 </div>
             </div>
             <div className="datepicker-calendar">
@@ -111,25 +113,94 @@ const DatePicker = ({ onDateSelect }) => {
 };
 
 // Agendar
-function Agendar() {
+const Agendar = () => {
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [selectedTime, setSelectedTime] = useState(null);
+    const [selectedTipo, setSelectedTipo] = useState(null);
+    const [assunto, setAssunto] = useState('');
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
     };
 
+    const handleTimeClick = (time) => {
+        setSelectedTime(time);
+    };
+
+    const handleTipoClick = (tipo) => {
+        setSelectedTipo(tipo);
+    };
+
+    const handleAssuntoChange = (e) => {
+        setAssunto(e.target.value);
+    };
+
     const handleSave = () => {
-        const formattedDate = selectedDate ? selectedDate.toLocaleDateString('pt-BR') : '';
-        const times = availableTimes[selectedDate?.toISOString().split('T')[0]] || [];
-        localStorage.setItem('consultationDetails', JSON.stringify({
-            date: formattedDate,
-            times: times,
-        }));
-        handleClose();
+        if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
+            alert('Por favor, preencha todos os campos antes de salvar.');
+            return;
+        }
+
+        const data = {
+            userId: 'someUserId',
+            data: selectedDate.toISOString().split('T')[0],
+            tipo: selectedTipo,
+            time: selectedTime,
+            assunto: assunto,
+        };
+
+    console.log('Dados enviados:', data); 
+
+    fetch('http://localhost:3001/api/agendamento', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else if (response.status === 404) {
+            throw new Error('Erro ao salvar: 404 - Endpoint não encontrado');
+        } else {
+            throw new Error(`Erro ao salvar: ${response.status}`);
+        }
+    })
+    .then(data => {
+        console.log('Dados recebidos:', data);
+        if (data.error) {
+            console.error('Erro ao salvar:', data.error);
+            alert('Erro ao salvar o agendamento.');
+        } else {
+            console.log('Sucesso:', data);
+            alert('Agendamento criado com sucesso.');
+
+            localStorage.setItem('consultationDetails', JSON.stringify({
+                date: selectedDate.toLocaleDateString('pt-BR'),
+                time: selectedTime,
+                tipo: selectedTipo,
+                assunto: assunto,
+            }));
+
+            handleClose();
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao salvar o agendamento.');
+    });
+};
+
+
+
+    const handleClose = () => {
+        setShow(false);
+    };
+
+    const handleShow = () => {
+        setShow(true);
     };
 
     const renderAvailableTimes = () => {
@@ -140,7 +211,7 @@ function Agendar() {
 
         return times.length > 0 ? (
             times.map(time => (
-                <button key={time} className="time-slot">
+                <button key={time} className="time-slot" onClick={() => handleTimeClick(time)}>
                     {time}
                 </button>
             ))
@@ -168,13 +239,13 @@ function Agendar() {
                 </Col>
                 <Col md={6}>
                     <div className='agenda'>
-                        <h5 className='nomePsico p-3 mb-2'>Agende sua consulta...</h5>
+                        <h5 className='titulosSobre p-3 mb-2'>Agende sua consulta...</h5>
                         <div className='displayCalendario'>
                             <DatePicker onDateSelect={handleDateSelect} />
                         </div>
-                        <button 
-                            className='agendaConsulta' 
-                            onClick={handleShow} 
+                        <button
+                            className='agendaConsulta'
+                            onClick={handleShow}
                             disabled={!selectedDate}
                         >
                             Agendar consulta
@@ -189,20 +260,12 @@ function Agendar() {
                                     <>
                                         <h6>Data selecionada: {selectedDate.toLocaleDateString('pt-BR')}</h6>
                                         <p className='tipoConsulta mb-1'>Tipo de consulta:</p>
-                                        <button>Online</button>
-                                        <button>Presencial</button>
+                                        <button className='botTipo' onClick={() => handleTipoClick('Online')}>Online</button>
+                                        <button className='botTipo' onClick={() => handleTipoClick('Presencial')}>Presencial</button>
                                         <Form>
-                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                <Form.Label>Email</Form.Label>
-                                                <Form.Control
-                                                    type="email"
-                                                    placeholder="nome@example.com"
-                                                    autoFocus
-                                                />
-                                            </Form.Group>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                                 <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
-                                                <Form.Control as="textarea" rows={3} />
+                                                <Form.Control as="textarea" rows={3} value={assunto} onChange={handleAssuntoChange} />
                                             </Form.Group>
                                         </Form>
                                         <h6>Horários disponíveis:</h6>
@@ -214,6 +277,7 @@ function Agendar() {
                                     <p>Por favor, selecione uma data para agendar a consulta.</p>
                                 )}
                             </Modal.Body>
+
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={handleClose}>
                                     Fechar
@@ -226,9 +290,9 @@ function Agendar() {
                     </div>
                 </Col>
                 <Col md={6}>
-                    <div className='biografia'>
-                        <h5 className='nomePsico p-3'>Biografia</h5>
-                        <p className='p-3'>
+                    <div className='biografia p-4'>
+                        <h5 className='titulosSobre p-3 '>Biografia</h5>
+                        <p className='mb-4'>
                             Psicólogo, formado em 1990 pela Universidade Estadual do Paraná. Especialista em Terapia Cognitivo-Comportamental e Psicoterapia de Casal.
                             Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
                         </p>
@@ -236,7 +300,7 @@ function Agendar() {
                 </Col>
                 <Col md={12}>
                     <div className='contato p-4'>
-                        <h5 className='nomePsico p-3'>Contato</h5>
+                        <h5 className='titulosSobre p-3'>Contato</h5>
                         <p>
                             Telefone: (43) 1234-5678 <br />
                             Email: contato@psicologo.com.br

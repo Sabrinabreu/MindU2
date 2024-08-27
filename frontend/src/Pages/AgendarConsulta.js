@@ -27,7 +27,7 @@ function AgendarConsulta() {
       foto: perfilPsicologa,
       title: "Marina Romeo da Silva",
       profissao: "Psicólogo Psicanalista",
-      local: "Cornélio Procópio - PR",
+      local: "São Paulo - SP",
       sessao: "Duração da sessão",
       hora: "2 horas",
       valor: "sessão: R$200,00",
@@ -59,8 +59,8 @@ function AgendarConsulta() {
       profissao: "Psicóloga Clinica",
       local: "São Bernardo - SP",
       sessao: "Duração da sessão",
-      hora: "2 horas",
-      valor: "sessão: R$350,00",
+      hora: "1 hora",
+      valor: "sessão: R$150,00",
       rating: 5,
       tabs: [
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Cris." },
@@ -71,11 +71,11 @@ function AgendarConsulta() {
     {
       foto: perfilPsicanalista,
       title: "Roberto Freitas Dias",
-      profissao: "Psicóloga Clinica",
-      local: "São Bernardo - SP",
+      profissao: "Psicólogo Psicanalista",
+      local: "Salvador - BA",
       sessao: "Duração da sessão",
       hora: "2 horas",
-      valor: "sessão: R$350,00",
+      valor: "sessão: R$100,00",
       rating: 5,
       tabs: [
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Roberto." },
@@ -87,7 +87,7 @@ function AgendarConsulta() {
       foto: perfilEscolar,
       title: "Lidiane Moraes Costa",
       profissao: "Psicóloga Escolar",
-      local: "São Bernardo - SP",
+      local: "Brumadinho - MG",
       sessao: "Duração da sessão",
       hora: "2 horas",
       valor: "sessão: R$350,00",
@@ -128,7 +128,7 @@ function AgendarConsulta() {
         { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Caio." }
       ]
     }
-];
+  ];
 
   const filteredSlidesContent = slidesContent.filter(slide => {
     const term = searchTerm.toLowerCase();
@@ -142,33 +142,33 @@ function AgendarConsulta() {
   const getAvailableTimes = (psicologoIndex) => {
     const times = {
       0: {
-        "2024-08-20": ["09:00", "10:00", "11:00"],
-        "2024-08-21": ["14:00", "15:00"],
-        "2024-08-23": ["17:00", "20:00"],
+        "2024-08-27": ["09:00", "10:00", "11:00"],
+        "2024-08-29": ["14:00", "15:00"],
+        "2024-08-30": ["17:00", "20:00"],
       },
       1: {
-        "2024-08-20": ["08:00", "09:30"],
-        "2024-08-30": ["13:00", "15:00"],
+        "2024-08-28": ["08:00", "09:30"],
+        "2024-08-39": ["13:00", "15:00"],
       },
       3: {
-        "2024-08-22": ["07:30", "10:30", "15:00"],
-        "2024-08-24": ["15:00", "18:00", "20:00"],
+        "2024-08-27": ["07:30", "10:30", "15:00"],
+        "2024-08-30": ["15:00", "18:00", "20:00"],
       },
       4: {
-        "2024-08-20": ["08:00", "09:30"],
-        "2024-08-24": ["07:00", "11:00"],
+        "2024-08-27": ["08:00", "09:30"],
+        "2024-08-29": ["07:00", "11:00"],
       },
       5: {
         "2024-08-30": ["08:00", "09:30"],
         "2024-09-01": ["13:00", "15:00"],
       },
       6: {
-        "2024-08-15": ["08:00", "09:30"],
-        "2024-08-16": ["13:00", "15:00"],
+        "2024-08-30": ["08:00", "09:30"],
+        "2024-08-31": ["13:00", "15:00"],
       },
       7: {
-        "2024-08-15": ["08:00", "09:30"],
-        "2024-08-16": ["13:00", "15:00"],
+        "2024-08-30": ["08:00", "09:30"],
+        "2024-09-01": ["13:00", "15:00"],
       },
     };
 
@@ -190,7 +190,7 @@ function AgendarConsulta() {
         {day}
       </div>
     ));
-
+    
     const days = [];
     for (let i = 0; i < 7; i++) {
       const day = new Date(startOfWeek);
@@ -219,7 +219,6 @@ function AgendarConsulta() {
     }
 
     return (
-     
       <div className="calendar-grid">
         <div className="calendar-day-headers">
           {dayHeaders}
@@ -238,7 +237,7 @@ function AgendarConsulta() {
         ...prev[psicologoIndex],
         [selectedDate.toDateString()]: {
           ...prev[psicologoIndex]?.[selectedDate.toDateString()],
-          [time]: !prev[psicologoIndex]?.[selectedDate.toDateString()]?.[time] // Toggle selected state
+          [time]: !prev[psicologoIndex]?.[selectedDate.toDateString()]?.[time] 
         }
       }
     }));
@@ -246,7 +245,7 @@ function AgendarConsulta() {
 
   return (
     <>
-    <BAPO/>
+      <BAPO />
       <div className='fundoFiltro'>
         <div className="d-flex mb-4 align-items-center">
           <Form.Control
@@ -368,10 +367,10 @@ function AgendarConsulta() {
                                       <button className='semhora'>!!! Sem horários disponíveis.</button>
                                     )}
                                   </div>
-
                                   <Link to="/saibamais" className='agendarBot mt-3'>
-                                Agendar consulta
-                              </Link>                                </div>
+                                    Agendar consulta
+                                  </Link>
+                                </div>
                               </div>
                             ) : (
                               <p>{tab.content}</p>
@@ -394,7 +393,7 @@ function AgendarConsulta() {
           <p>Nenhum psicólogo encontrado.</p>
         )}
       </Container>
-      </>
+    </>
   );
 }
 

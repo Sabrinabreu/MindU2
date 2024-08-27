@@ -184,3 +184,135 @@ body {
     font-size: 3rem;
     font-weight: 100;
 }
+
+.cardPerfil {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm>.col, .gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+.h-100 {
+    height: 100%!important;
+}
+.shadow-none {
+    box-shadow: none!important;
+}
+
+/* CALENDARIO */
+.calendarioPerfil  {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #fff;
+    font-size: 20px;
+}
+
+.calendario-topo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.calendario-mes {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #F9B0C3;
+}
+
+.calendar-title {
+    font-size: 18px;
+    margin: 0 20px;
+}
+
+.calendar-dias {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    font-size: 17px;
+}
+
+.calendar-day,
+.calendar-cell {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.calendario-dia {
+    font-weight: bold;
+    background: #f0f0f0;
+}
+
+.calendar-cell {
+    height: 70px;
+    vertical-align: top;
+}
+
+.consulta-bloquinho {
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* EDITAR */
+.editarBot{
+    background-color: #F9B0C3;
+    border: none;
+}
+
+.editarBot:hover{
+    background-color: #efc0cd;
+}
+
+.salvarBot{
+    background-color: #F9B0C3;
+    border: none;
+}
+
+.salvarBot:hover{
+    background-color: #e8b2c0;
+    border: none;
+}
+
+.cancelarBot{
+    background-color: #cdcbf5;
+    border: none;
+    margin-left: 3px;
+}
+
+.cancelarBot:hover{
+    background-color: #dfddff;
+    border: none;
+    margin-left: 3px;
+}
