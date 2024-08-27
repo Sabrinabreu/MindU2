@@ -9,17 +9,17 @@
 
 .footer-content li {
     text-decoration: none !important;
-
 }
 
 .colortwo {
-    background-color: rgb(202, 202, 202);
+    background-color: #7766c6;
     max-width: 100%;
+    color: white;
 }
 
 .cnes {
     font-size: 20px;
-    margin-bottom: -20px;
+    margin-bottom: -30px;
 }
 
 .direitos {
@@ -28,6 +28,7 @@
 
 .info {
     font-size: 15px;
+    text-align: start !important;
 }
 
 .info a {
@@ -38,19 +39,15 @@
 
 .info p:hover {
     transform: scale(1.1);
-    /* Aumenta o tamanho do texto em 20% */
     transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .redes {
     margin-top: 10px;
-    /* Espaçamento entre o logo e os ícones */
-
 }
 
 .redes img:hover {
     transform: scale(1.2);
-    /* Aumenta o tamanho do texto em 20% */
     transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
     cursor: pointer;
 }
@@ -59,29 +56,11 @@
 .redesdois {
     display: flex;
     justify-content: center;
-    /* Centraliza os ícones horizontalmente */
     gap: 10px;
-    /* Espaçamento entre os ícones */
 }
 
 
-.face {
-    margin: 3%;
-}
-
-.insta {
-    margin: 3%;
-}
-
-.x {
-    margin: 3%;
-}
-
-.link {
-    margin: 3%;
-}
-
-.yt {
+.redesociais {
     margin: 3%;
 }
 
@@ -97,7 +76,6 @@
 
     .redes {
         gap: 10px;
-        /* Espaçamento entre grupos de ícones */
         display: flex;
         margin-left: 14%;
     }
@@ -109,7 +87,6 @@
 
     .redes img {
         width: 40px;
-        /* Ajusta o tamanho dos ícones para caber melhor na tela pequena */
     }
 
     .logo {
@@ -120,4 +97,106 @@
         height: 650px;
     }
 
+}
+
+
+
+
+
+
+
+
+
+body {
+    font-family: 'Signika', sans-serif;
+ }
+ .bg-grey {
+    background: #292929;
+ }
+ .logo-footer {
+    margin-bottom: 40px;
+ }
+ footer {
+        color: grey;
+ }
+ footer p, a {
+font-size: 12px;
+font-family: 'Roboto', sans-serif;
+}
+footer h6 {
+font-family: 'Playfair Display', serif;
+margin-bottom: 40px;
+position: relative;
+}
+footer h6:after {
+position: absolute;
+content: "";
+background: grey;
+width: 12%;
+height: 1px;
+left: 0;
+bottom: -20px;
+}
+ .btn-footer {
+             color: grey;
+          
+            text-decoration: none;
+            border: 1px solid;
+            border-radius: 43px;
+            font-size: 13px;
+            padding: 7px 30px;
+            line-height: 47px;
+ }
+ .btn-footer:hover {
+            
+            text-decoration: none;
+           
+ }
+.form-footer input[type="text"] {
+    border: none;
+border-radius: 16px 0 0 16px;
+outline: none;
+padding-left: 10px;
+
+}
+::placeholder {
+font-size: 10px;
+padding-left: 10px;
+font-style: italic;
+}
+.form-footer input[type="button"] {
+border: none;
+background:#232323;
+    margin-left: -5px;
+color: #fff;
+outline: none;
+border-radius: 0 16px 16px 0;
+padding: 2px 12px;
+}
+ .social .fa {
+color: grey;
+font-size: 22px;
+padding: 10px 15px;
+background: #3c3c3c;
+}
+ footer ul li {
+list-style: none;
+display: block;
+}
+footer ul  {
+padding-left: 0;
+}
+footer ul  li a{
+text-decoration: none;
+color: grey;
+text-decoration:none;
+}
+a:hover {
+text-decoration: none;
+color: #f5f5f5 !important;
+
+}
+.logo-part {
+border-right: 1px solid grey;
+height: 100%;
 }
