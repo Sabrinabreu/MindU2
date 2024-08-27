@@ -7,6 +7,7 @@ import Insta from "../img/instaicon.svg";
 import X from "../img/tticon.svg";
 import Link from "../img/linkedinicon.svg";
 import Yt from "../img/youtubeicon.svg";
+import Logo from "../img/logo.png";
 
 const Footer = () => {
     return (
@@ -14,7 +15,7 @@ const Footer = () => {
             <Container className="footer-content">
                 <Row>
                     <Col xl={3} sm={12} className='imgs'>
-                        <div>logo</div>
+                        <div><img src={Logo} alt="" width={210} className='logo'/></div>
                         <hr></hr>
                         <div className='redes'>
                             <div className='redesum'>

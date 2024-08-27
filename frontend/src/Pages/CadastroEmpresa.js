@@ -1,5 +1,5 @@
 // CadastroEmpresa.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CadastroForm from "../Components/CadastroFormEmpresa";
 import BAPO from "../Components/WidgetBAPO";
 import "../css/CadastroEmpresa.css";
@@ -8,6 +8,37 @@ import bannerSM from '../img/BannerSM.png';
 import { Row, Col } from "react-bootstrap";
 
 const Cadastro = () => {
+  const sectionsConfig = [
+    { id: 'section1', delay: '0.2s' },
+    { id: 'section2', delay: '0.2s' },
+    { id: 'section3', delay: '0.4s' },
+    { id: 'section4', delay: '0.4s' },
+    { id: 'section5', delay: '0.8s' },
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      sectionsConfig.forEach(({ id, delay }) => {
+        const section = document.getElementById(id);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            section.classList.add('visible');
+            section.style.transitionDelay = delay;
+          } else {
+            section.classList.remove('visible');
+            section.style.transitionDelay = '0s'; // Remove o atraso quando a seção não estiver visível
+          }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Verifica visibilidade ao carregar
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const [salario, setSalario] = useState('');
   const [numeroColaboradores, setNumeroColaboradores] = useState('');
   const [faixa, setFaixa] = useState('');
@@ -109,92 +140,96 @@ const Cadastro = () => {
 
   return (
     <>
-      <BAPO/>
+      <BAPO />
       <div>
-        <div className="fundoInfo">
-          <Row className="justify-content-center g-4 p-3">
-            <Col md={6} sm={12} className="textoInfo">
-              <h1 className="mb-4">Cuidar da saúde da sua equipe te ajuda a economizar!</h1>
-              <p>Investir na saúde mental dos seus colaboradores não é apenas uma ação de cuidado, mas uma estratégia inteligente para o sucesso da sua empresa. Com nosso plano de psicologia especializado, você proporciona um ambiente mais saudável e produtivo, <b>promovendo maior satisfação e engajamento no trabalho. </b>
-                Nosso time de psicólogos é dedicado a entender as necessidades específicas da sua empresa, oferecendo suporte contínuo para promover o bem-estar emocional e mental dos seus colaboradores.
-                <b> Invista no futuro da sua empresa com um ambiente mais saudável e eficiente.</b></p>
+        <div className="scroll-section" id="section1">
+          <div className="fundoInfo">
+            <Row className="justify-content-center g-4 p-3">
+              <Col md={6} sm={12} className="textoInfo">
+                <h1 className="mb-4">Cuidar da saúde da sua equipe te ajuda a economizar!</h1>
+                <p>Investir na saúde mental dos seus colaboradores não é apenas uma ação de cuidado, mas uma estratégia inteligente para o sucesso da sua empresa. Com nosso plano de psicologia especializado, você proporciona um ambiente mais saudável e produtivo, <b>promovendo maior satisfação e engajamento no trabalho. </b>
+                  Nosso time de psicólogos é dedicado a entender as necessidades específicas da sua empresa, oferecendo suporte contínuo para promover o bem-estar emocional e mental dos seus colaboradores.
+                  <b> Invista no futuro da sua empresa com um ambiente mais saudável e eficiente.</b></p>
 
-              <a href="#header"><button className="botaoBanner">INVESTIR NO BEM ESTAR</button></a>
-            </Col>
-            <Col className="centralizar" md={5} sm={12}>
-              <img className="fotoInfo" src={bannerSM} alt="Banner" />
-            </Col>
-          </Row>
-        </div>
-
-        <div className="fundoColorido">
-          <div className="fundoForms centralizar">
-            <h2 className="my-4 textRoxo centralizar">Calcule os custos de saúde mental na sua empresa</h2>
-
-            {showResult ? (
-              <Col md={6} sm={12} className="centralizar">
-                <div className="bloqueio-divisoria" id="result">
-                  <div className="resultado-container">
-                    <div className="resultado-esquerdo">
-                      <h4 className="mb-3">Resultado para</h4>
-                      <p>{result.numColaboradores} colaboradores</p>
-                      <p>Salário: {formatarMoeda(parseFloat(result.salario))}</p>
-                      <p>{faixa} anos</p>
-                      <button type="button" className="mt-3 botaoBanner botaoBranco" onClick={resetForm}>REFAZER Cálculo</button>
-                    </div>
-                    <div className="resultado-direito">
-                      <p>Atualmente, o custo estimado com saúde mental para sua equipe é de <span>{formatarMoeda(result.custoTotalInicial)}</span> por ano.</p>
-                      <p>Com a MindU, você tem a oportunidade de diminuir esse custo em até <span>{result.percentualReducao}%</span> o que representa uma economia de <span>{formatarMoeda(result.economiaPotencial)}</span>.</p>
-                    </div>
-                  </div>
-                </div>
+                <a href="#header"><button className="botaoBanner">INVESTIR NO BEM ESTAR</button></a>
               </Col>
-            ) : (
+              <Col className="centralizar" md={5} sm={12}>
+                <img className="fotoInfo" src={bannerSM} alt="Banner" />
+              </Col>
+            </Row>
+          </div></div>
 
+        <div className="scroll-section" id="section2">
+          <div className="fundoColorido">
+            <div className="fundoForms centralizar">
+              <h2 className="my-4 textRoxo centralizar">Calcule os custos de saúde mental na sua empresa</h2>
 
-              <form id="calcForm">
-                <Col md={5} sm={12} className="textoCalc">
-                  <h1 htmlFor="colaboradores" className="text-start titCalc">Quantos colaboradores você possui?</h1>
-                  <input type="number" id="colaboradores" placeholder="Digite a quantidade de funcionários..." min={1} name="text" className={`inputgeral ${errors.numeroColaboradores ? 'input-erro' : ''}`} value={numeroColaboradores} onChange={(e) => setNumeroColaboradores(e.target.value)} />
-                  {errors.numeroColaboradores && <div className="mensagem-erro">{errors.numeroColaboradores}</div>}
-
-                  <h1 htmlFor="salario" className="mt-4 text-start titCalc">Qual o salário médio mensal?</h1>
-                  <input type="number" id="salario" placeholder="Ex. 2500" name="text" min={1} className={`inputgeral ${errors.salario ? 'input-erro' : ''}`} value={salario} onChange={(e) => setSalario(e.target.value)} />
-                  {errors.salario && <div className="mensagem-erro">{errors.salario}</div>}
-
-                  <h1 htmlFor="faixa" className="my-4 text-start titCalc">Qual a idade média dos colaboradores?</h1>
-
-                  <div>
-                    <label className="radio-button">
-                      <input type="radio" name="faixa" value="20-30" checked={faixa === '20-30'} onChange={(e) => setFaixa(e.target.value)} />
-                      <div className="circulo-radio"></div>
-                      <span className="radio-label">Entre 20 e 30 anos</span>
-                    </label>
-                    <label className="radio-button">
-                      <input type="radio" name="faixa" value="30-40" checked={faixa === '30-40'} onChange={(e) => setFaixa(e.target.value)} />
-                      <div className="circulo-radio"></div>
-                      <span className="radio-label">Entre 30 e 40 anos</span>
-                    </label>
-                    <label className="radio-button">
-                      <input type="radio" name="faixa" value="40-50" checked={faixa === '40-50'} onChange={(e) => setFaixa(e.target.value)} />
-                      <div className="circulo-radio"></div>
-                      <span className="radio-label">Entre 40 e 50 anos</span>
-                    </label>
+              {showResult ? (
+                <Col md={6} sm={12} className="centralizar">
+                  <div className="bloqueio-divisoria" id="result">
+                    <div className="resultado-container">
+                      <div className="resultado-esquerdo">
+                        <h4 className="mb-3">Resultado para</h4>
+                        <p>{result.numColaboradores} colaboradores</p>
+                        <p>Salário: {formatarMoeda(parseFloat(result.salario))}</p>
+                        <p>{faixa} anos</p>
+                        <button type="button" className="mt-3 botaoBanner botaoBranco" onClick={resetForm}>REFAZER Cálculo</button>
+                      </div>
+                      <div className="resultado-direito">
+                        <p>Atualmente, o custo estimado com saúde mental para sua equipe é de <span>{formatarMoeda(result.custoTotalInicial)}</span> por ano.</p>
+                        <p>Com a MindU, você tem a oportunidade de diminuir esse custo em até <span>{result.percentualReducao}%</span> o que representa uma economia de <span>{formatarMoeda(result.economiaPotencial)}</span>.</p>
+                      </div>
+                    </div>
                   </div>
-                  {errors.faixa && <div className="mensagem-erro">{errors.faixa}</div>}
-
-                  <button type="button" className="botaoBanner botaoBranco" onClick={calcularCustos}>CALCULAR CUSTO</button>
                 </Col>
-              </form>
-            )}
+              ) : (
+
+
+                <form id="calcForm">
+                  <Col md={5} sm={12} className="textoCalc">
+                    <h1 htmlFor="colaboradores" className="text-start titCalc">Quantos colaboradores você possui?</h1>
+                    <input type="number" id="colaboradores" placeholder="Digite a quantidade de funcionários..." min={1} name="text" className={`inputgeral ${errors.numeroColaboradores ? 'input-erro' : ''}`} value={numeroColaboradores} onChange={(e) => setNumeroColaboradores(e.target.value)} />
+                    {errors.numeroColaboradores && <div className="mensagem-erro">{errors.numeroColaboradores}</div>}
+
+                    <h1 htmlFor="salario" className="mt-4 text-start titCalc">Qual o salário médio mensal?</h1>
+                    <input type="number" id="salario" placeholder="Ex. 2500" name="text" min={1} className={`inputgeral ${errors.salario ? 'input-erro' : ''}`} value={salario} onChange={(e) => setSalario(e.target.value)} />
+                    {errors.salario && <div className="mensagem-erro">{errors.salario}</div>}
+
+                    <h1 htmlFor="faixa" className="my-4 text-start titCalc">Qual a idade média dos colaboradores?</h1>
+
+                    <div>
+                      <label className="radio-button">
+                        <input type="radio" name="faixa" value="20-30" checked={faixa === '20-30'} onChange={(e) => setFaixa(e.target.value)} />
+                        <div className="circulo-radio"></div>
+                        <span className="radio-label">Entre 20 e 30 anos</span>
+                      </label>
+                      <label className="radio-button">
+                        <input type="radio" name="faixa" value="30-40" checked={faixa === '30-40'} onChange={(e) => setFaixa(e.target.value)} />
+                        <div className="circulo-radio"></div>
+                        <span className="radio-label">Entre 30 e 40 anos</span>
+                      </label>
+                      <label className="radio-button">
+                        <input type="radio" name="faixa" value="40-50" checked={faixa === '40-50'} onChange={(e) => setFaixa(e.target.value)} />
+                        <div className="circulo-radio"></div>
+                        <span className="radio-label">Entre 40 e 50 anos</span>
+                      </label>
+                    </div>
+                    {errors.faixa && <div className="mensagem-erro">{errors.faixa}</div>}
+
+                    <button type="button" className="botaoBanner botaoBranco" onClick={calcularCustos}>CALCULAR CUSTO</button>
+                  </Col>
+                </form>
+              )}
+            </div>
+
+            <div className="scroll-section" id="section3"> <div id="header" className="fundoForms centralizar">
+              <Col md={9} sm={12} className="blocoForms">
+                <h2 className="m-4 centralizar">Cadastrar sua empresa</h2>
+                <CadastroForm />
+              </Col>
+            </div></div>
           </div>
 
-          <div id="header" className="fundoForms centralizar">
-            <Col md={9} sm={12} className="blocoForms">
-              <h2 className="m-4 centralizar">Cadastrar sua empresa</h2>
-              <CadastroForm />
-            </Col>
-          </div>
         </div>
       </div>
     </>
