@@ -6,7 +6,8 @@ body {
 }
 
 .titleporque {
-    margin-top: -100px !important;
+    margin-top: -30px !important;
+    margin-bottom: 40px !important;
 }
 
 .centralizar {
@@ -16,7 +17,7 @@ body {
 
 .fundoFormsPsi {
     margin-top: 4% !important;
-    margin-bottom: 14% !important;
+    margin-bottom: 10% !important;
     padding: 20px 0px;
     overflow: hidden;
     margin-left: 60px !important;
@@ -24,9 +25,10 @@ body {
 
 
 .blocoFormsPsi {
+    margin-top: 8% !important;
     padding: 1.6rem !important;
     border-radius: 15px;
-    background-color: #ffe18776;
+    background-color: #ffe1874d;
     border: 2px solid #fab0c3;
     color: #46467a;
     font-size: 17px;
@@ -81,6 +83,25 @@ body {
     letter-spacing: 1px;
     font-weight: 500;
     color: #000;
+    border-radius: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease 0s;
+    cursor: pointer;
+    outline: none;
+    height: auto !important;
+}
+
+[data-theme='dark'] .cardcadastropsi {
+    text-align: center !important;
+    padding: 18px 18px 2px 18px !important;
+    flex: auto !important;
+    width: auto !important;
+    margin: 6% !important;
+    padding: 1em 3em;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: #ffffff;
     border-radius: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease 0s;
