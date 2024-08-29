@@ -15,16 +15,15 @@ const Footer = () => {
             <Container className="footer-content">
                 <Row>
                     <Col xl={3} sm={12} className='imgs'>
-                        <div><img src={Logo} alt="" width={210} className='logo'/></div>
+                        <div><img src={Logo} alt="Logo da empresa." width={210} className='logo'/></div>
                         <hr></hr>
                         <div className='redes'>
                             <div className='redesum'>
-                                <img src={Face} width={30} alt="" className='face'/>
-                                <img src={Insta} width={30} alt="" className='insta'/>
-                                <img src={X} width={30} alt="" className='x'/>
-                          
-                                <img src={Link} width={30} alt="" className='link'/>
-                                <img src={Yt} width={40} alt="" className='yt'/>
+                                <img src={Face} width={30} alt="icone da rede social Facebook" className='redesociais'/>
+                                <img src={Insta} width={30} alt="icone da rede social Instagram" className='redesociais'/>
+                                <img src={X} width={30} alt="icone da rede social X (Twitter)" className='redesociais'/>          
+                                <img src={Link} width={30} alt="icone da rede social Likedin" className='redesociais'/>
+                                <img src={Yt} width={40} alt="icone da rede social Youtube" className='redesociais'/>
                             </div>
 
                         </div>
@@ -46,22 +45,17 @@ const Footer = () => {
                         </div>
                     </Col>
                     <Col className='cert text-center'>
-                        <img src={Certificado} width={110} alt="" />
+                        <img src={Certificado} width={110} alt="Imagem de certificado de boa empresa para trabalhar." />
                     </Col>
                 </Row>
             </Container>
             <Container className='colortwo'>
-                <Row>
                     <Col className='cnes text-center'>
                         CNES 9383783
                     </Col>
-                </Row>
-                <hr></hr>
-                <Row>
                     <Col className='direitos text-center'>
                         <p>&copy; {new Date().getFullYear()} MindU - Todos os direitos reservados.</p>
                     </Col>
-                </Row>
             </Container>
         </footer>
     );

@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
 .perfilPsico {
     background-color: #7866C663;
     position: fixed;
@@ -8,7 +10,7 @@
     height: 380px;
     width: 450px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    margin-top: 100px;
+    margin-top: 8px;
 }
 
 .fundoPsico {
@@ -67,7 +69,7 @@
     width: 650px;
     margin-left: -90px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 100px;
+    margin-top: 8px;
 }
 
 .agendaConsulta {
@@ -77,7 +79,7 @@
     letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;
-    background-color: #55459b63;
+    background-color: #c373dc63;
     border: 1.7px solid #252525;
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -96,18 +98,14 @@
     transform: translateY(-1px);
 }
 
-.salvar{
-    background-color: #d886d7;
-    border-color: #704170;
-}
-
-.salvar:hover{
-    background-color: #c799c5;
-}
 
 .nomePsico {
     color: #704170;
     margin-bottom: -10px;
+}
+
+.titulosSobre{
+    color: #de6988;
 }
 
 .infoPsico {
@@ -135,12 +133,27 @@
 }
 
 /* MODAL */
-.tipo{
-    background-color: #d88dd8;
-    color: rgb(255, 255, 255);
-    border: none;
-    margin-left: 1px;
+
+.botTipo{
+    background-color: #F9B0C3;
+    border-color: rgb(211, 128, 141);
+    margin-left: 4px;
+    padding: 5px 10px;
     border-radius: 8px;
+}
+
+.botTipo:hover{
+    background-color: pink;
+}
+
+.salvar{
+    background-color: #7766C6;
+    border-color: #4828d3;
+}
+
+.salvar:hover{
+    background-color: #9d8bea;
+    border-color: #ad28ad;
 }
 
 /* CALENDARIO */
@@ -201,6 +214,7 @@
     justify-content: center;
     border: 0;
     background-color: #FFF;
+    color: #d88dd8;
     border-radius: 12px;
     width: 50px;
     height: 50px;
@@ -261,29 +275,42 @@
     border-radius: 100%;
 }
 
-/* CALENDARIO */
 .date.inactive {
     color: rgb(177, 177, 177);
     cursor: not-allowed;
     pointer-events: none;
 }
 
+/* EDITAR */
+.password-container {
+    display: flex;
+    align-items: center;
+}
+
+.password-container .form-control {
+    flex: 1;
+}
+
+.password-container .btn {
+    margin-left: 10px;
+}
+
 
 @media (max-width: 768px) {
     .perfilPsico {
-        width: 95%;
+        width: 100%;
         position: relative;
         height: 250px;
     }
 
     .agenda {
-        width: 375px;
+        width: 100%;
         margin-left: 5px;
 
     }
 
     .psicologo {
-        width: 95%;
+        width: 100%;
         max-width: 130px;
     }
 
@@ -293,12 +320,12 @@
 
     .biografia {
         margin-right: 100%;
-        width: 375px;
+        width: 100%;
     }
 
     .contato {
         margin-right: 100%;
-        width: 375px;
+        width: 100%;
     }
 
     .displayCalendario {
@@ -307,6 +334,10 @@
 
     .agendaConsulta {
         margin-left: 13%;
+    }
+
+    .date{
+       width:  100%;
     }
 }
 
@@ -342,5 +373,9 @@
     .displayCalendario {
         margin-right: 1%;
         margin-left: 20%;
+    }
+
+    .displayCalendario {
+        margin-left: 0;
     }
 }

@@ -1,3 +1,5 @@
+/* Estilos Gerais */
+
 .nav-list {
     list-style: none;
     padding: 0;
@@ -8,7 +10,6 @@
 .nav-item {
     margin-right: 15px;
     /* Ajuste o espaço entre os itens conforme necessário */
-
 }
 
 .nav-item a {
@@ -16,22 +17,120 @@
     /* Cor do texto do link */
     text-decoration: none;
     /* Remove o sublinhado dos links */
-
 }
-.custom-navbar {
-    background-color: #7766C6; /* Cor de fundo personalizada */
-  }
-  
-  .custom-navbar .navbar-nav .nav-link {
-    color: #ffffff; /* Cor do texto dos links */
-  }
-  
-  .custom-navbar .navbar-nav .nav-link:hover {
-    color: #cdcbcb; /* Cor do texto dos links ao passar o mouse */
-    text-decoration: underline;
-  }
 
-  .custom-navbar .navbar-nav .nav-link.active {
-    color: #F9B0C3 !important; /* Cor do texto dos links ativos */
-    font-weight: bold; /* Deixe o link ativo em negrito para destaque */
-  }
+/* Estilos para o modo claro */
+.custom-navbar {
+    background-color: #7766C6 !important;
+    /* Cor de fundo personalizada */
+    color: #ffffff;
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    color: #ffffff;
+    /* Cor do texto dos links */
+}
+
+.custom-navbar .navbar-nav .nav-link:hover {
+    color: #cdcbcb;
+    /* Cor do texto dos links ao passar o mouse */
+    text-decoration: underline;
+}
+
+.custom-navbar .navbar-nav .nav-link.active {
+    color: #F9B0C3 !important;
+    /* Cor do texto dos links ativos */
+    font-weight: bold;
+    /* Deixe o link ativo em negrito para destaque */
+}
+
+.custom-navbar {
+    background-color: #f8f9fa;
+    color: #000000;
+}
+
+/* Switch Styles */
+.switch {
+    font-size: 17px;
+    position: relative;
+    display: inline-block;
+    width: 3.5em;
+    height: 2em;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    --background: #28096b;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--background);
+    transition: .5s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 1.4em;
+    width: 1.4em;
+    border-radius: 50%;
+    left: 10%;
+    bottom: 15%;
+    box-shadow: inset 8px -4px 0px 0px #fbd896;
+    background: var(--background);
+    transition: .5s;
+}
+
+input:checked+.slider {
+    background-color: #522ba7;
+}
+
+input:checked+.slider:before {
+    transform: translateX(100%);
+    box-shadow: inset 15px -4px 0px 15px #fbd896;
+}
+
+.button-toggle {
+    margin-right: 20px !important;
+}
+
+[data-theme='dark'] .custom-navbar {
+    background-color: #28096b !important;
+    /* Cor de fundo da Navbar no modo escuro */
+}
+
+[data-theme='dark'] .custom-navbar .navbar-nav .nav-link {
+    color: #f0f0f0;
+    /* Cor do texto dos links no modo escuro */
+}
+
+[data-theme='dark'] .custom-navbar .navbar-nav .nav-link:hover {
+    color: #e0e0e0;
+    /* Cor do texto dos links ao passar o mouse no modo escuro */
+}
+
+[data-theme='dark'] .custom-navbar .navbar-nav .nav-link.active {
+    color: #ff9f9f !important;
+    /* Cor do texto dos links ativos no modo escuro */
+}
+
+[data-theme='dark'] .slider {
+    --background: #aaa;
+    background-color: var(--background);
+}
+
+[data-theme='dark'] .slider:before {
+    box-shadow: inset 8px -4px 0px 0px #46467a;
+    background: var(--background);
+}
