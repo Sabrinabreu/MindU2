@@ -6,7 +6,7 @@ import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
 import { Col, Container, Row } from 'react-bootstrap';
 import Psicologos from '../img/mindu psicologos.png'
-import PsicologosImg1 from '../img/psico1.png'
+import PsicologosImg1 from '../img/psico.png'
 import { useEffect, useState } from 'react';
 
 const sectionsConfig = [
@@ -61,7 +61,7 @@ function CadastroPsicólogos() {
             <Row>
                 <div className="scroll-section" id="section1">
                     <div id="header" className="fundoFormsPsi d-flex">
-                        <img width={600} height={400} src={PsicologosImg1} />
+                        <img width={610} height={350} src={PsicologosImg1} />
                         <Col md='4' className='blococadastropsi'>
                             <h6>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? </h6>
                             <div className='cardcadastropsi'>
@@ -78,7 +78,7 @@ function CadastroPsicólogos() {
                     <div className='d-flex conteinerporque'>
 
                         <div className="scroll-section" id="section3">
-                            <img className='imgporque' src={Psicologos} width={600} height={400} alt="Psicólogos" />
+                            <img className='imgporque' src={Psicologos} width={600} height={450} alt="Psicólogos" />
                         </div>
 
                         <Col md='4'>

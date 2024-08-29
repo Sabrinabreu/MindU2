@@ -129,7 +129,7 @@ const Contato = () => {
           <Col md={10} sm={12}>
           <div className="card-clinicas my-5">
           <Row className="justify-content-center g-4 p-3">
-              <Col md={5} sm={12} className="textoInfo text-start">
+              <Col md={5} sm={12} className="textoClinica text-start">
                   <h2 className="mb-4 tit-Cont">{conteudo.nome}</h2>
                       <h4>Endereço</h4>
                       <p>{conteudo.endereco}</p>
