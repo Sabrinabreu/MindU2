@@ -144,23 +144,21 @@ body {
   transform: translateY(-7px);
 }
 
-.botaoBanner:active {
-  transform: translateY(-1px);
-}
-
-[data-theme='dark'] .botaoBanner {
-  color: #ffffff !important;
-  background-color: transparent !important;
-  border: 1.7px solid #e0dffd !important;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1) !important;
-}
-
-[data-theme='dark'] .botaoCALC {
-  color: #000000;
-  background-color: #e0dffdaf;
-  border: 1.7px solid #e0dffd;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1) !important;
-}
+      .botaoBanner:active {
+        transform: translateY(-1px);
+      }
+      [data-theme='dark'] .botaoBanner {
+        color: #ffffff !important;
+        background-color: transparent !important;
+        border: 1.7px solid #e0dffd !important;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1) !important;
+    }
+      [data-theme='dark'] .botaoCALC {
+        color: #000000;
+        background-color: #e0dffdaf;
+        border: 1.7px solid #e0dffd;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1) !important;
+    }
 
 
 .inputgeral {

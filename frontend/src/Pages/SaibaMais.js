@@ -120,6 +120,7 @@ const Agendar = () => {
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
 
+
     const handleDateSelect = (date) => {
         setSelectedDate(date);
     };
@@ -150,50 +151,48 @@ const Agendar = () => {
             assunto: assunto,
         };
 
-    console.log('Dados enviados:', data); 
+        console.log('Dados enviados:', data); 
 
-    fetch('http://localhost:3001/api/agendamento', { 
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else if (response.status === 404) {
-            throw new Error('Erro ao salvar: 404 - Endpoint não encontrado');
-        } else {
-            throw new Error(`Erro ao salvar: ${response.status}`);
-        }
-    })
-    .then(data => {
-        console.log('Dados recebidos:', data);
-        if (data.error) {
-            console.error('Erro ao salvar:', data.error);
+        fetch('http://localhost:3001/api/agendamento', { 
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else if (response.status === 404) {
+                throw new Error('Erro ao salvar: 404 - Endpoint não encontrado');
+            } else {
+                throw new Error(`Erro ao salvar: ${response.status}`);
+            }
+        })
+        .then(data => {
+            console.log('Dados recebidos:', data);
+            if (data.error) {
+                console.error('Erro ao salvar:', data.error);
+                alert('Erro ao salvar o agendamento.');
+            } else {
+                console.log('Sucesso:', data);
+                alert('Agendamento criado com sucesso.');
+
+                localStorage.setItem('consultationDetails', JSON.stringify({
+                    date: selectedDate.toLocaleDateString('pt-BR'),
+                    time: selectedTime,
+                    tipo: selectedTipo,
+                    assunto: assunto,
+                }));
+
+                handleClose();
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
             alert('Erro ao salvar o agendamento.');
-        } else {
-            console.log('Sucesso:', data);
-            alert('Agendamento criado com sucesso.');
-
-            localStorage.setItem('consultationDetails', JSON.stringify({
-                date: selectedDate.toLocaleDateString('pt-BR'),
-                time: selectedTime,
-                tipo: selectedTipo,
-                assunto: assunto,
-            }));
-
-            handleClose();
-        }
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-        alert('Erro ao salvar o agendamento.');
-    });
-};
-
-
+        });
+    };
 
     const handleClose = () => {
         setShow(false);
@@ -253,7 +252,7 @@ const Agendar = () => {
 
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Agendar Consulta</Modal.Title>
+                                <Modal.Title className='agendando'>Agendar Consulta</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 {selectedDate ? (
@@ -264,7 +263,7 @@ const Agendar = () => {
                                         <button className='botTipo' onClick={() => handleTipoClick('Presencial')}>Presencial</button>
                                         <Form>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                                <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
+                                                <Form.Label className=''>Assuntos que deseja tratar durante a sessão:</Form.Label>
                                                 <Form.Control as="textarea" rows={3} value={assunto} onChange={handleAssuntoChange} />
                                             </Form.Group>
                                         </Form>

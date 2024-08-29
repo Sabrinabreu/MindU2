@@ -1,14 +1,9 @@
-
-import { BrowserRouter as Router } from "react-router-dom";
-//Bootstrap CSS
+import AuthProvider from "./provider/AuthProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-//Importar complementos aqui
 import Rotas from "./Routes";
-
-//Importar componentes aqui
 import Navegacao from "./Components/Navegacao";
 import Rodape from './Components/Rodape';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { React, useEffect, useState } from "react";
 
 const App = () => {
@@ -35,13 +30,13 @@ const App = () => {
   };
 
   return (
-    <>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Navegacao isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         <Rotas />
         <Rodape />
-      </Router>
-    </>
+      </AuthProvider>
+    </Router>
   );
 };
 

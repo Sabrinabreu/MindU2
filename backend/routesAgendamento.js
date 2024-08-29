@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
   }
 
   connection.query(
-    'INSERT INTO agendamento (userId, data, time, tipo, assunto) VALUES (?, ?, ?, ?, ?)',
+    'INSERT INTO agendamentos (userId, data, time, tipo, assunto) VALUES (?, ?, ?, ?, ?)', // Verifique se o nome da tabela é agendamentos
     [userId, data, time, tipo, assunto],
     (err, result) => {
       if (err) {
@@ -28,8 +28,6 @@ router.post('/', (req, res) => {
   );
 });
 
-
-// Rota para obter todos os agendamentos
 router.get('/agendamentos', (req, res) => {
   connection.query('SELECT * FROM agendamentos', (err, results) => {
     if (err) {

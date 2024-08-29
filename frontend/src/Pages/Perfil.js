@@ -2,35 +2,44 @@ import React, { useEffect, useState } from 'react';
 import "../css/Perfil.css";
 import perfilPsicologo from '../img/imgPerfil.jpg';
 import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
-import { Eye } from 'lucide-react';
-import { EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 function Perfil() {
     const [consultationDetails, setConsultationDetails] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [isEditing, setIsEditing] = useState(false);
     const [profileData, setProfileData] = useState({
-        fullName: 'user@123',
+        login: 'user@login',
+        nome: 'nomeuser',
         email: 'user@email',
-        password: 'senhaaa'/*mudar isso dps*/
+        senha: 'senhaaa',
     });
 
+    const [profileImage, setProfileImage] = useState(perfilPsicologo);
+    const [showPassword, setShowPassword] = useState(false);
+
     useEffect(() => {
-        const details = localStorage.getItem('consultationDetails');
-        if (details) {
+        // Função para buscar os detalhes das consultas
+        const fetchConsultationDetails = async () => {
             try {
-                const parsedDetails = JSON.parse(details);
-                if (Array.isArray(parsedDetails)) {
-                    setConsultationDetails(parsedDetails);
+                const response = await fetch('http://localhost:3001/api/consultations');
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar detalhes da consulta');
+                }
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    setConsultationDetails(data);
                 } else {
-                    console.error('consultationDetails não é um array');
+                    console.error('Dados recebidos não são um array', data);
                     setConsultationDetails([]);
                 }
             } catch (error) {
-                console.error('Erro ao analisar consultationDetails:', error);
+                console.error('Erro ao buscar detalhes da consulta:', error);
                 setConsultationDetails([]);
             }
-        }
+        };
+
+        fetchConsultationDetails();
     }, []);
 
     const daysInMonth = (month, year) => {
@@ -43,7 +52,10 @@ function Perfil() {
         const days = daysInMonth(month, year);
         const startDay = new Date(year, month, 1).getDay();
         const calendarDays = [];
-        const consultationDates = consultationDetails.map(detail => new Date(detail.date).getDate());
+        const consultationDates = consultationDetails.map(detail => {
+            const date = new Date(detail.date);
+            return date.getDate() + (date.getMonth() === month ? 0 : 1);
+        });
 
         for (let i = 0; i < startDay; i++) {
             calendarDays.push(<div className="calendar-cell" key={`empty-${i}`}></div>);
@@ -85,6 +97,7 @@ function Perfil() {
     const handleSave = (e) => {
         e.preventDefault();
         localStorage.setItem('profileData', JSON.stringify(profileData));
+        atualizarPerfilNoBackend();
         setIsEditing(false);
     };
 
@@ -92,12 +105,52 @@ function Perfil() {
         setIsEditing(false);
     };
 
-    const [showPassword, setShowPassword] = useState(false);
-
     const togglePasswordVisibility = () => {
         setShowPassword(prevState => !prevState);
     };
 
+    const atualizarPerfilNoBackend = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(profileData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar o perfil');
+            }
+
+            const responseData = await response.json();
+            console.log('Resposta do backend:', responseData);
+
+            alert('Perfil atualizado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao atualizar perfil:', error);
+            alert('Erro ao atualizar o perfil.');
+        }
+    };
+
+    const handleImageClick = () => {
+        document.getElementById('fileInput').click();
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const imageUrl = reader.result;
+                setProfileImage(imageUrl);
+
+                // Salva a imagem do perfil no localStorage
+                localStorage.setItem('profileImage', imageUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <Container className='mt-4'>
@@ -106,9 +159,23 @@ function Perfil() {
                     <Card className='cardPerfil'>
                         <Card.Body>
                             <div className="d-flex flex-column align-items-center text-center">
-                                <img src={perfilPsicologo} alt="Perfil Psicólogo" className="rounded-circle" width="150" />
+                                <img
+                                    src={profileImage}
+                                    alt="Perfil Psicólogo"
+                                    className="meuPerfil"
+                                    width="150"
+                                    onClick={handleImageClick}
+                                />
+                                <input
+                                    type="file"
+                                    id="fileInput"
+                                    style={{ display: 'none' }}
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                />
                                 <div className="mt-3">
-                                    <h4>{profileData.fullName}</h4>
+                                    <h4>{profileData.nome}</h4>
+                                    <p>{profileData.login}</p>
                                     <p className="text-muted font-size-sm">..</p>
                                 </div>
                             </div>
@@ -148,8 +215,8 @@ function Perfil() {
                                         <Form.Label>Nome</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            name="fullName"
-                                            value={profileData.fullName}
+                                            name="nome"
+                                            value={profileData.nome}
                                             onChange={handleChange}
                                         />
                                     </Form.Group>
@@ -157,8 +224,8 @@ function Perfil() {
                                         <Form.Label>login</Form.Label>
                                         <Form.Control
                                             type="email"
-                                            name="email"
-                                            value={profileData.email}
+                                            name="login"
+                                            value={profileData.login}
                                             onChange={handleChange}
                                         />
                                     </Form.Group>
@@ -167,23 +234,21 @@ function Perfil() {
                                         <div className="password-container">
                                             <Form.Control
                                                 type={showPassword ? "text" : "password"}
-                                                name="password"
-                                                value={profileData.password}
+                                                name="senha"
+                                                value={profileData.senha}
                                                 onChange={handleChange}
                                                 disabled={!isEditing}
                                             />
                                             {isEditing && (
-                                                <Button
-                                                    variant="outline-secondary"
+                                                <div
+                                                    className='olho'
                                                     onClick={togglePasswordVisibility}
                                                 >
-                                                    {showPassword ?  <EyeOff /> :  <Eye />}
-                                                </Button>
+                                                    {showPassword ? <EyeOff /> : <Eye />}
+                                                </div>
                                             )}
                                         </div>
                                     </Form.Group>
-
-
                                     <Button className='salvarBot mt-3' type="submit">Salvar</Button>
                                     <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
                                 </Form>
@@ -191,21 +256,20 @@ function Perfil() {
                                 <>
                                     <Row>
                                         <Col sm={3}><h6 className="mb-0">Nome </h6></Col>
-                                        <Col sm={9} className="text-secondary">{profileData.fullName}</Col>
+                                        <Col sm={9} className="text-secondary">{profileData.nome}</Col>
                                     </Row>
                                     <hr />
                                     <Row>
                                         <Col sm={3}><h6 className="mb-0">Login</h6></Col>
-                                        <Col sm={9} className="text-secondary">{profileData.email}</Col>
+                                        <Col sm={9} className="text-secondary">{profileData.login}</Col>
                                     </Row>
                                     <hr />
                                     <Row>
                                         <Col sm={3}><h6 className="mb-0">Senha</h6></Col>
                                         <Col sm={9} className="text-secondary">
-                                            {isEditing ? profileData.password : '*****'}
+                                            {isEditing ? profileData.senha : '*****'}
                                         </Col>
                                     </Row>
-
                                     <hr />
                                     <Row>
                                         <Col sm={12}>
@@ -247,18 +311,22 @@ function Perfil() {
             <div className="calendar-container">
                 <div className="calendar">
                     <h5>Detalhes da Consulta</h5>
-                    {Array.isArray(consultationDetails) && consultationDetails.length > 0 ? (
-                        consultationDetails.map((detail, index) => (
-                            <div key={index}>
-                                <p><strong>Data:</strong> {detail.date}</p>
-                                <p><strong>Horário:</strong> {detail.time}</p>
-                                <p><strong>Tipo:</strong> {detail.tipo}</p>
-                                <p><strong>Assunto:</strong> {detail.assunto}</p>
-                                <hr />
-                            </div>
-                        ))
+                    {Array.isArray(consultationDetails) ? (
+                        consultationDetails.length > 0 ? (
+                            consultationDetails.map((detail, index) => (
+                                <div key={index}>
+                                    <p><strong>Data:</strong> {detail.data}</p>
+                                    <p><strong>Horário:</strong> {detail.time}</p>
+                                    <p><strong>Tipo:</strong> {detail.tipo}</p>
+                                    <p><strong>Assunto:</strong> {detail.assunto}</p>
+                                    <hr />
+                                </div>
+                            ))
+                        ) : (
+                            <p>Nenhum agendamento encontrado.</p>
+                        )
                     ) : (
-                        <p>Nenhum agendamento encontrado.</p>
+                        <p>Erro ao carregar os detalhes da consulta.</p>
                     )}
                 </div>
             </div>

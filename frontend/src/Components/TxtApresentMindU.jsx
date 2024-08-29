@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import '../css/HomeMindU.css'
+import { Link } from 'react-router-dom';
 
 function TxtSobreMindU() {
     return (
@@ -18,7 +19,10 @@ function TxtSobreMindU() {
 
                             <br /> Conheça nossos planos e garanta uma boa saúde mental para você!!</p>
                         <br />
-                        <div><button className='botaoSobre'>Veja os nossos planos aqui. </button></div>
+                        <div>
+                        <Link to="/planos" className='botaoSobre'>
+                        Veja os nossos planos aqui.
+                                  </Link></div>
                     </div>
                 </Col>
             </Row>

@@ -27,14 +27,14 @@ const Cadastro = () => {
             section.style.transitionDelay = delay;
           } else {
             section.classList.remove('visible');
-            section.style.transitionDelay = '0s'; // Remove o atraso quando a seção não estiver visível
+            section.style.transitionDelay = '0s';
           }
         }
       });
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Verifica visibilidade ao carregar
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -154,7 +154,7 @@ const Cadastro = () => {
                 <a href="#header"><button className="botaoBanner">INVESTIR NO BEM ESTAR</button></a>
               </Col>
               <Col className="centralizar" md={5} sm={12}>
-                <img className="fotoInfo" src={bannerSM} alt="Banner" />
+                <img className="fotoInfo" src={bannerSM} alt="Desenho de 2 pessoas cuidando da saúde mental de uma terceira pessoa." />
               </Col>
             </Row>
           </div></div>
