@@ -6,6 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import "../css/Navbar.css";
 import Logo from "../img/logo.png";
+import Acessibilidade from "../Components/Acessibilidade.jsx";
 
 const ColorSchemesExample = ({ isDarkMode, toggleTheme }) => {
   const location = useLocation(); // Obtém a localização atual
@@ -21,6 +22,7 @@ const ColorSchemesExample = ({ isDarkMode, toggleTheme }) => {
   return (
     <Navbar expand="lg" className={`custom-navbar ${isDarkMode ? 'dark-mode' : ''}`}>
       <Container>
+<Acessibilidade/>
         <div className='button-toggle'>
           <label className="switch">
             <input
@@ -31,7 +33,6 @@ const ColorSchemesExample = ({ isDarkMode, toggleTheme }) => {
             <span className="slider"></span>
           </label>
         </div>
-
         <Navbar.Brand as={Link} to="/"><img src={Logo} alt="" /></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

@@ -315,7 +315,7 @@ function Perfil() {
                         consultationDetails.length > 0 ? (
                             consultationDetails.map((detail, index) => (
                                 <div key={index}>
-                                    <p><strong>Data:</strong> {detail.date}</p>
+                                    <p><strong>Data:</strong> {detail.data}</p>
                                     <p><strong>Horário:</strong> {detail.time}</p>
                                     <p><strong>Tipo:</strong> {detail.tipo}</p>
                                     <p><strong>Assunto:</strong> {detail.assunto}</p>

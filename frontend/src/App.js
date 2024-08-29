@@ -9,6 +9,7 @@ import Rotas from "./Routes";
 //Importar componentes aqui
 import Navegacao from "./Components/Navegacao";
 import Rodape from './Components/Rodape';
+import Acessibilidade from './Components/Acessibilidade';
 import { React, useEffect, useState } from "react";
 
 const App = () => {

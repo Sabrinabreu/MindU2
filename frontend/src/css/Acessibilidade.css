@@ -1,0 +1,41 @@
+.acessibilidade{
+    border-radius: 100%;
+    color: red;
+    width: 55px;
+    height: 40px;
+    background-color: rgb(244, 205, 205);
+    border: none;
+}
+
+.acessibilidade:hover{
+    transform: scale(1.02);}
+
+.btn-acessibilidade {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1050; 
+}
+
+.acessibilidade-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 1050;
+}
+
+.acessibilidade-panel h2 {
+    margin-top: 0;
+}
