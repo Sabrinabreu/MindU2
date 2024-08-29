@@ -54,6 +54,26 @@ const LoginForm = ({ cadastro, onDelete }) => {
         }
       }, [data]);
 
+    //   const autenticarUsuario = async (loginOuEmail, senha) => {
+    //     // Primeiro, verificar se é um login temporário
+    //     const usuarioTemp = await buscarUsuarioPorLogin(loginOuEmail);
+    //     if (usuarioTemp && usuarioTemp.cadastrado === false && usuarioTemp.senha === senha) {
+    //         // Autenticar com login temporário
+    //         return usuarioTemp;
+    //     }
+    
+    //     // Caso contrário, verificar se é um login por email
+    //     const usuarioEmail = await buscarUsuarioPorEmail(loginOuEmail);
+    //     if (usuarioEmail && usuarioEmail.senha === senha) {
+    //         // Autenticar com email
+    //         return usuarioEmail;
+    //     }
+    
+    //     // Se não encontrou nenhum dos dois, retorna erro
+    //     throw new Error('Credenciais inválidas');
+    // };
+    
+
   return (
     <Container>
         <Row>
