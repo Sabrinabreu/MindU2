@@ -155,8 +155,8 @@ body {background-color: #f7f8fc !important;
         width: 100%;
         height: auto;
       }
-
       [data-theme='dark'] .card-clinicas {
         background-color: #f9b0c3 !important;
         box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        color:#272742;
     }
