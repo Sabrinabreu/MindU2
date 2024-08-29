@@ -1,18 +1,37 @@
-// src/components/Navbar.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import "../css/Navbar.css";
 import Logo from "../img/logo.png";
-import Acessibilidade from "../Components/Acessibilidade.jsx";
 
-const ColorSchemesExample = ({ isDarkMode, toggleTheme }) => {
-  const location = useLocation(); // Obtém a localização atual
+const Navegacao = ({ isDarkMode, toggleTheme }) => {
+  const location = useLocation();
+  const { token } = useAuth();
 
-  // Função para verificar se o link está ativo
   const isActive = (path) => location.pathname === path;
+
+  const links = [
+    { caminho: "/", nome: "Home" },
+    { caminho: "/cadastroEmpresa", nome: "Para sua empresa" },
+    { caminho: "/contato", nome: "Contato" },
+    { caminho: "/cadastroPsicologos", nome: "Cadastre-se como Psicólogo" },
+    { caminho: "/planos", nome: "Planos Empresariais" },
+    { caminho: "/saibaMais", nome: "Saiba Mais", 
+      // auth: true  por enquanto pública
+    },
+    { caminho: "/agendarConsulta", nome: "Agendar Consultas",
+      //  auth: true
+      },
+    { caminho: "/acessoFuncionarios", nome: "Visão dos Funcionários",
+      //  auth: true 
+      },
+    { caminho: "/perfil", nome: "Perfil",
+      //  auth: true 
+      },
+    { caminho: "/login", nome: "Login", auth: false },
+  ];
 
   useEffect(() => {
     document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
@@ -22,7 +41,6 @@ const ColorSchemesExample = ({ isDarkMode, toggleTheme }) => {
   return (
     <Navbar expand="lg" className={`custom-navbar ${isDarkMode ? 'dark-mode' : ''}`}>
       <Container>
-<Acessibilidade/>
         <div className='button-toggle'>
           <label className="switch">
             <input
@@ -33,6 +51,7 @@ const ColorSchemesExample = ({ isDarkMode, toggleTheme }) => {
             <span className="slider"></span>
           </label>
         </div>
+
         <Navbar.Brand as={Link} to="/"><img src={Logo} alt="" /></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -69,6 +88,6 @@ const ColorSchemesExample = ({ isDarkMode, toggleTheme }) => {
       </Container>
     </Navbar>
   );
-}
+};
 
-export default ColorSchemesExample;
+export default Navegacao;
