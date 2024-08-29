@@ -5,6 +5,8 @@ import QualidadesMindU from "../Components/QualidadesEmpresa";
 import Avaliacoes from "../Components/SliderAvaliacoes";
 import FAQ from "../Components/faq";
 import Resultados from "../Components/ResultadosTratamento";
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
 
 const sectionsConfig = [
   { id: 'section1', delay: '0.2s' },
@@ -15,7 +17,7 @@ const sectionsConfig = [
 ];
 
 function Home() {
-  
+
   useEffect(() => {
     const handleScroll = () => {
       sectionsConfig.forEach(({ id, delay }) => {
@@ -41,6 +43,7 @@ function Home() {
 
   return (
     <div>
+      <BAPO />
       <div className="scroll-section" id="section1">
         <TxtSobreMindU />
         <CardSobreMindU />

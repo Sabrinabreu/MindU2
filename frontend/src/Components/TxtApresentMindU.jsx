@@ -8,7 +8,7 @@ function TxtSobreMindU() {
     return (
         <Container>
             <Row >
-                <Col md="10" sm='6'>
+                <Col md="10" sm='12'>
                     <div className='txtSobre'>
                         <h1> Quem somos nós: </h1>
                         <br />
