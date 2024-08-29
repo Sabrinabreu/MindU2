@@ -134,9 +134,9 @@ body {
         transform: translateY(-1px);
       }
       [data-theme='dark'] .botaoBanner {
-        color: #ffffff;
-        background-color: transparent;
-        border: 1.7px solid #e0dffd;
+        color: #ffffff !important;
+        background-color: transparent !important;
+        border: 1.7px solid #e0dffd !important;
         box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1) !important;
     }
       [data-theme='dark'] .botaoCALC {

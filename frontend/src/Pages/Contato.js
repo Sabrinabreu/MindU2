@@ -19,27 +19,32 @@ const Contato = () => {
           foto: clinica1,
           nome: "Manaus - AM",
           endereco: "Av. Santos Dumont, 1300 - Tarumã, Manaus - AM, 60001-000",
-          telefone: "+55 (97) 1000-6000"
+          telefone: "+55 (97) 1000-6000",
+          legenda: "Foto da clinica de Manaus com decorações laranjas."
       }, {
           foto: clinica2,
           nome: "Belém - PA",
           endereco: "Av. Tavares Bastos, 987 - Marambaia, Belém - PA, 30011-000",
-          telefone: "+55 (91) 2000-6000"
+          telefone: "+55 (91) 2000-6000",
+          legenda: "Foto da clinica de Belém com cores neutras e cinzas."
       }, {
           foto: clinica3,
           nome: "São Paulo - SP",
           endereco: "Av. Dr. Gastão Vidigal - Vila Leopoldina, São Paulo - SP, 00005-000",
-          telefone: "+55 (11) 3000-6000"
+          telefone: "+55 (11) 3000-6000",
+          legenda: "Foto da clinica de São Paulo com decorações verde, plantas e quadros."
       }, {
           foto: clinica4,
           nome: "Recife - CE",
           endereco: "Av. Dois Rios, 1234 - Ibura, Recife - PE, 51000-000",
-          telefone: "+55 (85) 4000-6000"
+          telefone: "+55 (85) 4000-6000",
+          legenda: "Foto da clinica de Recife, com decorações bem modernas e neutras."
       }, {
           foto: clinica5,
           nome: "Uberlândia - MG",
           endereco: "Av. João Naves de Ávila, 1333 - Tibery, Uberlândia - MG, 0008-000",
-          telefone: "+55 (31) 5000-6000"
+          telefone: "+55 (31) 5000-6000",
+          legenda: "Foto da clinica de Uberlândia bem colorida e com uma grande decoração de árvore."
       }
   ]);
 
@@ -56,7 +61,7 @@ const Contato = () => {
           <p className="Contato-Txt">Veja como entrar em contato.</p></div>
           </Col>
           <Col md={6} sm={12}>
-          <img className="mb-3 bannerCT-IMG" src={bannerIMG} alt="imagem de 4 pessoas dançando." />
+          <img className="mb-3 bannerCT-IMG" src={bannerIMG} alt="desenho de 4 pessoas dançando juntas." />
           </Col>
             </Row>
         </div>
@@ -66,7 +71,7 @@ const Contato = () => {
         <Col md={6} sm={12}>
         <Card className="centralizar card-contato">
           <Card.Body>
-            <img className="Icon-card-contato mb-3" src={telefoneIcon} alt="icone de telefone" />
+            <img className="Icon-card-contato mb-3" src={telefoneIcon} alt="icone de telefone amarelo." />
           <Card.Title className="tit-Cont">Contato Telefônico</Card.Title>
           <Card.Text>
           Fale conosco por telefone! Estamos prontos para responder suas dúvidas e fornecer mais informações sobre nossos serviços.
@@ -79,7 +84,7 @@ const Contato = () => {
         <Col md={6} sm={12}>
         <Card className="centralizar card-contato">
           <Card.Body>
-            <img className="Icon-card-contato mb-3" src={ajudaIcon} alt="icone de telefone" />
+            <img className="Icon-card-contato mb-3" src={ajudaIcon} alt="icone de mensagem amarelo." />
           <Card.Title className="tit-Cont">Suporte por mensagem</Card.Title>
           <Card.Text>
           Envie uma mensagem! Nosso assistente virtual no WhatsApp está disponível para responder suas dúvidas instantaneamente.
@@ -137,7 +142,7 @@ const Contato = () => {
                       <p>{conteudo.telefone}</p>
               </Col>
               <Col className="centralizar" md={5} sm={12}>
-                  <img className="Img-clinica" src={conteudo.foto}/> 
+                  <img className="Img-clinica" src={conteudo.foto} alt={conteudo.legenda}/> 
               </Col>
           </Row>            
           </div>
