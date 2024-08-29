@@ -81,7 +81,7 @@ return (
       </Row>
       
 
-      <button className='botaoBanner botaoBranco' type="submit">Enviar</button>
+      <button className='botaoBanner botaoCALC' type="submit">Enviar</button>
       
       </Container>
     </form>

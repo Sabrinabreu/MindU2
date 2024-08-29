@@ -13,6 +13,10 @@
     margin-top: 8px;
 }
 
+[data-theme='dark'] .perfilPsico {
+    background-color: #ffffff !important;
+}
+
 .fundoPsico {
     height: 150px;
     width: 100%;
@@ -61,6 +65,10 @@
     margin-top: 14px;
   }
 
+  [data-theme='dark'] .crp{
+    color: black;
+  }
+
 .agenda {
     background-color: #ffffff;
     padding: 1em;
@@ -70,6 +78,10 @@
     margin-left: -90px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     margin-top: 8px;
+}
+
+[data-theme='dark'] .agenda{
+    background-color: #E0DFFD;
 }
 
 .agendaConsulta {
@@ -112,6 +124,10 @@
     margin-left: 27px;
 }
 
+[data-theme='dark'] .infoPsico {
+    color: black;
+}
+
 .biografia {
     background-color: white;
     border-radius: 15px;
@@ -120,6 +136,11 @@
     position: relative;
     margin-top: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] .biografia{
+    background-color: #E0DFFD;
+    color: black;
 }
 
 .contato {
@@ -132,7 +153,20 @@
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
+[data-theme='dark'] .contato{
+    background-color: #E0DFFD;
+    color: black
+}
+
 /* MODAL */
+
+[data-theme='dark'] .agendando{
+    color: black;
+}
+
+[data-theme='dark'] .tipoConsulta{
+    color: black;
+}
 
 .botTipo{
     background-color: #F9B0C3;

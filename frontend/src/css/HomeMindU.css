@@ -49,8 +49,8 @@ body {
 }
 
 [data-theme='dark'] .cardBannerMaior {
-    border-color: #f9b0c3 !important;
-    background-color: #f9b0c3 !important;
+    border-color: #46467a !important;
+    background-color: #46467a !important;
 }
 
 .cardProfsMenor {
@@ -65,8 +65,8 @@ body {
 }
 
 [data-theme='dark'] .cardProfsMenor {
-    border-color: #edc8e0 !important;
-    background-color: #edc8e0 !important;
+    border-color: #e0dffd !important;
+    background-color: #e0dffd !important;
 }
 
 /* Image Styles */
@@ -105,6 +105,7 @@ body {
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
+    text-decoration: none;
 }
 
 .botaoSobre {
@@ -123,6 +124,7 @@ body {
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
+    text-decoration: none;
 }
 
 .botaoSobre:hover {
@@ -376,7 +378,7 @@ body {
     background-color: #7866c663 !important;
 }
 
-.accordion {
+.faqaccordion {
     --bs-border-radius: 16px !important;
     --bs-accordion-inner-border-radius: calc(var(16px) -(var(1px)));
     --bs-accordion-border-radius: 16px !important;
@@ -390,13 +392,15 @@ body {
     letter-spacing: 2px !important;
 }
 
-[data-theme='dark'] .accordion {
+[data-theme='dark'] .faqaccordion {
+    --bs-border-color: var(--bs-accordion-bg);
     --bs-border-radius: 16px !important;
     --bs-accordion-inner-border-radius: calc(var(16px) -(var(1px)));
     --bs-accordion-border-radius: 16px !important;
-    --bs-accordion-bg: #ceccf9bb !important;
+    --bs-accordion-bg: #46467acf !important;
     --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
-    --bs-accordion-btn-focus-box-shadow: #28096b;
+    --bs-accordion-btn-focus-box-shadow: #46467a !important;
+    --bs-accordion-btn-color: var(--bs-white) !important;
     position: relative !important;
     top: 20% !important;
     margin-bottom: 18% !important;
@@ -405,13 +409,15 @@ body {
 }
 
 [data-theme='dark'] .accordion-body {
-    background-color: #e0dffd !important;
+    background-color: #1e2736 !important;
+    color: #fff !important;
 }
 
 [data-theme='dark'] .accordion-button:not(.collapsed) {
     color: #e0dffd !important;
-    background-color: #7866c69a !important;
+    background-color: #46467a !important;
 }
+
 
 /* Results Section */
 .results-container {
