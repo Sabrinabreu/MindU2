@@ -10,7 +10,7 @@
 .opcaoNumero {
     width: 180px;
     height: 40px;
-    border: 1.5px solid;
+    border: 1.4px solid #46467a89;
     border-radius: 10px 0 0 10px;
     margin-top: 1px;
 }
@@ -22,15 +22,11 @@
 
 .btnCriar {
     height: 40px;
+    color: #46467a;
     border-radius: 0 10px 10px 0;
     border-style: solid solid solid none;
-    border-width: 1.5px;
+    border-width: 1.4px;
+    border-color: #46467a89;
     padding: 0 15px;
     margin: 0;
-}
-
-.divAcaoTabela {
-    background-color: #E0DFFD;
-    padding: 15px;
-    border-radius: 15px 15px 0 0;
 }
