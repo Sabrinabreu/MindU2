@@ -15,8 +15,9 @@ body {
 
 .fundo-site {
   background: rgb(244, 231, 204);
-  background: linear-gradient(180deg,  #afa5dd 0%, #f7f8fc 100%);
+  background: linear-gradient(180deg, #afa5dd 0%, #f7f8fc 100%);
 }
+
 .fundoInfo {
   overflow: hidden;
 }
@@ -101,9 +102,9 @@ body {
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500 !important;
-  color: #000;
+  color: #000 !important;
   background-color: transparent;
-  border: 1.7px solid #252525;
+  border: 1.7px solid #252525 !important;
   border-radius: 45px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease 0s;
