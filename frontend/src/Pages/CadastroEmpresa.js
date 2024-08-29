@@ -173,7 +173,7 @@ const Cadastro = () => {
                         <p>{result.numColaboradores} colaboradores</p>
                         <p>Salário: {formatarMoeda(parseFloat(result.salario))}</p>
                         <p>{faixa} anos</p>
-                        <button type="button" className="mt-3 botaoBanner botaoBranco" onClick={resetForm}>REFAZER Cálculo</button>
+                        <button type="button" className="mt-3 botaoBanner botaoCALC" onClick={resetForm}>REFAZER Cálculo</button>
                       </div>
                       <div className="resultado-direito">
                         <p>Atualmente, o custo estimado com saúde mental para sua equipe é de <span>{formatarMoeda(result.custoTotalInicial)}</span> por ano.</p>
@@ -216,7 +216,7 @@ const Cadastro = () => {
                     </div>
                     {errors.faixa && <div className="mensagem-erro">{errors.faixa}</div>}
 
-                    <button type="button" className="botaoBanner botaoBranco" onClick={calcularCustos}>CALCULAR CUSTO</button>
+                    <button type="button" className="botaoBanner botaoCALC" onClick={calcularCustos}>CALCULAR CUSTO</button>
                   </Col>
                 </form>
               )}
