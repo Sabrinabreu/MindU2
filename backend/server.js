@@ -5,6 +5,7 @@ const rotaempresa = require('./routesEmpresa');
 const routesPsicologos = require('./routesPsicologos');
 const rotaCadastropsi = require('./routesCadastropsi');
 const rotaLogin = require('./routesLogin');
+const rotaFuncionario = require('./routesFuncionario');
 const agendamentoRoutes = require('./routesAgendamento');
 
 const app = express();
@@ -19,6 +20,7 @@ app.use('/', rotaLogin);
 app.use('/', rotaempresa);
 app.use('/', routesPsicologos);
 app.use('/', rotaCadastropsi);
+app.use('/', rotaFuncionario);
 app.use('/api/agendamento', agendamentoRoutes);
 
 app.listen(port, () => {

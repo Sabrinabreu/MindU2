@@ -1,40 +1,71 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Home from "./Pages/Home";
-import Cadastroempresa from "./Pages/CadastroEmpresa";
-import Contato from "./Pages/Contato";
-import CadastroPsicólogos from './Pages/CadastroPsicólogos'
-import Cadastro from "./Pages/Cadastro";
-import TabelaUsuarios from "./Pages/ListaUsuarios";
-import Agendarconsulta from "./Pages/AgendarConsulta";
-import SaibaMais from './Pages/SaibaMais';
-import Planos from './Pages/Planos';
-import Perfil from './Pages/Perfil';
-import AcessoFuncionarios from './Pages/AcessoFuncionarios';
-import Login from './Pages/Login';
+import { useAuth } from "./provider/AuthProvider";
+import { Routes, Route, Navigate } from "react-router-dom";
 
+//Páginas
+import Home from "./Pages/Home";  //todos
+import Cadastroempresa from "./Pages/CadastroEmpresa"; //todos
+import Contato from "./Pages/Contato"; //todos
+import CadastroPsicólogos from './Pages/CadastroPsicólogos' //todos
+import Agendarconsulta from "./Pages/AgendarConsulta"; //funcionários
+import SaibaMais from './Pages/SaibaMais'; //todos
+import Planos from './Pages/Planos'; //todos
+import Perfil from './Pages/Perfil'; //funcionarios e psicólogos
+import AcessoFuncionarios from './Pages/AcessoFuncionarios'; //empresa
+import Login from './Pages/Login'; //todos
+import NotFound from "./Pages/NotFound"; //*
 
+const ProtectedRoute = ({ children }) => {
+  const { token } = useAuth();
+
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+};
 
 const Rotas = () => {
+  const { token } = useAuth();
   return (
-    <>
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/cadastroempresa" element={<Cadastroempresa />} />
-        <Route path="/contato" element={<Contato />} />
-        <Route path="/cadastropsicologos" element={<CadastroPsicólogos />} />
-        <Route path="/cadastro" element={<Cadastro />} />
-        <Route path="/listaUsuarios" element={<TabelaUsuarios />} />
-        <Route path="/agendarconsulta" element={<Agendarconsulta />} />
-        <Route path="/saibamais" element={<SaibaMais />} />
-        <Route path="/perfil" element={<Perfil />} />
-        <Route path="/acessoFuncionarios" element={<AcessoFuncionarios />} />
-        <Route path="/planos" element={<Planos />} />
-        <Route path="/login" element={<Login />}/>
-      </Routes>
+    <Routes>
+      {/* Rotas públicas */}
+      <>
+          <Route path="/" element={<Home />} />
+          <Route path="/cadastroEmpresa" element={<Cadastroempresa />} />
+          <Route path="/contato" element={<Contato />} />
+          <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
+          <Route path="/planos" element={<Planos />} />
+          <Route path="/login" element={<Login />} />
 
-    </>
+          {/* Rotas temporariamente públicas */}
+          <Route path="/agendarConsulta" element={<Agendarconsulta />} />
+          <Route path="/acessoFuncionarios" element={<AcessoFuncionarios />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/saibaMais" element={<SaibaMais />} />
+        </>
+
+      {/* Rotas não autenticados */}
+      {!token && (
+        <>
+        </>
+      )}
+
+      {/* Rotas privadas */}
+      {token && (
+        <>
+          <Route path="/agendarConsulta" element={<ProtectedRoute><Agendarconsulta /></ProtectedRoute>} />
+          <Route path="/acessoFuncionarios" element={<ProtectedRoute><AcessoFuncionarios /></ProtectedRoute>} />
+          <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
+          <Route path="/saibaMais" element={<ProtectedRoute><SaibaMais /></ProtectedRoute>} />
+        </>
+      )}
+
+      {/* Rota de fallback para 404 */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
+
 
 export default Rotas;
