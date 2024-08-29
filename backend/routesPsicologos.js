@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// Rota para buscar psicólogos
 const connection = require('./db');
 router.get('/psicologos', (req, res) => {
   const { nome, especialidade, localizacao } = req.query;

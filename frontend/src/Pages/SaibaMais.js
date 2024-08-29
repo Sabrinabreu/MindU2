@@ -253,7 +253,7 @@ const Agendar = () => {
 
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Agendar Consulta</Modal.Title>
+                                <Modal.Title className='agendando'>Agendar Consulta</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 {selectedDate ? (
@@ -264,7 +264,7 @@ const Agendar = () => {
                                         <button className='botTipo' onClick={() => handleTipoClick('Presencial')}>Presencial</button>
                                         <Form>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                                <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
+                                                <Form.Label className='agendando'>Assuntos que deseja tratar durante a sessão:</Form.Label>
                                                 <Form.Control as="textarea" rows={3} value={assunto} onChange={handleAssuntoChange} />
                                             </Form.Group>
                                         </Form>

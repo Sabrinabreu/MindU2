@@ -29,7 +29,6 @@ router.post('/', (req, res) => {
 });
 
 
-// Rota para obter todos os agendamentos
 router.get('/agendamentos', (req, res) => {
   connection.query('SELECT * FROM agendamentos', (err, results) => {
     if (err) {

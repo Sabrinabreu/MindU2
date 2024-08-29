@@ -18,9 +18,10 @@ function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('nome');
-  const [selectedDate, setSelectedDate] = useState(new Date()); // Default to today
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [availableTimes, setAvailableTimes] = useState({});
   const [editableTimes, setEditableTimes] = useState({});
+  const [showAll, setShowAll] = useState(false); // Estado para controlar se todos os psicólogos serão exibidos
 
   const slidesContent = [
     {
@@ -190,7 +191,7 @@ function AgendarConsulta() {
         {day}
       </div>
     ));
-    
+
     const days = [];
     for (let i = 0; i < 7; i++) {
       const day = new Date(startOfWeek);
@@ -237,11 +238,14 @@ function AgendarConsulta() {
         ...prev[psicologoIndex],
         [selectedDate.toDateString()]: {
           ...prev[psicologoIndex]?.[selectedDate.toDateString()],
-          [time]: !prev[psicologoIndex]?.[selectedDate.toDateString()]?.[time] 
+          [time]: !prev[psicologoIndex]?.[selectedDate.toDateString()]?.[time]
         }
       }
     }));
   };
+
+  // Dividir os psicólogos em duas partes: metade para exibir e metade para o "Ver mais"
+  const visibleSlides = showAll ? filteredSlidesContent : filteredSlidesContent.slice(0, Math.ceil(filteredSlidesContent.length / 2));
 
   return (
     <>
@@ -315,7 +319,7 @@ function AgendarConsulta() {
                               <div>
                                 <div className="calendar-container">
                                   <div className="calendar-header">
-                                    <button className="nav-button" onClick={() => {
+                                    <button className="setaCalendario" onClick={() => {
                                       const newDate = new Date(selectedDate);
                                       newDate.setDate(newDate.getDate() - 7);
                                       setSelectedDate(newDate);
@@ -332,7 +336,7 @@ function AgendarConsulta() {
                                       ←
                                     </button>
                                     <span>{selectedDate.toLocaleString('default', { month: 'long' })} {selectedDate.getFullYear()}</span>
-                                    <button className="nav-button" onClick={() => {
+                                    <button className="setaCalendario" onClick={() => {
                                       const newDate = new Date(selectedDate);
                                       newDate.setDate(newDate.getDate() + 7);
                                       setSelectedDate(newDate);
@@ -391,6 +395,14 @@ function AgendarConsulta() {
           })
         ) : (
           <p>Nenhum psicólogo encontrado.</p>
+        )}
+
+        {filteredSlidesContent.length > Math.ceil(filteredSlidesContent.length / 2) && (
+          <div className="text-center">
+            <button className="verMaisBotao" onClick={() => setShowAll(!showAll)}>
+              {showAll ? 'Ver Menos' : 'Ver Mais'}
+            </button>
+          </div>
         )}
       </Container>
     </>
