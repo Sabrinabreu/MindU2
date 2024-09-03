@@ -159,7 +159,6 @@
 }
 
 /* MODAL */
-
 [data-theme='dark'] .agendando{
     color: black;
 }
@@ -179,6 +178,8 @@
 .botTipo:hover{
     background-color: pink;
 }
+
+.botTipo.a
 
 .salvar{
     background-color: #7766C6;

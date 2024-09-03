@@ -17,29 +17,26 @@ function Perfil() {
 
     const [profileImage, setProfileImage] = useState(perfilPsicologo);
     const [showPassword, setShowPassword] = useState(false);
+    const [psicologoNome, setPsicologoNome] = useState('');
 
     useEffect(() => {
-        // Função para buscar os detalhes das consultas
-        const fetchConsultationDetails = async () => {
-            try {
-                const response = await fetch('http://localhost:3001/api/consultations');
-                if (!response.ok) {
-                    throw new Error('Erro ao buscar detalhes da consulta');
-                }
-                const data = await response.json();
-                if (Array.isArray(data)) {
-                    setConsultationDetails(data);
-                } else {
-                    console.error('Dados recebidos não são um array', data);
-                    setConsultationDetails([]);
-                }
-            } catch (error) {
-                console.error('Erro ao buscar detalhes da consulta:', error);
-                setConsultationDetails([]);
-            }
-        };
+        // Carrega os detalhes da consulta do localStorage
+        const savedConsultationDetails = localStorage.getItem('consultationDetails');
+        if (savedConsultationDetails) {
+            setConsultationDetails([JSON.parse(savedConsultationDetails)]);
+        } else {
+            setConsultationDetails([]); // Se não houver detalhes salvos
+        }
 
-        fetchConsultationDetails();
+         // Fetch para obter o nome do psicólogo
+         fetch('http://localhost:3001/api/psicologo')
+         .then(response => response.json())
+         .then(data => {
+             setPsicologoNome(data.nomePsico); // Supondo que o nome vem como `nomePsico`
+         })
+         .catch(error => {
+             console.error('Erro ao obter nome do psicólogo:', error);
+         });
     }, []);
 
     const daysInMonth = (month, year) => {
@@ -52,9 +49,11 @@ function Perfil() {
         const days = daysInMonth(month, year);
         const startDay = new Date(year, month, 1).getDay();
         const calendarDays = [];
+
+        // Converta as datas de consulta para o mesmo fuso horário da exibição do calendário
         const consultationDates = consultationDetails.map(detail => {
-            const date = new Date(detail.date);
-            return date.getDate() + (date.getMonth() === month ? 0 : 1);
+            const date = new Date(detail.date.split('/').reverse().join('-'));
+            return date.getDate();
         });
 
         for (let i = 0; i < startDay; i++) {
@@ -63,13 +62,27 @@ function Perfil() {
 
         for (let i = 1; i <= days; i++) {
             const isConsultationDate = consultationDates.includes(i);
+            const consultationDetail = consultationDetails.find(detail => {
+                const date = new Date(detail.date.split('/').reverse().join('-'));
+                return date.getDate() === i;
+            });
+
             calendarDays.push(
                 <div
                     className={`calendar-cell ${isConsultationDate ? 'has-consultation' : ''}`}
                     key={i}
                 >
                     {i}
-                    {isConsultationDate && <div className="dot"></div>}
+                    {isConsultationDate && consultationDetail && (
+                        <div className="dot">
+                            {/* Exibe os detalhes da consulta */}
+                            <div className="consultation-details">
+                                <p><strong>Nome:</strong> {consultationDetail.psicologo}</p>
+                                <p><strong>Horário:</strong> {consultationDetail.time}</p>
+                                <p><strong>Tipo:</strong> {consultationDetail.tipo}</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         }
@@ -157,7 +170,7 @@ function Perfil() {
             <Row>
                 <Col md={4}>
                     <Card className='cardPerfil'>
-                        <Card.Body>
+                    <Card.Body>
                             <div className="d-flex flex-column align-items-center text-center">
                                 <img
                                     src={profileImage}
@@ -185,7 +198,7 @@ function Perfil() {
                         <ListGroup variant="flush">
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Email</h6>
-                                <span className="text-secondary">user@gmail.com</span>
+                                <span className="text-secondary">{profileData.email}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Telefone</h6>
@@ -221,7 +234,7 @@ function Perfil() {
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formEmail">
-                                        <Form.Label>login</Form.Label>
+                                        <Form.Label>Login</Form.Label>
                                         <Form.Control
                                             type="email"
                                             name="login"
@@ -242,7 +255,8 @@ function Perfil() {
                                             {isEditing && (
                                                 <div
                                                     className='olho'
-                                                    onClick={togglePasswordVisibility}
+                                                    onClick={
+                                                        togglePasswordVisibility}
                                                 >
                                                     {showPassword ? <EyeOff /> : <Eye />}
                                                 </div>
@@ -315,7 +329,7 @@ function Perfil() {
                         consultationDetails.length > 0 ? (
                             consultationDetails.map((detail, index) => (
                                 <div key={index}>
-                                    <p><strong>Data:</strong> {detail.data}</p>
+                                    <p><strong>Data:</strong> {detail.date}</p>
                                     <p><strong>Horário:</strong> {detail.time}</p>
                                     <p><strong>Tipo:</strong> {detail.tipo}</p>
                                     <p><strong>Assunto:</strong> {detail.assunto}</p>

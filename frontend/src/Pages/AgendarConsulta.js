@@ -10,18 +10,20 @@ import perfilclinico from '../img/perfilClinico.jpg';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
+import { Search } from 'lucide-react';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState('nome');
+  const [filterType, setFilterType] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [availableTimes, setAvailableTimes] = useState({});
   const [editableTimes, setEditableTimes] = useState({});
-  const [showAll, setShowAll] = useState(false); // Estado para controlar se todos os psicólogos serão exibidos
+  const [showAll, setShowAll] = useState(false);
+  const [selectedProfession, setSelectedProfession] = useState(''); 
 
   const slidesContent = [
     {
@@ -133,12 +135,25 @@ function AgendarConsulta() {
 
   const filteredSlidesContent = slidesContent.filter(slide => {
     const term = searchTerm.toLowerCase();
-    return (
-      (filterType === 'nome' ? slide.title.toLowerCase().includes(term) : true) &&
-      (filterType === 'profissao' ? slide.profissao.toLowerCase().includes(term) : true) &&
-      (filterType === 'local' ? slide.local.toLowerCase().includes(term) : true)
-    );
-  });
+    const isMatchingProfession = filterType === 'profissao'
+      ? slide.profissao.toLowerCase().includes(selectedProfession.toLowerCase())
+      : true;
+
+      return (
+        (filterType === 'nome' ? slide.title.toLowerCase().includes(term) : true) &&
+        isMatchingProfession &&
+        (filterType === 'local' ? slide.local.toLowerCase().includes(term) : true)
+      );
+    });
+
+    const [professionOptions, setProfessionOptions] = useState([
+      "Psicólogo Psicanalista",
+      "Psicólogo Cognitivo",
+      "Psicóloga Clínica",
+      "Psicólogo Clínico",
+      "Psicóloga Escolar",
+      "Psicóloga Organizacional",
+    ]);
 
   const getAvailableTimes = (psicologoIndex) => {
     const times = {
@@ -244,8 +259,9 @@ function AgendarConsulta() {
     }));
   };
 
-  // Dividir os psicólogos em duas partes: metade para exibir e metade para o "Ver mais"
-  const visibleSlides = showAll ? filteredSlidesContent : filteredSlidesContent.slice(0, Math.ceil(filteredSlidesContent.length / 2));
+  const handleSearch = () => {
+    console.log('Buscando por:', searchTerm);
+  };
 
   return (
     <>
@@ -258,18 +274,23 @@ function AgendarConsulta() {
             onChange={(e) => setFilterType(e.target.value)}
             className="dropFilter mr-2"
           >
+            <option value="">Selecionar</option> {/* Opção padrão para o dropdown */}
             <option value="nome">Nome</option>
             <option value="profissao">Profissão</option>
             <option value="local">Localização</option>
           </Form.Control>
 
+
           <Form.Control
             type="text"
-            placeholder={`Buscar por ${filterType === 'nome' ? 'nome' : filterType === 'profissao' ? 'profissão' : 'localização'}...`}
+            placeholder={`Buscar por ${filterType === 'nome' ? 'nome' : filterType === 'profissao' ? 'profissão' : filterType === 'local' ? 'localização' : 'tema'}...`} // Placeholder dinâmico
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="busca flex-grow-1 search-input"
           />
+          <Button className="ml-2 search-button" onClick={handleSearch}>
+            <i className="fa fa-search"></i>   <Search />
+          </Button>
         </div>
       </div>
       <Container>
