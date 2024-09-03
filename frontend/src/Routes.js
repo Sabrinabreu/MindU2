@@ -14,6 +14,7 @@ import Perfil from './Pages/Perfil'; //funcionarios e psicólogos
 import AcessoFuncionarios from './Pages/AcessoFuncionarios'; //empresa
 import Login from './Pages/Login'; //todos
 import NotFound from "./Pages/NotFound"; //*
+import Dashboard from "./Pages/Dashboard";
 
 const ProtectedRoute = ({ children }) => {
   const { token } = useAuth();
@@ -43,6 +44,7 @@ const Rotas = () => {
           <Route path="/acessoFuncionarios" element={<AcessoFuncionarios />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/saibaMais" element={<SaibaMais />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
         </>
 
       {/* Rotas não autenticados */}
@@ -58,6 +60,7 @@ const Rotas = () => {
           <Route path="/acessoFuncionarios" element={<ProtectedRoute><AcessoFuncionarios /></ProtectedRoute>} />
           <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
           <Route path="/saibaMais" element={<ProtectedRoute><SaibaMais /></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
         </>
       )}
 
