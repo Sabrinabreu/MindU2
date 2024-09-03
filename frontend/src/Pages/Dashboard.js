@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import '../css/Dashboard.css';
-import Sidebar from '../Components/SideBarDash';
 import '../css/SideBar.css';
 
 const Cadastro = () => {
