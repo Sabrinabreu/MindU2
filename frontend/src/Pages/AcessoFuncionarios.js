@@ -20,7 +20,7 @@ const AcessoFuncionarios = () => {
     const contasCriadas = [];
     try {
       for (let i = 0; i < nContas; i++) {
-        const response = await axios.post('http://localhost:3001/contaPrvsFuncionarios', { nContas });
+        const response = await axios.post('http://localhost:3001/contaFuncionarios', { nContas });
         console.log("Resposta da API: ", response.data); // Verifica a resposta da API
       }
   

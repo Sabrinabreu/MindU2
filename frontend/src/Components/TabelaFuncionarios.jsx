@@ -13,7 +13,7 @@ const TabelaFuncionarios = ({ contas }) => {
       setcontasFuncionarios(contas);
     } else {
       async function fetchData() {
-        const result = await fetch(`http://localhost:3001/contaPrvsFuncionarios`);
+        const result = await fetch(`http://localhost:3001/contaFuncionarios`);
         const body = await result.json();
         setcontasFuncionarios(body);
       }
@@ -27,8 +27,8 @@ const TabelaFuncionarios = ({ contas }) => {
 
   const handleExcluirUsuario = async (login) => {
     try {
-      await axios.delete(`http://localhost:3001/contaPrvsFuncionarios/${login}`);
-      const { data } = await axios.get("http://localhost:3001/contaPrvsFuncionarios");
+      await axios.delete(`http://localhost:3001/contaFuncionarios/${login}`);
+      const { data } = await axios.get("http://localhost:3001/contaFuncionarios");
       setcontasFuncionarios(data);
       console.log("Usuário excluído com sucesso!");
     } catch (error) {
@@ -45,11 +45,11 @@ const TabelaFuncionarios = ({ contas }) => {
     try {
       await Promise.all(
         selectedRows.map(async (row) => {
-          await axios.delete(`http://localhost:3001/contaPrvsFuncionarios/${row.login}`);
+          await axios.delete(`http://localhost:3001/contaFuncionarios/${row.login}`);
         })
       );
 
-      const { data } = await axios.get("http://localhost:3001/contaPrvsFuncionarios");
+      const { data } = await axios.get("http://localhost:3001/contaFuncionarios");
       setcontasFuncionarios(data);
       setSelectedRows([]); 
       setToggleCleared(!toggleCleared); // Reseta a seleção
