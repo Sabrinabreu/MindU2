@@ -287,8 +287,7 @@ const Agendar = () => {
                             </Modal.Footer>
                         </Modal>
                     </div>
-                </Col>
-                <Col md={6}>
+                
                     <div className='biografia p-4'>
                         <h5 className='titulosSobre p-3 '>Biografia</h5>
                         <p className='mb-4'>
@@ -296,8 +295,7 @@ const Agendar = () => {
                             Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
                         </p>
                     </div>
-                </Col>
-                <Col md={12}>
+               
                     <div className='contato p-4'>
                         <h5 className='titulosSobre p-3'>Contato</h5>
                         <p>

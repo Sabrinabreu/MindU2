@@ -11,6 +11,11 @@
     width: 450px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     margin-top: 8px;
+
+
+    position: sticky;
+    top: 0; 
+    z-index: 100; 
 }
 
 [data-theme='dark'] .perfilPsico {
@@ -131,7 +136,7 @@
 .biografia {
     background-color: white;
     border-radius: 15px;
-    margin-left: 88%;
+    margin-left: -90px;
     width: 650px;
     position: relative;
     margin-top: 20px;
@@ -146,7 +151,7 @@
 .contato {
     background-color: white;
     border-radius: 15px;
-    margin-left: 43%;
+    margin-left: -90px;
     width: 650px;
     position: relative;
     margin-top: 20px;
