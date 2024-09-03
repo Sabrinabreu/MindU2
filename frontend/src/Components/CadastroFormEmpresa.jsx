@@ -16,6 +16,8 @@ const CadastroForm = () => {
     senha: '',
     senhaconfirma: '',
   });
+  
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +30,12 @@ const CadastroForm = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.senha !== formData.senhaconfirma) {
+      setError('As senhas não coincidem. Por favor, verifique e tente novamente.');
+      return;
+    }
+
+    setError('');
     try {
       await axios.post('http://localhost:3001/cadastroempresa', formData);
       alert('Cadastro criado com sucesso!');
@@ -83,13 +91,14 @@ return (
         <Col><label className='labelForms'>Qual é o meio de contato de sua preferência?</label>
         <input className='inputgeral cadEmp' type="text" name="contato" placeholder="Ex. Email, Whatsapp, Ligação..." value={formData.contato} onChange={handleChange} /></Col>
       </Row>
-      <Row >
-        <Col md={6} sm={12}><label className='labelForms'>Digite sua senha</label>
-        <input className='inputgeral cadEmp' type="password" name="senha" placeholder="Digite sua senha aqui..." value={formData.senha} onChange={handleChange} /></Col>
-        <Col><label className='labelForms'>Confirme sua senha</label>
-        <input className='inputgeral cadEmp' type="password" name="senhaconfirma" placeholder="Digite sua senha novamente aqui..." value={formData.senhaconfirma} onChange={handleChange} /></Col>
-      </Row>
-      
+      <Row>
+          <Col md={6} sm={12}><label className='labelForms'>Digite sua senha</label>
+            <input className='inputgeral cadEmp' type="password" name="senha" placeholder="Digite sua senha aqui..." value={formData.senha} onChange={handleChange} /></Col>
+          <Col><label className='labelForms'>Confirme sua senha</label>
+            <input className='inputgeral cadEmp' type="password" name="senhaconfirma" placeholder="Digite sua senha novamente aqui..." value={formData.senhaconfirma} onChange={handleChange} /></Col>
+        </Row>
+
+        {error && <p className="text-danger">{error}</p>}
 
       <button className='botaoBanner botaoCALC' type="submit">Enviar</button>
       
