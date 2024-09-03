@@ -12,7 +12,9 @@ const CadastroForm = () => {
     departamento: '',
     qtdfuncionarios: '',
     planosaude: '',
-    contato: ''
+    contato: '',
+    senha: '',
+    senhaconfirma: '',
   });
 
   const handleChange = (e) => {
@@ -38,7 +40,9 @@ const CadastroForm = () => {
         departamento: '',
         qtdfuncionarios: '',
         planosaude: '',
-        contato: ''
+        contato: '',
+        senha: '',
+        senhaconfirma: '',
       });
     } catch (error) {
       console.error('Erro ao criar cadastro:', error);
@@ -51,8 +55,8 @@ return (
     <form onSubmit={handleSubmit}>
 
       <Container className="justify-content-center g-4 p-3" >
-      <label className='labelForms'>Nome</label>
-      <input className='inputgeral cadEmp' type="text" name="nome" placeholder="Digite seu nome aqui..." value={formData.nome} onChange={handleChange} />
+      <label className='labelForms'>Nome da empresa</label>
+      <input className='inputgeral cadEmp' type="text" name="empresa" placeholder="Digite o nome da empresa aqui..." value={formData.empresa} onChange={handleChange} />
 
       <label className='labelForms'>Email corporativo</label>
       <input className='inputgeral cadEmp' type="email" name="email" placeholder="Digite o email corporativo aqui..." value={formData.email} onChange={handleChange} />
@@ -61,8 +65,8 @@ return (
       <Row >
         <Col><label className='labelForms'>Telefone corporativo</label>
         <input className='inputgeral cadEmp' type="tel"  maxlength="15" name="telefone" placeholder="Digite o telefone da empresa aqui..." value={formData.telefone} onChange={handleChange} /></Col>
-        <Col><label className='labelForms'>Empresa</label>
-        <input className='inputgeral cadEmp' type="text" name="empresa" placeholder="Digite o nome da empresa aqui..." value={formData.empresa} onChange={handleChange} /></Col>
+        <Col><label className='labelForms'>Representante</label>
+        <input className='inputgeral cadEmp' type="text" name="nome" placeholder="Digite o nome do representante aqui..." value={formData.nome} onChange={handleChange} /></Col>
       </Row>
       
       <Row >
@@ -78,6 +82,12 @@ return (
         <input className='inputgeral cadEmp' type="text" name="planosaude" placeholder="Digite o nome do plano de saúde aqui..." value={formData.planosaude} onChange={handleChange} /></Col>
         <Col><label className='labelForms'>Qual é o meio de contato de sua preferência?</label>
         <input className='inputgeral cadEmp' type="text" name="contato" placeholder="Ex. Email, Whatsapp, Ligação..." value={formData.contato} onChange={handleChange} /></Col>
+      </Row>
+      <Row >
+        <Col><label className='labelForms'>Digite sua senha</label>
+        <input className='inputgeral cadEmp' type="password" name="senha" placeholder="Digite sua senha aqui..." value={formData.senha} onChange={handleChange} /></Col>
+        <Col><label className='labelForms'>Confirme sua senha</label>
+        <input className='inputgeral cadEmp' type="password" name="senhaconfirma" placeholder="Digite sua senha novamente aqui..." value={formData.senhaconfirma} onChange={handleChange} /></Col>
       </Row>
       
 
