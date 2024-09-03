@@ -3,6 +3,7 @@ import "../css/Perfil.css";
 import perfilPsicologo from '../img/imgPerfil.jpg';
 import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
 import { Eye, EyeOff } from 'lucide-react';
+import Logout from '../Components/Logout';
 
 function Perfil() {
     const [consultationDetails, setConsultationDetails] = useState([]);
@@ -202,6 +203,9 @@ function Perfil() {
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Cargo</h6>
                                 <span className="text-secondary">Peão</span>
+                            </ListGroup.Item>
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                <Logout />
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
