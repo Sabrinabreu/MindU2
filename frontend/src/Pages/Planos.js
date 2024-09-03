@@ -1,55 +1,25 @@
 //Cadastro
-import React, { useState, useEffect } from "react";
+import React from "react";
 import '../css/Planos.css';
 import { Container, Row, Col } from "react-bootstrap";
-import Rodape from "../Components/Rodape";
-import "../css/Rodape.css";
+import { Link } from 'react-router-dom';
+
 
 const Cadastro = () => {
-    const sectionsConfig = [
-        { id: 'section1', delay: '0.2s' },
-        { id: 'section2', delay: '0.4s' },
-        { id: 'section3', delay: '0.6s' },
-      ];
-    
-      useEffect(() => {
-        const handleScroll = () => {
-          sectionsConfig.forEach(({ id, delay }) => {
-            const section = document.getElementById(id);
-            if (section) {
-              const rect = section.getBoundingClientRect();
-              if (rect.top < window.innerHeight && rect.bottom > 0) {
-                section.classList.add('visible');
-                section.style.transitionDelay = delay;
-              } else {
-                section.classList.remove('visible');
-                section.style.transitionDelay = '0s';
-              }
-            }
-          });
-        };
-    
-        window.addEventListener('scroll', handleScroll);
-        handleScroll();
-    
-        return () => window.removeEventListener('scroll', handleScroll);
-      }, []);
-
     return (
         <>
             <Container className="caixaPlanos">
                 <Row>
-                    <Col className="text-center mb-4">
+                    <Col className="title text-center">
                         <h2>Nossos Planos</h2>
                     </Col>
                 </Row>
                 <Row className="assinatura">
                     <Col>
-                    <div className="scroll-section" id="section1">
                         <div class="plan">
                             <div class="inner">
                                 <p class="title">Bem-Estar</p>
-                                <p class="info">Ideal para quem busca suporte psicológico básico e orientação.</p>
+                                <p class="info">Ideal para quem busca suporte psicológico básico e orientação.</p><br></br>
                                 <div class="price">R$5.199<span>/ mês</span></div>
 
                                 <ul class="featureList">
@@ -61,16 +31,15 @@ const Cadastro = () => {
                                     <li class="disabled">Sessões de coaching psicológico personalizadas (1 vez por mês)</li>
                                 </ul><br></br><br></br>
                                 <div class="action">
-                                    <a class="botaoPlan" href="#">
+                                    <Link to="/dashboard" class="botaoPlan">
                                         Escolher plano
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
-                    </div></Col>
+                    </Col>
 
                     <Col>
-                    <div className="scroll-section" id="section2">
                         <div class="plan">
                             <div class="inner">
                                 <div className="pop">
@@ -99,10 +68,9 @@ const Cadastro = () => {
                                 </div>
                             </div>
                         </div>
-                    </div></Col>
+                    </Col>
 
                     <Col>
-                    <div className="scroll-section" id="section3">
                         <div class="plan">
                             <div class="inner">
                                 <p class="title">Transformação </p>
@@ -123,7 +91,7 @@ const Cadastro = () => {
                                 </div>
                             </div>
                         </div>
-                    </div></Col>
+                    </Col>
                 </Row>
             </Container >
         </>
