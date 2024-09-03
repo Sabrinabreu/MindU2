@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Acessibilidade from "./Acessibilidade";
 import "../css/Navbar.css";
 import Logo from "../img/logo.png";
 import { useAuth } from '../provider/AuthProvider';
@@ -42,7 +43,7 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
   return (
     <Navbar expand="lg" className={`custom-navbar ${isDarkMode ? 'dark-mode' : ''}`}>
       <Container className='navContainer'>
- 
+        <Acessibilidade />
         <Navbar.Brand as={Link} to="/">
         <img width={"30px"} src={Logo} alt="" />
         </Navbar.Brand>
