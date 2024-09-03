@@ -8,6 +8,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
+const nomePsico = 'Flávio Monteiro Lobato';
+
 // Horários disponíveis
 const availableTimes = {
     '2024-08-22': ['13:00', '14:00', '15:00'],
@@ -112,7 +114,6 @@ const DatePicker = ({ onDateSelect }) => {
     );
 };
 
-// Agendar
 const Agendar = () => {
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -230,7 +231,7 @@ const Agendar = () => {
                             Duração da sessão <br />
                             <b>1 hora</b>
                         </button>
-                        <h4 className='nomePsico container p-4'>Flávio Monteiro Lobato</h4>
+                        <h4 className='nomePsico container p-4'>{nomePsico}</h4>
                         <b className='infoPsico'>Psicólogo Cognitivo</b>
                         <h6 className='infoPsico'>Cornélio Procópio - PR</h6>
                         <h6 className='crp'>214579 / CRP - 4ª Região</h6>

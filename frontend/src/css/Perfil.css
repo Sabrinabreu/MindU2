@@ -3,6 +3,26 @@
     display: inline-block;
 }
 
+.cardPerfil {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+[data-theme='dark'] .cardPerfil {
+    background-color: rgb(144, 143, 143);
+}
+
 .meuPerfil {
     width: 100%;
     border-radius: 100%;
@@ -154,64 +174,6 @@
 
 /*// Global / Etc*/
 
-body {
-    font-family: system-ui, sans-serif;
-}
-
-.corp-fi {
-    background: var(--eventColor1);
-}
-
-.ent-law {
-    background: var(--eventColor2);
-}
-
-.writing {
-    background: var(--eventColor3);
-}
-
-.securities {
-    background: var(--eventColor4);
-}
-
-.date {
-    display: flex;
-    gap: 1em;
-}
-
-.date-num {
-    font-size: 3rem;
-    font-weight: 600;
-    display: inline;
-}
-
-.date-day {
-    display: inline;
-    font-size: 3rem;
-    font-weight: 100;
-}
-
-.cardPerfil {
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: 1rem;
-}
-
-.gutters-sm {
-    margin-right: -8px;
-    margin-left: -8px;
-}
-
 .gutters-sm>.col, .gutters-sm>[class*=col-] {
     padding-right: 8px;
     padding-left: 8px;
@@ -281,16 +243,6 @@ body {
     vertical-align: top;
 }
 
-.consulta-bloquinho {
-    background-color: #007bff;
-    color: #fff;
-    padding: 5px;
-    margin-top: 5px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 12px;
-}
-
 /* EDITAR */
 .editarBot{
     background-color: #F9B0C3;
@@ -321,4 +273,41 @@ body {
     background-color: #dfddff;
     border: none;
     margin-left: 3px;
+}
+
+/*consulta na agenda*/
+.has-consultation {
+    background-color: #f0f0f0;
+}
+
+.dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    background-color: #007bff;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot .consultation-details {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    display: none;
+    z-index: 1000;
+    width: 150px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.dot:hover .consultation-details {
+    display: block;
 }

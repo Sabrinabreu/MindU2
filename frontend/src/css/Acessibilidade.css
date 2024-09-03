@@ -1,41 +1,182 @@
-.acessibilidade{
-    border-radius: 100%;
-    color: red;
-    width: 55px;
-    height: 40px;
-    background-color: rgb(244, 205, 205);
-    border: none;
-}
-
-.acessibilidade:hover{
-    transform: scale(1.02);}
-
-.btn-acessibilidade {
+.accessibility-toggle {
     position: fixed;
     bottom: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background-color: #007bff;
+    left: 20px;
+    background: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 24px;
     cursor: pointer;
-    z-index: 1050; 
+    z-index: 2000;
+    transition: background 0.3s;
 }
 
-.acessibilidade-panel {
+.accessibility-toggle:hover {
+    background: #0056b3;
+}
+
+.accessibility-panel {
     position: fixed;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 100%;
-    background-color: white;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    left: 100px;
+    bottom: 0;
+    width: 400px;
+    height: 75%;
+    background: #f8f9fa;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     overflow-y: auto;
-    z-index: 1050;
+    transition: transform 0.3s ease;
+    transform: translateX(0);
+    z-index: 1001;
 }
 
-.acessibilidade-panel h2 {
-    margin-top: 0;
+.accessibility-close {
+    background: transparent;
+    border: none;
+    color: #333;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.accessibility-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.accessibility-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.accessibility-section {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.font-size-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.font-size-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.font-size-display {
+    font-size: 1.2rem;
+}
+
+.accessibility-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.accessibility-button.active {
+    background: #007bff;
+    color: white;
+}
+
+.accessibility-button:hover {
+    background: #d6d6d6;
+}
+
+.accessibility-button.active:hover {
+    background: #0056b3;
+}
+
+.accessibility-button svg {
+    margin-right: 10px;
+}
+
+
+
+
+
+/* Exemplo de CSS para diferentes acessibilidade */
+.large-cursor {
+    cursor: zoom-in; /* ou outro estilo de cursor grande */
+}
+
+.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+.high-contrast {
+    background-color: #000;
+    color: #fff;
+}
+
+.increase-letter-spacing {
+    letter-spacing: 2px;
+}
+
+.increase-line-height {
+    line-height: 1.8;
+}
+
+.increase-images {
+    transform: scale(1.2); /* Ajustar a escala das imagens */
+}
+
+.font-arial {
+    font-family: Arial, sans-serif;
+}
+
+.text-magnifier {
+    font-size: 1.2em;
+}
+
+
+
+
+.accessibility-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas de largura igual */
+    gap: 10px;
+}
+
+.accessibility-button {
+    display: flex;
+    align-items: center;
+    background: #e9ecef;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    text-align: center; /* Centraliza o texto no botão */
+}
+
+.accessibility-button.active {
+    background: #007bff;
+    color: white;
+}
+
+.accessibility-button:hover {
+    background: #d6d6d6;
+}
+
+.accessibility-button.active:hover {
+    background: #0056b3;
+}
+
+.accessibility-button svg {
+    margin-right: 10px;
 }
