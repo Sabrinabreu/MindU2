@@ -12,7 +12,9 @@ const CadastroForm = () => {
     departamento: '',
     qtdfuncionarios: '',
     planosaude: '',
-    contato: ''
+    contato: '',
+    senha: '',
+    senhaconfirma: '',
   });
 
   const handleChange = (e) => {
@@ -38,7 +40,9 @@ const CadastroForm = () => {
         departamento: '',
         qtdfuncionarios: '',
         planosaude: '',
-        contato: ''
+        contato: '',
+        senha: '',
+        senhaconfirma: '',
       });
     } catch (error) {
       console.error('Erro ao criar cadastro:', error);
@@ -78,6 +82,12 @@ return (
         <input className='inputgeral cadEmp' type="text" name="planosaude" placeholder="Digite o nome do plano de saúde aqui..." value={formData.planosaude} onChange={handleChange} /></Col>
         <Col><label className='labelForms'>Qual é o meio de contato de sua preferência?</label>
         <input className='inputgeral cadEmp' type="text" name="contato" placeholder="Ex. Email, Whatsapp, Ligação..." value={formData.contato} onChange={handleChange} /></Col>
+      </Row>
+      <Row >
+        <Col><label className='labelForms'>Digite sua senha</label>
+        <input className='inputgeral cadEmp' type="password" name="senha" placeholder="Digite sua senha aqui..." value={formData.senha} onChange={handleChange} /></Col>
+        <Col><label className='labelForms'>Confirme sua senha</label>
+        <input className='inputgeral cadEmp' type="password" name="senhaconfirma" placeholder="Digite sua senha novamente aqui..." value={formData.senhaconfirma} onChange={handleChange} /></Col>
       </Row>
       
 
