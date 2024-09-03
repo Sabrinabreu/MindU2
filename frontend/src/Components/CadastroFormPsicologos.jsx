@@ -20,7 +20,8 @@ const CadastroFormPsi = () => {
         disponibilidade: '',
         localidades: '',
         motivacao: '',
-        objetivos: ''
+        objetivos: '',
+        senha: ''
     });
 
     const handleChange = (e) => {
@@ -52,7 +53,8 @@ const CadastroFormPsi = () => {
                 disponibilidade: '',
                 localidades: '',
                 motivacao: '',
-                objetivos: ''
+                objetivos: '',
+                senha: ''
             });
         } catch (error) {
             console.error('Erro ao criar cadastro:', error);
@@ -163,6 +165,14 @@ const CadastroFormPsi = () => {
                         <label className='labelForms'>Objetivos Profissionais e Expectativas</label>
                         <textarea className='inputform cadPsi' name="objetivos" placeholder="Digite seus objetivos profissionais e expectativas aqui..." value={formData.objetivos} onChange={handleChange} required />
                     </Col>
+                </Row>
+                <Row>
+                  <Col md={6} sm={12}>
+                    <label className='labelForms'>Digite sua senha</label>
+                    <input className='inputgeral cadEmp' type="password" name="senha" placeholder="Digite sua senha aqui..." value={formData.senha} onChange={handleChange} /></Col>
+                  <Col>
+                    <label className='labelForms'>Confirme sua senha</label>
+                    <input className='inputgeral cadEmp' type="password" name="senhaconfirma" placeholder="Digite sua senha novamente aqui..." value={formData.senhaconfirma} onChange={handleChange} /></Col>
                 </Row>
 
                 <button className='botaoCadastro' type="submit">Enviar</button>
