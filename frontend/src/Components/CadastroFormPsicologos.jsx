@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
 
-
-
-
 const CadastroFormPsi = () => {
     const [formData, setFormData] = useState({
         nome: '',
@@ -13,7 +10,6 @@ const CadastroFormPsi = () => {
         telefone: '',
         email: '',
         endereco: '',
-        certificados: null,
         formacaoAcademica: '',
         areasInteresse: '',
         preferenciaHorario: '',
@@ -21,22 +17,42 @@ const CadastroFormPsi = () => {
         localidades: '',
         motivacao: '',
         objetivos: '',
-        senha: ''
+        senha: '',
+        certificados: null // Para armazenar o arquivo
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        const { name, value, type, files } = e.target;
+        if (type === 'file') {
+            setFormData({
+                ...formData,
+                [name]: files[0] // Acessa o arquivo selecionado
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const data = new FormData();
+
+        // Adiciona todos os campos de texto ao FormData
+        for (const key in formData) {
+            if (formData[key] !== null) {
+                data.append(key, formData[key]);
+            }
+        }
+
         try {
-            await axios.post('http://localhost:3001/cadastropsicologos', formData);
+            await axios.post('http://localhost:3001/cadastropsicologos', data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' // Necessário para enviar arquivos
+                }
+            });
             alert('Cadastro criado com sucesso!');
             // Limpar o formulário após o envio bem-sucedido
             setFormData({
@@ -46,7 +62,6 @@ const CadastroFormPsi = () => {
                 telefone: '',
                 email: '',
                 endereco: '',
-                certificados: null,
                 formacaoAcademica: '',
                 areasInteresse: '',
                 preferenciaHorario: '',
@@ -54,7 +69,8 @@ const CadastroFormPsi = () => {
                 localidades: '',
                 motivacao: '',
                 objetivos: '',
-                senha: ''
+                senha: '',
+                certificados: null
             });
         } catch (error) {
             console.error('Erro ao criar cadastro:', error);
@@ -105,32 +121,6 @@ const CadastroFormPsi = () => {
 
                 <Row>
                     <Col>
-                        <label className='labelForms'>Especializações e Certificações</label>
-                        <div className='upload-container'>
-                            <input
-                                className='upload-input'
-                                type="file"
-                                name="certificados"
-                                accept="image/*,application/pdf"
-                                onChange={handleChange}
-                            />
-                            <label className='upload-label' htmlFor="certificados">
-                                <i className="upload-icon">⬆️</i> Selecione um arquivo
-                            </label>
-                            <small className='form-text text-muted'>
-                                Envie imagens ou PDFs dos seus certificados. Máx. 5MB.
-                            </small>
-
-                        </div>
-                    </Col>
-                    <Col>
-                        <label className='labelForms'>Formação Acadêmica</label>
-                        <input className='inputform cadPsi' type="text" name="formacaoAcademica" placeholder="Digite sua formação acadêmica aqui..." value={formData.formacaoAcademica} onChange={handleChange} required />
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
                         <label className='labelForms'>Áreas de Interesse e Especialização</label>
                         <input className='inputform cadPsi' type="text" name="areasInteresse" placeholder="Digite suas áreas de interesse e especialização aqui..." value={formData.areasInteresse} onChange={handleChange} required />
                     </Col>
@@ -167,19 +157,37 @@ const CadastroFormPsi = () => {
                     </Col>
                 </Row>
                 <Row>
-                  <Col md={6} sm={12}>
-                    <label className='labelForms'>Digite sua senha</label>
-                    <input className='inputgeral cadEmp' type="password" name="senha" placeholder="Digite sua senha aqui..." value={formData.senha} onChange={handleChange} /></Col>
-                  <Col>
-                    <label className='labelForms'>Confirme sua senha</label>
-                    <input className='inputgeral cadEmp' type="password" name="senhaconfirma" placeholder="Digite sua senha novamente aqui..." value={formData.senhaconfirma} onChange={handleChange} /></Col>
+                    <Col md={6} sm={12}>
+                        <label className='labelForms'>Digite sua senha</label>
+                        <input className='inputgeral cadEmp' type="password" name="senha" placeholder="Digite sua senha aqui..." value={formData.senha} onChange={handleChange} /></Col>
+                    <Col>
+                        <label className='labelForms'>Confirme sua senha</label>
+                        <input className='inputgeral cadEmp' type="password" name="senhaconfirma" placeholder="Digite sua senha novamente aqui..." value={formData.senhaconfirma} onChange={handleChange} /></Col>
                 </Row>
-
+                <Row>
+                    <Col>
+                        <label className='labelForms'>Especializações e Certificações</label>
+                        <div className='upload-container'>
+                            <input
+                                className='upload-input'
+                                type="file"
+                                name="certificados"
+                                accept="image/*,application/pdf"
+                                onChange={handleChange}
+                            />
+                            <label className='upload-label' htmlFor="certificados">
+                                <i className="upload-icon">⬆️</i> Selecione um arquivo
+                            </label>
+                            <small className='form-text text-muted'>
+                                Envie imagens ou PDFs dos seus certificados. Máx. 5MB.
+                            </small>
+                        </div>
+                    </Col>
+                </Row>
                 <button className='botaoCadastro' type="submit">Enviar</button>
             </Container>
         </form>
     );
-
 };
 
 export default CadastroFormPsi;

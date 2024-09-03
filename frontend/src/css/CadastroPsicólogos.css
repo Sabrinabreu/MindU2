@@ -193,3 +193,48 @@ body {
 .cardporque:active {
     transform: translateY(-4px);
 }
+
+@media (max-width: 576px) {
+    .imgpsi {
+        margin-left: -20px !important;
+        width: 400px !important;
+        height: 100% !important;
+    }
+
+    .blococadastropsi {
+        margin: auto !important;
+    }
+
+    .fundoFormsPsi {
+        flex-wrap: wrap !important;
+        margin: 5% !important;
+        padding: 10px 0px;
+    }
+
+    .imgporque {
+        margin-left: -70px !important;
+        width: 380px !important;
+        height: 100% !important;
+    }
+
+    .conteinerporque {
+        flex-wrap: wrap !important;
+    }
+
+    .cardporque {
+        width: 100% !important;
+        height: auto !important;
+        margin-left: 1% !important;
+        margin-bottom: 2% !important;
+        font-size: 8px;
+    }
+
+    .botaoCadastro {
+        padding: 0.8em 1em;
+        font-size: 7px;
+    }
+
+    .blocoFormsPsi {
+        font-size: 12px;
+    }
+}

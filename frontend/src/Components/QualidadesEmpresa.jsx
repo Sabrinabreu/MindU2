@@ -19,7 +19,6 @@ function QualidadesMindU() {
                     <div className='d-flex cards'>
                         <Col md='4' sm='12'>
                             <Card className="text-center cardQualidades">
-
                                 <Card.Body>
                                     <CalendarCog className="calendarimg" size={80} strokeWidth={0.8} />
 

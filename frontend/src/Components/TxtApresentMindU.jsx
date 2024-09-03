@@ -19,11 +19,11 @@ function TxtSobreMindU() {
 
                             <br /> Conheça nossos planos e garanta uma boa saúde mental para você!!</p>
                         <br />
-                        <div>
-                        <Link to="/planos" className='botaoSobre'>
-                        Veja os nossos planos aqui.
-                                  </Link></div>
                     </div>
+                    <div>
+                        <Link to="/planos" className='botaoSobre'>
+                            Veja os nossos planos aqui.
+                        </Link></div>
                 </Col>
             </Row>
         </Container>

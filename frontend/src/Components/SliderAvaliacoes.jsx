@@ -26,7 +26,28 @@ function Avaliacoes() {
         centerPadding: '20px', // Ajusta a quantidade de espaço ao redor do slide central
         focusOnSelect: true, // Permite seleção ao clicar nos slides
         arrows: true, // Habilita os botões de navegação
+        responsive: [
+            {
+                breakpoint: 768, // Define o ponto de interrupção para dispositivos móveis
+                settings: {
+                    slidesToShow: 2, // Mostra 2 slides
+                    slidesToScroll: 2, // Desliza 2 slides de cada vez
+                    centerPadding: '80px', // Ajusta o padding para dispositivos móveis
+                },
+            },
+            {
+                breakpoint: 480, // Define um ponto de interrupção adicional para dispositivos muito pequenos
+                settings: {
+                    slidesToShow: 1, // Mostra 1 slide
+                    slidesToScroll: 1, // Desliza 1 slide de cada vez
+                    centerPadding: '60px', // Ajusta o padding para dispositivos ainda menores
+                },
+            },
+            
+        ],
     };
+
+
 
     return (
         <Container className='colab'><Row> <Col md='12'>

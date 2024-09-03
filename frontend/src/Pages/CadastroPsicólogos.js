@@ -61,9 +61,9 @@ function CadastroPsicólogos() {
             <Row>
                 <div className="scroll-section" id="section1">
                     <div id="header" className="fundoFormsPsi d-flex">
-                        <img width={610} height={350} src={PsicologosImg1} />
-                        <Col md='4' className='blococadastropsi'>
-                            <h6>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? </h6>
+                        <img className='imgpsi' width={610} height={350} src={PsicologosImg1} />
+                        <Col md='4' sm='12' className='blococadastropsi'>
+                            <h6 className='questioncadastro'>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? </h6>
                             <div className='cardcadastropsi'>
                                 <p> Na MindU, acreditamos que a saúde mental é fundamental para o bem-estar geral, e estamos em busca de profissionais dedicados como você para se juntar à nossa rede de excelência. </p>
                             </div>
@@ -81,7 +81,7 @@ function CadastroPsicólogos() {
                             <img className='imgporque' src={Psicologos} width={600} height={450} alt="Psicólogos" />
                         </div>
 
-                        <Col md='4'>
+                        <Col md='4' sm='12'>
 
                             <div className="scroll-section" id="section4">
                                 <h4>1. Flexibilidade de Horários</h4>
@@ -101,7 +101,7 @@ function CadastroPsicólogos() {
                             </div>
                         </Col>
 
-                        <Col md='4'>
+                        <Col md='4' sm='12'>
 
                             <div className="scroll-section" id="section6">
                                 <h4>2. Desenvolvimento profissional</h4>
@@ -124,7 +124,7 @@ function CadastroPsicólogos() {
 
                 <div className="scroll-section" id="section8" >
                     <div className='container align-self-center d-flex justify-content-center'>
-                        <Col md={9} sm={12} className="blocoFormsPsi centralizar">
+                        <Col md={9} sm={10} className="blocoFormsPsi centralizar">
                             <h2 className="m-4 centralizar">Cadastre-se no nosso convênio!</h2>
                             <div>
                                 <CadastroFormPsicologos />

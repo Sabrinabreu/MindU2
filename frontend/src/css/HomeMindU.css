@@ -55,7 +55,7 @@ body {
 
 .cardProfsMenor {
     left: 114% !important;
-    bottom: 94% !important;
+    bottom: 72% !important;
     border-radius: 100% !important;
     height: 180px !important;
     width: 180px !important;
@@ -109,7 +109,7 @@ body {
 }
 
 .botaoSobre {
-    position: relative !important;
+    position: absolute !important;
     z-index: 99 !important;
     padding: 1.3em 3em;
     font-size: 12px;
@@ -117,6 +117,7 @@ body {
     letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;
+    margin-left: 100px !important;
     background-color: #ffd34e63;
     border: 1.7px solid #f1c951;
     border-radius: 45px;
@@ -290,7 +291,6 @@ body {
     display: block;
     width: 40px !important;
     height: 20px;
-    padding: 5px;
     cursor: pointer;
     border: 0;
     outline: none;
@@ -300,10 +300,6 @@ body {
     color: #e0dffd !important;
 }
 
-
-.slick-next {
-    right: 20px !important;
-}
 
 .slick-next:before {
     color: #28096b !important;
@@ -315,6 +311,14 @@ body {
 
 [data-theme='dark'] .slick-next:before {
     color: #e0dffd !important;
+}
+
+.slick-prev {
+    left: 40px !important;
+}
+
+.slick-next {
+    right: 4px !important;
 }
 
 .slick-prev,
@@ -485,6 +489,12 @@ body {
     left: 0.5% !important;
 }
 
+.textresultados {
+    text-align: center !important;
+    font-size: 3em !important;
+    padding-top: 4% !important;
+}
+
 .textresults {
     text-align: left !important;
     font-size: 1.4em !important;
@@ -528,11 +538,22 @@ body {
 
 /*RESPONSIVIDADE*/
 
-@media (max-width: 600px) {
-    .cardBannerMaior {
-        visibility: hidden !important;
+@media (min-width: 300px) and (max-width: 480px) {
+
+    .txtSobre {
+        top: 4% !important;
+        bottom: 20% !important;
+        left: 1% !important;
+        width: auto !important;
     }
 
+    .botaoSobre {
+        width: 300px !important;
+        margin-left: 30px !important;
+    }
+
+
+    .cardBannerMaior,
     .cardProfsMenor {
         visibility: hidden !important;
     }
@@ -541,91 +562,373 @@ body {
         flex-wrap: wrap !important;
     }
 
+    .cardQualidades {
+        width: 260px !important;
+        height: auto !important;
+        margin: auto !important;
+    }
 
-}
-
-/* Large devices (desktops) */
-@media (min-width: 992px) {
     .slide {
-        width: 90% !important;
-        height: fit-content !important;
-        padding: 28px;
-        font-size: 12px;
+        width: auto !important;
+        height: auto !important;
     }
 
-    .slick-dots {
-        bottom: -30px;
-        left: 2%;
+    .carousel-container {
+        width: 100% !important;
+        position: relative !important;
     }
 
-    .slick-prev,
+    .slick-prev {
+        left: 4px !important;
+    }
+
     .slick-next {
-        width: 50px !important;
-        height: 50px !important;
+        right: 8px !important;
+    }
+
+    .slick-dots li button {
+        visibility: hidden !important;
+    }
+
+    .results-container {
+        margin-top: 10% !important;
+        margin-left: auto !important;
+    }
+
+    .results {
+        width: auto !important;
+        height: auto !important;
+    }
+
+    .resultado {
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        position: relative !important;
+    }
+
+    .resultados {
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        position: relative !important;
+    }
+
+
+    .textresultados {
+        text-align: center !important;
+        font-size: 1.4em !important;
+        padding-left: -20px !important;
+    }
+
+    .textresults {
+        justify-content: center !important;
+    }
+
+    .cardmaior {
+        height: auto !important;
+        padding: 30px !important;
+    }
+
+    .cardmenor {
+        height: 200px !important;
+        padding: 18px !important;
+    }
+
+    .cardmaior h1 {
+        padding-top: 4% !important;
+        font-size: 4rem;
+        text-align: left !important;
+    }
+
+    .numeromenor {
+        font-size: 3em !important;
+        right: 4% !important;
+        position: relative !important;
+    }
+
+    .conteudocardmenor {
+        padding-left: 6% !important;
+        margin-top: -120px !important;
+    }
+
+    .resultado {
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .trending {
+        visibility: hidden !important;
+        width: none !important;
+    }
+
+    .faqaccordion {
+        margin-bottom: 40% !important;
     }
 }
 
-/* Medium devices (tablets) */
-@media (max-width: 991px) and (min-width: 768px) {
+@media (width: 540px) {
+
+    .txtSobre {
+        top: 4% !important;
+        bottom: 20% !important;
+        left: 1% !important;
+        width: auto !important;
+    }
+
+    .botaoSobre {
+        width: 300px !important;
+        margin-left: 30px !important;
+    }
+
+
+    .cardBannerMaior,
+    .cardProfsMenor {
+        visibility: hidden !important;
+    }
+
+    .cards {
+        flex-wrap: wrap !important;
+    }
+
+    .cardQualidades {
+        width: 260px !important;
+        height: auto !important;
+        margin: auto !important;
+    }
+
     .slide {
         width: 300px !important;
-        height: auto !important;
-        padding: 20px;
-        font-size: 10px;
+        height: 500px !important;
+        margin-left: -150px !important;
     }
 
-    .slick-dots {
-        bottom: -25px;
-        left: 2%;
+    .carousel-container {
+        width: 100% !important;
+        position: relative !important;
     }
 
-    .slick-prev,
+    .slick-prev {
+        left: 4px !important;
+    }
+
     .slick-next {
-        width: 45px !important;
-        height: 45px !important;
+        right: 8px !important;
+    }
+
+    .slick-dots li button {
+        visibility: hidden !important;
+    }
+
+    .results-container {
+        margin-top: 10% !important;
+        margin-left: auto !important;
+    }
+
+    .results {
+        width: auto !important;
+        height: auto !important;
+    }
+
+    .resultado {
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        position: relative !important;
+    }
+
+    .resultados {
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        position: relative !important;
+    }
+
+
+    .textresultados {
+        text-align: center !important;
+        font-size: 1.4em !important;
+        padding-left: -20px !important;
+    }
+
+    .textresults {
+        justify-content: center !important;
+    }
+
+    .cardmaior {
+        height: auto !important;
+        padding: 30px !important;
+    }
+
+    .cardmenor {
+        height: 200px !important;
+        padding: 18px !important;
+    }
+
+    .cardmaior h1 {
+        padding-top: 4% !important;
+        font-size: 4rem;
+        text-align: left !important;
+    }
+
+    .numeromenor {
+        font-size: 3em !important;
+        right: 4% !important;
+        position: relative !important;
+    }
+
+    .conteudocardmenor {
+        padding-left: 6% !important;
+        margin-top: -120px !important;
+    }
+
+    .resultado {
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .trending {
+        visibility: hidden !important;
+        width: none !important;
+    }
+
+    .faqaccordion {
+        margin-bottom: 40% !important;
     }
 }
 
-/* Small devices (phones, 600px and up) */
-@media (max-width: 600px) {
-    .slide {
-        width: 80% !important;
-        height: auto !important;
-        padding: 15px !important;
-        font-size: 8px;
-        border-width: 10% !important;
+@media (min-width: 600px) and (max-width: 1100px) {
+
+    .txtSobre {
+        top: 4% !important;
+        bottom: 20% !important;
+        left: 1% !important;
+        width: 70% !important;
+        text-align: left !important;
+        padding: 1.3em 3em;
+        font-size: 12px;
+        letter-spacing: 2px;
     }
 
-    .slick-dots {
-        bottom: -20px;
-        left: 0;
+    .botaoSobre {
+        width: auto !important;
+        margin-left: 30px !important;
     }
 
-    .slick-prev,
-    .slick-next {
-        width: 40px !important;
-        height: 40px !important;
-    }
-}
 
-/* Extra small devices (phones, 480px and up) */
-@media (max-width: 480px) {
-    .slide {
+    .cardBannerMaior {
+        margin-top: 30px !important;
         width: 200px !important;
-        height: 400px !important;
-        padding: 10px !important;
-        font-size: 7px;
-        border-width: 5% !important;
+        height: 350px !important;
     }
 
-    .slick-dots {
-        bottom: -10px;
-        left: 0;
+    .cardProfsMenor {
+        margin-left: 10px !important;
+        margin-bottom: 40px !important;
+        width: 120px !important;
+        height: 120px !important;
     }
 
-    .slick-prev,
+    .imagem1 {
+        width: 110px !important;
+        border-radius: 140% !important;
+        margin-top: 20% !important;
+        margin-left: 2px !important;
+    }
+
+    .imagem2 {
+        width: 184px !important;
+        border-top-left-radius: 20% !important;
+        border-top-right-radius: 20% !important;
+        margin-top: 66% !important;
+        margin-left: 2px !important;
+    }
+
+
+    .cards {
+        flex-wrap: wrap !important;
+        margin: 20px !important;
+        column-gap: 130px !important;
+        position: relative !important;
+    }
+
+    .qualidadesMindU {
+        text-align: center;
+        margin-left: -60px !important;
+    }
+
+    .slide {
+        width: 300px !important;
+        height: 500px !important;
+        margin-left: -150px !important;
+    }
+
+    .carousel-container {
+        width: 100% !important;
+        position: relative !important;
+    }
+
+    .slick-prev {
+        left: 4px !important;
+    }
+
     .slick-next {
-        width: 35px !important;
-        height: 35px !important;
+        right: 8px !important;
+    }
+
+    .slick-dots li button {
+        visibility: hidden !important;
+    }
+
+    .results-container {
+        margin-top: 10% !important;
+        margin-left: auto !important;
+    }
+
+    .results {
+        width: auto !important;
+        height: auto !important;
+    }
+
+
+
+    .textresultados {
+        text-align: center !important;
+        font-size: 3em !important;
+        padding-left: -20px !important;
+    }
+
+    .textresults {
+        justify-content: center !important;
+    }
+
+    .cardmaior {
+        height: auto !important;
+        padding: 30px !important;
+    }
+
+    .cardmenor {
+        width: 300px !important;
+        height: 330px !important;
+        padding: 18px !important;
+    }
+
+    .conteudocardmenor {
+        padding-left: 10px !important;
+        padding-bottom: 20px !important;
+    }
+
+    .resultado {
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .resultados {
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .trending {
+        width: 200px !important;
+    }
+
+    .faqaccordion {
+        margin-bottom: 40% !important;
     }
 }

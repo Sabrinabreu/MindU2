@@ -6,21 +6,21 @@ function Resultados() {
     return (
 
         <Container className='results-container'> <Row>
-            <h1 className='text-center'> Resultados mensuráveis: </h1>
-            <div className="d-flex container">
-                <Col md='6' sm='12'>
+            <h1 className='text-center textresultados'> Resultados mensuráveis: </h1>
+            <div className="d-flex container resultados">
+                <Col md='6' sm='10'>
                     <Card className="results cardmaior">
                         <Card.Body>
                             <Card.Text>
-                                <div className="d-flex">
+                                <div className="d-flex resultado">
                                     <h1>80%</h1>
                                     <p className='textresults'>de <span className='palavrachave'> melhora clínica</span> dos colaboradores após de contratar o nosso convênio</p>
                                 </div>
-                                <div className="d-flex">
+                                <div className="d-flex resultado">
                                     <h1>50%</h1>
                                     <p className='textresults'>de <span className='palavrachave'>redução</span>  nos níveis de transtornos mentais</p>
                                 </div>
-                                <div className="d-flex">
+                                <div className="d-flex resultado">
                                     <div className="d-flex">  <span className='numeromenor cifrao'>R$</span><h1>18,</h1><span className='numeromenor'>50</span></div>
                                     <p className='textresults invest'> É o <span className='palavrachave'>retorno</span> que sua empresa terá para cada 1,00 investido em saúde mental </p>
                                 </div>
@@ -29,11 +29,11 @@ function Resultados() {
                         </Card.Body>
                     </Card>
                 </Col>
-                <div>  <Col md='6' sm='12'>
+                <div>  <Col md='6' sm='10'>
                     <Card className="results cardmenor">
                         <Card.Body>
-                            <div className="d-flex">
-                                <div> <TrendingDown size={120} color='#7766C6' /></div>
+                            <div className="d-flex resultados">
+                                <div> <TrendingDown className='trending' size={120} color='#7766C6' /></div>
                                 <div className='conteudocardmenor'>
                                     <Card.Title className='titulocardmenor'>Diminua</Card.Title>
                                     <Card.Text className='textcardmenor' >
@@ -49,11 +49,11 @@ function Resultados() {
                         </Card.Body>
                     </Card>
                 </Col>
-                    <Col md='6' sm='12'>
+                    <Col md='6' sm='10'>
                         <Card className="results cardmenor">
                             <Card.Body>
-                                <div className="d-flex">
-                                    <div> <TrendingUp size={120} color='#7766C6' /></div>
+                                <div className="d-flex resultados">
+                                    <div> <TrendingUp  className='trending' size={120} color='#7766C6' /></div>
                                     <div className='conteudocardmenor'>
                                         <Card.Title className='titulocardmenor'>Promova</Card.Title>
                                         <Card.Text className='textcardmenor' >
