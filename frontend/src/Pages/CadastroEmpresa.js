@@ -11,9 +11,7 @@ const Cadastro = () => {
   const sectionsConfig = [
     { id: 'section1', delay: '0.2s' },
     { id: 'section2', delay: '0.2s' },
-    { id: 'section3', delay: '0.4s' },
-    { id: 'section4', delay: '0.4s' },
-    { id: 'section5', delay: '0.8s' },
+    { id: 'section3', delay: '0.2s' },
   ];
 
   useEffect(() => {
