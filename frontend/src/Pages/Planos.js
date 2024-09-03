@@ -2,15 +2,15 @@
 import React from "react";
 import '../css/Planos.css';
 import { Container, Row, Col } from "react-bootstrap";
-import Rodape from "../Components/Rodape";
-import "../css/Rodape.css";
+import { Link } from 'react-router-dom';
+
 
 const Cadastro = () => {
     return (
         <>
             <Container className="caixaPlanos">
                 <Row>
-                    <Col className="text-center">
+                    <Col className="title text-center">
                         <h2>Nossos Planos</h2>
                     </Col>
                 </Row>
@@ -19,7 +19,7 @@ const Cadastro = () => {
                         <div class="plan">
                             <div class="inner">
                                 <p class="title">Bem-Estar</p>
-                                <p class="info">Ideal para quem busca suporte psicológico básico e orientação.</p>
+                                <p class="info">Ideal para quem busca suporte psicológico básico e orientação.</p><br></br>
                                 <div class="price">R$5.199<span>/ mês</span></div>
 
                                 <ul class="featureList">
@@ -31,9 +31,9 @@ const Cadastro = () => {
                                     <li class="disabled">Sessões de coaching psicológico personalizadas (1 vez por mês)</li>
                                 </ul><br></br><br></br>
                                 <div class="action">
-                                    <a class="botaoPlan" href="#">
+                                    <Link to="/dashboard" class="botaoPlan">
                                         Escolher plano
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

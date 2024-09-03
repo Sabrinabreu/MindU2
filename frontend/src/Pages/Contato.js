@@ -1,5 +1,5 @@
 //Contato
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
 import "../css/Contato.css";
@@ -48,27 +48,63 @@ const Contato = () => {
       }
   ]);
 
+  const sectionsConfig = [
+    { id: 'section1', delay: '0.3s' },
+    { id: 'section2', delay: '0.2s' },
+    { id: 'section3', delay: '0.4s' },
+    { id: 'section4', delay: '0.4s' },
+    { id: 'section5', delay: '0.2s' },
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      sectionsConfig.forEach(({ id, delay }) => {
+        const section = document.getElementById(id);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            section.classList.add('visible');
+            section.style.transitionDelay = delay;
+          } else {
+            section.classList.remove('visible');
+            section.style.transitionDelay = '0s';
+          }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+
   return (
     <>
     <BAPO/>
       <div>
+      
         <div className="bannerContato">
           <Row>        
           <Col md={6} sm={12}>
           <div className="textobanner">
+          <div className="scroll-section" id="section1">
           <p className="Contato-Tit mb-4">Quer falar conosco?</p>
           <p className="Contato-Txt">Adoraríamos ouvir de você.</p>
           <p className="Contato-Txt">Veja como entrar em contato.</p></div>
+          </div>
           </Col>
-          <Col md={6} sm={12}>
+          <Col md={6} sm={12}><div className="scroll-section" id="section2">
           <img className="mb-3 bannerCT-IMG" src={bannerIMG} alt="desenho de 4 pessoas dançando juntas." />
-          </Col>
+          </div></Col>
             </Row>
         </div>
 
 
         <CardGroup>
         <Col md={6} sm={12}>
+        <div className="scroll-section" id="section3">
         <Card className="centralizar card-contato">
           <Card.Body>
             <img className="Icon-card-contato mb-3" src={telefoneIcon} alt="icone de telefone amarelo." />
@@ -79,9 +115,12 @@ const Contato = () => {
           <Card.Link href="#">+55 11 1000-0000</Card.Link>
         </Card.Body>
         </Card>
+        </div>
         </Col>
+        
 
         <Col md={6} sm={12}>
+        <div className="scroll-section" id="section4">
         <Card className="centralizar card-contato">
           <Card.Body>
             <img className="Icon-card-contato mb-3" src={ajudaIcon} alt="icone de mensagem amarelo." />
@@ -92,11 +131,12 @@ const Contato = () => {
           <Card.Link href="#">Link para Whatsapp</Card.Link>
         </Card.Body>
         </Card>
+        </div>
         </Col>
         </CardGroup>
 
         <h1 className="centralizar my-5">Conecte-se com um de nossos escritórios globais</h1>
-
+        <div className="scroll-section" id="section5">
         <Col className="mapa">
         <Card className="centralizar card-mapa my-2">
 
@@ -128,6 +168,7 @@ const Contato = () => {
         </Card>
 
         </Col>
+        </div>
 
         <div className="clinicas centralizar">
         {slides.map((conteudo, index) => (

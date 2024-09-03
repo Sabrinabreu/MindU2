@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 // Configuração das credenciais de acesso ao banco de dados
 const dbConfig = {
@@ -8,16 +8,9 @@ const dbConfig = {
   database: 'bancomindu' // Nome do banco de dados
 };
 
-// Criação da conexão com o banco de dados
-const connection = mysql.createConnection(dbConfig);
+// Criação do pool de conexões com o banco de dados
+const connection = mysql.createPool(dbConfig);
 
-// Verifica se a conexão foi bem-sucedida
-connection.connect((err) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados:', err);
-    return;
-  }
-  console.log('Conexão bem-sucedida ao banco de dados!');
-});
-
+// Exporta o pool de conexões para uso em outras partes da aplicação
 module.exports = connection;
+

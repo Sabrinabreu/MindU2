@@ -12,8 +12,12 @@ const CadastroForm = () => {
     departamento: '',
     qtdfuncionarios: '',
     planosaude: '',
-    contato: ''
+    contato: '',
+    senha: '',
+    senhaconfirma: '',
   });
+  
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +30,12 @@ const CadastroForm = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.senha !== formData.senhaconfirma) {
+      setError('As senhas não coincidem. Por favor, verifique e tente novamente.');
+      return;
+    }
+
+    setError('');
     try {
       await axios.post('http://localhost:3001/cadastroempresa', formData);
       alert('Cadastro criado com sucesso!');
@@ -38,7 +48,9 @@ const CadastroForm = () => {
         departamento: '',
         qtdfuncionarios: '',
         planosaude: '',
-        contato: ''
+        contato: '',
+        senha: '',
+        senhaconfirma: '',
       });
     } catch (error) {
       console.error('Erro ao criar cadastro:', error);
@@ -58,15 +70,15 @@ return (
       <input className='inputgeral cadEmp' type="email" name="email" placeholder="Digite o email corporativo aqui..." value={formData.email} onChange={handleChange} />
 
 
-      <Row >
-        <Col><label className='labelForms'>Telefone corporativo</label>
+      <Row>
+        <Col md={6} sm={12}><label className='labelForms'>Telefone corporativo</label>
         <input className='inputgeral cadEmp' type="tel"  maxlength="15" name="telefone" placeholder="Digite o telefone da empresa aqui..." value={formData.telefone} onChange={handleChange} /></Col>
         <Col><label className='labelForms'>Representante</label>
         <input className='inputgeral cadEmp' type="text" name="nome" placeholder="Digite o nome do representante aqui..." value={formData.nome} onChange={handleChange} /></Col>
       </Row>
       
       <Row >
-        <Col><label className='labelForms'>Departamento</label>
+        <Col md={6} sm={12}><label className='labelForms'>Departamento</label>
         <input className='inputgeral cadEmp' type="text" name="departamento" placeholder="Digite seu departamento aqui..." value={formData.departamento} onChange={handleChange} /></Col>
         <Col><label className='labelForms'>Quantidade de funcionários</label>
         <input className='inputgeral cadEmp' type="number" name="qtdfuncionarios" placeholder="Digite a quantidade de funcionários aqui..." value={formData.qtdfuncionarios} onChange={handleChange} /></Col>
@@ -74,12 +86,19 @@ return (
 
 
       <Row >
-        <Col><label className='labelForms'>Sua empresa já oferece algum plano de saúde?</label>
+        <Col md={6} sm={12}><label className='labelForms'>Sua empresa já oferece algum plano de saúde?</label>
         <input className='inputgeral cadEmp' type="text" name="planosaude" placeholder="Digite o nome do plano de saúde aqui..." value={formData.planosaude} onChange={handleChange} /></Col>
         <Col><label className='labelForms'>Qual é o meio de contato de sua preferência?</label>
         <input className='inputgeral cadEmp' type="text" name="contato" placeholder="Ex. Email, Whatsapp, Ligação..." value={formData.contato} onChange={handleChange} /></Col>
       </Row>
-      
+      <Row>
+          <Col md={6} sm={12}><label className='labelForms'>Digite sua senha</label>
+            <input className='inputgeral cadEmp' type="password" name="senha" placeholder="Digite sua senha aqui..." value={formData.senha} onChange={handleChange} /></Col>
+          <Col><label className='labelForms'>Confirme sua senha</label>
+            <input className='inputgeral cadEmp' type="password" name="senhaconfirma" placeholder="Digite sua senha novamente aqui..." value={formData.senhaconfirma} onChange={handleChange} /></Col>
+        </Row>
+
+        {error && <p className="text-danger">{error}</p>}
 
       <button className='botaoBanner botaoCALC' type="submit">Enviar</button>
       
