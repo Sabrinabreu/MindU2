@@ -2,26 +2,27 @@
     position: fixed;
     bottom: 20px;
     left: 20px;
-    background: #007bff;
+    background:  #7766C6;
     color: white;
     border: none;
     border-radius: 50%;
     padding: 10px;
-    font-size: 24px;
     cursor: pointer;
     z-index: 2000;
+    height: 9%;
+    width: 4%;
     transition: background 0.3s;
 }
 
 .accessibility-toggle:hover {
-    background: #0056b3;
+    background:  #9c8fd8;
 }
 
-.accessibility-panel {
+.accessibilidade-painel {
     position: fixed;
     left: 100px;
     bottom: 0;
-    width: 400px;
+    width: 405px;
     height: 75%;
     background: #f8f9fa;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
@@ -30,6 +31,7 @@
     transition: transform 0.3s ease;
     transform: translateX(0);
     z-index: 1001;
+    border-radius: 17px;
 }
 
 .accessibility-close {
@@ -68,7 +70,7 @@
 }
 
 .font-size-btn {
-    background: #007bff;
+    background: #F9B0C3;
     color: white;
     border: none;
     border-radius: 50%;
@@ -82,37 +84,61 @@
 }
 
 .accessibility-buttons {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas de largura igual */
     gap: 10px;
 }
 
+.accessibility-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    background: #e9ecef;
+    border-color: transparent;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: black;
+    transition: background 0.3s, transform 0.3s;
+    text-align: center;
+}
+
+.accessibility-button svg {
+    margin-bottom: 5px; 
+}
+
 .accessibility-button.active {
-    background: #007bff;
-    color: white;
+    background: #f19fb5;
+    border-color: transparent;
 }
 
 .accessibility-button:hover {
     background: #d6d6d6;
+    border-color: #F9B0C3;
+    color: black;
 }
 
 .accessibility-button.active:hover {
-    background: #0056b3;
+    background: #F9B0C3;
+    border-color: transparent;
+    color: white;
 }
 
-.accessibility-button svg {
-    margin-right: 10px;
-}
 
 
 
-
-
-/* Exemplo de CSS para diferentes acessibilidade */
+/* Funcionalidades */
 .large-cursor {
-    cursor: zoom-in; /* ou outro estilo de cursor grande */
+    cursor: zoom-in; /* Usando zoom-in como um exemplo de cursor grande */
 }
 
+/* Aumentar o cursor */
+.large-cursor {
+    cursor: url('https://example.com/large-cursor.png'), auto; /* Substitua pela URL de um cursor grande */
+}
+
+/* Outros estilos de acessibilidade */
 .dark-mode {
     background-color: #333;
     color: #fff;
@@ -123,11 +149,11 @@
     color: #fff;
 }
 
-.increase-letter-spacing {
+.espacamento {
     letter-spacing: 2px;
 }
 
-.increase-line-height {
+.espacoLinhas {
     line-height: 1.8;
 }
 
@@ -146,37 +172,27 @@
 
 
 
-.accessibility-buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas de largura igual */
-    gap: 10px;
+/*para Chrome, Safari, Edge */
+.accessibilidade-painel {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #ddd7f8bf #f8f9fa; /* cor da barra de rolagem para Firefox */
 }
 
-.accessibility-button {
-    display: flex;
-    align-items: center;
-    background: #e9ecef;
-    border: none;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.3s;
-    text-align: center; /* Centraliza o texto no botão */
+/* Personalizando a barra de rolagem para WebKit */
+.accessibilidade-painel::-webkit-scrollbar {
+    width: 10px;
+    background-color: #f8f9fa; /* Cor de fundo da barra */
 }
 
-.accessibility-button.active {
-    background: #007bff;
-    color: white;
+.accessibilidade-painel::-webkit-scrollbar-thumb {
+    background-color: #7766C6; /* Cor do thumb (parte que se move na barra) */
+    border-radius: 5px; /* Bordas arredondadas para o thumb */
 }
 
-.accessibility-button:hover {
-    background: #d6d6d6;
+.accessibilidade-painel::-webkit-scrollbar-thumb:hover {
+    background-color: #9c8fd8; /* Cor do thumb ao passar o mouse */
 }
 
-.accessibility-button.active:hover {
-    background: #0056b3;
-}
-
-.accessibility-button svg {
-    margin-right: 10px;
+.accessibilidade-painel::-webkit-scrollbar-track {
+    background-color: #f8f9fa; /* Cor do track (área de fundo da barra) */
 }
