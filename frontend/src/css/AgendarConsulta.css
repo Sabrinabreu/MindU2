@@ -122,14 +122,6 @@
     display: inline-block;
 }
 
-input[type="radio"] {
-    display: none;
-}
-
-input[type="radio"]:checked~.star {
-    background: #f5ce86;
-}
-
 .cardAgenda::before {
     content: "";
     position: absolute;
