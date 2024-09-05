@@ -1,3 +1,6 @@
+const express = require('express');
+const router = express.Router();
+
 const handleSave = () => {
   if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
       alert('Por favor, preencha todos os campos antes de salvar.');
@@ -56,3 +59,5 @@ const handleSave = () => {
       alert('Erro ao salvar o agendamento.');
   });
 };
+
+module.exports = router;

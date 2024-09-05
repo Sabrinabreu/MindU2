@@ -6,15 +6,28 @@ const router = express.Router();
 
 // Configuração do multer para armazenar arquivos
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: function (req, file, cb) {
     cb(null, 'uploads/');
   },
-  filename: (req, file, cb) => {
+  filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
 const upload = multer({ storage: storage });
+
+// Rota para upload de arquivos
+router.post('/cadastropsicologos/upload', upload.single('file'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    }
+    res.json({ message: 'Arquivo enviado com sucesso', filename: req.file.filename });
+  } catch (err) {
+    console.error('Erro ao enviar o arquivo:', err);
+    res.status(500).json({ error: 'Erro ao enviar o arquivo' });
+  }
+});
 
 // Rota para listar todos os registros
 router.get('/cadastropsicologos', async (req, res) => {
@@ -91,19 +104,6 @@ router.post('/cadastropsicologos', async (req, res) => {
   } catch (err) {
     console.error('Erro ao criar o registro:', err);
     res.status(500).json({ error: 'Erro ao criar o registro' });
-  }
-});
-
-// Rota para upload de arquivos
-router.post('/cadastropsicologos/upload', upload.single('file'), (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'Nenhum arquivo enviado' });
-    }
-    res.json({ message: 'Arquivo enviado com sucesso', filename: req.file.filename });
-  } catch (err) {
-    console.error('Erro ao enviar o arquivo:', err);
-    res.status(500).json({ error: 'Erro ao enviar o arquivo' });
   }
 });
 
