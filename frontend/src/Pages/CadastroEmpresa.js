@@ -5,7 +5,7 @@ import BAPO from "../Components/WidgetBAPO";
 import "../css/CadastroEmpresa.css";
 import "../css/WidgetBAPO.css";
 import bannerSM from '../img/BannerSM.png';
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 
 const Cadastro = () => {
   const sectionsConfig = [
@@ -194,8 +194,39 @@ const Cadastro = () => {
                     {errors.salario && <div className="mensagem-erro">{errors.salario}</div>}
 
                     <h1 htmlFor="faixa" className="my-4 text-start titCalc">Qual a idade média dos colaboradores?</h1>
+                             
+                             
+                             
+                          <Form>
+                            {['checkbox', 'radio'].map((type) => (
+                              <div key={`inline-${type}`} className="mb-3">
+                                <Form.Check
+                                  inline
+                                  label="1"
+                                  name="group1"
+                                  type={type}
+                                  id={`inline-${type}-1`}
+                                />
+                                <Form.Check
+                                  inline
+                                  label="2"
+                                  name="group1"
+                                  type={type}
+                                  id={`inline-${type}-2`}
+                                />
+                                <Form.Check
+                                  inline
+                                  disabled
+                                  label="3 (disabled)"
+                                  type={type}
+                                  id={`inline-${type}-3`}
+                                />
+                              </div>
+                            ))}
+                          </Form>
 
-                    <div>
+                          
+                    {/* <div>
                       <label className="radio-button">
                         <input type="radio" name="faixa" value="20-30" checked={faixa === '20-30'} onChange={(e) => setFaixa(e.target.value)} />
                         <div className="circulo-radio"></div>
@@ -211,7 +242,7 @@ const Cadastro = () => {
                         <div className="circulo-radio"></div>
                         <span className="radio-label">Entre 40 e 50 anos</span>
                       </label>
-                    </div>
+                    </div> */}
                     {errors.faixa && <div className="mensagem-erro">{errors.faixa}</div>}
 
                     <button type="button" className="botaoBanner botaoCALC" onClick={calcularCustos}>CALCULAR CUSTO</button>
