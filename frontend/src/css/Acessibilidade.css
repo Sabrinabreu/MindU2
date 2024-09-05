@@ -22,9 +22,9 @@
     position: fixed;
     left: 100px;
     bottom: 0;
-    width: 405px;
+    width: 420px;
     height: 75%;
-    background: #f8f9fa;
+    background: #f6f8fa;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     overflow-y: auto;
@@ -45,9 +45,10 @@
     right: 20px;
 }
 
-.accessibility-title {
+.acessibilidade-title {
     font-size: 1.5rem;
     margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 .accessibility-content {
@@ -56,8 +57,15 @@
     gap: 20px;
 }
 
+.fundoPainelA{
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+}
 .accessibility-section {
-    background: #fff;
+    background: #f6f8fabc;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -125,20 +133,52 @@
     color: white;
 }
 
+.acessibilidade-reset, .acessibilidade-close {
+    background: transparent;
+    border: none;
+    color: #333;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+}
+
+.acessibilidade-close {
+    right: 10px;
+}
+
+.acessibilidade-reset {
+    right: 55px; 
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 99px;
+    background-color: #b2a6e490;
+  }
+
+  *::-webkit-scrollbar-button {
+    height: 16px;
+  }
 
 
 
 /* Funcionalidades */
-.large-cursor {
-    cursor: zoom-in; /* Usando zoom-in como um exemplo de cursor grande */
+.large-cursor,
+.large-cursor * {
+    cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="0.5" stroke-linejoin="round" d="M18 14.88 8.16 3.15c-.26-.31-.76-.12-.76.28v15.31c0 .36.42.56.7.33l3.1-2.6 1.55 4.25c.08.22.33.34.55.26l1.61-.59a.43.43 0 0 0 .26-.55l-1.55-4.25h4.05c.36 0 .56-.42.33-.7Z"></path></svg>'), auto !important;
 }
 
-/* Aumentar o cursor */
-.large-cursor {
-    cursor: url('https://example.com/large-cursor.png'), auto; /* Substitua pela URL de um cursor grande */
+.large-cursor *[class*="cursor-pointer"],
+.large-cursor a,
+.large-cursor button {
+    cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="0.5" stroke-linejoin="round" d="M10 11V8.99c0-.88.59-1.64 1.44-1.86h.05A1.99 1.99 0 0 1 14 9.05V12v-2c0-.88.6-1.65 1.46-1.87h.05A1.98 1.98 0 0 1 18 10.06V13v-1.94a2 2 0 0 1 1.51-1.94h0A2 2 0 0 1 22 11.06V14c0 .6-.08 1.27-.21 1.97a7.96 7.96 0 0 1-7.55 6.48 54.98 54.98 0 0 1-4.48 0 7.96 7.96 0 0 1-7.55-6.48C2.08 15.27 2 14.59 2 14v-1.49c0-1.11.9-2.01 2.01-2.01h0a2 2 0 0 1 2.01 2.03l-.01.97v-10c0-1.1.9-2 2-2h0a2 2 0 0 1 2 2V11Z"></path></svg>'), pointer !important;
 }
 
-/* Outros estilos de acessibilidade */
 .dark-mode {
     background-color: #333;
     color: #fff;
@@ -150,7 +190,7 @@
 }
 
 .espacamento {
-    letter-spacing: 2px;
+    letter-spacing: 2px !important;
 }
 
 .espacoLinhas {
@@ -158,7 +198,7 @@
 }
 
 .increase-images {
-    transform: scale(1.2); /* Ajustar a escala das imagens */
+    transform: scale(1.2); 
 }
 
 .font-arial {
@@ -167,32 +207,4 @@
 
 .text-magnifier {
     font-size: 1.2em;
-}
-
-
-
-
-/*para Chrome, Safari, Edge */
-.accessibilidade-painel {
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #ddd7f8bf #f8f9fa; /* cor da barra de rolagem para Firefox */
-}
-
-/* Personalizando a barra de rolagem para WebKit */
-.accessibilidade-painel::-webkit-scrollbar {
-    width: 10px;
-    background-color: #f8f9fa; /* Cor de fundo da barra */
-}
-
-.accessibilidade-painel::-webkit-scrollbar-thumb {
-    background-color: #7766C6; /* Cor do thumb (parte que se move na barra) */
-    border-radius: 5px; /* Bordas arredondadas para o thumb */
-}
-
-.accessibilidade-painel::-webkit-scrollbar-thumb:hover {
-    background-color: #9c8fd8; /* Cor do thumb ao passar o mouse */
-}
-
-.accessibilidade-painel::-webkit-scrollbar-track {
-    background-color: #f8f9fa; /* Cor do track (área de fundo da barra) */
 }
