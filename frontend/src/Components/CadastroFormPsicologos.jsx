@@ -184,7 +184,7 @@ const CadastroFormPsi = () => {
                         </div>
                     </Col>
                 </Row>
-                <button className='botaoCadastro botaoBanner' type="submit">Enviar</button>
+                <button className='botaoBanner' type="submit">Enviar</button>
             </Container>
         </form>
     );

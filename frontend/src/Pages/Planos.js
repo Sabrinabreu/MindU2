@@ -11,7 +11,7 @@ const Cadastro = () => {
             <Container className="caixaPlanos">
                 <Row>
                     <Col className="title text-center">
-                        <h2>Nossos Planos</h2>
+                        <h2 className="mb-5">Nossos Planos</h2>
                     </Col>
                 </Row>
                 <Row className="assinatura">
