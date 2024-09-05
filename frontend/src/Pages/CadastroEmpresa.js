@@ -149,7 +149,7 @@ const Cadastro = () => {
                   Nosso time de psicólogos é dedicado a entender as necessidades específicas da sua empresa, oferecendo suporte contínuo para promover o bem-estar emocional e mental dos seus colaboradores.
                   <b> Invista no futuro da sua empresa com um ambiente mais saudável e eficiente.</b></p>
 
-                <a href="#header"><button className="botaoBanner botaoCALC">INVESTIR NO BEM ESTAR</button></a>
+                <a href="#header"><button className="botaoBanner botaoBranco">INVESTIR NO BEM ESTAR</button></a>
               </Col>
               <Col className="centralizar" md={5} sm={12}>
                 <img className="fotoInfo" src={bannerSM} alt="Desenho de 2 pessoas cuidando da saúde mental de uma terceira pessoa." />
@@ -171,7 +171,7 @@ const Cadastro = () => {
                         <p>{result.numColaboradores} colaboradores</p>
                         <p>Salário: {formatarMoeda(parseFloat(result.salario))}</p>
                         <p>{faixa} anos</p>
-                        <button type="button" className="mt-3 botaoBanner botaoCALC" onClick={resetForm}>REFAZER Cálculo</button>
+                        <button type="button" className="mt-3 botaoBanner botaoBranco" onClick={resetForm}>REFAZER Cálculo</button>
                       </div>
                       <div className="resultado-direito">
                         <p>Atualmente, o custo estimado com saúde mental para sua equipe é de <span>{formatarMoeda(result.custoTotalInicial)}</span> por ano.</p>

@@ -177,14 +177,14 @@ const CadastroFormPsi = () => {
                             />
                             <label className='upload-label' htmlFor="certificados">
                                 <i className="upload-icon">⬆️</i> Selecione um arquivo
-                            </label>
+                            </label><br/>
                             <small className='form-text text-muted'>
                                 Envie imagens ou PDFs dos seus certificados. Máx. 5MB.
                             </small>
                         </div>
                     </Col>
                 </Row>
-                <button className='botaoCadastro' type="submit">Enviar</button>
+                <button className='botaoCadastro botaoBanner' type="submit">Enviar</button>
             </Container>
         </form>
     );
