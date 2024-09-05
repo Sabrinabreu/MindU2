@@ -118,3 +118,9 @@
       {
         background-color:#ea4c89
       }
+
+
+/* acessibilidade */
+    button:focus {
+      outline: 2px solid blue;
+    }
