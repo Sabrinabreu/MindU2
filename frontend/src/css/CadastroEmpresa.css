@@ -208,6 +208,9 @@ body {
     input[type="radio"] {
       pointer-events: auto; 
     }
+    .form-check-input {
+      border: 1.4px solid #484668aa;
+    }
 
 
 /* resultado do calculo */
