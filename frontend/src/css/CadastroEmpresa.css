@@ -136,7 +136,7 @@ body {
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease 0s;
   cursor: pointer;
-  outline: none;
+  margin-top: 7px;
 }
 
 .botaoBanner:hover {
@@ -202,65 +202,12 @@ body {
   margin-top: 0.25rem;
 }
 
-
-.radio-button {
-  display: flex;
-  align-items: center;
-  margin-bottom: 7px;
-  cursor: pointer;
+.form-check {
+  text-align: left;
 }
-
-            .radio-button input[type="radio"] {
-              display: none;
-            }
-
-            .circulo-radio {
-              width: 15px;
-              height: 15px;
-              border-radius: 100%;
-              border: 2px solid #683972;
-              position: relative;
-              margin-right: 10px;
-            }
-            .circulo-radio::before {
-              content: "";
-              display: block;
-              width: 12px;
-              height: 12px;
-              border-radius: 100%;
-              background-color: #8d519a;
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) scale(0);
-              transition: all 0.2s ease-in-out;
-            }
-            .radio-button input[type="radio"]:checked+.circulo-radio::before {
-              transform: translate(-50%, -50%) scale(1);
-            }
-            .radio-button:hover .circulo-radio {
-              border-color: #683972;
-            }
-            .radio-button:hover input[type="radio"]:checked+.circulo-radio::before {
-              background-color: #683972;
-            }
-
-            [data-theme='dark'] .circulo-radio {
-              border: 2.5px solid #7866c689 !important;
-              box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-            }
-
-            [data-theme='dark'] .circulo-radio::before {
-              background-color: #7866c689 !important;
-            }
-
-            [data-theme='dark'] .radio-button:hover {
-              border: #9586da89 !important;
-            }
-
-            [data-theme='dark'] .radio-button:hover input[type="radio"]:checked+.circulo-radio::before {
-              background-color: #9586da89 !important;
-            }
+    input[type="radio"] {
+      pointer-events: auto; 
+    }
 
 
 /* resultado do calculo */
