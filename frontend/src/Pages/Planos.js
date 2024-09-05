@@ -3,15 +3,16 @@ import React from "react";
 import '../css/Planos.css';
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-
+import BAPO from "../Components/WidgetBAPO";
 
 const Cadastro = () => {
     return (
         <>
-            <Container className="caixaPlanos">
+      <BAPO />
+      <Container className="caixaPlanos">
                 <Row>
                     <Col className="title text-center">
-                        <h2 className="mb-5">Nossos Planos</h2>
+                        <h2>Nossos Planos</h2>
                     </Col>
                 </Row>
                 <Row className="assinatura">
