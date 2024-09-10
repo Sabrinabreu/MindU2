@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../css/Acessibilidade.css';
-import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw } from 'lucide-react'; // Importa o ícone de reset
+import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ } from 'lucide-react';
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
 
@@ -35,7 +35,7 @@ const Acessibilidade = () => {
             'espacamento',
             'espacoLinhas',
             'increase-images',
-            'font-arial',
+            'fonte-arial',
             'text-magnifier'
         );
         adjustFontSize('16px');
@@ -65,9 +65,9 @@ const Acessibilidade = () => {
                             <div className="accessibility-section font-adjustment">
                                 <h5>Ajustar Tamanho da Fonte</h5>
                                 <div className="font-size-controls">
-                                    <Button className="font-size-btn" onClick={decreaseFontSize} aria-label="Diminuir tamanho da fonte"><AArrowDown /></Button>
+                                    <div className="font-size-btn" onClick={decreaseFontSize} aria-label="Diminuir tamanho da fonte"><AArrowDown /></div>
                                     <span className="font-size-display">{(fontSize / 16 * 100).toFixed(0)}%</span>
-                                    <Button className="font-size-btn" onClick={increaseFontSize} aria-label="Aumentar tamanho da fonte"><AArrowUp /></Button>
+                                    <div className="font-size-btn" onClick={increaseFontSize} aria-label="Aumentar tamanho da fonte"><AArrowUp /></div>
                                 </div>
                             </div>
                             {/* Outros Botões */}
@@ -92,42 +92,42 @@ const Acessibilidade = () => {
                                     onClick={() => toggleClass('high-contrast', 'highContrast')}
                                     aria-label="Modo alto contraste"
                                 >
-                                    Modo Alto Contraste
+                                    <Contrast /> Modo Alto Contraste
                                 </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['letterSpacing'] })}
                                     onClick={() => toggleClass('espacamento', 'letterSpacing')}
                                     aria-label="Espaço entre letras"
                                 >
-                                    Espaço Entre Letras
+                                      <Space /> Espaço Entre Letras
                                 </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['lineHeight'] })}
                                     onClick={() => toggleClass('espacoLinhas', 'lineHeight')}
                                     aria-label="Espaço entre linhas"
                                 >
-                                    Espaço Entre Linhas
+                                       <ArrowDownAZ />Espaço Entre Linhas
                                 </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['increaseImages'] })}
                                     onClick={() => toggleClass('increase-images', 'increaseImages')}
                                     aria-label="Aumentar imagens"
                                 >
-                                    Aumentar Imagens
+                                     <Images />Aumentar Imagens
                                 </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['changeFont'] })}
-                                    onClick={() => toggleClass('font-arial', 'changeFont')}
+                                    onClick={() => toggleClass('fonte-arial', 'changeFont')}
                                     aria-label="Fonte Arial"
                                 >
-                                    Fonte Arial
+                                    <LetterText />Fonte Arial
                                 </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['textMagnifier'] })}
                                     onClick={() => toggleClass('text-magnifier', 'textMagnifier')}
                                     aria-label="Lupa de texto"
                                 >
-                                    Lupa de Texto
+                                    <Search /> Lupa de Texto
                                 </Button>
                             </div>
                         </div>

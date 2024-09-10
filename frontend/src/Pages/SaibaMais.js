@@ -33,7 +33,7 @@ const availableTimes = {
     '2024-10-25': ['10:00', '11:00', '17:00'],
 };
 
-// DatePicker
+// Componente DatePicker
 const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
@@ -55,16 +55,15 @@ const DatePicker = ({ onDateSelect }) => {
     const generateDays = () => {
         const startDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
         const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
-
         const dates = [];
         const availableDates = Object.keys(availableTimes);
 
-        // Dias
-        for (let i = 0; i < (startDay - 1 + 7) % 7; i++) {
+        // Dias vazios antes do início do mês
+        for (let i = 0; i < startDay; i++) {
             dates.push(<button key={`empty-${i}`} className="date faded" disabled></button>);
         }
 
-        // Dias e mês
+        // Dias do mês
         for (let i = 1; i <= daysInMonth; i++) {
             const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
             const formattedDate = date.toISOString().split('T')[0];
@@ -83,7 +82,8 @@ const DatePicker = ({ onDateSelect }) => {
             );
         }
 
-        const totalDays = (startDay - 1 + 7) % 7 + daysInMonth;
+        // Dias vazios após o fim do mês
+        const totalDays = startDay + daysInMonth;
         for (let i = totalDays; i < 42; i++) {
             dates.push(<button key={`empty-end-${i}`} className="date faded" disabled></button>);
         }
@@ -95,13 +95,17 @@ const DatePicker = ({ onDateSelect }) => {
         <div className="datepicker">
             <div className="datepicker-top">
                 <div className="month-selector">
-                    <button className="arrow" onClick={handlePrevMonth}><i className="material-icons"><span className="material-symbols-outlined p-3">
-                        chevron_left
-                    </span></i></button>
+                    <button className="arrow" onClick={handlePrevMonth}>
+                        <i className="material-icons">
+                            <span className="material-symbols-outlined p-3">chevron_left</span>
+                        </i>
+                    </button>
                     <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
-                    <button className="arrow" onClick={handleNextMonth}><i className="material-icons"><span className="material-symbols-outlined p-3">
-                        chevron_right
-                    </span></i></button>
+                    <button className="arrow" onClick={handleNextMonth}>
+                        <i className="material-icons">
+                            <span className="material-symbols-outlined p-3">chevron_right</span>
+                        </i>
+                    </button>
                 </div>
             </div>
             <div className="datepicker-calendar">
@@ -114,13 +118,13 @@ const DatePicker = ({ onDateSelect }) => {
     );
 };
 
+// Componente principal de agendamento
 const Agendar = () => {
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
-
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
@@ -143,57 +147,45 @@ const Agendar = () => {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-
+    
         const data = {
-            userId: 'someUserId',
-            data: selectedDate.toISOString().split('T')[0],
+            userId: 'someUserId', // Exemplo de ID do usuário
+            data: selectedDate.toISOString().split('T')[0], // Certifique-se de que o formato está correto
             tipo: selectedTipo,
             time: selectedTime,
             assunto: assunto,
+            nomePsico: nomePsico
         };
-
-        console.log('Dados enviados:', data); 
-
-        fetch('http://localhost:3001/api/agendamento', { 
+    
+        fetch('http://localhost:3001/api/agendamento', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
         })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else if (response.status === 404) {
-                throw new Error('Erro ao salvar: 404 - Endpoint não encontrado');
-            } else {
-                throw new Error(`Erro ao salvar: ${response.status}`);
-            }
-        })
-        .then(data => {
-            console.log('Dados recebidos:', data);
-            if (data.error) {
-                console.error('Erro ao salvar:', data.error);
-                alert('Erro ao salvar o agendamento.');
-            } else {
-                console.log('Sucesso:', data);
-                alert('Agendamento criado com sucesso.');
-
-                localStorage.setItem('consultationDetails', JSON.stringify({
-                    date: selectedDate.toLocaleDateString('pt-BR'),
-                    time: selectedTime,
-                    tipo: selectedTipo,
-                    assunto: assunto,
-                }));
-
-                handleClose();
-            }
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-            alert('Erro ao salvar o agendamento.');
-        });
-    };
+            .then(response => {
+                console.log('Status da resposta HTTP:', response.status); 
+                return response.json(); 
+            })
+            .then(data => {
+                console.log('Dados de resposta do backend:', data); 
+                if (data.error) {
+                    console.error('Erro recebido do backend:', data.error); 
+                    alert('Erro ao salvar o agendamento: ' + data.error);
+                } else if (data.message) {
+                    console.log('Mensagem de sucesso recebida do backend:', data.message); 
+                    alert('Agendamento criado com sucesso!'); 
+                } else {
+                    console.warn('Resposta inesperada do backend:', data); 
+                    alert('Resposta inesperada do servidor.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao processar a resposta do backend:', error);
+                alert('Erro ao salvar o agendamento! ');
+            });
+    };    
 
     const handleClose = () => {
         setShow(false);
@@ -264,7 +256,7 @@ const Agendar = () => {
                                         <button className='botTipo' onClick={() => handleTipoClick('Presencial')}>Presencial</button>
                                         <Form>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                                <Form.Label className=''>Assuntos que deseja tratar durante a sessão:</Form.Label>
+                                                <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
                                                 <Form.Control as="textarea" rows={3} value={assunto} onChange={handleAssuntoChange} />
                                             </Form.Group>
                                         </Form>
@@ -288,15 +280,15 @@ const Agendar = () => {
                             </Modal.Footer>
                         </Modal>
                     </div>
-                
+
                     <div className='biografia p-4'>
-                        <h5 className='titulosSobre p-3 '>Biografia</h5>
+                        <h5 className='titulosSobre p-3'>Biografia</h5>
                         <p className='mb-4'>
                             Psicólogo, formado em 1990 pela Universidade Estadual do Paraná. Especialista em Terapia Cognitivo-Comportamental e Psicoterapia de Casal.
                             Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
                         </p>
                     </div>
-               
+
                     <div className='contato p-4'>
                         <h5 className='titulosSobre p-3'>Contato</h5>
                         <p>

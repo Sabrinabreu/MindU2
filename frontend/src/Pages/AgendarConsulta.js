@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
 import perfilPsicologo from '../img/perfilPsicologo.jfif';
 import perfilPsicologa from '../img/perfilPsicologa.jfif';
@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
-import { Search } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -23,7 +23,9 @@ function AgendarConsulta() {
   const [availableTimes, setAvailableTimes] = useState({});
   const [editableTimes, setEditableTimes] = useState({});
   const [showAll, setShowAll] = useState(false);
-  const [selectedProfession, setSelectedProfession] = useState(''); 
+  const [selectedProfession, setSelectedProfession] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
 
   const slidesContent = [
     {
@@ -59,7 +61,7 @@ function AgendarConsulta() {
     {
       foto: perfilPsicologaclinica,
       title: "Cris da Silva de Brázino",
-      profissao: "Psicóloga Clinica",
+      profissao: "Psicóloga Clínica",
       local: "São Bernardo - SP",
       sessao: "Duração da sessão",
       hora: "1 hora",
@@ -133,8 +135,12 @@ function AgendarConsulta() {
     }
   ];
 
+  const handleSearch = () => {
+    console.log("Iniciando a busca com os parâmetros:", { searchTerm, filterType, selectedProfession });
+  };
+
   const filteredSlidesContent = slidesContent.filter(slide => {
-    const term = searchTerm.toLowerCase();
+    const term = debouncedSearchTerm.toLowerCase();
     const isMatchingProfession = filterType === 'profissao'
       ? selectedProfession === '' || slide.profissao.toLowerCase().includes(selectedProfession.toLowerCase())
       : true;
@@ -155,15 +161,34 @@ function AgendarConsulta() {
     "Psicóloga Organizacional",
   ]);
 
-  const handleSearch = () => {
-    console.log('Buscando por:', searchTerm);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
 
-    if (filterType === 'profissao' && searchTerm === '') {
-      // Exibir todos os psicólogos quando o filtro for 'profissao' e o termo de busca estiver vazio
-      setSelectedProfession('');
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (debouncedSearchTerm.trim() === '') {
+      setIsLoading(false);
+      return;
     }
-  };
 
+    setIsLoading(true);
+
+    const fetchData = () => {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    };
+
+    fetchData();
+  }, [debouncedSearchTerm]);
+
+  const itemsToShow = showAll ? filteredSlidesContent : filteredSlidesContent.slice(0, 3);
   const getAvailableTimes = (psicologoIndex) => {
     const times = {
       0: {
@@ -268,7 +293,7 @@ function AgendarConsulta() {
     }));
   };
 
- 
+
   return (
     <>
       <BAPO />
@@ -280,25 +305,42 @@ function AgendarConsulta() {
             onChange={(e) => setFilterType(e.target.value)}
             className="dropFilter mr-2"
           >
-            <option value="">Selecionar</option> {/* Opção padrão para o dropdown */}
+            <option value="">Selecionar</option>
             <option value="nome">Nome</option>
             <option value="profissao">Profissão</option>
             <option value="local">Localização</option>
           </Form.Control>
 
+          {filterType === 'profissao' && (
+            <Form.Control
+              as="select"
+              value={selectedProfession}
+              onChange={(e) => setSelectedProfession(e.target.value)}
+              className="buscaPor mr-2"
+            >
+              <option value="">Todas as profissões...</option>
+              {professionOptions.map((profession, index) => (
+                <option key={index} value={profession}>{profession}</option>
+              ))}
+            </Form.Control>
+          )}
 
-          <Form.Control
-            type="text"
-            placeholder={`Buscar por ${filterType === 'nome' ? 'nome' : filterType === 'profissao' ? 'profissão' : filterType === 'local' ? 'localização' : 'tema'}...`} // Placeholder dinâmico
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="busca flex-grow-1 search-input"
-          />
-          <Button className="ml-2 search-button" onClick={handleSearch}>
-            <i className="fa fa-search"></i>   <Search />
-          </Button>
+          {filterType !== 'profissao' && (
+            <Form.Control
+              type="text"
+              placeholder={`Buscar por ${filterType || '...'}`}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="buscaPor mr-2"
+            />
+          )}
+
+          <div className="searchA onClick={handleSearch}">
+            {isLoading ? 'Buscando...' : 'Buscar'}
+          </div>
         </div>
       </div>
+
       <Container>
         <h2 className='tituloAgenda p-4'>Agendar Consulta</h2>
 
@@ -325,10 +367,10 @@ function AgendarConsulta() {
                       </div>
                       <div className='segundo'>
                         <Col className='p-2'>
-                          <button className='sessao'>{slide.sessao}<br /><b className='hora'>{slide.hora}</b></button>
+                          <div className='sessao'>{slide.sessao}<br /><b className='hora'>{slide.hora}</b></div>
                         </Col>
                         <Col>
-                          <button className='valor'>{slide.valor}</button>
+                          <div className='valor'>{slide.valor}</div>
                         </Col>
                       </div>
                     </div>

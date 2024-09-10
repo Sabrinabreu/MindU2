@@ -30,7 +30,7 @@
     border: 0;
 }
 
-[data-theme='dark'] .cardAgenda{
+[data-theme='dark'] .cardAgenda {
     background-color: #46467A;
 }
 
@@ -101,9 +101,11 @@
     cursor: pointer;
     color: white;
     display: block;
+    text-align: center;
 }
 
-[data-theme='dark'] .sessao, .valor{
+[data-theme='dark'] .sessao,
+.valor {
     background-color: #7b78cfc3;
 }
 
@@ -184,15 +186,30 @@
     transform: translateY(-1px);
 }
 
+/* drop busca */
 .dropFilter {
     width: 20%;
     box-shadow: 0 0 0 0;
-    height: 55px;
+    height: 65px;
     border: 0 none;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px !important;
+    border-bottom-left-radius: 20px !important;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
     background-color: #af6faf !important;
     color: white;
+}
+
+.dropFilter,
+.profissoesSelect {
+    background-color: white;
+    width: 20%;
+    height: 65px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    font-size: 16px;
+    padding: 0 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-control:focus {
@@ -201,43 +218,75 @@
     box-shadow: none;
 }
 
-.busca {
-    height: 55px;
-    width: 500px;
+.buscaPor {
+    height: 65px;
+    width: 30%;
     margin-right: 800px;
+    margin-right: 2%;
+    padding: 0 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.buscaPor:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #af6faf;
+}
+
+.buscaPor::placeholder {
+    color: #888;
+}
+
+/* Botão de pesquisa */
+.searchA {
+    height: 65px;
+    border-radius: 20px;
+    background-color: #af6faf;
+    color: white;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    padding: 20px;
+    cursor: pointer;
+    width: 200px;
+    text-align: center;
+}
+
+.searchA:hover {
+    background-color: #df95df;
 }
 
 /*calendario*/
-
 .available-times {
     margin-top: 20px;
-  }
-  
-  .times-container {
+}
+
+.times-container {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-  }
-  
-  .time-button {
+}
+
+.time-button {
     padding: 10px 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f8f9fa;
     cursor: pointer;
-  }
-  
-  .time-button.selected {
+}
+
+.time-button.selected {
     background-color: #007bff;
     color: white;
     border-color: #007bff;
-  }
-  
-  .time-button:hover {
-    background-color: #e9ecef;
-  }
+}
 
-  
+.time-button:hover {
+    background-color: #e9ecef;
+}
+
+
 .calendar-container {
     flex-direction: column;
 }
@@ -280,7 +329,7 @@
     color: white;
     border: 1px solid #007bff;
 }
-  
+
 
 .setaCalendario {
     background-color: transparent;
@@ -288,7 +337,7 @@
     border: none;
     padding: 10px;
     margin: 0 10px;
-    cursor: pointer;  
+    cursor: pointer;
 }
 
 .nav-button:hover {
@@ -420,3 +469,36 @@
     }
 
 }
+
+
+
+.custom-select-icon {
+    position: relative;
+    padding-right: 30px;
+    /* Espaço para o ícone */
+}
+
+.custom-select-icon::after {
+    content: '\f078';
+    /* Código Unicode para o ícone de seta para baixo */
+    font-family: 'Font Awesome 5 Free';
+    /* Certifique-se de que você tenha o FontAwesome incluído */
+    font-weight: 900;
+    /* Negrito para ícones FontAwesome */
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    /* Não captura o clique */
+}
+
+
+
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-width: .2em;
+  }
+  

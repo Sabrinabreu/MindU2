@@ -14,10 +14,23 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png|pdf/;
+    const mimetype = filetypes.test(file.mimetype);
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb(new Error('Somente imagens e PDFs são permitidos.'));
+  },
+  limits: { fileSize: 5 * 1024 * 1024 } // Limite de tamanho do arquivo
+});
 
 // Rota para upload de arquivos
-router.post('/cadastropsicologos/upload', upload.single('file'), (req, res) => {
+router.post('/cadastropsicologos/upload', upload.single('certificados'), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'Nenhum arquivo enviado' });
@@ -59,11 +72,18 @@ router.get('/cadastropsicologos/:id', async (req, res) => {
 // Rota para atualizar um registro existente pelo ID
 router.put('/cadastropsicologos/:id', async (req, res) => {
   const { id } = req.params;
-  const { nome, dataNascimento, genero, telefone, email, endereco, formacaoAcademica, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
+  const { nome, dataNascimento, genero, telefone, email, endereco, certificados, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
+
+  // Validação dos dados
+  if (!nome) {
+    return res.status(400).json({ error: 'O campo nome é obrigatório.' });
+  }
+  // Adicione validações adicionais conforme necessário
+
   try {
     const [result] = await connection.query(
-      'UPDATE cadastropsicologos SET nome = ?, dataNascimento = ?, genero = ?, telefone = ?, email = ?, endereco = ?, formacaoAcademica = ?, areasInteresse = ?, preferenciaHorario = ?, disponibilidade = ?, localidades = ?, motivacao = ?, objetivos = ?, senha = ? WHERE id = ?',
-      [nome, dataNascimento, genero, telefone, email, endereco, formacaoAcademica, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, id]
+      'UPDATE cadastropsicologos SET nome = ?, dataNascimento = ?, genero = ?, telefone = ?, email = ?, endereco = ?, certificados = ?  areasInteresse = ?, preferenciaHorario = ?, disponibilidade = ?, localidades = ?, motivacao = ?, objetivos = ?, senha = ? WHERE id = ?',
+      [nome, dataNascimento, genero, telefone, email, endereco, certificados, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, id]
     );
     if (result.affectedRows === 0) {
       res.status(404).json({ error: 'Registro não encontrado' });
@@ -93,12 +113,19 @@ router.delete('/cadastropsicologos/:id', async (req, res) => {
 });
 
 // Rota para criar um novo registro
-router.post('/cadastropsicologos', async (req, res) => {
-  const { nome, dataNascimento, genero, telefone, email, endereco, formacaoAcademica, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
+router.post('/cadastropsicologos', upload.single('certificados'), async (req, res) => {
+  const { nome, dataNascimento, genero, telefone, email, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
+  const certificados = req.file ? req.file.filename : null; // Pega o nome do arquivo enviado
+
+  // Validação dos dados
+  if (!nome || !dataNascimento || !genero || !telefone || !email || !areasInteresse || !preferenciaHorario || !disponibilidade || !localidades || !motivacao || !objetivos || !senha) {
+    return res.status(400).json({ error: 'Todos os campos obrigatórios devem ser preenchidos.' });
+  }
+
   try {
     const [result] = await connection.query(
-      'INSERT INTO cadastropsicologos (nome, dataNascimento, genero, telefone, email, endereco, formacaoAcademica, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [nome, dataNascimento, genero, telefone, email, endereco, formacaoAcademica, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha]
+      'INSERT INTO cadastropsicologos (nome, dataNascimento, genero, telefone, email, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, certificados) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [nome, dataNascimento, genero, telefone, email, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, certificados]
     );
     res.status(201).json({ message: 'Registro criado com sucesso', id: result.insertId });
   } catch (err) {
@@ -108,3 +135,4 @@ router.post('/cadastropsicologos', async (req, res) => {
 });
 
 module.exports = router;
+

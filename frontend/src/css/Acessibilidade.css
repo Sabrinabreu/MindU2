@@ -197,8 +197,9 @@
     line-height: 1.8;
 }
 
-.increase-images {
-    transform: scale(1.2); 
+.increase-images img {
+    transform: scale(1.2); /* Ajuste o valor conforme necessário */
+    transition: transform 0.3s ease;
 }
 
 .font-arial {
