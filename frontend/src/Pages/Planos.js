@@ -1,6 +1,7 @@
 import React from "react";
 import '../css/Planos.css';
 import { Container, Row, Col, Button } from "react-bootstrap";
+import BAPO from "../Components/WidgetBAPO";
 import { Link } from 'react-router-dom';
 import MyVerticallyCenteredModal from '../Components/ModalPag';
 import BAPO from "../Components/WidgetBAPO";

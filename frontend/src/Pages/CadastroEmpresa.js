@@ -235,7 +235,7 @@ const Cadastro = () => {
 
                     {errors.faixa && <div className="mensagem-erro">{errors.faixa}</div>}
 
-                    <button type="button" className="botaoBanner botaoCALC" onClick={calcularCustos}>CALCULAR CUSTO</button>
+                    <button type="button" className="botaoBanner botaoBranco" onClick={calcularCustos}>CALCULAR CUSTO</button>
                   </Col>
                 </form>
               )}
