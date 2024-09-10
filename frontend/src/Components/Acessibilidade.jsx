@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../css/Acessibilidade.css';
 import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ } from 'lucide-react';
 import Button from 'react-bootstrap/Button';
@@ -8,6 +8,9 @@ const Acessibilidade = () => {
     const [fontSize, setFontSize] = useState(16);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
+    const [isHighlightActive, setIsHighlightActive] = useState(false);
+
+    const highlightRef = useRef(null);
 
     const handleTogglePanel = () => setIsPanelOpen(!isPanelOpen);
 
@@ -20,7 +23,12 @@ const Acessibilidade = () => {
     const decreaseFontSize = () => adjustFontSize(`${Math.max(fontSize - 2, 12)}px`);
 
     const toggleClass = (className, buttonKey) => {
-        document.body.classList.toggle(className);
+        if (className === 'font-arial') {
+            document.body.classList.toggle(className);
+            console.log('Classe font-arial aplicada:', document.body.classList.contains(className));
+        } else {
+            document.body.classList.toggle(className);
+        }
         setActiveButtons(prevState => ({
             ...prevState,
             [buttonKey]: !prevState[buttonKey]
@@ -36,11 +44,49 @@ const Acessibilidade = () => {
             'espacoLinhas',
             'increase-images',
             'fonte-arial',
-            'text-magnifier'
+            'text-magnifier',
+            'highlight-line'
         );
         adjustFontSize('16px');
         setActiveButtons({});
+        setIsHighlightActive(false);
+        if (highlightRef.current) {
+            highlightRef.current.style.display = 'none';
+        }
     };
+
+    const toggleHighlight = () => {
+        setIsHighlightActive(!isHighlightActive);
+        if (!isHighlightActive) {
+            document.body.classList.add('highlight-line');
+            window.addEventListener('mousemove', updateHighlightPosition);
+        } else {
+            document.body.classList.remove('highlight-line');
+            window.removeEventListener('mousemove', updateHighlightPosition);
+            if (highlightRef.current) {
+                highlightRef.current.style.display = 'none';
+            }
+        }
+    };
+
+    const updateHighlightPosition = (e) => {
+        if (highlightRef.current) {
+            highlightRef.current.style.left = `${e.clientX - (highlightRef.current.offsetWidth / 2)}px`;
+            highlightRef.current.style.top = `${e.clientY - (highlightRef.current.offsetHeight / 2)}px`;
+            highlightRef.current.style.display = 'block';
+        }
+    };
+
+    useEffect(() => {
+        if (isHighlightActive) {
+            window.addEventListener('mousemove', updateHighlightPosition);
+        } else {
+            window.removeEventListener('mousemove', updateHighlightPosition);
+        }
+        return () => {
+            window.removeEventListener('mousemove', updateHighlightPosition);
+        };
+    }, [isHighlightActive]);
 
     return (
         <>
@@ -50,14 +96,13 @@ const Acessibilidade = () => {
 
             {isPanelOpen && (
                 <div className="accessibilidade-painel">
-
                     <button className="acessibilidade-reset" onClick={resetAll} aria-label="Resetar todas as configurações de acessibilidade">
                         <RefreshCw />
                     </button>
                     <button className="acessibilidade-close" onClick={handleTogglePanel} aria-label="Fechar painel de acessibilidade">
                         <X />
                     </button>
-                    
+
                     <h3 className='acessibilidade-title'>Acessibilidade</h3>
                     <div className='fundoPainelA'>
                         <div className="accessibility-content">
@@ -106,21 +151,21 @@ const Acessibilidade = () => {
                                     onClick={() => toggleClass('espacoLinhas', 'lineHeight')}
                                     aria-label="Espaço entre linhas"
                                 >
-                                       <ArrowDownAZ />Espaço Entre Linhas
+                                       <ArrowDownAZ /> Espaço Entre Linhas
                                 </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['increaseImages'] })}
                                     onClick={() => toggleClass('increase-images', 'increaseImages')}
                                     aria-label="Aumentar imagens"
                                 >
-                                     <Images />Aumentar Imagens
+                                     <Images /> Aumentar Imagens
                                 </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['changeFont'] })}
                                     onClick={() => toggleClass('fonte-arial', 'changeFont')}
                                     aria-label="Fonte Arial"
                                 >
-                                    <LetterText />Fonte Arial
+                                    <LetterText /> Fonte Arial
                                 </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['textMagnifier'] })}
@@ -129,11 +174,19 @@ const Acessibilidade = () => {
                                 >
                                     <Search /> Lupa de Texto
                                 </Button>
+                                <Button
+                                    className={classNames('accessibility-button', { 'active': isHighlightActive })}
+                                    onClick={toggleHighlight}
+                                    aria-label="Destacar cursor"
+                                >
+                                    <Search /> Destacar Cursor
+                                </Button>
                             </div>
                         </div>
                     </div>
                 </div>
             )}
+            <div className="highlight-line-container" ref={highlightRef}></div>
         </>
     );
 };

@@ -28,7 +28,7 @@ body {
 
 .textoInfo {
   padding: 1.3rem !important;
-  color: #380d61;
+  color: #2e1e5b;
   font-size: 17px;
 }
 
@@ -51,7 +51,7 @@ body {
 .textoCalc {
   padding: 1.6rem !important;
   border-radius: 15px;
-  color: #71357e;
+  color: #6852a5;
   font-size: 17px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 
@@ -70,7 +70,7 @@ body {
 
 .textRoxo {
   font-size: 34px;
-  color: #71357e;
+  color: #6852a5;
 }
 
 /* .fundoColorido {
@@ -103,25 +103,25 @@ body {
 .blocoForms {
   padding: 1.6rem !important;
   border-radius: 15px;
-  color: #71357e;
+  color: #6852a5;
   font-size: 17px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 
   /* quadriculado */
   padding: 20px 0px;
-  background-color: #fdf8ff;
+  background-color: #eee8f4;
   background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent),
     linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
   background-size: 55px 55px;
 }
 
-[data-theme='dark'] .blocoForms {
-  color: #ddd6fa !important;
-  background-color: #4e4e7f;
-  --color: #4e4e7f;
-  border: 2.5px solid #7866c689;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-}
+      [data-theme='dark'] .blocoForms {
+        color: #ddd6fa !important;
+        background-color: #4e4e7f;
+        --color: #4e4e7f;
+        border: 2.5px solid #7866c689;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+      }
 
 .botaoBanner {
   padding: 1.3em 3em;
@@ -139,11 +139,10 @@ body {
   margin-top: 7px;
 }
 
-.botaoBanner:hover {
-  box-shadow: 0px 15px 20px #d5cda6;
-  transform: translateY(-7px);
-}
-
+      .botaoBanner:hover {
+        box-shadow: 0px 15px 20px #d5cda6;
+        transform: translateY(-7px);
+      }
       .botaoBanner:active {
         transform: translateY(-1px);
       }
@@ -151,6 +150,10 @@ body {
         box-shadow: 0px 15px 20px #b6b0b889;
         transform: translateY(-7px);
       }
+      .botaoBanner.roxo {
+        color: #6852a5 !important;
+        border: 1.7px solid #6852a5 !important;
+      } 
       [data-theme='dark'] .botaoBanner {
         color: #ffffff !important;
         background-color: transparent !important;
@@ -169,28 +172,29 @@ body {
   width: 100%;
   height: 40px;
   border-radius: 12px;
+  background-color: #fffbfa;
   border: 1.5px solid lightgrey;
   outline: none;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: 0px 0px 20px -18px;
 }
 
-.inputgeral:hover {
-  border: 2px solid lightgrey;
-  box-shadow: 0px 0px 20px -17px;
-}
+        .inputgeral:hover {
+          border: 2px solid lightgrey;
+          box-shadow: 0px 0px 20px -17px;
+        }
 
-.inputgeral:active {
-  transform: scale(0.96);
-}
+        .inputgeral:active {
+          transform: scale(0.96);
+        }
 
-.inputgeral:focus {
-  border: 2px solid grey;
-}
+        .inputgeral:focus {
+          border: 2px solid grey;
+        }
 
-.inputgeral.cadEmp {
-  margin: 5px 0px 10px 0px;
-}
+        .inputgeral.cadEmp {
+          margin: 5px 0px 10px 0px;
+        }
 
 .labelForms {
   font-weight: 650;
@@ -222,13 +226,13 @@ body {
 .resultado-container {
   display: flex;
   border-radius: 15px;
-  color: #71357e;
+  color: #6852a5;
   font-size: 17px;
   overflow: hidden;
 
   /* quadriculado */
   --color: #ecd5f1e0;
-  background-color: #fdf8ff;
+  background-color: #fffbfa;
   background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent),
     linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
   background-size: 55px 55px;
@@ -240,7 +244,7 @@ body {
           text-align: start;
           padding: 20px;
           height: auto;
-          background-color: #fcf5ff;
+          background-color: #e8def8;
         }
 
         .resultado-esquerdo p {
