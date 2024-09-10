@@ -14,8 +14,11 @@ const app = express();
 const port = 3001; // Defina a porta que deseja utilizar
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Usa as rotas do backend
 app.use('/', rotaLogin);

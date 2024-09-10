@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import "../css/Perfil.css";
-import perfilPsicologo from '../img/imgPerfil.jpg';
 import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
 import { Eye, EyeOff } from 'lucide-react';
 import Logout from '../Components/Logout';
@@ -16,7 +15,6 @@ function Perfil() {
         senha: 'senhaaa',
     });
 
-    const [profileImage, setProfileImage] = useState(perfilPsicologo);
     const [showPassword, setShowPassword] = useState(false);
     const [psicologoNome, setPsicologoNome] = useState('');
 
@@ -29,15 +27,15 @@ function Perfil() {
             setConsultationDetails([]); // Se não houver detalhes salvos
         }
 
-         // Fetch para obter o nome do psicólogo
-         fetch('http://localhost:3001/api/psicologo')
-         .then(response => response.json())
-         .then(data => {
-             setPsicologoNome(data.nomePsico); // Supondo que o nome vem como `nomePsico`
-         })
-         .catch(error => {
-             console.error('Erro ao obter nome do psicólogo:', error);
-         });
+        // Fetch para obter o nome do psicólogo
+        fetch('http://localhost:3001/api/psicologo')
+            .then(response => response.json())
+            .then(data => {
+                setPsicologoNome(data.nomePsico); // Supondo que o nome vem como `nomePsico`
+            })
+            .catch(error => {
+                console.error('Erro ao obter nome do psicólogo:', error);
+            });
     }, []);
 
     const daysInMonth = (month, year) => {
@@ -51,7 +49,6 @@ function Perfil() {
         const startDay = new Date(year, month, 1).getDay();
         const calendarDays = [];
 
-        // Converta as datas de consulta para o mesmo fuso horário da exibição do calendário
         const consultationDates = consultationDetails.map(detail => {
             const date = new Date(detail.date.split('/').reverse().join('-'));
             return date.getDate();
@@ -147,46 +144,50 @@ function Perfil() {
         }
     };
 
-    const handleImageClick = () => {
-        document.getElementById('fileInput').click();
+    const getInitials = (name) => {
+        if (!name) return '';
+
+        const names = name.trim().split(' ').filter(Boolean);
+        if (names.length === 0) return '';
+
+        const initials = names.slice(0, 2).map(n => n[0].toUpperCase()).join('');
+        return initials;
     };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const imageUrl = reader.result;
-                setProfileImage(imageUrl);
-
-                // Salva a imagem do perfil no localStorage
-                localStorage.setItem('profileImage', imageUrl);
-            };
-            reader.readAsDataURL(file);
+    const getColorFromInitials = (initials) => {
+        let hash = 0;
+        for (let i = 0; i < initials.length; i++) {
+            hash = initials.charCodeAt(i) + ((hash << 5) - hash);
         }
+        const color = `#${((hash & 0x00FFFFFF) >> 0).toString(16).padStart(6, '0').toUpperCase()}`;
+        return color;
     };
+
+    const getContrastingColor = (backgroundColor) => {
+        const r = parseInt(backgroundColor.substring(1, 3), 16);
+        const g = parseInt(backgroundColor.substring(3, 5), 16);
+        const b = parseInt(backgroundColor.substring(5, 7), 16);
+        const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        return luminosity > 128 ? '#000000' : '#FFFFFF'; // Preto ou branco
+    };
+
+    // Aplicar a cor de fundo e a cor do texto
+    const backgroundColor = getColorFromInitials(getInitials(profileData.nome || ''));
+    const textColor = getContrastingColor(backgroundColor);
 
     return (
         <Container className='mt-4'>
             <Row>
                 <Col md={4}>
                     <Card className='cardPerfil'>
-                    <Card.Body>
+                        <Card.Body>
                             <div className="d-flex flex-column align-items-center text-center">
-                                <img
-                                    src={profileImage}
-                                    alt="Perfil Psicólogo"
-                                    className="meuPerfil"
-                                    width="150"
-                                    onClick={handleImageClick}
-                                />
-                                <input
-                                    type="file"
-                                    id="fileInput"
-                                    style={{ display: 'none' }}
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
+                                <div
+                                    className="profile-initials"
+                                    style={{ backgroundColor: backgroundColor, color: textColor }}
+                                >
+                                    {getInitials(profileData.nome || '')}
+                                </div>
                                 <div className="mt-3">
                                     <h4>{profileData.nome}</h4>
                                     <p>{profileData.login}</p>
@@ -259,8 +260,7 @@ function Perfil() {
                                             {isEditing && (
                                                 <div
                                                     className='olho'
-                                                    onClick={
-                                                        togglePasswordVisibility}
+                                                    onClick={togglePasswordVisibility}
                                                 >
                                                     {showPassword ? <EyeOff /> : <Eye />}
                                                 </div>

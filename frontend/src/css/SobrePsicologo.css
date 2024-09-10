@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 .perfilPsico {
-    background-color: #7866C663;
+    background-color: #e8def8;
     position: fixed;
     padding: 0;
     border-radius: 20px;
@@ -11,8 +11,6 @@
     width: 450px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     margin-top: 8px;
-
-
     position: sticky;
     top: 0; 
     z-index: 100; 
@@ -32,6 +30,7 @@
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     filter: blur(1.5px);
+    transform: none !important;
 }
 
 .psicologo {
@@ -52,7 +51,7 @@
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-weight: 500;
-    background-color: #55459b63;
+    background-color: #816ac2;
     border: none;
     /* border: 1.7px solid #252525;*/
     border-radius: 15px;
@@ -68,6 +67,7 @@
     font-size: 15px;
     margin-left: 27px;
     margin-top: 14px;
+    color: #6852a5;
   }
 
   [data-theme='dark'] .crp{
@@ -95,9 +95,9 @@
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
-    color: #000;
-    background-color: #c373dc63;
-    border: 1.7px solid #252525;
+    color: #5a429b;
+    background-color: #c6bce376;
+    border: 1.7px solid #5a429b;
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
@@ -117,7 +117,7 @@
 
 
 .nomePsico {
-    color: #704170;
+    color: #6852a5;
     margin-bottom: -10px;
 }
 
@@ -127,6 +127,7 @@
 
 .infoPsico {
     margin-left: 27px;
+    color: #6852a5;
 }
 
 [data-theme='dark'] .infoPsico {
@@ -148,7 +149,7 @@
     color: black;
 }
 
-.contato {
+.contato, .localizacao{
     background-color: white;
     border-radius: 15px;
     margin-left: -90px;
@@ -173,21 +174,21 @@
 }
 
 .botTipo{
-    background-color: #F9B0C3;
-    border-color: rgb(211, 128, 141);
+    background-color: #d1c0ec;
+    border-color: #a991d1;
     margin-left: 4px;
     padding: 5px 10px;
     border-radius: 8px;
 }
 
 .botTipo:hover{
-    background-color: pink;
+    background-color: #a991d1;
 }
 
 .botTipo.a
 
 .salvar{
-    background-color: #7766C6;
+    background-color: #6852a5;
     border-color: #4828d3;
 }
 
@@ -335,12 +336,12 @@
     margin-left: 10px;
 }
 
-
-@media (max-width: 768px) {
+/* versao desktop  */
+@media (max-width: 601px) {
     .perfilPsico {
         width: 100%;
         position: relative;
-        height: 250px;
+        height: 400px;
     }
 
     .agenda {
@@ -358,22 +359,17 @@
         margin-top: 10px;
     }
 
-    .biografia {
-        margin-right: 100%;
-        width: 100%;
-    }
-
-    .contato {
-        margin-right: 100%;
+    .contato, .localizacao, .biografia {
+        left: 22%;
         width: 100%;
     }
 
     .displayCalendario {
-        margin-right: -20%;
+        margin-right: -2%;
     }
 
     .agendaConsulta {
-        margin-left: 13%;
+        margin-left: 15%;
     }
 
     .date{
@@ -381,7 +377,8 @@
     }
 }
 
-@media (max-width: 576px) {
+/* versao mobile  */
+@media (max-width: 600) {
     .psicologo {
         width: 50%;
         max-width: 100px;
@@ -403,7 +400,7 @@
     }
 
     .biografia {
-        margin-left: 0;
+        margin-right: 0;
     }
 
     .contato {

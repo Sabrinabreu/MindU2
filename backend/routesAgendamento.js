@@ -1,63 +1,43 @@
 const express = require('express');
+const connection = require('./db');
 const router = express.Router();
 
-const handleSave = () => {
-  if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
-      alert('Por favor, preencha todos os campos antes de salvar.');
-      return;
-  }
+router.post('/', (req, res) => {
+    const { userId, data, tipo, time, assunto, nomePsico } = req.body;
+    console.log('Dados recebidos:', { userId, data, tipo, time, assunto, nomePsico });
 
-  const data = {
-      userId: 'someUserId',
-      data: selectedDate.toISOString().split('T')[0],
-      tipo: selectedTipo,
-      time: selectedTime,
-      assunto: assunto,
-      nomePsico: nomePsico,  // Adicionado o nome do psicólogo
-  };
+    if (!userId || !data || !tipo || !time || !assunto || !nomePsico) {
+        console.log('Dados inválidos:', { userId, data, tipo, time, assunto, nomePsico });
+        res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+        return;
+    }
 
-  console.log('Dados enviados:', data); 
+    connection.query(
+        'INSERT INTO agendamento (userId, data, time, tipo, assunto, nomePsico) VALUES (?, ?, ?, ?, ?, ?)',
+        [userId, data, time, tipo, assunto, nomePsico],
+        (err, result) => {
+            if (err) {
+                console.error('Erro ao criar o agendamento:', err);
+                res.status(500).json({ error: 'Erro ao criar o agendamento' });
+                return;
+            }
+            console.log('Agendamento criado com sucesso!'); // Log de sucesso no backend
+            console.log('Antes de responder com sucesso'); // Log para ver se esta linha é atingida
+            res.status(200).json({ message: 'Agendamento criado com sucesso!' });
+        }
+    );    
+});
 
-  fetch('http://localhost:3001/api/agendamento', { 
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-  })
-  .then(response => {
-      if (response.ok) {
-          return response.json();
-      } else if (response.status === 404) {
-          throw new Error('Erro ao salvar: 404 - Endpoint não encontrado');
-      } else {
-          throw new Error(`Erro ao salvar: ${response.status}`);
-      }
-  })
-  .then(data => {
-      console.log('Dados recebidos:', data);
-      if (data.error) {
-          console.error('Erro ao salvar:', data.error);
-          alert('Erro ao salvar o agendamento.');
-      } else {
-          console.log('Sucesso:', data);
-          alert('Agendamento criado com sucesso.');
 
-          localStorage.setItem('consultationDetails', JSON.stringify({
-              date: selectedDate.toLocaleDateString('pt-BR'),
-              time: selectedTime,
-              tipo: selectedTipo,
-              assunto: assunto,
-              nomePsico: nomePsico, // Adicionado ao localStorage
-          }));
-
-          handleClose();
-      }
-  })
-  .catch(error => {
-      console.error('Erro:', error);
-      alert('Erro ao salvar o agendamento.');
-  });
-};
+router.get('/', (req, res) => {
+    connection.query('SELECT * FROM agendamento', (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar agendamentos:', err);
+            res.status(500).json({ error: 'Erro ao buscar agendamentos' });
+            return;
+        }
+        res.json(results);
+    });
+});
 
 module.exports = router;

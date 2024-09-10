@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import TabelaFuncionarios from "../Components/TabelaFuncionarios";
 
-import "../css/AcessoFuncionarios.css"
+import "../css/AcessoFuncionarios.css";
 
 const AcessoFuncionarios = () => {
   const [nContas, setNContas] = useState(1);
@@ -17,17 +17,19 @@ const AcessoFuncionarios = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const contasCriadas = [];
     try {
+      const contasCriadas = [];
+      
       for (let i = 0; i < nContas; i++) {
-        const response = await axios.post('http://localhost:3001/contaFuncionarios', { nContas });
-        console.log("Resposta da API: ", response.data); // Verifica a resposta da API
+        const response = await axios.post('http://localhost:3001/contaFuncionarios', {
+          // Aqui pode enviar outros dados se necessário
+        });
+        
+        contasCriadas.push(response.data);  // Armazena as respostas (exemplo)
       }
-  
+
       setResultados(contasCriadas);
       alert('Contas criadas com sucesso!');
-      console.log('Contas criadas: ', contasCriadas);
-      console.log("Número de contas: ", nContas);
     } catch (error) {
       console.error('Erro ao criar contas:', error);
       alert('Erro ao criar contas. Verifique o console para mais detalhes.');
@@ -49,10 +51,9 @@ const AcessoFuncionarios = () => {
         <button className="btnCriar" type="submit">Criar</button>
       </form>
       <div>
-        {/* Passa os resultados para a TabelaFuncionarios como prop */}
         <TabelaFuncionarios contas={resultados} />
       </div>
-    </ div>
+    </div>
   );
 };
 

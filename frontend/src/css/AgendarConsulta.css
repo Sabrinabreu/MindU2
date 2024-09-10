@@ -5,7 +5,7 @@
     background-color: white;
     padding-top: 20px;
     padding: 30px 20px 10px;
-    margin-top: 80px;
+    margin-top: 0px;
 }
 
 .tituloAgenda {
@@ -30,7 +30,7 @@
     border: 0;
 }
 
-[data-theme='dark'] .cardAgenda{
+[data-theme='dark'] .cardAgenda {
     background-color: #46467A;
 }
 
@@ -101,9 +101,11 @@
     cursor: pointer;
     color: white;
     display: block;
+    text-align: center;
 }
 
-[data-theme='dark'] .sessao, .valor{
+[data-theme='dark'] .sessao,
+.valor {
     background-color: #7b78cfc3;
 }
 
@@ -136,7 +138,7 @@
 
 .tabs-container {
     margin-left: 430px;
-    margin-right: -20px;
+    margin-right: -35px;
     margin-top: -315px;
     margin-bottom: 200px;
     width: 100%;
@@ -184,15 +186,41 @@
     transform: translateY(-1px);
 }
 
+/* drop busca */
 .dropFilter {
     width: 20%;
     box-shadow: 0 0 0 0;
-    height: 55px;
+    height: 65px;
     border: 0 none;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px !important;
+    border-bottom-left-radius: 20px !important;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
     background-color: #af6faf !important;
     color: white;
+}
+
+.dropFilter option {
+    background-color: #ffffff; 
+    color: #000000; 
+   border-radius: 10px;
+}
+
+.dropFilter option:checked {
+    background-color: #e0e0e0; 
+    color: #000000;
+}
+
+.dropFilter,
+.profissoesSelect {
+    background-color: white;
+    width: 20%;
+    height: 65px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    font-size: 16px;
+    padding: 0 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-control:focus {
@@ -201,49 +229,80 @@
     box-shadow: none;
 }
 
-.busca {
-    height: 55px;
-    width: 500px;
+.buscaPor {
+    height: 65px;
+    width: 30%;
     margin-right: 800px;
+    margin-right: 2%;
+    padding: 0 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.buscaPor:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #af6faf;
+}
+
+.buscaPor::placeholder {
+    color: #888;
+}
+
+/* Botão de pesquisa */
+.searchA {
+    height: 65px;
+    border-radius: 20px;
+    background-color: #af6faf;
+    color: white;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    padding: 20px;
+    cursor: pointer;
+    width: 200px;
+    text-align: center;
+}
+
+.searchA:hover {
+    background-color: #df95df;
 }
 
 /*calendario*/
-
 .available-times {
     margin-top: 20px;
-  }
-  
-  .times-container {
+}
+
+.times-container {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-  }
-  
-  .time-button {
+}
+
+.time-button {
     padding: 10px 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f8f9fa;
     cursor: pointer;
-  }
-  
-  .time-button.selected {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
-  
-  .time-button:hover {
-    background-color: #e9ecef;
-  }
+}
 
-  
+.time-button.selected {
+    background-color: #7766C6;
+    color: white;
+    border-color: #6c56cd;
+}
+
+.time-button:hover {
+    background-color: #a79be0;
+}
+
+
 .calendar-container {
     flex-direction: column;
 }
 
 .calendar-grid {
-
     flex-direction: column;
 }
 
@@ -256,7 +315,7 @@
 .calendar-day-header {
     text-align: center;
     padding: 5px;
-    background-color: #f0f0f0;
+    background-color: #aeace7;
     border: 1px solid #ccc;
     font-weight: bold;
 }
@@ -271,24 +330,25 @@
     text-align: center;
     padding: 10px;
     cursor: pointer;
-    border: 1px solid #ccc;
+    border: 1px solid #281010;
     box-sizing: border-box;
 }
 
 .calendar-day.selected {
-    background-color: #007bff;
+    background-color: #F9B0C3;
     color: white;
-    border: 1px solid #007bff;
+    border: 1px solid #de7793;
+ 
 }
-  
+
 
 .setaCalendario {
     background-color: transparent;
-    color: pink;
+    color: #7766C6;
     border: none;
     padding: 10px;
     margin: 0 10px;
-    cursor: pointer;  
+    cursor: pointer;
 }
 
 .nav-button:hover {
@@ -308,6 +368,10 @@
     box-shadow: 0px 0px 5px -3px #111;
 }
 
+.semConsulta{
+    margin-right: 15px;
+    margin-bottom: 3px;
+}
 
 .agendarBot {
     padding: 1.3em 3em;
@@ -337,7 +401,7 @@
     transform: translateY(-1px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 601px) {
     .imgPerfil {
         width: 120px;
         height: 120px;
@@ -360,7 +424,7 @@
     .cardAgenda {
         flex-direction: column;
         margin-bottom: 30px;
-        height: 630px;
+        height: 680px;
     }
 
     .tabs-container {
@@ -376,7 +440,7 @@
 
 }
 
-@media (max-width: 576px) {
+@media (max-width: 600px) {
     .imgPerfil {
         width: 100px;
         height: 100px;
@@ -418,5 +482,24 @@
     .dropFilter {
         width: 100px;
     }
+
+}
+
+
+
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-width: .2em;
+}
+
+
+.setaSelecionar {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #902743 !important;
 
 }
