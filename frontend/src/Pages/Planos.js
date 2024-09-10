@@ -3,6 +3,9 @@ import '../css/Planos.css';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import MyVerticallyCenteredModal from '../Components/ModalPag';
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
+
 
 const Cadastro = () => {
     const [modalShow, setModalShow] = React.useState(false);
@@ -15,8 +18,8 @@ const Cadastro = () => {
 
     return (
         <>
-      <BAPO />
-      <Container className="caixaPlanos">
+            <BAPO />
+            <Container className="caixaPlanos">
                 <Row>
                     <Col className="title text-center">
                         <h2>Nossos Planos</h2>

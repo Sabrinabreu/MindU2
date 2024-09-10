@@ -40,7 +40,7 @@ const PaymentForm = () => {
 
     return (
         <div className="formContainer">
-            <h1>Formulário de Pagamento</h1>
+            <h1 className='titleformpag'>Formulário de Pagamento</h1>
             <form className="payment-form">
                 {/* Dados do Pagador */}
                 <div className="form-group">

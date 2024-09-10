@@ -8,6 +8,7 @@ const rotaLogin = require('./routesLogin');
 const rotaFuncionario = require('./routesFuncionario');
 const agendamentoRoutes = require('./routesAgendamento');
 const rotaPerfilsuario = require('./routesPerfilusuario');
+const router = require('./routesCadastropsi');
 
 const app = express();
 const port = 3001; // Defina a porta que deseja utilizar
@@ -29,3 +30,5 @@ app.use('/api/atualizarPerfil', rotaPerfilsuario);
 app.listen(port, () => {
   console.log(`Servidor está rodando na porta ${port}`);
 });
+
+module.exports = router;
