@@ -311,3 +311,18 @@
 .dot:hover .consultation-details {
     display: block;
 }
+
+
+
+.profile-initials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    background-color: #ddd; /* Cor de fundo para as iniciais */
+    border-radius: 50%;
+    font-size: 2rem;
+    color: #333; /* Cor das iniciais */
+    cursor: pointer;
+}

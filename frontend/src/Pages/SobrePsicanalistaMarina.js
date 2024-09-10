@@ -1,39 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import "../css/AgendarConsulta.css";
 import "../css/SobrePsicologo.css";
-import perfilPsicologo from '../img/perfilPsicologo.jfif';
+import perfilPsicologa from '../img/perfilPsicologa.jfif';
 import fundoPsico from '../img/fundoPsico.webp';
 import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-const nomePsico = 'Flávio Monteiro Lobato';
-
-// Horários disponíveis
+// Exemplo de dados (substitua isso com a chamada real para a API)
 const availableTimes = {
     '2024-08-22': ['13:00', '14:00', '15:00'],
-    '2024-08-29': ['16:00', '17:00'],
-    '2024-08-30': ['16:00', '17:00'],
-    '2024-09-01': ['10:00', '16:00', '17:00'],
-    '2024-09-02': ['07:00', '12:00', '19:00'],
-    '2024-09-10': ['10:00', '20:00'],
-    '2024-09-12': ['09:00', '14:00', '15:00'],
-    '2024-09-15': ['11:00', '13:00'],
-    '2024-09-17': ['08:00', '15:00', '18:00'],
-    '2024-09-20': ['10:00', '11:00', '16:00'],
-    '2024-09-25': ['14:00', '15:00', '17:00'],
-    '2024-09-28': ['09:00', '13:00', '18:00'],
-    '2024-10-01': ['08:00', '12:00'],
-    '2024-10-05': ['11:00', '14:00'],
-    '2024-10-07': ['09:00', '16:00'],
-    '2024-10-10': ['07:00', '10:00', '13:00'],
-    '2024-10-15': ['08:00', '14:00', '19:00'],
-    '2024-10-20': ['09:00', '15:00'],
-    '2024-10-25': ['10:00', '11:00', '17:00'],
+    // Adicione outros horários aqui
 };
 
-// Componente DatePicker
 const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
@@ -49,7 +30,7 @@ const DatePicker = ({ onDateSelect }) => {
     const handleDateClick = (day) => {
         const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
         setSelectedDate(newDate);
-        onDateSelect(newDate); // Notifica o componente pai sobre a data selecionada
+        onDateSelect(newDate);
     };
 
     const generateDays = () => {
@@ -58,12 +39,10 @@ const DatePicker = ({ onDateSelect }) => {
         const dates = [];
         const availableDates = Object.keys(availableTimes);
 
-        // Dias vazios antes do início do mês
         for (let i = 0; i < startDay; i++) {
             dates.push(<button key={`empty-${i}`} className="date faded" disabled></button>);
         }
 
-        // Dias do mês
         for (let i = 1; i <= daysInMonth; i++) {
             const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
             const formattedDate = date.toISOString().split('T')[0];
@@ -82,7 +61,6 @@ const DatePicker = ({ onDateSelect }) => {
             );
         }
 
-        // Dias vazios após o fim do mês
         const totalDays = startDay + daysInMonth;
         for (let i = totalDays; i < 42; i++) {
             dates.push(<button key={`empty-end-${i}`} className="date faded" disabled></button>);
@@ -118,13 +96,23 @@ const DatePicker = ({ onDateSelect }) => {
     );
 };
 
-// Componente principal de agendamento
-const Agendar = () => {
+const SaibaMais = () => {
+    const { id } = useParams(); // Obtém o ID do psicólogo da URL
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
+    const [psicologo, setPsicologo] = useState(null);
+
+    useEffect(() => {
+        // Simulação de fetch dos dados do psicólogo com base no ID
+        // Substitua a URL pela URL real da sua API
+        fetch(`http://localhost:3001/api/psicologo/${id}`)
+            .then(response => response.json())
+            .then(data => setPsicologo(data))
+            .catch(error => console.error('Erro ao buscar psicólogo:', error));
+    }, [id]);
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
@@ -147,16 +135,16 @@ const Agendar = () => {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-    
+
         const data = {
             userId: 'someUserId', // Exemplo de ID do usuário
-            data: selectedDate.toISOString().split('T')[0], // Certifique-se de que o formato está correto
+            data: selectedDate.toISOString().split('T')[0],
             tipo: selectedTipo,
             time: selectedTime,
             assunto: assunto,
-            nomePsico: nomePsico
+            nomePsico: psicologo?.nome // Nome do psicólogo da API
         };
-    
+
         fetch('http://localhost:3001/api/agendamento', {
             method: 'POST',
             headers: {
@@ -164,36 +152,22 @@ const Agendar = () => {
             },
             body: JSON.stringify(data),
         })
-        .then(response => {
-            console.log('Resposta do servidor:', response);
-            return response.json();
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert('Erro ao salvar o agendamento: ' + data.error);
+            } else {
+                alert('Agendamento criado com sucesso!');
+            }
         })
-            .then(data => {
-                console.log('Dados de resposta do backend:', data);
-                if (data.error) {
-                    console.error('Erro recebido do backend:', data.error);
-                    alert('Erro ao salvar o agendamento: ' + data.error);
-                } else if (data.message) {
-                    console.log('Mensagem de sucesso recebida do backend:', data.message);
-                    alert('Agendamento criado com sucesso!');
-                } else {
-                    console.warn('Resposta inesperada do backend:', data);
-                    alert('Resposta inesperada do servidor.');
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao processar a resposta do backend:', error);
-                alert('Erro ao salvar o agendamento! ');
-            });
-    };    
-
-    const handleClose = () => {
-        setShow(false);
+        .catch(error => {
+            console.error('Erro ao processar a resposta do backend:', error);
+            alert('Erro ao salvar o agendamento!');
+        });
     };
 
-    const handleShow = () => {
-        setShow(true);
-    };
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const renderAvailableTimes = () => {
         if (!selectedDate) return null;
@@ -212,21 +186,25 @@ const Agendar = () => {
         );
     };
 
+    if (!psicologo) {
+        return <p>Carregando...</p>;
+    }
+
     return (
         <Container>
             <Row>
                 <Col md={6}>
                     <div className='perfilPsico'>
                         <img className="fundoPsico" src={fundoPsico} alt="Imagem de uma paisagem com um lago e muitas árvores" />
-                        <img className="psicologo" src={perfilPsicologo} alt="Foto de um homem de cabelos pretos e raspados com uma barba curta e roupas sociais" />
+                        <img className="psicologo" src={perfilPsicologa} alt="Foto do psicólogo" />
                         <button className='valores'>
                             Duração da sessão <br />
                             <b>1 hora</b>
                         </button>
-                        <h4 className='nomePsico container p-4'>{nomePsico}</h4>
-                        <b className='infoPsico'>Psicólogo Cognitivo</b>
-                        <h6 className='infoPsico'>Cornélio Procópio - PR</h6>
-                        <h6 className='crp'>214579 / CRP - 4ª Região</h6>
+                        <h4 className='nomePsico container p-4'>{psicologo.nome}</h4>
+                        <b className='infoPsico'>{psicologo.profissao}</b>
+                        <h6 className='infoPsico'>{psicologo.local}</h6>
+                        <h6 className='crp'>{psicologo.crp}</h6>
                     </div>
                 </Col>
                 <Col md={6}>
@@ -310,4 +288,4 @@ const Agendar = () => {
     );
 }
 
-export default Agendar;
+export default SaibaMais;

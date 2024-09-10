@@ -32,6 +32,7 @@
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     filter: blur(1.5px);
+    transform: none !important;
 }
 
 .psicologo {
@@ -148,7 +149,7 @@
     color: black;
 }
 
-.contato {
+.contato, .localizacao{
     background-color: white;
     border-radius: 15px;
     margin-left: -90px;
@@ -335,12 +336,12 @@
     margin-left: 10px;
 }
 
-
-@media (max-width: 768px) {
+/* versao desktop  */
+@media (max-width: 601px) {
     .perfilPsico {
         width: 100%;
         position: relative;
-        height: 250px;
+        height: 400px;
     }
 
     .agenda {
@@ -358,22 +359,17 @@
         margin-top: 10px;
     }
 
-    .biografia {
-        margin-right: 100%;
-        width: 100%;
-    }
-
-    .contato {
-        margin-right: 100%;
+    .contato, .localizacao, .biografia {
+        left: 22%;
         width: 100%;
     }
 
     .displayCalendario {
-        margin-right: -20%;
+        margin-right: -2%;
     }
 
     .agendaConsulta {
-        margin-left: 13%;
+        margin-left: 15%;
     }
 
     .date{
@@ -381,7 +377,8 @@
     }
 }
 
-@media (max-width: 576px) {
+/* versao mobile  */
+@media (max-width: 600) {
     .psicologo {
         width: 50%;
         max-width: 100px;
@@ -403,7 +400,7 @@
     }
 
     .biografia {
-        margin-left: 0;
+        margin-right: 0;
     }
 
     .contato {

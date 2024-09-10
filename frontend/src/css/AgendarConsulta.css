@@ -5,7 +5,7 @@
     background-color: white;
     padding-top: 20px;
     padding: 30px 20px 10px;
-    margin-top: 80px;
+    margin-top: 0px;
 }
 
 .tituloAgenda {
@@ -138,7 +138,7 @@
 
 .tabs-container {
     margin-left: 430px;
-    margin-right: -20px;
+    margin-right: -35px;
     margin-top: -315px;
     margin-bottom: 200px;
     width: 100%;
@@ -198,6 +198,17 @@
     border-bottom-right-radius: 0px;
     background-color: #af6faf !important;
     color: white;
+}
+
+.dropFilter option {
+    background-color: #ffffff; 
+    color: #000000; 
+   border-radius: 10px;
+}
+
+.dropFilter option:checked {
+    background-color: #e0e0e0; 
+    color: #000000;
 }
 
 .dropFilter,
@@ -277,13 +288,13 @@
 }
 
 .time-button.selected {
-    background-color: #007bff;
+    background-color: #7766C6;
     color: white;
-    border-color: #007bff;
+    border-color: #6c56cd;
 }
 
 .time-button:hover {
-    background-color: #e9ecef;
+    background-color: #a79be0;
 }
 
 
@@ -292,7 +303,6 @@
 }
 
 .calendar-grid {
-
     flex-direction: column;
 }
 
@@ -305,7 +315,7 @@
 .calendar-day-header {
     text-align: center;
     padding: 5px;
-    background-color: #f0f0f0;
+    background-color: #aeace7;
     border: 1px solid #ccc;
     font-weight: bold;
 }
@@ -320,20 +330,21 @@
     text-align: center;
     padding: 10px;
     cursor: pointer;
-    border: 1px solid #ccc;
+    border: 1px solid #281010;
     box-sizing: border-box;
 }
 
 .calendar-day.selected {
-    background-color: #007bff;
+    background-color: #F9B0C3;
     color: white;
-    border: 1px solid #007bff;
+    border: 1px solid #de7793;
+ 
 }
 
 
 .setaCalendario {
     background-color: transparent;
-    color: pink;
+    color: #7766C6;
     border: none;
     padding: 10px;
     margin: 0 10px;
@@ -357,6 +368,10 @@
     box-shadow: 0px 0px 5px -3px #111;
 }
 
+.semConsulta{
+    margin-right: 15px;
+    margin-bottom: 3px;
+}
 
 .agendarBot {
     padding: 1.3em 3em;
@@ -386,7 +401,7 @@
     transform: translateY(-1px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 601px) {
     .imgPerfil {
         width: 120px;
         height: 120px;
@@ -409,7 +424,7 @@
     .cardAgenda {
         flex-direction: column;
         margin-bottom: 30px;
-        height: 630px;
+        height: 680px;
     }
 
     .tabs-container {
@@ -425,7 +440,7 @@
 
 }
 
-@media (max-width: 576px) {
+@media (max-width: 600px) {
     .imgPerfil {
         width: 100px;
         height: 100px;
@@ -472,33 +487,19 @@
 
 
 
-.custom-select-icon {
-    position: relative;
-    padding-right: 30px;
-    /* Espaço para o ícone */
-}
-
-.custom-select-icon::after {
-    content: '\f078';
-    /* Código Unicode para o ícone de seta para baixo */
-    font-family: 'Font Awesome 5 Free';
-    /* Certifique-se de que você tenha o FontAwesome incluído */
-    font-weight: 900;
-    /* Negrito para ícones FontAwesome */
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    /* Não captura o clique */
-}
-
-
-
 
 .spinner-border {
     width: 1.5rem;
     height: 1.5rem;
     border-width: .2em;
-  }
-  
+}
+
+
+.setaSelecionar {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #902743 !important;
+
+}

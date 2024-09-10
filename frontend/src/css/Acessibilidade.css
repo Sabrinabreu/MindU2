@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 20px;
     left: 20px;
-    background:  #7766C6;
+    background: #7766C6;
     color: white;
     border: none;
     border-radius: 50%;
@@ -15,7 +15,7 @@
 }
 
 .accessibility-toggle:hover {
-    background:  #9c8fd8;
+    background: #9c8fd8;
 }
 
 .accessibilidade-painel {
@@ -49,6 +49,7 @@
     font-size: 1.5rem;
     margin-bottom: 20px;
     margin-top: 10px;
+    color: #d55c7c;
 }
 
 .accessibility-content {
@@ -57,13 +58,14 @@
     gap: 20px;
 }
 
-.fundoPainelA{
+.fundoPainelA {
     background-color: #ffffff;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 
 }
+
 .accessibility-section {
     background: #f6f8fabc;
     padding: 15px;
@@ -93,15 +95,15 @@
 
 .accessibility-buttons {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas de largura igual */
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
 
 .accessibility-button {
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    justify-content: center; 
+    align-items: center;
+    justify-content: center;
     background: #e9ecef;
     border-color: transparent;
     padding: 10px;
@@ -113,7 +115,7 @@
 }
 
 .accessibility-button svg {
-    margin-bottom: 5px; 
+    margin-bottom: 5px;
 }
 
 .accessibility-button.active {
@@ -133,7 +135,8 @@
     color: white;
 }
 
-.acessibilidade-reset, .acessibilidade-close {
+.acessibilidade-reset,
+.acessibilidade-close {
     background: transparent;
     border: none;
     color: #333;
@@ -148,22 +151,22 @@
 }
 
 .acessibilidade-reset {
-    right: 55px; 
+    right: 55px;
 }
 
 *::-webkit-scrollbar {
     width: 8px;
     height: 8px;
-  }
+}
 
-  *::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     border-radius: 99px;
     background-color: #b2a6e490;
-  }
+}
 
-  *::-webkit-scrollbar-button {
+*::-webkit-scrollbar-button {
     height: 16px;
-  }
+}
 
 
 
@@ -198,14 +201,119 @@
 }
 
 .increase-images img {
-    transform: scale(1.2); /* Ajuste o valor conforme necessário */
+    transform: scale(1.2);
     transition: transform 0.3s ease;
 }
 
 .font-arial {
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif !important;
+}
+
+
+.text-magnifier {
+    font-size: 1.2em;
+}
+
+
+/* versao mobile  */
+@media (max-width: 600px) {
+    .accessibilidade-painel {
+        width: 100%;
+        left: 0;
+    }
+
+    .accessibility-toggle{
+        width: 10%;
+        height: 5%;
+    }
+
+}
+
+/* versao desktop */
+@media (min-width: 601px) {
+    
+}
+
+
+/* Estilo para a faixa de destaque que acompanha o cursor */
+.highlight-line-container {
+    position: fixed;
+    pointer-events: none;
+    border: 3px solid rgba(255, 255, 0, 0.8); /* Borda da faixa */
+    border-radius: 50%;
+    background: rgba(255, 255, 0, 0.2); /* Cor de fundo da faixa com transparência */
+    width: 150px; /* Largura da faixa de destaque */
+    height: 150px; /* Altura da faixa de destaque */
+    transform: translate(-50%, -50%); /* Para centralizar a faixa em relação ao cursor */
+    z-index: 1000; /* Manter a faixa acima de outros conteúdos */
+    display: none; /* Inicialmente invisível */
+}
+
+.highlight-line-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 0, 0.1); /* Cor de fundo ao redor da faixa */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1; /* Colocar atrás da faixa */
+}
+
+/* Outros estilos */
+.large-cursor,
+.large-cursor * {
+    cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="0.5" stroke-linejoin="round" d="M18 14.88 8.16 3.15c-.26-.31-.76-.12-.76.28v15.31c0 .36.42.56.7.33l3.1-2.6 1.55 4.25c.08.22.33.34.55.26l1.61-.59a.43.43 0 0 0 .26-.55l-1.55-4.25h4.05c.36 0 .56-.42.33-.7Z"></path></svg>'), auto !important;
+}
+
+.large-cursor *[class*="cursor-pointer"],
+.large-cursor a,
+.large-cursor button {
+    cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="0.5" stroke-linejoin="round" d="M10 11V8.99c0-.88.59-1.64 1.44-1.86h.05A1.99 1.99 0 0 1 14 9.05V12v-2c0-.88.6-1.65 1.46-1.87h.05A1.98 1.98 0 0 1 18 10.06V13v-1.94a2 2 0 0 1 1.51-1.94h0A2 2 0 0 1 22 11.06V14c0 .6-.08 1.27-.21 1.97a7.96 7.96 0 0 1-7.55 6.48 54.98 54.98 0 0 1-4.48 0 7.96 7.96 0 0 1-7.55-6.48C2.08 15.27 2 14.59 2 14v-1.49c0-1.11.9-2.01 2.01-2.01h0a2 2 0 0 1 2.01 2.03l-.01.97v-10c0-1.1.9-2 2-2h0a2 2 0 0 1 2 2V11Z"></path></svg>'), pointer !important;
+}
+
+.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+.high-contrast {
+    background-color: #000;
+    color: #fff;
+}
+
+.espacamento {
+    letter-spacing: 2px !important;
+}
+
+.espacoLinhas {
+    line-height: 1.8;
+}
+
+.increase-images img {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
+}
+
+.font-arial {
+    font-family: Arial, sans-serif !important;
 }
 
 .text-magnifier {
     font-size: 1.2em;
+}
+
+/* Versão mobile */
+@media (max-width: 600px) {
+    .accessibilidade-painel {
+        width: 100%;
+        left: 0;
+    }
+
+    .accessibility-toggle {
+        width: 10%;
+        height: 5%;
+    }
 }

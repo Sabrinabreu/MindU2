@@ -10,10 +10,10 @@ import perfilclinico from '../img/perfilClinico.jpg';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
-import { ChevronDown } from 'lucide-react';
+import { TriangleAlert } from 'lucide-react';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -29,6 +29,7 @@ function AgendarConsulta() {
 
   const slidesContent = [
     {
+      id: 1,
       foto: perfilPsicologa,
       title: "Marina Romeo da Silva",
       profissao: "Psicólogo Psicanalista",
@@ -38,9 +39,9 @@ function AgendarConsulta() {
       valor: "sessão: R$200,00",
       rating: 5,
       tabs: [
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marina." },
+        { eventKey: "sobre", title: "Sobre Mim", content: "Sou Psicóloga pela Universidade Paulista, atuo com a abordagem Psicanalítica. Tenho experiência com atendimento psicológico de pessoas que estão passando pela depressão, transtorno de ansiedade, conflitos amorosos, conflitos familiares e problemas de autoestima." },
         { eventKey: "servicos", title: "Serviços", content: "Psicóloga pela Universidade Paulista, atuo com a abordagem Psicanalítica. Tenho experiência com atendimento psicológico de pessoas que estão passando pela depressão, transtorno de ansiedade, conflitos amorosos, conflitos familiares e problemas de autoestima." },
-        { eventKey: "sobre", title: "Sobre Mim", content: "Sou Psicóloga pela Universidade Paulista, atuo com a abordagem Psicanalítica. Tenho experiência com atendimento psicológico de pessoas que estão passando pela depressão, transtorno de ansiedade, conflitos amorosos, conflitos familiares e problemas de autoestima." }
+        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marina." }
       ]
     },
     {
@@ -53,9 +54,9 @@ function AgendarConsulta() {
       valor: "sessão: R$100,00",
       rating: 5,
       tabs: [
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Flávio." },
+        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Flávio." },
         { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Flávio." },
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Flávio." }
+        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Flávio." }
       ]
     },
     {
@@ -68,9 +69,9 @@ function AgendarConsulta() {
       valor: "sessão: R$150,00",
       rating: 5,
       tabs: [
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Cris." },
+        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Cris." },
         { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Cris." },
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Cris." }
+        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Cris." }
       ]
     },
     {
@@ -83,9 +84,9 @@ function AgendarConsulta() {
       valor: "sessão: R$100,00",
       rating: 5,
       tabs: [
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Roberto." },
-        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Roberto." },
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Roberto." }
+        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Roberto." },
+         { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Roberto." },
+         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Roberto." }
       ]
     },
     {
@@ -98,9 +99,9 @@ function AgendarConsulta() {
       valor: "sessão: R$350,00",
       rating: 5,
       tabs: [
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Lidiane." },
-        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Lidiane." },
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Lidiane." }
+         { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Lidiane." },
+         { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Lidiane." },
+        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Lidiane." }
       ]
     },
     {
@@ -112,10 +113,10 @@ function AgendarConsulta() {
       hora: "2 horas",
       valor: "sessão: R$350,00",
       rating: 5,
-      tabs: [
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marilia." },
-        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Marilia." },
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Marilia." }
+      tabs: [ 
+          { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Marilia." },
+          { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Marilia." },
+        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marilia." }
       ]
     },
     {
@@ -128,16 +129,12 @@ function AgendarConsulta() {
       valor: "sessão: R$350,00",
       rating: 5,
       tabs: [
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Caio." },
+        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Caio." },
         { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Caio." },
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Caio." }
+        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Caio." }
       ]
     }
   ];
-
-  const handleSearch = () => {
-    console.log("Iniciando a busca com os parâmetros:", { searchTerm, filterType, selectedProfession });
-  };
 
   const filteredSlidesContent = slidesContent.filter(slide => {
     const term = debouncedSearchTerm.toLowerCase();
@@ -152,7 +149,7 @@ function AgendarConsulta() {
     );
   });
 
-  const [professionOptions, setProfessionOptions] = useState([
+  const [professionOptions] = useState([
     "Psicólogo Psicanalista",
     "Psicólogo Cognitivo",
     "Psicóloga Clínica",
@@ -188,37 +185,38 @@ function AgendarConsulta() {
     fetchData();
   }, [debouncedSearchTerm]);
 
-  const itemsToShow = showAll ? filteredSlidesContent : filteredSlidesContent.slice(0, 3);
+  /*const itemsToShow = showAll ? filteredSlidesContent : filteredSlidesContent.slice(0, 3);*/
+
   const getAvailableTimes = (psicologoIndex) => {
     const times = {
       0: {
-        "2024-08-27": ["09:00", "10:00", "11:00"],
-        "2024-08-29": ["14:00", "15:00"],
-        "2024-08-30": ["17:00", "20:00"],
+        "2024-09-11": ["09:00", "10:00", "11:00"],
+        "2024-09-12": ["14:00", "15:00"],
+        "2024-09-20": ["17:00", "20:00"],
       },
       1: {
-        "2024-08-28": ["08:00", "09:30"],
-        "2024-08-39": ["13:00", "15:00"],
+        "2024-09-11": ["08:00", "09:30"],
+        "2024-09-13": ["13:00", "15:00"],
       },
       3: {
-        "2024-08-27": ["07:30", "10:30", "15:00"],
-        "2024-08-30": ["15:00", "18:00", "20:00"],
+        "2024-09-19": ["07:30", "10:30", "15:00"],
+        "2024-09-29": ["15:00", "18:00", "20:00"],
       },
       4: {
-        "2024-08-27": ["08:00", "09:30"],
-        "2024-08-29": ["07:00", "11:00"],
+        "2024-09-10": ["08:00", "09:30"],
+        "2024-09-20": ["07:00", "11:00"],
       },
       5: {
-        "2024-08-30": ["08:00", "09:30"],
-        "2024-09-01": ["13:00", "15:00"],
+        "2024-09-19": ["08:00", "09:30"],
+        "2024-09-21": ["13:00", "15:00"],
       },
       6: {
-        "2024-08-30": ["08:00", "09:30"],
-        "2024-08-31": ["13:00", "15:00"],
+        "2024-09-10": ["08:00", "09:30"],
+        "2024-09-11": ["13:00", "15:00"],
       },
       7: {
-        "2024-08-30": ["08:00", "09:30"],
-        "2024-09-01": ["13:00", "15:00"],
+        "2024-09-12": ["08:00", "09:30"],
+        "2024-09-10": ["13:00", "15:00"],
       },
     };
 
@@ -298,17 +296,32 @@ function AgendarConsulta() {
     <>
       <BAPO />
       <div className='fundoFiltro'>
-        <div className="d-flex mb-4 align-items-center">
+        <div className="d-flex mb-4 align-items-center ">
           <Form.Control
             as="select"
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
             className="dropFilter mr-2"
           >
-            <option value="">Selecionar</option>
-            <option value="nome">Nome</option>
-            <option value="profissao">Profissão</option>
-            <option value="local">Localização</option>
+            <option value="" >Selecionar <p className="setaSelecionar">→</p></option>
+            <option
+              value="nome"
+              className={filterType === 'nome' ? 'selected-option' : ''}
+            >
+              Nome
+            </option>
+            <option
+              value="profissao"
+              className= {filterType === 'profissao' ? 'selected-option' : ''}
+            >
+              Profissão
+            </option>
+            <option
+              value="local"
+              className={filterType === 'local' ? 'selected-option' : ''}
+            >
+              Localização
+            </option>
           </Form.Control>
 
           {filterType === 'profissao' && (
@@ -317,10 +330,21 @@ function AgendarConsulta() {
               value={selectedProfession}
               onChange={(e) => setSelectedProfession(e.target.value)}
               className="buscaPor mr-2"
-            >
-              <option value="">Todas as profissões...</option>
+            > 
+              <option
+                value=""
+                className={selectedProfession === '' ? 'selected-option' : ''}
+              >
+                Todas as profissões...
+              </option>
               {professionOptions.map((profession, index) => (
-                <option key={index} value={profession}>{profession}</option>
+                <option
+                  key={index}
+                  value={profession}
+                  className={selectedProfession === profession ? 'selected-option' : ''}
+                >
+                  {profession}
+                </option>
               ))}
             </Form.Control>
           )}
@@ -328,7 +352,7 @@ function AgendarConsulta() {
           {filterType !== 'profissao' && (
             <Form.Control
               type="text"
-              placeholder={`Buscar por ${filterType || '...'}`}
+              placeholder={`Buscar por${filterType || '...'}`}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="buscaPor mr-2"
@@ -338,6 +362,7 @@ function AgendarConsulta() {
           <div className="searchA onClick={handleSearch}">
             {isLoading ? 'Buscando...' : 'Buscar'}
           </div>
+          <button>Atendendo hoje</button>
         </div>
       </div>
 
@@ -387,7 +412,7 @@ function AgendarConsulta() {
                             {tab.eventKey === 'agenda' ? (
                               <div>
                                 <div className="calendar-container">
-                                  <div className="calendar-header">
+                                  <center><div className="calendar-header">
                                     <button className="setaCalendario" onClick={() => {
                                       const newDate = new Date(selectedDate);
                                       newDate.setDate(newDate.getDate() - 7);
@@ -422,6 +447,7 @@ function AgendarConsulta() {
                                       →
                                     </button>
                                   </div>
+                                  </center>
                                   {generateWeek(selectedDate, index)}
                                   <div className="available-times">
                                     {timesForDate.length > 0 ? (
@@ -437,7 +463,7 @@ function AgendarConsulta() {
                                         ))}
                                       </div>
                                     ) : (
-                                      <button className='semhora'>!!! Sem horários disponíveis.</button>
+                                      <button className='semhora'>   <TriangleAlert className='semConsulta'/>Sem horários disponíveis!</button>
                                     )}
                                   </div>
                                   <Link to="/saibamais" className='agendarBot mt-3'>
@@ -449,9 +475,10 @@ function AgendarConsulta() {
                               <p>{tab.content}</p>
                             )}
                             {tab.eventKey === 'sobre' && activeTab === 'sobre' && (
-                              <Link to="/saibamais" className='saibaMais mt-3'>
-                                Saiba mais
-                              </Link>
+                              <Link to={`/psicologo/${slide.id}`} className='saibaMais mt-3'>
+                              Saiba mais
+                            </Link>
+                            
                             )}
                           </Tab>
                         ))}
