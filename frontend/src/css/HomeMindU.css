@@ -149,7 +149,10 @@ body {
     display: flex !important;
     justify-content: center !important;
     gap: 14px !important;
+    margin-left: 10px;
 }
+
+
 
 .cardQualidades {
     flex: auto !important;
@@ -225,6 +228,8 @@ body {
 
 .colab {
     margin-top: -60px !important;
+    margin-right: auto !important;
+    margin-left: 54px !important;
 }
 
 /* Carousel Styles */
@@ -426,7 +431,7 @@ body {
 /* Results Section */
 .results-container {
     margin-top: 10% !important;
-    margin-left: 48px !important;
+    margin-left: 80px !important;
 }
 
 .results {

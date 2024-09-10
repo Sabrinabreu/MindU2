@@ -133,7 +133,7 @@ body {
     padding: 20px !important;
     width: 220px !important;
     height: 200px !important;
-    margin: 10% !important;
+    margin: 18% !important;
     font-size: 12px;
     letter-spacing: 1px;
     background-color: #7866c663 !important;
@@ -161,6 +161,40 @@ body {
 
 .cardporque:active {
     transform: translateY(-4px);
+}
+
+.txtporque {
+    margin-left: 24px !important;
+}
+
+
+.cssbuttons-io-button {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 0.6em 0.9em;
+    color: white;
+    background: #ef7291d0;
+    border: none;
+    box-shadow: 0 0.7em 1.5em -0.5em rgb(184, 146, 255);
+    letter-spacing: 0.05em;
+    border-radius: 1.5em !important;
+}
+
+.cssbuttons-io-button svg {
+    margin-right: 8px;
+}
+
+.cssbuttons-io-button:hover {
+    box-shadow: 0 0.5em 1.5em -0.5em rgb(149, 91, 255);
+}
+
+.cssbuttons-io-button:active {
+    box-shadow: 0 0.3em 1em -0.5em rgb(160, 109, 255);
 }
 
 @media (max-width: 576px) {

@@ -84,7 +84,7 @@ function CadastroPsicólogos() {
                         <Col md='4' sm='12'>
 
                             <div className="scroll-section" id="section4">
-                                <h4>1. Flexibilidade de Horários</h4>
+                                <h4 className='txtporque'>1. Flexibilidade de Horários</h4>
                                 <div className='cardporque'>
                                     <p>
                                         <h6>Horários Personalizáveis:</h6> Permite ajustar os horários de trabalho para melhor atender às necessidades pessoais e profissionais.
@@ -104,7 +104,7 @@ function CadastroPsicólogos() {
                         <Col md='4' sm='12'>
 
                             <div className="scroll-section" id="section6">
-                                <h4>2. Desenvolvimento profissional</h4>
+                                <h4 className='txtporque'>2. Desenvolvimento profissional</h4>
                                 <div className='cardporque'>
                                     <p>
                                         <h6>Treinamentos Contínuos:</h6> Acesso a cursos, workshops e seminários para aprimorar habilidades e conhecimentos.

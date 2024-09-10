@@ -79,24 +79,25 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
               return null;
             })}
           </Nav>
+          <div className='button-toggle'>
+            <label
+              className="switch"
+              tabIndex="0"
+              aria-label={isDarkMode ? "Desativar modo escuro" : "Ativar modo escuro"}
+              onKeyDown={handleKeyDown} // Adiciona a funcionalidade de tecla
+            >
+              <input
+                type="checkbox"
+                checked={isDarkMode}
+                onChange={toggleTheme}
+                aria-pressed={isDarkMode ? "true" : "false"}
+                tabIndex="0" // Adiciona o tabIndex para navegação com teclado
+              />
+              <span className="slider"></span>
+            </label>
+          </div>
         </Navbar.Collapse>
-        <div className='button-toggle'>
-          <label
-            className="switch"
-            tabIndex="0"
-            aria-label={isDarkMode ? "Desativar modo escuro" : "Ativar modo escuro"}
-            onKeyDown={handleKeyDown} // Adiciona a funcionalidade de tecla
-          >
-            <input
-              type="checkbox"
-              checked={isDarkMode}
-              onChange={toggleTheme}
-              aria-pressed={isDarkMode ? "true" : "false"}
-              tabIndex="0" // Adiciona o tabIndex para navegação com teclado
-            />
-            <span className="slider"></span>
-          </label>
-        </div>
+
       </Container>
     </Navbar>
   );
