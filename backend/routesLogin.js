@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const connection = require('./db');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 
 // Chave secreta para assinar o token
 const SECRET_KEY = 'sua_chave_secreta';
@@ -12,7 +13,7 @@ router.post('/login', async (req, res) => {
 
   try {
     // Busca o usuário na tabela "usuarios"
-    const [results] = await connection.query('SELECT * FROM usuarios WHERE login = ? AND senha = ?', [login, senha]);
+    const [results] = await connection.query('SELECT * FROM usuarios WHERE login = ?', [login]);
 
     if (results.length === 0) {
       return res.status(404).json({ error: 'Usuário ou senha incorretos' });
@@ -20,6 +21,12 @@ router.post('/login', async (req, res) => {
 
     const usuario = results[0];
     
+    // Comparar a senha fornecida com a senha criptografada
+    const match = await bcrypt.compare(senha, usuario.senha);
+    if (!match) {
+      return res.status(404).json({ error: 'Usuário ou senha incorretos' });
+    }
+
     // Informações que serão armazenadas no token
     const payload = {
       id: usuario.id,
