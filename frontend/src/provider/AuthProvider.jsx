@@ -12,15 +12,15 @@ const AuthProvider = ({children}) => {
 
 
 useEffect(() => {
-    //Logica para lidar com o token
+    // Logica para lidar com o token
     if (token) {
-        axios.defaults.headers.common["Authorization"] = "Bearer" + token;
-        localStorage.setItem('token',token)
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;  // Formato correto com espaço
+      localStorage.setItem('token', token);  // Armazena o token no localStorage
     } else {
-        delete axios.defaults.headers.common["Authorization"];
-        localStorage.removeItem('token')
+      delete axios.defaults.headers.common["Authorization"];  // Remove o cabeçalho se o token não existir
+      localStorage.removeItem('token');  // Remove o token do localStorage
     }
-}, [token]);
+  }, [token]);  
 
 const contextValue = useMemo(
     () => ({
