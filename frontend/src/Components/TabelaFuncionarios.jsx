@@ -10,13 +10,30 @@ const TabelaFuncionarios = ({ contas }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const result = await fetch(`http://localhost:3001/contaFuncionarios`);
-      const body = await result.json();
-      setcontasFuncionarios(body);
+      try {
+        const response = await axios.get('http://localhost:3001/contaFuncionarios'); // Axios inclui o token automaticamente no cabeçalho
+        setcontasFuncionarios(response.data);  // Atualiza a tabela com os dados dos funcionários
+      } catch (error) {
+        console.error('Erro ao buscar os funcionários:', error);
+      }
     }
   
-    fetchData(); // Carrega os dados na primeira renderização ou quando "nContas" mudar
-  }, [contas]); // Recarrega quando novas contas são criadas
+    fetchData(); // Carrega os dados na primeira renderização ou quando "contas" mudar
+  }, [contas]);
+  
+
+  useEffect(() => {
+    const fetchFuncionarios = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/contaFuncionarios');
+        setcontasFuncionarios(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar os funcionários:', error);
+      }
+    };
+  
+    fetchFuncionarios();
+  }, []);
   
 
   const handleRowSelected = React.useCallback(state => {

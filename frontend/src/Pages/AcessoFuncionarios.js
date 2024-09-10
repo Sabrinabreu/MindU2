@@ -22,7 +22,7 @@ const AcessoFuncionarios = () => {
       
       for (let i = 0; i < nContas; i++) {
         const response = await axios.post('http://localhost:3001/contaFuncionarios', {
-          // Aqui pode enviar outros dados se necessário, como "nome", "cargo", etc.
+          // Aqui pode enviar outros dados se necessário
         });
         
         contasCriadas.push(response.data);  // Armazena as respostas (exemplo)

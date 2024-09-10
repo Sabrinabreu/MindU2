@@ -12,7 +12,6 @@ const verifyToken = (req, res, next) => {
     return res.status(403).send('Token não fornecido.');
   }
 
-  // Extrai o token do cabeçalho Authorization no formato 'Bearer <token>'
   const token = authHeader.split(' ')[1];
 
   if (!token) {
@@ -23,10 +22,15 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(500).send('Falha ao autenticar token.');
     }
-    // Armazena os dados do token decodificado (por exemplo, empresa_id)
-    console.log("Token decodificado:", decoded); // Verifica o conteúdo do token
-    req.userId = decoded.id;
-    req.empresaId = decoded.id_referencia; // `id_referencia` é o `empresa_id`
+
+    // Verifica se o `id_referencia` (empresa_id) existe no token
+    console.log("Token decodificado:", decoded);
+    
+    req.empresaId = decoded.id_referencia;  // Setando o `empresa_id` no req
+    if (!req.empresaId) {
+      return res.status(403).send('Empresa não identificada no token.');
+    }
+
     next();
   });
 };
@@ -49,16 +53,25 @@ router.post('/contaFuncionarios', verifyToken, async (req, res) => {
   }
 });
 
-// Rota para listar todos os registros de funcionários
-router.get('/contaFuncionarios', async (req, res) => {
+// Rota para listar todos os registros de funcionários da empresa logada
+router.get('/contaFuncionarios', verifyToken, async (req, res) => {
   try {
-    const [results] = await connection.query('SELECT * FROM contaFuncionarios');
+    // Usa o `empresaId` extraído do token JWT para listar apenas os funcionários dessa empresa
+    console.log('Empresa ID recebido na rota:', req.empresaId);
+
+    const [results] = await connection.query('SELECT * FROM contaFuncionarios WHERE empresa_id = ?', [req.empresaId]);
+    
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Nenhum funcionário encontrado para esta empresa.' });
+    }
+
     res.json(results);
   } catch (err) {
     console.error('Erro ao buscar os registros:', err);
     res.status(500).json({ error: 'Erro ao buscar os registros' });
   }
 });
+
 
 // Rota para atualizar um registro existente pelo ID
 router.put('/contaFuncionarios/:id', async (req, res) => {
