@@ -33,7 +33,7 @@ function Resultados() {
                     <Card className="results cardmenor">
                         <Card.Body>
                             <div className="d-flex resultados">
-                                <div> <TrendingDown className='trending' size={120} color='#7766C6' /></div>
+                                <div> <TrendingDown className='trending' size={120} color='#7766C6' alt="desenho de uma seta descendo"/></div>
                                 <div className='conteudocardmenor'>
                                     <Card.Title className='titulocardmenor'>Diminua</Card.Title>
                                     <Card.Text className='textcardmenor' >
@@ -53,7 +53,7 @@ function Resultados() {
                         <Card className="results cardmenor">
                             <Card.Body>
                                 <div className="d-flex resultados">
-                                    <div> <TrendingUp  className='trending' size={120} color='#7766C6' /></div>
+                                    <div> <TrendingUp  className='trending' size={120} color='#7766C6' alt="desenho de uma seta subindo"/></div>
                                     <div className='conteudocardmenor'>
                                         <Card.Title className='titulocardmenor'>Promova</Card.Title>
                                         <Card.Text className='textcardmenor' >

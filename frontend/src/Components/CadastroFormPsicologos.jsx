@@ -10,7 +10,6 @@ const CadastroFormPsi = () => {
         telefone: '',
         email: '',
         endereco: '',
-        formacaoAcademica: '',
         areasInteresse: '',
         preferenciaHorario: '',
         disponibilidade: '',
@@ -18,6 +17,7 @@ const CadastroFormPsi = () => {
         motivacao: '',
         objetivos: '',
         senha: '',
+        senhaconfirma: '',
         certificados: null // Para armazenar o arquivo
     });
 
@@ -38,42 +38,59 @@ const CadastroFormPsi = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validação de senha
+        if (formData.senha !== formData.senhaconfirma) {
+            alert('As senhas não coincidem!');
+            return;
+        }
+
         const data = new FormData();
 
         // Adiciona todos os campos de texto ao FormData
         for (const key in formData) {
-            if (formData[key] !== null) {
-                data.append(key, formData[key]);
+            if (formData[key] !== null && formData[key] !== undefined) {
+                if (key === 'certificados' && formData[key]) {
+                    // Adiciona o arquivo (se houver)
+                    data.append(key, formData[key]);
+                } else {
+                    // Adiciona os campos de texto
+                    data.append(key, formData[key]);
+                }
             }
         }
 
         try {
-            await axios.post('http://localhost:3001/cadastropsicologos', data, {
+            const response = await axios.post('http://localhost:3001/cadastropsicologos', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data' // Necessário para enviar arquivos
                 }
             });
-            alert('Cadastro criado com sucesso!');
-            // Limpar o formulário após o envio bem-sucedido
-            setFormData({
-                nome: '',
-                dataNascimento: '',
-                genero: '',
-                telefone: '',
-                email: '',
-                endereco: '',
-                formacaoAcademica: '',
-                areasInteresse: '',
-                preferenciaHorario: '',
-                disponibilidade: '',
-                localidades: '',
-                motivacao: '',
-                objetivos: '',
-                senha: '',
-                certificados: null
-            });
+
+            if (response.status === 201) {
+                alert('Cadastro criado com sucesso!');
+                setFormData({
+                    nome: '',
+                    dataNascimento: '',
+                    genero: '',
+                    telefone: '',
+                    email: '',
+                    endereco: '',
+                    areasInteresse: '',
+                    preferenciaHorario: '',
+                    disponibilidade: '',
+                    localidades: '',
+                    motivacao: '',
+                    objetivos: '',
+                    senha: '',
+                    senhaconfirma: '',
+                    certificados: null
+                });
+            } else {
+                alert('Erro ao criar cadastro. Verifique a resposta do servidor.');
+            }
         } catch (error) {
-            console.error('Erro ao criar cadastro:', error);
+            console.error('Erro ao criar cadastro:', error.response ? error.response.data : error.message);
             alert('Erro ao criar cadastro. Verifique o console para mais detalhes.');
         }
     };
@@ -91,7 +108,6 @@ const CadastroFormPsi = () => {
                         <input className='inputform cadPsi' type="date" name="dataNascimento" value={formData.dataNascimento} onChange={handleChange} required />
                     </Col>
                 </Row>
-
                 <Row>
                     <Col>
                         <label className='labelForms'>Gênero</label>
@@ -107,7 +123,6 @@ const CadastroFormPsi = () => {
                         <input className='inputform cadPsi' type="tel" maxLength="15" name="telefone" placeholder="Digite seu telefone aqui..." value={formData.telefone} onChange={handleChange} required />
                     </Col>
                 </Row>
-
                 <Row>
                     <Col>
                         <label className='labelForms'>E-mail</label>
@@ -118,7 +133,6 @@ const CadastroFormPsi = () => {
                         <input className='inputform cadPsi' type="text" name="endereco" placeholder="Digite seu endereço aqui..." value={formData.endereco} onChange={handleChange} />
                     </Col>
                 </Row>
-
                 <Row>
                     <Col>
                         <label className='labelForms'>Áreas de Interesse e Especialização</label>
@@ -129,7 +143,6 @@ const CadastroFormPsi = () => {
                         <input className='inputform cadPsi' type="text" name="preferenciaHorario" placeholder="Digite sua preferência de horário aqui..." value={formData.preferenciaHorario} onChange={handleChange} required />
                     </Col>
                 </Row>
-
                 <Row>
                     <Col>
                         <label className='labelForms'>Disponibilidade para Trabalho Online ou Presencial</label>
@@ -145,7 +158,6 @@ const CadastroFormPsi = () => {
                         <input className='inputform cadPsi' type="text" name="localidades" placeholder="Digite suas regiões ou localidades preferidas aqui..." value={formData.localidades} onChange={handleChange} required />
                     </Col>
                 </Row>
-
                 <Row>
                     <Col>
                         <label className='labelForms'>Motivação para Trabalhar na MindU</label>
@@ -177,17 +189,18 @@ const CadastroFormPsi = () => {
                             />
                             <label className='upload-label' htmlFor="certificados">
                                 <i className="upload-icon">⬆️</i> Selecione um arquivo
-                            </label>
+                            </label><br/>
                             <small className='form-text text-muted'>
                                 Envie imagens ou PDFs dos seus certificados. Máx. 5MB.
                             </small>
                         </div>
                     </Col>
                 </Row>
-                <button className='botaoCadastro' type="submit">Enviar</button>
+                <button className='botaoBanner' type="submit">Enviar</button>
             </Container>
         </form>
     );
 };
 
 export default CadastroFormPsi;
+

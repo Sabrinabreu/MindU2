@@ -22,25 +22,25 @@ function Avaliacoes() {
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 3,
-        centerMode: true, // Habilita o modo de centralização
-        centerPadding: '20px', // Ajusta a quantidade de espaço ao redor do slide central
-        focusOnSelect: true, // Permite seleção ao clicar nos slides
-        arrows: true, // Habilita os botões de navegação
+        centerMode: true, 
+        centerPadding: '20px', 
+        focusOnSelect: true, 
+        arrows: true, 
         responsive: [
             {
-                breakpoint: 768, // Define o ponto de interrupção para dispositivos móveis
+                breakpoint: 768, 
                 settings: {
-                    slidesToShow: 2, // Mostra 2 slides
-                    slidesToScroll: 2, // Desliza 2 slides de cada vez
-                    centerPadding: '80px', // Ajusta o padding para dispositivos móveis
+                    slidesToShow: 2, 
+                    slidesToScroll: 2, 
+                    centerPadding: '80px', 
                 },
             },
             {
-                breakpoint: 480, // Define um ponto de interrupção adicional para dispositivos muito pequenos
+                breakpoint: 480, 
                 settings: {
-                    slidesToShow: 1, // Mostra 1 slide
-                    slidesToScroll: 1, // Desliza 1 slide de cada vez
-                    centerPadding: '60px', // Ajusta o padding para dispositivos ainda menores
+                    slidesToShow: 1, 
+                    slidesToScroll: 1, 
+                    centerPadding: '60px', 
                 },
             },
             
@@ -56,7 +56,7 @@ function Avaliacoes() {
             <div className="carousel-container">
                 <Slider {...settings}>
                     <div className="slide">
-                        <img className='colabs' src={Colab1} alt="" />
+                        <img className='colabs' src={Colab1} alt="foto de uma mulher de cabelos lisos, médios e castanhos sorrindo" />
                         <h3>Mariana Dias</h3>
                         <div className='rate'>
                             <span className='ratestar'>★★★★★</span>
@@ -65,7 +65,7 @@ function Avaliacoes() {
 
                     </div>
                     <div className="slide">
-                        <img className='colabs' src={Colab2} alt="" />
+                        <img className='colabs' src={Colab2} alt="foto de um homem de cabelos lisos e pretos sorrindo com roupas sociais" />
                         <h3>Renato Ribeiro</h3>
                         <div className='rate'>
                             <span className='ratestar'>★★★★★</span>
@@ -73,7 +73,7 @@ function Avaliacoes() {
                         </div>
                     </div>
                     <div className="slide">
-                        <img className='colabs' src={Colab3} alt="" />
+                        <img className='colabs' src={Colab3} alt="foto de uma mulher de cabelos lisos e castanhos sorrindo com óculos pretos e brincos grandes" />
                         <h3>Laura Schneider</h3>
                         <div className='rate'>
                             <span className='ratestar'>★★★★★</span>
@@ -81,7 +81,7 @@ function Avaliacoes() {
                         </div>
                     </div>
                     <div className="slide">
-                        <img className='colabs' src={Colab4} alt="" />
+                        <img className='colabs' src={Colab4} alt="foto de um homem idoso de cabelos lisos e castanhos sorrindo com roupas sociais em um parque" />
                         <h3>Humberto Gonçalvez</h3>
                         <div className='rate'>
                             <span className='ratestar'>★★★★★</span>
@@ -89,7 +89,7 @@ function Avaliacoes() {
                         </div>
                     </div>
                     <div className="slide">
-                        <img className='colabs' src={Colab5} alt="" />
+                        <img className='colabs' src={Colab5} alt="foto de uma mulher de cabelos lisos e médios com roupas sociais em um escritório" />
                         <h3>Juliana Ferreira</h3>
                         <div className='rate'>
                             <span className='ratestar'>★★★★★</span>
@@ -97,7 +97,7 @@ function Avaliacoes() {
                         </div>
                     </div>
                     <div className="slide">
-                        <img className='colabs' src={Colab6} alt="" />
+                        <img className='colabs' src={Colab6} alt="foto de um homem careca sorrindo com um microfone de lapela e roupas sociais em um palco" />
                         <h3>João Paulo Campos</h3>
                         <div className='rate'>
                             <span className='ratestar'>★★★★★</span>
@@ -105,7 +105,7 @@ function Avaliacoes() {
                         </div>
                     </div>
                     <div className="slide">
-                        <img className='colabs' src={Colab7} alt="" />
+                        <img className='colabs' src={Colab7} alt="foto de um homem idoso de cabelos lisos e castanhos sorrindo com roupas sociais em um parque" />
                         <h3>José Vieira</h3>
                         <div className='rate'>
                             <span className='ratestar'>★★★★★</span>
@@ -113,7 +113,7 @@ function Avaliacoes() {
                         </div>
                     </div>
                     <div className="slide">
-                        <img className='colabs' src={Colab8} alt="" />
+                        <img className='colabs' src={Colab8} alt="foto de um homem de cabelos curtos e ondulados com um blazer e roupas sociais em um escritório" />
                         <h3>Rafael Souza</h3>
                         <div className='rate'>
                             <span className='ratestar'>★★★★★</span>
