@@ -55,7 +55,7 @@ const CadastroForm = () => {
     } catch (error) {
       console.error('Erro ao criar cadastro:', error);
       if (error.response && error.response.status === 400) {
-        setError(error.response.data.error);
+        setError(error.response.data.error); //erro do email
       } else {
         setError('Erro ao criar cadastro. Verifique o console para mais detalhes.');
       }
