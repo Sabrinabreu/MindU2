@@ -37,7 +37,7 @@ const CadastroForm = () => {
 
     setError('');
     try {
-      await axios.post('http://localhost:3001/cadastroempresa', formData);
+      const response = await axios.post('http://localhost:3001/cadastroempresa', formData);
       alert('Cadastro criado com sucesso!');
       // Limpar o formulário após o envio bem-sucedido
       setFormData({
@@ -54,7 +54,11 @@ const CadastroForm = () => {
       });
     } catch (error) {
       console.error('Erro ao criar cadastro:', error);
-      alert('Erro ao criar cadastro. Verifique o console para mais detalhes.');
+      if (error.response && error.response.status === 400) {
+        setError(error.response.data.error); //erro do email
+      } else {
+        setError('Erro ao criar cadastro. Verifique o console para mais detalhes.');
+      }
     }
   };
 
@@ -100,7 +104,7 @@ return (
 
         {error && <p className="text-danger">{error}</p>}
 
-      <button className='botaoBanner botaoBranco' type="submit">Enviar</button>
+      <button className='botaoBanner roxo botaoBranco' type="submit">Enviar</button>
       
       </Container>
     </form>

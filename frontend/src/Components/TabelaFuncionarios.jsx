@@ -6,20 +6,35 @@ import DataTable from "react-data-table-component";
 const TabelaFuncionarios = ({ contas }) => {
   const [contasFuncionarios, setcontasFuncionarios] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [toggleCleared, setToggleCleared] = useState(false); // Novo estado
+  const [toggleCleared, setToggleCleared] = useState(false);
 
   useEffect(() => {
-    if (contas.length > 0) {
-      setcontasFuncionarios(contas);
-    } else {
-      async function fetchData() {
-        const result = await fetch(`http://localhost:3001/contaFuncionarios`);
-        const body = await result.json();
-        setcontasFuncionarios(body);
+    async function fetchData() {
+      try {
+        const response = await axios.get('http://localhost:3001/contaFuncionarios'); // Axios inclui o token automaticamente no cabeçalho
+        setcontasFuncionarios(response.data);  // Atualiza a tabela com os dados dos funcionários
+      } catch (error) {
+        console.error('Erro ao buscar os funcionários:', error);
       }
-      fetchData();
     }
+  
+    fetchData(); // Carrega os dados na primeira renderização ou quando "contas" mudar
   }, [contas]);
+  
+
+  useEffect(() => {
+    const fetchFuncionarios = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/contaFuncionarios');
+        setcontasFuncionarios(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar os funcionários:', error);
+      }
+    };
+  
+    fetchFuncionarios();
+  }, []);
+  
 
   const handleRowSelected = React.useCallback(state => {
     setSelectedRows(state.selectedRows);
@@ -35,6 +50,7 @@ const TabelaFuncionarios = ({ contas }) => {
       console.error("Erro ao excluir usuário:", error);
     }
   };
+  
 
   const handleExcluirSelecionados = async () => {
     if (selectedRows.length === 0) {
@@ -49,6 +65,7 @@ const TabelaFuncionarios = ({ contas }) => {
         })
       );
 
+      // Atualiza a lista de funcionários após excluir os selecionados
       const { data } = await axios.get("http://localhost:3001/contaFuncionarios");
       setcontasFuncionarios(data);
       setSelectedRows([]); 
@@ -83,23 +100,20 @@ const TabelaFuncionarios = ({ contas }) => {
   }, [selectedRows]);
 
   return (
-    <>
-      <div className="container my-5">
-        <DataTable
-          title="Tabela conta de funcionários criadas"
-          columns={colunas}
-          fixedHeader
-          pagination
-          selectableRows
-          onSelectedRowsChange={handleRowSelected}
-          data={contasFuncionarios}
-          contextActions={contextActions}
-          noDataComponent="Não há registros para exibir"
-          clearSelectedRows={toggleCleared} // Passa o estado para resetar a seleção
-        />
-      </div>
-      {console.log(selectedRows)}
-    </>
+    <div className="container my-5">
+      <DataTable
+        title="Tabela conta de funcionários criadas"
+        columns={colunas}
+        fixedHeader
+        pagination
+        selectableRows
+        onSelectedRowsChange={handleRowSelected}
+        data={contasFuncionarios}
+        contextActions={contextActions}
+        noDataComponent="Não há registros para exibir"
+        clearSelectedRows={toggleCleared} // Passa o estado para resetar a seleção
+      />
+    </div>
   );
 }
 
