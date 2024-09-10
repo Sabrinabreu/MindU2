@@ -136,24 +136,33 @@ function AgendarConsulta() {
   const filteredSlidesContent = slidesContent.filter(slide => {
     const term = searchTerm.toLowerCase();
     const isMatchingProfession = filterType === 'profissao'
-      ? slide.profissao.toLowerCase().includes(selectedProfession.toLowerCase())
+      ? selectedProfession === '' || slide.profissao.toLowerCase().includes(selectedProfession.toLowerCase())
       : true;
 
-      return (
-        (filterType === 'nome' ? slide.title.toLowerCase().includes(term) : true) &&
-        isMatchingProfession &&
-        (filterType === 'local' ? slide.local.toLowerCase().includes(term) : true)
-      );
-    });
+    return (
+      (filterType === 'nome' ? slide.title.toLowerCase().includes(term) : true) &&
+      isMatchingProfession &&
+      (filterType === 'local' ? slide.local.toLowerCase().includes(term) : true)
+    );
+  });
 
-    const [professionOptions, setProfessionOptions] = useState([
-      "Psicólogo Psicanalista",
-      "Psicólogo Cognitivo",
-      "Psicóloga Clínica",
-      "Psicólogo Clínico",
-      "Psicóloga Escolar",
-      "Psicóloga Organizacional",
-    ]);
+  const [professionOptions, setProfessionOptions] = useState([
+    "Psicólogo Psicanalista",
+    "Psicólogo Cognitivo",
+    "Psicóloga Clínica",
+    "Psicólogo Clínico",
+    "Psicóloga Escolar",
+    "Psicóloga Organizacional",
+  ]);
+
+  const handleSearch = () => {
+    console.log('Buscando por:', searchTerm);
+
+    if (filterType === 'profissao' && searchTerm === '') {
+      // Exibir todos os psicólogos quando o filtro for 'profissao' e o termo de busca estiver vazio
+      setSelectedProfession('');
+    }
+  };
 
   const getAvailableTimes = (psicologoIndex) => {
     const times = {
@@ -259,10 +268,7 @@ function AgendarConsulta() {
     }));
   };
 
-  const handleSearch = () => {
-    console.log('Buscando por:', searchTerm);
-  };
-
+ 
   return (
     <>
       <BAPO />

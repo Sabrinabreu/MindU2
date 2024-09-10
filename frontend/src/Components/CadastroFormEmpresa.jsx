@@ -100,7 +100,7 @@ return (
 
         {error && <p className="text-danger">{error}</p>}
 
-      <button className='botaoBanner botaoCALC' type="submit">Enviar</button>
+      <button className='botaoBanner botaoBranco' type="submit">Enviar</button>
       
       </Container>
     </form>

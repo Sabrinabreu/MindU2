@@ -5,7 +5,7 @@ import BAPO from "../Components/WidgetBAPO";
 import "../css/CadastroEmpresa.css";
 import "../css/WidgetBAPO.css";
 import bannerSM from '../img/BannerSM.png';
-import { Row, Col } from "react-bootstrap";
+import { Row, Col,Form } from "react-bootstrap";
 
 const Cadastro = () => {
   const sectionsConfig = [
@@ -149,7 +149,7 @@ const Cadastro = () => {
                   Nosso time de psicólogos é dedicado a entender as necessidades específicas da sua empresa, oferecendo suporte contínuo para promover o bem-estar emocional e mental dos seus colaboradores.
                   <b> Invista no futuro da sua empresa com um ambiente mais saudável e eficiente.</b></p>
 
-                <a href="#header"><button className="botaoBanner">INVESTIR NO BEM ESTAR</button></a>
+                <a href="#header"><button className="botaoBanner botaoBranco">INVESTIR NO BEM ESTAR</button></a>
               </Col>
               <Col className="centralizar" md={5} sm={12}>
                 <img className="fotoInfo" src={bannerSM} alt="Desenho de 2 pessoas cuidando da saúde mental de uma terceira pessoa." />
@@ -171,7 +171,7 @@ const Cadastro = () => {
                         <p>{result.numColaboradores} colaboradores</p>
                         <p>Salário: {formatarMoeda(parseFloat(result.salario))}</p>
                         <p>{faixa} anos</p>
-                        <button type="button" className="mt-3 botaoBanner botaoCALC" onClick={resetForm}>REFAZER Cálculo</button>
+                        <button type="button" className="mt-3 botaoBanner botaoBranco" onClick={resetForm}>REFAZER Cálculo</button>
                       </div>
                       <div className="resultado-direito">
                         <p>Atualmente, o custo estimado com saúde mental para sua equipe é de <span>{formatarMoeda(result.custoTotalInicial)}</span> por ano.</p>
@@ -195,23 +195,44 @@ const Cadastro = () => {
 
                     <h1 htmlFor="faixa" className="my-4 text-start titCalc">Qual a idade média dos colaboradores?</h1>
 
-                    <div>
-                      <label className="radio-button">
-                        <input type="radio" name="faixa" value="20-30" checked={faixa === '20-30'} onChange={(e) => setFaixa(e.target.value)} />
-                        <div className="circulo-radio"></div>
-                        <span className="radio-label">Entre 20 e 30 anos</span>
-                      </label>
-                      <label className="radio-button">
-                        <input type="radio" name="faixa" value="30-40" checked={faixa === '30-40'} onChange={(e) => setFaixa(e.target.value)} />
-                        <div className="circulo-radio"></div>
-                        <span className="radio-label">Entre 30 e 40 anos</span>
-                      </label>
-                      <label className="radio-button">
-                        <input type="radio" name="faixa" value="40-50" checked={faixa === '40-50'} onChange={(e) => setFaixa(e.target.value)} />
-                        <div className="circulo-radio"></div>
-                        <span className="radio-label">Entre 40 e 50 anos</span>
-                      </label>
-                    </div>
+
+                    <Form>
+                        <Form.Check
+                          type="radio" value="20-30" label="Entre 20 e 30 anos"
+                          name="group1" id={`inline-radio-1`}
+                          checked={faixa === '20-30'}
+                          onChange={(e) => setFaixa(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              setFaixa(e.target.value);
+                            }
+                          }}
+                        />
+                        <Form.Check
+                          type="radio" value="30-40" label="Entre 30 e 40 anos"
+                          name="group2" id={`inline-radio-2`}
+                          checked={faixa === '30-40'}
+                          onChange={(e) => setFaixa(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              setFaixa(e.target.value);
+                            }
+                          }}
+                        />
+                        <Form.Check
+                          type="radio" value="40-50" label="Entre 40 e 50 anos"
+                          name="group3" id={`inline-radio-3`}
+                          checked={faixa === '40-50'}
+                          onChange={(e) => setFaixa(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              setFaixa(e.target.value);
+                            }
+                          }}
+                        />
+                      </Form>
+
+
                     {errors.faixa && <div className="mensagem-erro">{errors.faixa}</div>}
 
                     <button type="button" className="botaoBanner botaoCALC" onClick={calcularCustos}>CALCULAR CUSTO</button>

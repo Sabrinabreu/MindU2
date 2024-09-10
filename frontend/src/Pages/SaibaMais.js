@@ -225,8 +225,8 @@ const Agendar = () => {
             <Row>
                 <Col md={6}>
                     <div className='perfilPsico'>
-                        <img className="fundoPsico" src={fundoPsico} alt="Fundo Psicólogo" />
-                        <img className="psicologo" src={perfilPsicologo} alt="Perfil Psicólogo" />
+                        <img className="fundoPsico" src={fundoPsico} alt="Imagem de uma paisagem com um lago e muitas árvores" />
+                        <img className="psicologo" src={perfilPsicologo} alt="Foto de um homem de cabelos pretos e raspados com uma barba curta e roupas sociais" />
                         <button className='valores'>
                             Duração da sessão <br />
                             <b>1 hora</b>

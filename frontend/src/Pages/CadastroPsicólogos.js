@@ -61,7 +61,7 @@ function CadastroPsicólogos() {
             <Row>
                 <div className="scroll-section" id="section1">
                     <div id="header" className="fundoFormsPsi d-flex">
-                        <img className='imgpsi' width={610} height={350} src={PsicologosImg1} />
+                        <img className='imgpsi' width={610} height={350} src={PsicologosImg1} alt="desenho de uma mulher fazendo terapia" />
                         <Col md='4' sm='12' className='blococadastropsi'>
                             <h6 className='questioncadastro'>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? </h6>
                             <div className='cardcadastropsi'>
@@ -78,7 +78,7 @@ function CadastroPsicólogos() {
                     <div className='d-flex conteinerporque'>
 
                         <div className="scroll-section" id="section3">
-                            <img className='imgporque' src={Psicologos} width={600} height={450} alt="Psicólogos" />
+                            <img className='imgporque' src={Psicologos} width={600} height={450} alt="desenho de uma psicologa ajudando o paciente a se entender" />
                         </div>
 
                         <Col md='4' sm='12'>

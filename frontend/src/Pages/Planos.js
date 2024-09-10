@@ -15,7 +15,8 @@ const Cadastro = () => {
 
     return (
         <>
-            <Container className="caixaPlanos">
+      <BAPO />
+      <Container className="caixaPlanos">
                 <Row>
                     <Col className="title text-center">
                         <h2>Nossos Planos</h2>
