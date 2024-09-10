@@ -1,32 +1,31 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../provider/AuthProvider";
+import { parseJwt } from './jwtUtils';
 
 const LoginForm = () => {
-  const { setToken } = useAuth(); // Função para armazenar o token
-  const navigate = useNavigate();
-
   const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.post('http://localhost:3001/login', { login, senha });
-      const { token, tipo_usuario, id_referencia } = response.data;
+      const { token, perfil } = response.data;
 
       if (token) {
-        console.log("Login realizado com sucesso:", response.data);
-        setToken(token); // Armazena o token
         localStorage.setItem('token', token); // Armazena o token no localStorage
 
-        // Salva o tipo de usuário e id_referencia (empresa_id, psicologo_id ou funcionario_id)
-        localStorage.setItem('tipo_usuario', tipo_usuario);
-        localStorage.setItem('id_referencia', id_referencia);
+        // Decodifica o token manualmente
+        const decodedToken = parseJwt(token);
+        console.log("Informações do token decodificado: ", decodedToken);
 
-        navigate("/", { replace: true }); // Redireciona para a página inicial
+        // Armazena as informações do perfil
+        // setPerfil(decodedToken.perfil);
+
+        navigate("/perfil"); // Redireciona para a página de perfil
       } else {
         console.log("Erro ao realizar login.");
       }

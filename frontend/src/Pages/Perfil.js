@@ -4,21 +4,26 @@ import perfilPsicologo from '../img/imgPerfil.jpg';
 import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
 import { Eye, EyeOff } from 'lucide-react';
 import Logout from '../Components/Logout';
+import { parseJwt } from '../Components/jwtUtils';
 
 function Perfil() {
     const [consultationDetails, setConsultationDetails] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [isEditing, setIsEditing] = useState(false);
-    const [profileData, setProfileData] = useState({
-        login: 'user@login',
-        nome: 'nomeuser',
-        email: 'user@email',
-        senha: 'senhaaa',
-    });
+    const [perfil, setPerfil] = useState({})
 
     const [profileImage, setProfileImage] = useState(perfilPsicologo);
     const [showPassword, setShowPassword] = useState(false);
     const [psicologoNome, setPsicologoNome] = useState('');
+
+    useEffect(() => {
+        // Recupera o token do localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+          const decodedToken = parseJwt(token);  // Decodifica o token manualmente
+          setPerfil(decodedToken.perfil);  // Define o perfil com base nas informações do token
+        }
+      }, []);
 
     useEffect(() => {
         // Carrega os detalhes da consulta do localStorage
@@ -105,12 +110,12 @@ function Perfil() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setProfileData(prevData => ({ ...prevData, [name]: value }));
+        setPerfil(prevData => ({ ...prevData, [name]: value }));
     };
 
     const handleSave = (e) => {
         e.preventDefault();
-        localStorage.setItem('profileData', JSON.stringify(profileData));
+        localStorage.setItem('perfil', JSON.stringify(perfil));
         atualizarPerfilNoBackend();
         setIsEditing(false);
     };
@@ -130,7 +135,7 @@ function Perfil() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(profileData),
+                body: JSON.stringify(perfil),
             });
 
             if (!response.ok) {
@@ -188,8 +193,8 @@ function Perfil() {
                                     onChange={handleFileChange}
                                 />
                                 <div className="mt-3">
-                                    <h4>{profileData.nome}</h4>
-                                    <p>{profileData.login}</p>
+                                    <h4>{perfil.nome}</h4>
+                                    <p>{perfil.login}</p>
                                     <p className="text-muted font-size-sm">..</p>
                                 </div>
                             </div>
@@ -199,23 +204,23 @@ function Perfil() {
                         <ListGroup variant="flush">
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Email</h6>
-                                <span className="text-secondary">{profileData.email}</span>
+                                <span className="text-secondary">{perfil.email}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Telefone</h6>
-                                <span className="text-secondary">(11) 96414-9914</span>
+                                <span className="text-secondary">{perfil.telefone}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">CPF</h6>
-                                <span className="text-secondary">450.533.783-93</span>
+                                <span className="text-secondary">{perfil.cpf}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Empresa</h6>
-                                <span className="text-secondary">Scania</span>
+                                <span className="text-secondary">{perfil.empresa}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Cargo</h6>
-                                <span className="text-secondary">Peão</span>
+                                <span className="text-secondary">{perfil.cargo}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <Logout />
@@ -225,7 +230,8 @@ function Perfil() {
                 </Col>
                 <Col md={8}>
                     <Card className="cardPerfil mb-3">
-                        <Card.Body>
+                        {perfil && (
+                            <Card.Body>
                             {isEditing ? (
                                 <Form onSubmit={handleSave}>
                                     <Form.Group controlId="formFullName">
@@ -233,7 +239,7 @@ function Perfil() {
                                         <Form.Control
                                             type="text"
                                             name="nome"
-                                            value={profileData.nome}
+                                            value={perfil.nome}
                                             onChange={handleChange}
                                         />
                                     </Form.Group>
@@ -242,7 +248,7 @@ function Perfil() {
                                         <Form.Control
                                             type="email"
                                             name="login"
-                                            value={profileData.login}
+                                            value={perfil.email}
                                             onChange={handleChange}
                                         />
                                     </Form.Group>
@@ -252,7 +258,7 @@ function Perfil() {
                                             <Form.Control
                                                 type={showPassword ? "text" : "password"}
                                                 name="senha"
-                                                value={profileData.senha}
+                                                value={perfil.senha}
                                                 onChange={handleChange}
                                                 disabled={!isEditing}
                                             />
@@ -274,18 +280,18 @@ function Perfil() {
                                 <>
                                     <Row>
                                         <Col sm={3}><h6 className="mb-0">Nome </h6></Col>
-                                        <Col sm={9} className="text-secondary">{profileData.nome}</Col>
+                                        <Col sm={9} className="text-secondary">{perfil.nome}</Col>
                                     </Row>
                                     <hr />
                                     <Row>
                                         <Col sm={3}><h6 className="mb-0">Login</h6></Col>
-                                        <Col sm={9} className="text-secondary">{profileData.login}</Col>
+                                        <Col sm={9} className="text-secondary">{perfil.email}</Col>
                                     </Row>
                                     <hr />
                                     <Row>
                                         <Col sm={3}><h6 className="mb-0">Senha</h6></Col>
                                         <Col sm={9} className="text-secondary">
-                                            {isEditing ? profileData.senha : '*****'}
+                                            {isEditing ? perfil.senha : '*****'}
                                         </Col>
                                     </Row>
                                     <hr />
@@ -297,6 +303,8 @@ function Perfil() {
                                 </>
                             )}
                         </Card.Body>
+                        )}
+                        
                     </Card>
 
                     <Row>
