@@ -38,6 +38,15 @@ router.post('/cadastroempresa', async (req, res) => {
   const { nome, empresa, telefone, email, departamento, qtdfuncionarios, planosaude, contato, senha } = req.body;
 
   try {
+    const { email, senha, ...rest } = req.body;
+
+      // Verifica se o email já está registrado
+      const [existingUser] = await connection.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+  
+      if (existingUser.length > 0) {
+        return res.status(400).json({ error: 'Email já cadastrado. Por favor, escolha outro.' });
+      }
+
     // Criptografar a senha
     const hashedPassword = await bcrypt.hash(senha, saltRounds);
 
