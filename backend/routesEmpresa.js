@@ -1,6 +1,9 @@
 const express = require('express');
 const connection = require('./db');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 // Rota para listar todos os registros
 router.get('/cadastroempresa', async (req, res) => {
@@ -35,9 +38,12 @@ router.post('/cadastroempresa', async (req, res) => {
   const { nome, empresa, telefone, email, departamento, qtdfuncionarios, planosaude, contato, senha } = req.body;
 
   try {
+    // Criptografar a senha
+    const hashedPassword = await bcrypt.hash(senha, saltRounds);
+
     const [result] = await connection.query(
       'INSERT INTO cadastroempresa (nome, empresa, telefone, email, departamento, qtdfuncionarios, planosaude, contato, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [nome, empresa, telefone, email, departamento, qtdfuncionarios, planosaude, contato, senha]
+      [nome, empresa, telefone, email, departamento, qtdfuncionarios, planosaude, contato, hashedPassword]
     );
 
     res.status(201).json({ message: 'Empresa cadastrada com sucesso', id: result.insertId });
