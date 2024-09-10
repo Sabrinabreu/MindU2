@@ -88,6 +88,7 @@ body {background-color: #f7f8fc !important;
 .card-contato {
   padding: 20px;
   margin: 20px;
+  background-color: #fffbfa;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   border: 0;
   border-radius: 20px;
@@ -110,13 +111,14 @@ body {background-color: #f7f8fc !important;
 .card-mapa {
   padding: 20px;
   margin: 0vw 4vw;
+  background-color: #fffbfa;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   border: 0;
 }
      .cardMapa-esquerdo {
        padding: 20px;
        height: 420px;
-       background-color: #fcf5ff;
+       background-color: #e8def8;
      }
      .cardMapa-esquerdo iframe {
       width: 100%;
@@ -150,6 +152,8 @@ body {background-color: #f7f8fc !important;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     border: 0;
     border-radius: 10px;
+    background-color: #eee8f4;
+    color: #6852a5;
 } 
       .Img-clinica {
         width: 100%;
