@@ -7,8 +7,8 @@ const rotaCadastropsi = require('./routesCadastropsi');
 const rotaLogin = require('./routesLogin');
 const rotaFuncionario = require('./routesFuncionario');
 const agendamentoRoutes = require('./routesAgendamento');
-const rotaPerfilsuario = require('./routesPerfilusuario');
 const router = require('./routesCadastropsi');
+const routaDisponibilidade = require('./routesDisponibilidade');
 
 const app = express();
 const port = 3001; // Defina a porta que deseja utilizar
@@ -27,8 +27,7 @@ app.use('/', routesPsicologos);
 app.use('/', rotaCadastropsi);
 app.use('/', rotaFuncionario);
 app.use('/api/agendamento', agendamentoRoutes);
-app.use('/api/atualizarPerfil', rotaPerfilsuario);
-
+app.use('/', routaDisponibilidade);
 
 app.listen(port, () => {
   console.log(`Servidor está rodando na porta ${port}`);
