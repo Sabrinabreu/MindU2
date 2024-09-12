@@ -55,7 +55,7 @@ function Perfil() {
             .catch(error => {
                 console.error('Erro ao obter nome do psicólogo:', error);
             });
-    }, []);
+    }, [setPsicologoNome]);
 
     // Função para buscar o nome da empresa baseado no `empresa_id`
     const buscarNomeEmpresa = async (empresaId) => {
