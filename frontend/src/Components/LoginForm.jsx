@@ -25,7 +25,7 @@ const LoginForm = () => {
         // Armazena as informações do perfil
         // setPerfil(decodedToken.perfil);
 
-        navigate("/perfil"); // Redireciona para a página de perfil
+        navigate("/"); // Redireciona para a página de perfil
       } else {
         console.log("Erro ao realizar login.");
       }
