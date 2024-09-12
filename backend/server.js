@@ -8,6 +8,8 @@ const rotaLogin = require('./routesLogin');
 const rotaFuncionario = require('./routesFuncionario');
 const agendamentoRoutes = require('./routesAgendamento');
 const rotaPerfilsuario = require('./routesPerfilusuario');
+const router = require('./routesCadastropsi');
+const routaDisponibilidade = require('./routesDisponibilidade');
 
 // Cria uma instância do Express
 const app = express();
@@ -31,6 +33,7 @@ app.use('/api/atualizarPerfil', rotaPerfilsuario);
 app.use('/', (req, res) => {
   res.status(404).send('Rota não encontrada');
 });
+app.use('/', routaDisponibilidade);
 
 // Inicia o servidor
 app.listen(port, () => {

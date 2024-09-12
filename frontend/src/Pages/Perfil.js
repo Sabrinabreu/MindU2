@@ -1,41 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import "../css/Perfil.css";
 import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
 import { Eye, EyeOff } from 'lucide-react';
 import Logout from '../Components/Logout';
 import { parseJwt } from '../Components/jwtUtils';
 
-function formatarData(data) {
-    return new Date(data).toLocaleDateString('pt-BR'); // Formato dd/mm/yyyy
-}
-
 function Perfil() {
     const [consultationDetails, setConsultationDetails] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [isEditing, setIsEditing] = useState(false);
-    const [perfil, setPerfil] = useState({});
-    const [tipoUsuario, setTipoUsuario] = useState('');
-    const [nomeEmpresa, setNomeEmpresa] = useState('');
+    const [perfil, setPerfil] = useState({})
 
     const [showPassword, setShowPassword] = useState(false);
     const [setPsicologoNome] = useState('');
 
-
     useEffect(() => {
         // Recupera o token do localStorage
-    const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
         if (token) {
-          const decodedToken = parseJwt(token);  // Decodifica o token
-          setPerfil(decodedToken.perfil);  // Define as informações do perfil
-          setTipoUsuario(decodedToken.tipo_usuario);  // Define o tipo de usuário
-        
-          // Se for um funcionário, buscar o nome da empresa pelo `empresa_id`
-          if (decodedToken.tipo_usuario === 'funcionario') {
-            buscarNomeEmpresa(decodedToken.perfil.empresa_id); // Chama função para buscar nome da empresa
-          }
+          const decodedToken = parseJwt(token);  // Decodifica o token manualmente
+          setPerfil(decodedToken.perfil);  // Define o perfil com base nas informações do token
         }
-    }, []);
+      }, []);
 
     useEffect(() => {
         // Carrega os detalhes da consulta do localStorage
@@ -50,22 +36,12 @@ function Perfil() {
         fetch('http://localhost:3001/api/psicologo')
             .then(response => response.json())
             .then(data => {
-                setPsicologoNome(data.nomePsico);
+                setPsicologoNome(data.nomePsico); // Supondo que o nome vem como `nomePsico`
             })
             .catch(error => {
                 console.error('Erro ao obter nome do psicólogo:', error);
             });
-    }, []);
-
-    // Função para buscar o nome da empresa baseado no `empresa_id`
-    const buscarNomeEmpresa = async (empresaId) => {
-      try {
-        const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
-        setNomeEmpresa(response.data.nome);  // Define o nome da empresa no estado
-      } catch (error) {
-        console.error('Erro ao buscar o nome da empresa:', error);
-      }
-    };
+    }, [setPsicologoNome]);
 
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
@@ -127,6 +103,8 @@ function Perfil() {
 
     const handleEditClick = () => {
         setIsEditing(true);
+        // Limpar o campo de senha para não mostrar a senha criptografada
+        setPerfil(prevData => ({ ...prevData, senha: '' }));
     };
 
     const handleChange = (e) => {
@@ -226,7 +204,6 @@ function Perfil() {
                     </Card>
                     <Card className="cardPerfil mt-3">
                         <ListGroup variant="flush">
-                            {/* informações gerais */}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Email</h6>
                                 <span className="text-secondary">{perfil.email}</span>
@@ -239,28 +216,14 @@ function Perfil() {
                                 <h6 className="mb-0">CPF</h6>
                                 <span className="text-secondary">{perfil.cpf}</span>
                             </ListGroup.Item>
-                            {/* informações exclusivas de funcionário */}
-                            {tipoUsuario === 'funcionario' && (
-                                <>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Empresa</h6>
-                                    <span className="text-secondary">{nomeEmpresa}</span>
-                                </ListGroup.Item>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Cargo</h6>
-                                    <span className="text-secondary">{perfil.cargo}</span>
-                                </ListGroup.Item>
-                                </>
-                            )}
-                            {/* informações exclusivas de psicologo */}
-                            {tipoUsuario === 'psicologo' && (
-                                <>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Data de Nascimento</h6>
-                                    <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
-                                </ListGroup.Item>
-                                </>
-                            )}
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 className="mb-0">Empresa</h6>
+                                <span className="text-secondary">{perfil.empresa}</span>
+                            </ListGroup.Item>
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 className="mb-0">Cargo</h6>
+                                <span className="text-secondary">{perfil.cargo}</span>
+                            </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <Logout />
                             </ListGroup.Item>
@@ -292,25 +255,25 @@ function Perfil() {
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formPassword">
-                                        <Form.Label>Senha</Form.Label>
-                                        <div className="password-container">
-                                            <Form.Control
-                                                type={showPassword ? "text" : "password"}
-                                                name="senha"
-                                                value={perfil.senha}
-                                                onChange={handleChange}
-                                                disabled={!isEditing}
-                                            />
-                                            {isEditing && (
-                                                <div
-                                                    className='olho'
-                                                    onClick={togglePasswordVisibility}
-                                                >
-                                                    {showPassword ? <EyeOff /> : <Eye />}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </Form.Group>
+                                    <Form.Label>Senha</Form.Label>
+                                    <div className="password-container">
+                                        <Form.Control
+                                            type={showPassword ? "text" : "password"}
+                                            name="senha"
+                                            value={perfil.senha || ''} // O valor será vazio quando em modo de edição
+                                            onChange={handleChange}
+                                            placeholder="Digite uma nova senha"
+                                        />
+                                        {isEditing && (
+                                            <div
+                                                className='olho'
+                                                onClick={togglePasswordVisibility}
+                                            >
+                                                {showPassword ? <EyeOff /> : <Eye />}
+                                            </div>
+                                        )}
+                                    </div>
+                                </Form.Group>
                                     <Button className='salvarBot mt-3' type="submit">Salvar</Button>
                                     <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
                                 </Form>

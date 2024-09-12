@@ -14,6 +14,7 @@ import { Container, Row, Col, Form } from 'react-bootstrap';
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
 import { TriangleAlert } from 'lucide-react';
+import { useParams } from 'react-router-dom';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -45,6 +46,7 @@ function AgendarConsulta() {
       ]
     },
     {
+      id: 2,
       foto: perfilPsicologo,
       title: "Flávio Monteiro Lobato",
       profissao: "Psicólogo Cognitivo",
@@ -60,6 +62,7 @@ function AgendarConsulta() {
       ]
     },
     {
+      id: 3,
       foto: perfilPsicologaclinica,
       title: "Cris da Silva de Brázino",
       profissao: "Psicóloga Clínica",
@@ -75,6 +78,7 @@ function AgendarConsulta() {
       ]
     },
     {
+      id: 4,
       foto: perfilPsicanalista,
       title: "Roberto Freitas Dias",
       profissao: "Psicólogo Psicanalista",
@@ -85,11 +89,12 @@ function AgendarConsulta() {
       rating: 5,
       tabs: [
         { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Roberto." },
-         { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Roberto." },
-         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Roberto." }
+        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Roberto." },
+        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Roberto." }
       ]
     },
     {
+      id: 5,
       foto: perfilEscolar,
       title: "Lidiane Moraes Costa",
       profissao: "Psicóloga Escolar",
@@ -99,12 +104,13 @@ function AgendarConsulta() {
       valor: "sessão: R$350,00",
       rating: 5,
       tabs: [
-         { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Lidiane." },
-         { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Lidiane." },
+        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Lidiane." },
+        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Lidiane." },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Lidiane." }
       ]
     },
     {
+      id: 6,
       foto: perfilOrganizacional,
       title: "Marilia Souza",
       profissao: "Psicóloga Organizacional",
@@ -113,13 +119,14 @@ function AgendarConsulta() {
       hora: "2 horas",
       valor: "sessão: R$350,00",
       rating: 5,
-      tabs: [ 
-          { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Marilia." },
-          { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Marilia." },
+      tabs: [
+        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Marilia." },
+        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Marilia." },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marilia." }
       ]
     },
     {
+      id: 7,
       foto: perfilclinico,
       title: "Caio Muniz de Almeida",
       profissao: "Psicólogo Clínico",
@@ -157,6 +164,8 @@ function AgendarConsulta() {
     "Psicóloga Escolar",
     "Psicóloga Organizacional",
   ]);
+
+
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -312,7 +321,7 @@ function AgendarConsulta() {
             </option>
             <option
               value="profissao"
-              className= {filterType === 'profissao' ? 'selected-option' : ''}
+              className={filterType === 'profissao' ? 'selected-option' : ''}
             >
               Profissão
             </option>
@@ -330,7 +339,7 @@ function AgendarConsulta() {
               value={selectedProfession}
               onChange={(e) => setSelectedProfession(e.target.value)}
               className="buscaPor mr-2"
-            > 
+            >
               <option
                 value=""
                 className={selectedProfession === '' ? 'selected-option' : ''}
@@ -352,7 +361,7 @@ function AgendarConsulta() {
           {filterType !== 'profissao' && (
             <Form.Control
               type="text"
-              placeholder={`Buscar por${filterType || '...'}`}
+              placeholder={`Buscar por ${filterType || '...'}`}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="buscaPor mr-2"
@@ -463,7 +472,7 @@ function AgendarConsulta() {
                                         ))}
                                       </div>
                                     ) : (
-                                      <button className='semhora'>   <TriangleAlert className='semConsulta'/>Sem horários disponíveis!</button>
+                                      <button className='semhora'>   <TriangleAlert className='semConsulta' />Sem horários disponíveis!</button>
                                     )}
                                   </div>
                                   <Link to="/saibamais" className='agendarBot mt-3'>
@@ -475,10 +484,9 @@ function AgendarConsulta() {
                               <p>{tab.content}</p>
                             )}
                             {tab.eventKey === 'sobre' && activeTab === 'sobre' && (
-                              <Link to={`/psicologo/${slide.id}`} className='saibaMais mt-3'>
-                              Saiba mais
-                            </Link>
-                            
+                              <Link to="/saibamais" className='saibaMais mt-3'>
+                                Saiba mais
+                              </Link>
                             )}
                           </Tab>
                         ))}
@@ -490,7 +498,7 @@ function AgendarConsulta() {
             );
           })
         ) : (
-          <p>Nenhum psicólogo encontrado.</p>
+          <p className='nenhumEcontrado'>Nenhum psicólogo encontrado :(</p>
         )}
 
         {filteredSlidesContent.length > Math.ceil(filteredSlidesContent.length / 2) && (
