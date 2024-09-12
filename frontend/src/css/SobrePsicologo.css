@@ -310,6 +310,10 @@
     background-color: var(--c-theme-primary-accent);
 }
 
+.date.current-day:focus {
+    background-color: #6852a5;
+}
+
 .selected-day {
     background-color: #5740be8c;
     color: #fff !important;
