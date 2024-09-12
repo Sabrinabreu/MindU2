@@ -8,16 +8,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
+// Nome do psicólogo
 const nomePsico = 'Flávio Monteiro Lobato';
 
 // Horários disponíveis
 const availableTimes = {
-    '2024-08-22': ['13:00', '14:00', '15:00'],
-    '2024-08-29': ['16:00', '17:00'],
-    '2024-08-30': ['16:00', '17:00'],
-    '2024-09-01': ['10:00', '16:00', '17:00'],
-    '2024-09-02': ['07:00', '12:00', '19:00'],
-    '2024-09-10': ['10:00', '20:00'],
     '2024-09-12': ['09:00', '14:00', '15:00'],
     '2024-09-15': ['11:00', '13:00'],
     '2024-09-17': ['08:00', '15:00', '18:00'],
@@ -125,6 +120,7 @@ const Agendar = () => {
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
+    const [userId, setUserId] = useState('someUserId'); // Adicionei o userId
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
@@ -149,14 +145,15 @@ const Agendar = () => {
         }
 
         const data = {
-            userId: 'someUserId', // Exemplo de ID do usuário
-            data: selectedDate.toISOString().split('T')[0], // Certifique-se de que o formato está correto
+            userId: userId,
+            data: selectedDate.toISOString().split('T')[0],
             tipo: selectedTipo,
             time: selectedTime,
             assunto: assunto,
             nomePsico: nomePsico
         };
 
+        // Verifica a disponibilidade
         fetch('http://localhost:3001/api/agendamento', {
             method: 'POST',
             headers: {
@@ -164,26 +161,16 @@ const Agendar = () => {
             },
             body: JSON.stringify(data),
         })
-            .then(response => {
-                console.log('Resposta do servidor:', response);
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log('Dados de resposta do backend:', data);
-                if (data.error) {
-                    console.error('Erro recebido do backend:', data.error);
-                    alert('Erro ao salvar o agendamento: ' + data.error);
-                } else if (data.message) {
-                    console.log('Mensagem de sucesso recebida do backend:', data.message);
-                    alert('Agendamento criado com sucesso!');
+                if (data.success) {
+                    alert('Agendamento realizado com sucesso!');
                 } else {
-                    console.warn('Resposta inesperada do backend:', data);
-                    alert('Resposta inesperada do servidor.');
+                    alert('Erro ao agendar consulta: ' + data.error);
                 }
             })
             .catch(error => {
-                console.error('Erro ao processar a resposta do backend:', error);
-                alert('Erro ao salvar o agendamento! ');
+                alert('Erro ao agendar consulta: ' + error.message);
             });
     };
 
@@ -203,7 +190,7 @@ const Agendar = () => {
 
         return times.length > 0 ? (
             times.map(time => (
-                <button key={time} className="time-slot" onClick={() => handleTimeClick(time)}>
+                <button key={time} className={`time-slot ${selectedTime === time ? 'active' : ''}`} onClick={() => handleTimeClick(time)}>
                     {time}
                 </button>
             ))
@@ -252,8 +239,8 @@ const Agendar = () => {
                                     <>
                                         <h6>Data selecionada: {selectedDate.toLocaleDateString('pt-BR')}</h6>
                                         <p className='tipoConsulta mb-1'>Tipo de consulta:</p>
-                                        <button className='botTipo' onClick={() => handleTipoClick('Online')}>Online</button>
-                                        <button className='botTipo' onClick={() => handleTipoClick('Presencial')}>Presencial</button>
+                                        <button className={`botTipo ${selectedTipo === 'Online' ? 'active' : ''}`} onClick={() => handleTipoClick('Online')}>Online</button>
+                                        <button className={`botTipo ${selectedTipo === 'Presencial' ? 'active' : ''}`} onClick={() => handleTipoClick('Presencial')}>Presencial</button>
                                         <Form>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                                 <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
@@ -300,7 +287,7 @@ const Agendar = () => {
                     <div className='localizacao p-4'>
                         <h5 className='titulosSobre p-3'>Localização</h5>
                         <div className="cardMapa-psicologo">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29341.539628960563!2d-50.661641651811856!3d-23.18142224913242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94eadf17b06e81af%3A0xc38f2f9ebf143f8a!2sCorn%C3%A9lio%20Proc%C3%B3pio%2C%20PR%2C%2086300-000!5e0!3m2!1spt-BR!2sbr!4v1726141450249!5m2!1spt-BR!2sbr" width="100%" height="390" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29341.539628960563!2d-50.661641651811856!3d-23.18142224913242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94eadf17b06e81af%3A0xc38f2f9ebf143f8a!2sCorn%C3%A9lio%20Proc%C3%B3pio%2C%20PR%2C%2086300-000!5e0!3m2!1spt-BR!2sbr!4v1726141450249!5m2!1spt-BR!2sbr" width="100%" height="390" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </Col>

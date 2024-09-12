@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import "../css/AgendarConsulta.css";
 import "../css/SobrePsicologo.css";
 import perfilPsicologa from '../img/perfilPsicologa.jfif';
@@ -9,10 +9,12 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
+// Horários disponíveis para agendamento
 const availableTimes = {
     '2024-08-22': ['13:00', '14:00', '15:00'],
-s};
+};
 
+// Componente de seleção de data
 const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
@@ -94,8 +96,9 @@ const DatePicker = ({ onDateSelect }) => {
     );
 };
 
-const SaibaMais = () => {
+const SaibaMaisMarina = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -104,12 +107,17 @@ const SaibaMais = () => {
     const [psicologo, setPsicologo] = useState(null);
 
     useEffect(() => {
-     
+        // Redireciona automaticamente se o ID for 1
+        if (id === '1') {
+            navigate('/pagina-especifica'); // Substitua '/pagina-especifica' pela URL para onde deseja redirecionar
+            return;
+        }
+
         fetch(`http://localhost:3001/api/psicologo/${id}`)
             .then(response => response.json())
             .then(data => setPsicologo(data))
             .catch(error => console.error('Erro ao buscar psicólogo:', error));
-    }, [id]);
+    }, [id, navigate]);
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
@@ -275,6 +283,7 @@ const SaibaMais = () => {
                     <div className='localizacao p-4'>
                         <h5 className='titulosSobre p-3'>Localização</h5>
                         <p>
+                            Rua Exemplo, 123, Centro, Curitiba - PR <br />
                             Telefone: (43) 1234-5678 <br />
                             Email: contato@psicologo.com.br
                         </p>
@@ -285,4 +294,4 @@ const SaibaMais = () => {
     );
 }
 
-export default SaibaMais;
+export default SaibaMaisMarina;
