@@ -12,7 +12,7 @@ function Perfil() {
     const [perfil, setPerfil] = useState({})
 
     const [showPassword, setShowPassword] = useState(false);
-    const [psicologoNome, setPsicologoNome] = useState('');
+    const [setPsicologoNome] = useState('');
 
     useEffect(() => {
         // Recupera o token do localStorage
@@ -41,7 +41,7 @@ function Perfil() {
             .catch(error => {
                 console.error('Erro ao obter nome do psicólogo:', error);
             });
-    }, []);
+    }, [setPsicologoNome]);
 
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
