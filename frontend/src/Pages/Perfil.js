@@ -19,7 +19,7 @@ function Perfil() {
     const [nomeEmpresa, setNomeEmpresa] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
-    const [psicologoNome, setPsicologoNome] = useState('');
+    const [setPsicologoNome] = useState('');
 
 
     useEffect(() => {
