@@ -9,13 +9,13 @@
 }
 
 .tituloAgenda {
-    color: #493548;
+    color: #6852a5;
     text-align: center;
     margin-bottom: 20px;
 }
 
 .cardAgenda {
-    background-color: #E0DFFD;
+    background-color: #eee8f4  ;
     padding: 20px;
     position: relative;
     display: flex;
@@ -63,17 +63,18 @@
 }
 
 .nomeAgenda {
-    color: #704170;
+    color: #6852a5;
     font-size: 24px;
     margin-left: 0;
 }
 
 .profissao {
-    color: #fdf1ff;
+    color: #6852a5;
 }
 
 .local {
     margin-top: -19px;
+    color: #6852a5;
 }
 
 .valor {
@@ -94,12 +95,11 @@
     letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;
-    background-color: #aeace7;
-    border: 1.7px solid #252525;
+    background-color: #7654d349   !important;
+    border: 1.5px solid #816eb5;
     border-radius: 25px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    color: white;
     display: block;
     text-align: center;
 }
@@ -119,7 +119,7 @@
 .star {
     width: 24px;
     height: 24px;
-    background: rgb(255, 248, 35);
+    background: #6852a5;
     clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
     display: inline-block;
 }
@@ -132,7 +132,7 @@
     transform: translateX(-50%);
     height: 100%;
     width: 1px;
-    background-color: #704170;
+    background-color: #6852a5;
     z-index: 0;
 }
 
@@ -145,16 +145,16 @@
 }
 
 .nav-tabs .nav-link {
-    color: #847284;
+    color: #6852a5;
     border: none;
     border-bottom: 3px solid transparent;
     transition: border-color 0.5s ease;
 }
 
 .nav-tabs .nav-link.active {
-    color: #000000;
-    background-color: #7866C663;
-    border-bottom: 3px solid #000000;
+    color: #4f3b86;
+    background-color: #7866c64c;
+    border-bottom: 3px solid #6852a5;
 }
 
 .saibaMais {
@@ -163,9 +163,9 @@
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
-    color: #000;
+    color: #6852a5;
     background-color: transparent;
-    border: 1.7px solid #252525;
+    border: 1.7px solid #6852a5;
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
@@ -178,7 +178,7 @@
 }
 
 .saibaMais:hover {
-    box-shadow: 0px 15px 20px #a395a3;
+    box-shadow: 0px 15px 20px #6852a547;
     transform: translateY(-2px);
 }
 
@@ -315,9 +315,8 @@
 .calendar-day-header {
     text-align: center;
     padding: 5px;
-    background-color: #aeace7;
-    border: 1px solid #ccc;
-    font-weight: bold;
+    background-color: #7654d349   !important;
+    font-weight: 600;
 }
 
 .calendar-days {
@@ -329,16 +328,15 @@
 .calendar-day {
     text-align: center;
     padding: 10px;
+    background-color: #fffbfa;
     cursor: pointer;
     border: 1px solid #281010;
     box-sizing: border-box;
 }
 
 .calendar-day.selected {
-    background-color: #F9B0C3;
-    color: white;
-    border: 1px solid #de7793;
- 
+    background-color: #ded7e5;
+    border: 1px solid #28101042;
 }
 
 
@@ -361,11 +359,11 @@
     width: 80%;
     padding: 12px;
     align-items: center;
-    background: #fffac7;
+    background: #fffbfa;
     border-radius: 8px;
     margin-left: 30px;
-    border: 1px solid #EF665B;
-    box-shadow: 0px 0px 5px -3px #111;
+    border: 0;
+    box-shadow: 0px 0px 5px -3px #6852a5;
 }
 
 .semConsulta{
@@ -379,9 +377,9 @@
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
-    color: #000;
+    color: #6852a5;
     background-color: transparent;
-    border: 1.7px solid #252525;
+    border: 1.7px solid #6852a5;
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
@@ -393,7 +391,7 @@
 }
 
 .agendarBot:hover {
-    box-shadow: 0px 15px 20px rgb(148, 108, 148);
+    box-shadow: 0px 15px 20px #6852a55f;
     transform: translateY(-7px);
 }
 
