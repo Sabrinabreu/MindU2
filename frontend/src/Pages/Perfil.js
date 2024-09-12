@@ -103,6 +103,8 @@ function Perfil() {
 
     const handleEditClick = () => {
         setIsEditing(true);
+        // Limpar o campo de senha para não mostrar a senha criptografada
+        setPerfil(prevData => ({ ...prevData, senha: '' }));
     };
 
     const handleChange = (e) => {
@@ -253,25 +255,25 @@ function Perfil() {
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formPassword">
-                                        <Form.Label>Senha</Form.Label>
-                                        <div className="password-container">
-                                            <Form.Control
-                                                type={showPassword ? "text" : "password"}
-                                                name="senha"
-                                                value={perfil.senha}
-                                                onChange={handleChange}
-                                                disabled={!isEditing}
-                                            />
-                                            {isEditing && (
-                                                <div
-                                                    className='olho'
-                                                    onClick={togglePasswordVisibility}
-                                                >
-                                                    {showPassword ? <EyeOff /> : <Eye />}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </Form.Group>
+                                    <Form.Label>Senha</Form.Label>
+                                    <div className="password-container">
+                                        <Form.Control
+                                            type={showPassword ? "text" : "password"}
+                                            name="senha"
+                                            value={perfil.senha || ''} // O valor será vazio quando em modo de edição
+                                            onChange={handleChange}
+                                            placeholder="Digite uma nova senha"
+                                        />
+                                        {isEditing && (
+                                            <div
+                                                className='olho'
+                                                onClick={togglePasswordVisibility}
+                                            >
+                                                {showPassword ? <EyeOff /> : <Eye />}
+                                            </div>
+                                        )}
+                                    </div>
+                                </Form.Group>
                                     <Button className='salvarBot mt-3' type="submit">Salvar</Button>
                                     <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
                                 </Form>

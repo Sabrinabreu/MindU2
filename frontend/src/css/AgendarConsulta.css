@@ -440,8 +440,9 @@
     transform: translateY(-1px);
 }
 
-.nenhumEcontrado{
-    text-align: center;
+[data-theme='dark'] .agendarBot {
+    color: #fff;
+    border: 1.7px solid #ffffff;
 }
 
 @media (max-width: 601px) {
