@@ -173,11 +173,10 @@ function Perfil() {
         const g = parseInt(backgroundColor.substring(3, 5), 16);
         const b = parseInt(backgroundColor.substring(5, 7), 16);
         const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        return luminosity > 128 ? '#000000' : '#FFFFFF'; // Preto ou branco
+        return luminosity > 128 ? '#000000' : '#FFFFFF';
     };
 
-    // Aplicar a cor de fundo e a cor do texto
-    const backgroundColor = getColorFromInitials(getInitials(profileData.nome || ''));
+    const backgroundColor = getColorFromInitials(getInitials(perfil.nome || ''));
     const textColor = getContrastingColor(backgroundColor);
 
     return (
@@ -191,7 +190,7 @@ function Perfil() {
                                     className="profile-initials"
                                     style={{ backgroundColor: backgroundColor, color: textColor }}
                                 >
-                                    {getInitials(profileData.nome || '')}
+                                    {getInitials(perfil.nome || '')}
                                 </div>
                                 <div className="mt-3">
                                     <h4>{perfil.nome}</h4>
