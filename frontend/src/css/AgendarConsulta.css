@@ -9,13 +9,16 @@
 }
 
 .tituloAgenda {
-    color: #493548;
+    color: #6852a5;
     text-align: center;
     margin-bottom: 20px;
 }
+[data-theme='dark'] .tituloAgenda{
+    color: #fff;
+}
 
 .cardAgenda {
-    background-color: #E0DFFD;
+    background-color: #eee8f4  ;
     padding: 20px;
     position: relative;
     display: flex;
@@ -63,19 +66,26 @@
 }
 
 .nomeAgenda {
-    color: #704170;
+    color: #6852a5;
     font-size: 24px;
     margin-left: 0;
 }
-
-.profissao {
-    color: #fdf1ff;
+[data-theme='dark'] .nomeAgenda{
+    color: #fff;
 }
-
+.profissao {
+    color: #6852a5;
+}
+[data-theme='dark'] .profissao{
+    color: #fff;
+}
 .local {
     margin-top: -19px;
+    color: #6852a5;
 }
-
+[data-theme='dark'] .local{
+    color: #fff;
+}
 .valor {
     width: 320px;
     margin-right: 40px;
@@ -94,12 +104,10 @@
     letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;
-    background-color: #aeace7;
-    border: 1.7px solid #252525;
+    background-color: #7654d349   !important;
+    border: 1.5px solid #816eb5;
     border-radius: 25px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    color: white;
     display: block;
     text-align: center;
 }
@@ -107,6 +115,7 @@
 [data-theme='dark'] .sessao,
 .valor {
     background-color: #7b78cfc3;
+    color: #fff;
 }
 
 
@@ -119,11 +128,14 @@
 .star {
     width: 24px;
     height: 24px;
-    background: rgb(255, 248, 35);
+    background: #6852a5;
     clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
     display: inline-block;
 }
 
+[data-theme='dark'] .star{
+    background-color: #fff;
+}
 .cardAgenda::before {
     content: "";
     position: absolute;
@@ -132,8 +144,12 @@
     transform: translateX(-50%);
     height: 100%;
     width: 1px;
-    background-color: #704170;
+    background-color: #6852a5;
     z-index: 0;
+}
+
+.nav-tabs {
+    --bs-nav-tabs-border-width: transparent;
 }
 
 .tabs-container {
@@ -145,16 +161,25 @@
 }
 
 .nav-tabs .nav-link {
-    color: #847284;
+    color: #6852a5;
     border: none;
     border-bottom: 3px solid transparent;
     transition: border-color 0.5s ease;
 }
 
+[data-theme='dark'] .nav-tabs .nav-link {
+    color: #fff;
+}
+
 .nav-tabs .nav-link.active {
-    color: #000000;
-    background-color: #7866C663;
-    border-bottom: 3px solid #000000;
+    color: #4f3b86;
+    background-color: #7866c64c;
+    border-bottom: 3px solid #6852a5;
+}
+[data-theme='dark'] .nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #261d4c4c;
+    border-bottom: 3px solid #ffffff;
 }
 
 .saibaMais {
@@ -163,9 +188,9 @@
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
-    color: #000;
+    color: #6852a5;
     background-color: transparent;
-    border: 1.7px solid #252525;
+    border: 1.7px solid #6852a5;
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
@@ -178,12 +203,17 @@
 }
 
 .saibaMais:hover {
-    box-shadow: 0px 15px 20px #a395a3;
+    box-shadow: 0px 15px 20px #6852a547;
     transform: translateY(-2px);
 }
 
 .saibaMais:active {
     transform: translateY(-1px);
+}
+
+[data-theme='dark'] .saibaMais {
+    color: #fff;
+    border: 1.7px solid #ffffff;
 }
 
 /* drop busca */
@@ -315,9 +345,12 @@
 .calendar-day-header {
     text-align: center;
     padding: 5px;
-    background-color: #aeace7;
-    border: 1px solid #ccc;
-    font-weight: bold;
+    background-color: #7654d349   !important;
+    font-weight: 600;
+}
+
+[data-theme='dark'] .calendar-day-header {
+    background-color: rgba(164, 139, 232, 0.623) !important;
 }
 
 .calendar-days {
@@ -329,18 +362,22 @@
 .calendar-day {
     text-align: center;
     padding: 10px;
+    background-color: #fffbfa;
     cursor: pointer;
     border: 1px solid #281010;
     box-sizing: border-box;
 }
-
-.calendar-day.selected {
-    background-color: #F9B0C3;
-    color: white;
-    border: 1px solid #de7793;
- 
+[data-theme='dark'] .calendar-day {
+    color: #000 !important;
 }
 
+.calendar-day.selected {
+    background-color: #ded7e5;
+    border: 1px solid #28101042;
+}
+[data-theme='dark'] .calendar-day.selected {
+    background-color: #c7bfd0;
+}
 
 .setaCalendario {
     background-color: transparent;
@@ -350,7 +387,9 @@
     margin: 0 10px;
     cursor: pointer;
 }
-
+[data-theme='dark'] .setaCalendario{
+    color: #ffffff;
+}
 .nav-button:hover {
     background-color: #0056b3;
 }
@@ -361,11 +400,11 @@
     width: 80%;
     padding: 12px;
     align-items: center;
-    background: #fffac7;
+    background: #fffbfa;
     border-radius: 8px;
     margin-left: 30px;
-    border: 1px solid #EF665B;
-    box-shadow: 0px 0px 5px -3px #111;
+    border: 0;
+    box-shadow: 0px 0px 5px -3px #6852a5;
 }
 
 .semConsulta{
@@ -379,9 +418,9 @@
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
-    color: #000;
+    color: #6852a5;
     background-color: transparent;
-    border: 1.7px solid #252525;
+    border: 1.7px solid #6852a5;
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
@@ -393,12 +432,17 @@
 }
 
 .agendarBot:hover {
-    box-shadow: 0px 15px 20px rgb(148, 108, 148);
+    box-shadow: 0px 15px 20px #6852a55f;
     transform: translateY(-7px);
 }
 
 .agendarBot:active {
     transform: translateY(-1px);
+}
+
+[data-theme='dark'] .agendarBot {
+    color: #fff;
+    border: 1.7px solid #ffffff;
 }
 
 @media (max-width: 601px) {

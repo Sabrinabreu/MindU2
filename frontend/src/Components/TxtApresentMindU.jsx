@@ -23,7 +23,8 @@ function TxtSobreMindU() {
                     <div>
                         <Link to="/planos" className='botaoSobre'>
                             Veja os nossos planos aqui.
-                        </Link></div>
+                        </Link>
+                    </div>
                 </Col>
             </Row>
         </Container>
