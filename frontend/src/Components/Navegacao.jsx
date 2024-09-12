@@ -34,7 +34,7 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
     },
     {
       caminho: "/perfil", nome: "Perfil",
-      //  auth: true
+       auth: true
     },
     { caminho: "/login", nome: "Login", auth: false },
   ];

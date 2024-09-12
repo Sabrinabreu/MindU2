@@ -16,6 +16,17 @@ const App = () => {
     }
   }, []);
 
+  window.onerror = function(message, source, lineno, colno, error) {
+    console.log('Error Details:', {
+      message: message,
+      source: source,
+      lineno: lineno,
+      colno: colno,
+      error: error
+    });
+  };
+
+
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add('dark-mode');

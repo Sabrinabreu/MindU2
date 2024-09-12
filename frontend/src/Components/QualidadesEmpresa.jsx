@@ -35,7 +35,7 @@ function QualidadesMindU() {
                             <Card className="text-center cardQualidades">
 
                                 <Card.Body>
-                                <span class="material-symbols-outlined home">self_improvement</span>
+                                <span className="material-symbols-outlined home">self_improvement</span>
                                     <Card.Title className='titlecardQualidades'>Transformação</Card.Title>
                                     <Card.Text>
                                         Inclui programas de bem-estar personalizados que promovem mudanças significativas na qualidade de vida.
