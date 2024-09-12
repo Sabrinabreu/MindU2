@@ -17,7 +17,7 @@
 }
 
 [data-theme='dark'] .perfilPsico {
-    background-color: #ffffff !important;
+    background-color: #4e4e7f !important;
 }
 
 .fundoPsico {
@@ -63,6 +63,11 @@
     position: absolute;
     color: white;
 }
+
+[data-theme='dark'] .valores {
+    background-color: #2a2a5b !important;
+}
+
   .crp{
     font-size: 15px;
     margin-left: 27px;
@@ -71,7 +76,7 @@
   }
 
   [data-theme='dark'] .crp{
-    color: black;
+    color: rgb(255, 255, 255);
   }
 
 .agenda {
@@ -86,7 +91,7 @@
 }
 
 [data-theme='dark'] .agenda{
-    background-color: #E0DFFD;
+    background-color: #4e4e7f;
 }
 
 .agendaConsulta {
@@ -105,6 +110,9 @@
     outline: none;
     margin-left: 55%;
 }
+[data-theme='dark'] .agendaConsulta{
+    background-color: #d9cdffde;
+}
 
 .agendaConsulta:hover {
     box-shadow: 0px 15px 20px #9486d163;
@@ -120,24 +128,24 @@
     color: #6852a5;
     margin-bottom: -10px;
 }
+[data-theme='dark'] .nomePsico{
+   color: #E0DFFD;
+}
 
 .titulosSobre{
     color: #de6988;
 }
 
+[data-theme='dark'] .titulosSobre{
+    color: #ff7096;
+}
 .infoPsico {
     margin-left: 27px;
     color: #6852a5;
 }
-
-[data-theme='dark'] .infoPsico {
-    color: black;
-}
-
-[data-theme='dark'] .biografia{
-    background-color: #E0DFFD;
-    color: black;
-}
+[data-theme='dark'] .infoPsico{
+    color: #E0DFFD;
+ }
 
 .contato, .localizacao, .biografia{
     background-color: white;
@@ -149,6 +157,19 @@
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
+[data-theme='dark'] .biografia{
+    background-color: #4e4e7f;
+    color: rgb(255, 255, 255);
+}
+[data-theme='dark'] .localizacao{
+    background-color: #4e4e7f;
+    color: rgb(255, 255, 255);
+}
+
+[data-theme='dark'] .contato{
+    background-color: #4e4e7f;
+    color: rgb(255, 255, 255);
+}
 .cardMapa-psicologo {
     padding: 20px;
     height: 400px;
@@ -159,10 +180,6 @@
    height: 100%;
  }
 
-[data-theme='dark'] .contato{
-    background-color: #E0DFFD;
-    color: black
-}
 
 /* MODAL */
 [data-theme='dark'] .agendando{
@@ -266,6 +283,9 @@
     font-weight: 600;
 }
 
+[data-theme='dark'] .month-name{
+    color: black;
+}
 .datepicker-calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
