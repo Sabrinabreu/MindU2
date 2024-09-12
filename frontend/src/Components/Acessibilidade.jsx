@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../css/Acessibilidade.css';
-import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ } from 'lucide-react';
+import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick } from 'lucide-react';
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
 
@@ -9,10 +9,12 @@ const Acessibilidade = () => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
+    const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
 
-    const highlightRef = useRef(null);
+    const foco = useRef(null);
+    const highlightBackground = useRef(null);
 
-    const handleTogglePanel = () => setIsPanelOpen(!isPanelOpen);
+    const handleTogglePanel = () => setIsPanelOpen(prevState => !prevState);
 
     const adjustFontSize = (size) => {
         document.body.style.fontSize = size;
@@ -23,11 +25,11 @@ const Acessibilidade = () => {
     const decreaseFontSize = () => adjustFontSize(`${Math.max(fontSize - 2, 12)}px`);
 
     const toggleClass = (className, buttonKey) => {
-        if (className === 'font-arial') {
-            document.body.classList.toggle(className);
-            console.log('Classe font-arial aplicada:', document.body.classList.contains(className));
+        const bodyClassList = document.body.classList;
+        if (bodyClassList.contains(className)) {
+            bodyClassList.remove(className);
         } else {
-            document.body.classList.toggle(className);
+            bodyClassList.add(className);
         }
         setActiveButtons(prevState => ({
             ...prevState,
@@ -45,44 +47,53 @@ const Acessibilidade = () => {
             'increase-images',
             'fonte-arial',
             'text-magnifier',
-            'highlight-line'
+            'highlight-line',
+            'perfil-tdah'
         );
         adjustFontSize('16px');
         setActiveButtons({});
         setIsHighlightActive(false);
-        if (highlightRef.current) {
-            highlightRef.current.style.display = 'none';
+        setIsTDHAFriendly(false);
+        if (foco.current) {
+            foco.current.style.display = 'none';
+        }
+        if (highlightBackground.current) {
+            highlightBackground.current.style.display = 'none';
         }
     };
 
     const toggleHighlight = () => {
-        setIsHighlightActive(!isHighlightActive);
-        if (!isHighlightActive) {
+        setIsHighlightActive(prevState => !prevState);
+        if (highlightBackground.current) {
+            highlightBackground.current.style.display = isHighlightActive ? 'none' : 'block';
+        }
+    };
+
+    const updateHighlightPosition = (e) => {
+        if (foco.current && isHighlightActive) {
+            foco.current.style.left = `${e.clientX - (foco.current.offsetWidth / 2)}px`;
+            foco.current.style.top = `${e.clientY - (foco.current.offsetHeight / 2)}px`;
+            foco.current.style.display = 'block';
+        }
+    };
+
+    const toggleTDHAFriendly = () => {
+        setIsTDHAFriendly(prevState => !prevState);
+        document.body.classList.toggle('perfil-tdah');
+    };
+
+    useEffect(() => {
+        if (isHighlightActive) {
             document.body.classList.add('highlight-line');
             window.addEventListener('mousemove', updateHighlightPosition);
         } else {
             document.body.classList.remove('highlight-line');
             window.removeEventListener('mousemove', updateHighlightPosition);
-            if (highlightRef.current) {
-                highlightRef.current.style.display = 'none';
+            if (foco.current) {
+                foco.current.style.display = 'none';
             }
         }
-    };
 
-    const updateHighlightPosition = (e) => {
-        if (highlightRef.current) {
-            highlightRef.current.style.left = `${e.clientX - (highlightRef.current.offsetWidth / 2)}px`;
-            highlightRef.current.style.top = `${e.clientY - (highlightRef.current.offsetHeight / 2)}px`;
-            highlightRef.current.style.display = 'block';
-        }
-    };
-
-    useEffect(() => {
-        if (isHighlightActive) {
-            window.addEventListener('mousemove', updateHighlightPosition);
-        } else {
-            window.removeEventListener('mousemove', updateHighlightPosition);
-        }
         return () => {
             window.removeEventListener('mousemove', updateHighlightPosition);
         };
@@ -106,7 +117,7 @@ const Acessibilidade = () => {
                     <h3 className='acessibilidade-title'>Acessibilidade</h3>
                     <div className='fundoPainelA'>
                         <div className="accessibility-content">
-                            {/* tamanho da Fonte */}
+                            {/* Tamanho da Fonte */}
                             <div className="accessibility-section font-adjustment">
                                 <h5>Ajustar Tamanho da Fonte</h5>
                                 <div className="font-size-controls">
@@ -117,6 +128,7 @@ const Acessibilidade = () => {
                             </div>
                             {/* Outros Botões */}
                             <div className="accessibility-buttons">
+                                {/* Botões de Acessibilidade */}
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['increaseCursor'] })}
                                     onClick={() => toggleClass('large-cursor', 'increaseCursor')}
@@ -132,6 +144,7 @@ const Acessibilidade = () => {
                                 >
                                     <Contrast /> Modo Escuro
                                 </Button>
+
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['highContrast'] })}
                                     onClick={() => toggleClass('high-contrast', 'highContrast')}
@@ -139,6 +152,7 @@ const Acessibilidade = () => {
                                 >
                                     <Contrast /> Modo Alto Contraste
                                 </Button>
+
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['letterSpacing'] })}
                                     onClick={() => toggleClass('espacamento', 'letterSpacing')}
@@ -146,6 +160,7 @@ const Acessibilidade = () => {
                                 >
                                       <Space /> Espaço Entre Letras
                                 </Button>
+
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['lineHeight'] })}
                                     onClick={() => toggleClass('espacoLinhas', 'lineHeight')}
@@ -153,6 +168,7 @@ const Acessibilidade = () => {
                                 >
                                        <ArrowDownAZ /> Espaço Entre Linhas
                                 </Button>
+
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['increaseImages'] })}
                                     onClick={() => toggleClass('increase-images', 'increaseImages')}
@@ -160,6 +176,7 @@ const Acessibilidade = () => {
                                 >
                                      <Images /> Aumentar Imagens
                                 </Button>
+
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['changeFont'] })}
                                     onClick={() => toggleClass('fonte-arial', 'changeFont')}
@@ -167,6 +184,7 @@ const Acessibilidade = () => {
                                 >
                                     <LetterText /> Fonte Arial
                                 </Button>
+
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['textMagnifier'] })}
                                     onClick={() => toggleClass('text-magnifier', 'textMagnifier')}
@@ -174,19 +192,31 @@ const Acessibilidade = () => {
                                 >
                                     <Search /> Lupa de Texto
                                 </Button>
+
                                 <Button
-                                    className={classNames('accessibility-button', { 'active': isHighlightActive })}
+                                    className={classNames('accessibility-button', { 'active': activeButtons['highlight'] })}
                                     onClick={toggleHighlight}
-                                    aria-label="Destacar cursor"
+                                    aria-label="Destacar texto"
                                 >
-                                    <Search /> Destacar Cursor
+                                    <MousePointerClick /> Destacar Texto
+                                </Button>
+
+                                <Button
+                                    className={classNames('accessibility-button', { 'active': isTDHAFriendly })}
+                                    onClick={toggleTDHAFriendly}
+                                    aria-label="Perfil TDAH"
+                                >
+                                    <Focus /> Perfil TDAH
                                 </Button>
                             </div>
                         </div>
                     </div>
                 </div>
             )}
-            <div className="highlight-line-container" ref={highlightRef}></div>
+
+            <div ref={highlightBackground} className="highlight-background"></div>
+
+            <div ref={foco} className="brilhoTDAH" />
         </>
     );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Col, Container, Row } from 'react-bootstrap';
+import {Button, Col, Container, Row } from 'react-bootstrap';
 import CreditCards from 'react-credit-cards';
 import { QRCodeSVG } from 'qrcode.react';
 import 'react-credit-cards/es/styles-compiled.css';
