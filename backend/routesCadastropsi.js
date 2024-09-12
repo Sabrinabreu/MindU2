@@ -3,6 +3,9 @@ const multer = require('multer');
 const path = require('path');
 const connection = require('./db'); // Ajuste o caminho conforme necessário
 const router = express.Router();
+const bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 // Configuração do multer para armazenar arquivos
 const storage = multer.diskStorage({
@@ -72,19 +75,31 @@ router.get('/cadastropsicologos/:id', async (req, res) => {
 // Rota para atualizar um registro existente pelo ID
 router.put('/cadastropsicologos/:id', async (req, res) => {
   const { id } = req.params;
-  const { nome, dataNascimento, genero, telefone, email, endereco, certificados, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
+  const { nome, dataNascimento, genero, telefone, email, CPF, endereco, certificados, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
 
   // Validação dos dados
-  if (!nome) {
-    return res.status(400).json({ error: 'O campo nome é obrigatório.' });
+  if (!nome || !email) {
+    return res.status(400).json({ error: 'Nome e email são obrigatórios' });
   }
-  // Adicione validações adicionais conforme necessário
 
   try {
+    const updateFields = ['nome', 'dataNascimento', 'genero', 'telefone', 'email', 'CPF', 'endereco', 'certificados', 'areasInteresse', 'preferenciaHorario', 'disponibilidade', 'localidades', 'motivacao', 'objetivos'];
+    const values = [nome, dataNascimento, genero, telefone, email, CPF, endereco, certificados, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, id];
+
+    if (senha) {
+      // Criptografa a senha se fornecida
+      const hashedPassword = await bcrypt.hash(senha, saltRounds);
+      updateFields.push('senha');
+      values.splice(-1, 1, hashedPassword); // Substitui o último valor (id) pelo hash da senha
+    }
+
+    const setClause = updateFields.map(field => `${field} = ?`).join(', ');
+
     const [result] = await connection.query(
-      'UPDATE cadastropsicologos SET nome = ?, dataNascimento = ?, genero = ?, telefone = ?, email = ?, endereco = ?, certificados = ?  areasInteresse = ?, preferenciaHorario = ?, disponibilidade = ?, localidades = ?, motivacao = ?, objetivos = ?, senha = ? WHERE id = ?',
-      [nome, dataNascimento, genero, telefone, email, endereco, certificados, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, id]
+      `UPDATE cadastropsicologos SET ${setClause} WHERE id = ?`,
+      values
     );
+
     if (result.affectedRows === 0) {
       res.status(404).json({ error: 'Registro não encontrado' });
     } else {
@@ -114,19 +129,23 @@ router.delete('/cadastropsicologos/:id', async (req, res) => {
 
 // Rota para criar um novo registro
 router.post('/cadastropsicologos', upload.single('certificados'), async (req, res) => {
-  const { nome, dataNascimento, genero, telefone, email, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
+  const { nome, dataNascimento, genero, telefone, email, CPF, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
   const certificados = req.file ? req.file.filename : null; // Pega o nome do arquivo enviado
 
   // Validação dos dados
-  if (!nome || !dataNascimento || !genero || !telefone || !email || !areasInteresse || !preferenciaHorario || !disponibilidade || !localidades || !motivacao || !objetivos || !senha) {
+  if (!nome || !dataNascimento || !genero || !telefone || !email || !CPF || !areasInteresse || !preferenciaHorario || !disponibilidade || !localidades || !motivacao || !objetivos || !senha) {
     return res.status(400).json({ error: 'Todos os campos obrigatórios devem ser preenchidos.' });
   }
 
   try {
+    // Criptografa a senha
+    const hashedPassword = await bcrypt.hash(senha, saltRounds);
+
     const [result] = await connection.query(
-      'INSERT INTO cadastropsicologos (nome, dataNascimento, genero, telefone, email, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, certificados) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [nome, dataNascimento, genero, telefone, email, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, certificados]
+      'INSERT INTO cadastropsicologos (nome, dataNascimento, genero, telefone, email, CPF, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, certificados) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [nome, dataNascimento, genero, telefone, email, CPF, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, hashedPassword, certificados]
     );
+
     res.status(201).json({ message: 'Registro criado com sucesso', id: result.insertId });
   } catch (err) {
     console.error('Erro ao criar o registro:', err);
@@ -135,4 +154,3 @@ router.post('/cadastropsicologos', upload.single('certificados'), async (req, re
 });
 
 module.exports = router;
-
