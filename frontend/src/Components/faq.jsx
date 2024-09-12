@@ -7,7 +7,7 @@ function FAQ() {
 
 
             <Accordion className='faqaccordion'>
-                <h1 className='text-center'> FAQ: Perguntas frequentes </h1>
+                <h1 className='text-center Faq-TXT'> FAQ: Perguntas frequentes </h1>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Quais são os tipos de planos disponíveis?</Accordion.Header>
                     <Accordion.Body>

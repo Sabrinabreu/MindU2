@@ -9,11 +9,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-// Exemplo de dados (substitua isso com a chamada real para a API)
 const availableTimes = {
     '2024-08-22': ['13:00', '14:00', '15:00'],
-    // Adicione outros horários aqui
-};
+s};
 
 const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -97,7 +95,7 @@ const DatePicker = ({ onDateSelect }) => {
 };
 
 const SaibaMais = () => {
-    const { id } = useParams(); // Obtém o ID do psicólogo da URL
+    const { id } = useParams();
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -106,8 +104,7 @@ const SaibaMais = () => {
     const [psicologo, setPsicologo] = useState(null);
 
     useEffect(() => {
-        // Simulação de fetch dos dados do psicólogo com base no ID
-        // Substitua a URL pela URL real da sua API
+     
         fetch(`http://localhost:3001/api/psicologo/${id}`)
             .then(response => response.json())
             .then(data => setPsicologo(data))
@@ -137,12 +134,12 @@ const SaibaMais = () => {
         }
 
         const data = {
-            userId: 'someUserId', // Exemplo de ID do usuário
+            userId: 'someUserId', 
             data: selectedDate.toISOString().split('T')[0],
             tipo: selectedTipo,
             time: selectedTime,
             assunto: assunto,
-            nomePsico: psicologo?.nome // Nome do psicólogo da API
+            nomePsico: psicologo?.nome 
         };
 
         fetch('http://localhost:3001/api/agendamento', {

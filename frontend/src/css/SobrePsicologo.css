@@ -8,7 +8,7 @@
     padding: 0;
     border-radius: 20px;
     height: 380px;
-    width: 450px;
+    width: 82%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     margin-top: 8px;
     position: sticky;
@@ -17,7 +17,7 @@
 }
 
 [data-theme='dark'] .perfilPsico {
-    background-color: #ffffff !important;
+    background-color: #4e4e7f !important;
 }
 
 .fundoPsico {
@@ -56,13 +56,16 @@
     /* border: 1.7px solid #252525;*/
     border-radius: 15px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    color: rgb(85, 0, 94);
     margin-top: 160px;
     margin-left: 90px;
     position: absolute;
     color: white;
 }
+
+[data-theme='dark'] .valores {
+    background-color: #2a2a5b !important;
+}
+
   .crp{
     font-size: 15px;
     margin-left: 27px;
@@ -71,7 +74,7 @@
   }
 
   [data-theme='dark'] .crp{
-    color: black;
+    color: rgb(255, 255, 255);
   }
 
 .agenda {
@@ -86,7 +89,7 @@
 }
 
 [data-theme='dark'] .agenda{
-    background-color: #E0DFFD;
+    background-color: #4e4e7f;
 }
 
 .agendaConsulta {
@@ -105,6 +108,9 @@
     outline: none;
     margin-left: 55%;
 }
+[data-theme='dark'] .agendaConsulta{
+    background-color: #d9cdffde;
+}
 
 .agendaConsulta:hover {
     box-shadow: 0px 15px 20px #9486d163;
@@ -120,49 +126,58 @@
     color: #6852a5;
     margin-bottom: -10px;
 }
+[data-theme='dark'] .nomePsico{
+   color: #E0DFFD;
+}
 
 .titulosSobre{
     color: #de6988;
 }
 
+[data-theme='dark'] .titulosSobre{
+    color: #ff7096;
+}
 .infoPsico {
     margin-left: 27px;
     color: #6852a5;
 }
+[data-theme='dark'] .infoPsico{
+    color: #E0DFFD;
+ }
 
-[data-theme='dark'] .infoPsico {
-    color: black;
-}
-
-.biografia {
+.contato, .localizacao, .biografia{
     background-color: white;
     border-radius: 15px;
-    margin-left: -90px;
-    width: 650px;
+    margin-left: -17%;
+    width: 120%;
     position: relative;
     margin-top: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme='dark'] .biografia{
-    background-color: #E0DFFD;
-    color: black;
+    background-color: #4e4e7f;
+    color: rgb(255, 255, 255);
 }
-
-.contato, .localizacao{
-    background-color: white;
-    border-radius: 15px;
-    margin-left: -90px;
-    width: 650px;
-    position: relative;
-    margin-top: 20px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+[data-theme='dark'] .localizacao{
+    background-color: #4e4e7f;
+    color: rgb(255, 255, 255);
 }
 
 [data-theme='dark'] .contato{
-    background-color: #E0DFFD;
-    color: black
+    background-color: #4e4e7f;
+    color: rgb(255, 255, 255);
 }
+.cardMapa-psicologo {
+    padding: 20px;
+    height: 400px;
+    background-color: #e8def8;
+  }
+  .cardMapa-psicologo iframe {
+   width: 100%;
+   height: 100%;
+ }
+
 
 /* MODAL */
 [data-theme='dark'] .agendando{
@@ -222,7 +237,7 @@
     width: 95%;
     max-width: 510px;
     height: 400px;
-    background-color: var(--c-bg-tertiary);
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, .2), 0 5px 10px 0 rgba(0, 0, 0, .1);
     padding: 1rem;
@@ -266,6 +281,9 @@
     font-weight: 600;
 }
 
+[data-theme='dark'] .month-name{
+    color: black;
+}
 .datepicker-calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -310,6 +328,10 @@
     background-color: var(--c-theme-primary-accent);
 }
 
+.date.current-day:focus {
+    background-color: #6852a5;
+}
+
 .selected-day {
     background-color: #5740be8c;
     color: #fff !important;
@@ -339,15 +361,14 @@
 /* versao desktop  */
 @media (max-width: 601px) {
     .perfilPsico {
-        width: 100%;
+        width: 93%;
         position: relative;
         height: 400px;
     }
 
     .agenda {
-        width: 100%;
-        margin-left: 5px;
-
+        width: 96%;
+        margin-left: -1%;
     }
 
     .psicologo {
@@ -360,8 +381,8 @@
     }
 
     .contato, .localizacao, .biografia {
-        left: 22%;
-        width: 100%;
+        left: 16%;
+        width: 97%;
     }
 
     .displayCalendario {

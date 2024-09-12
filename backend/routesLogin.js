@@ -12,8 +12,8 @@ router.post('/login', async (req, res) => {
   const { login, senha } = req.body;
 
   try {
-    // Verifica se o usuário é um funcionário, psicólogo ou empresa
-    const [userResult] = await connection.query('SELECT * FROM usuarios WHERE login = ? AND senha = ?', [login, senha]);
+    // Busca o usuário pelo login (sem comparar a senha no SQL)
+    const [userResult] = await connection.query('SELECT * FROM usuarios WHERE login = ?', [login]);
 
     if (userResult.length === 0) {
       return res.status(404).json({ error: 'Usuário ou senha incorretos' });
@@ -21,6 +21,12 @@ router.post('/login', async (req, res) => {
 
     const usuario = userResult[0];
     let userData = {};
+
+    // Comparar a senha fornecida com a senha criptografada
+    const match = await bcrypt.compare(senha, usuario.senha);
+    if (!match) {
+      return res.status(404).json({ error: 'Usuário ou senha incorretos' });
+    }
 
     // Verifica o tipo de usuário e busca as informações adicionais
     if (usuario.tipo_usuario === 'empresa') {
@@ -52,6 +58,5 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Erro ao processar o login' });
   }
 });
-
 
 module.exports = router;

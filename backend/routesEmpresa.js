@@ -41,7 +41,7 @@ router.post('/cadastroempresa', async (req, res) => {
     const { email, senha, ...rest } = req.body;
 
       // Verifica se o email já está registrado
-      const [existingUser] = await connection.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+      const [existingUser] = await connection.query('SELECT * FROM cadastroempresa WHERE email = ?', [email]);
   
       if (existingUser.length > 0) {
         return res.status(400).json({ error: 'Email já cadastrado. Por favor, escolha outro.' });

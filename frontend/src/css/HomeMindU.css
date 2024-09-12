@@ -44,7 +44,7 @@ body {
     height: 440px !important;
     top: 4% !important;
     left: 64% !important;
-    border-color: #7866c6d2 !important;
+    border-color: #7066c6d2 !important;
     border-width: 4px !important;
     background-color: #7766C6 !important;
 }
@@ -111,6 +111,7 @@ body {
     padding: 1.3em 3em;
     font-size: 16px;
     letter-spacing: 2px;
+    color: #6852a5;
 }
 
 [data-theme='dark'] .botaoSobre {
@@ -179,9 +180,9 @@ body {
     font-size: 10.5px;
     letter-spacing: 1px;
     font-weight: 500;
-    color: #000;
-    background-color: #ffe1876a;
-    border: 3px solid #fab0c3;
+    color: #6852a5;
+    background-color: #e8def8 ;
+    border: 3px solid #6852a5b2;
     border-radius: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease 0s;
@@ -265,7 +266,8 @@ body {
 .slide {
     justify-content: center !important;
     background: transparent !important;
-    border: 2px solid #7766C6 !important;
+    border: 2px solid #6852a5 !important;
+    color: #6852a5;
     border-width: 20% !important;
     border-radius: 10px;
     padding: 28px;
@@ -277,6 +279,7 @@ body {
     box-shadow: 0 4px 6px #7766C6;
     padding: 1em 3em;
     font-size: 12px;
+    font-weight: 500;
     letter-spacing: 1px;
     height: 400px !important;
     width: 400px !important;
@@ -365,7 +368,7 @@ body {
 /* Rating and Collaboration */
 .ratestar {
     font-size: 24px !important;
-    color: #7766C6 !important;
+    color: #6852a5 !important;
 }
 
 /* Rating and Collaboration */
@@ -405,11 +408,14 @@ body {
     background-color: #7866c663 !important;
 }
 
+.Faq-TXT {
+    color: #6852a5;
+}
 .faqaccordion {
     --bs-border-radius: 16px !important;
     --bs-accordion-inner-border-radius: calc(var(16px) -(var(1px)));
     --bs-accordion-border-radius: 16px !important;
-    --bs-accordion-bg: #7866c663;
+    --bs-accordion-bg: #6f60e263;
     --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
     --bs-accordion-btn-focus-box-shadow: #46467a;
     position: relative !important;
@@ -462,9 +468,9 @@ body {
     font-size: 11px;
     letter-spacing: 1px;
     font-weight: 500;
-    color: #000;
-    background-color: #ffe1876a;
-    border: 3px solid #fab0c3;
+    color: #6852a5;
+    background-color: #e8def8;
+    border: 3px solid #6852a5;
     border-radius: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease 0s;
@@ -516,6 +522,7 @@ body {
     text-align: center !important;
     font-size: 3em !important;
     padding-top: 4% !important;
+    color: #6852a5;
 }
 
 .textresults {

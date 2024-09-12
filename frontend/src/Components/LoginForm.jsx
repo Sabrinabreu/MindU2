@@ -13,7 +13,7 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post('http://localhost:3001/login', { login, senha });
-      const { token, perfil } = response.data;
+      const { token} = response.data;
 
       if (token) {
         localStorage.setItem('token', token); // Armazena o token no localStorage
@@ -25,7 +25,7 @@ const LoginForm = () => {
         // Armazena as informações do perfil
         // setPerfil(decodedToken.perfil);
 
-        navigate("/perfil"); // Redireciona para a página de perfil
+        navigate("/"); // Redireciona para a página de perfil
       } else {
         console.log("Erro ao realizar login.");
       }
