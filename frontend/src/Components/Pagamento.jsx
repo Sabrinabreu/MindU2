@@ -3,9 +3,10 @@ import { Form, Button, Col, Container, Row } from 'react-bootstrap';
 import CreditCards from 'react-credit-cards';
 import { QRCodeSVG } from 'qrcode.react';
 import 'react-credit-cards/es/styles-compiled.css';
-import '../css/Payment.css';  // Aqui você pode adicionar suas estilizações
+import '../css/Payment.css';  // Ajuste o caminho conforme necessário
 import { CopyIcon } from 'lucide-react';
-
+import { PDFDocument, rgb } from 'pdf-lib';
+import JsBarcode from 'jsbarcode';
 const PaymentForm = ({ selectedPlan }) => {
     const [paymentType, setPaymentType] = useState('');
     const [cardNumber, setCardNumber] = useState('');
@@ -15,18 +16,15 @@ const PaymentForm = ({ selectedPlan }) => {
     const [issuer, setIssuer] = useState('');
     const [isCVCVisible, setIsCVCVisible] = useState(false);
     const [installments, setInstallments] = useState(1);
-    const [showInstallments, setShowInstallments] = useState(false);
     const [totalPrice, setTotalPrice] = useState(selectedPlan.price || 0);
-
-    const handleParcelarClick = () => {
-        setShowInstallments(!showInstallments);
-    };
+    const [boletoURL, setBoletoURL] = useState(''); // Para armazenar a URL do boleto gerado
 
     const pixKey = '12.345.678/0001-95';
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         phone: '',
+        cpf: '' // Adicionado para CPF no boleto
     });
 
     useEffect(() => {
@@ -63,14 +61,82 @@ const PaymentForm = ({ selectedPlan }) => {
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text).then(() => { });
     };
+    const generateBoletoPDF = async () => {
+        // Dados fictícios do boleto
+        const boletoNumber = '12345678901234567890123456789012345678901234';
+        const dueDate = '30/09/2024';
+        const amount = 'R$ 100,00';
+        const bankName = 'Banco Bradesco';
+        const agencyNumber = '1234';
+        const accountNumber = '56789-0';
+        const ourNumber = '12345678901234';
+        const customerName = 'Cliente Exemplo';
+        const documentNumber = '12345678900';
+
+        // Criar um novo documento PDF
+        const pdfDoc = await PDFDocument.create();
+        const page = pdfDoc.addPage([600, 300]);
+
+        // Adicionar logo do Banco Bradesco
+        // Nota: Você pode carregar uma imagem com pdfDoc.embedPng ou pdfDoc.embedJpg se tiver o logo em formato de imagem.
+        // Exemplo: const logoImage = await pdfDoc.embedPng(logoImageData);
+
+        // Adicionar o texto e informações do boleto
+        const { width, height } = page.getSize();
+
+        // Cabeçalho
+        page.drawText('Banco Bradesco', { x: 50, y: height - 50, size: 20, color: rgb(0, 0, 0), font: await pdfDoc.embedFont('Helvetica-Bold') });
+        page.drawText('BOLETO BANCÁRIO', { x: 50, y: height - 80, size: 16, color: rgb(0, 0, 0) });
+
+        // Informações do beneficiário
+        page.drawText(`Nome: ${customerName}`, { x: 50, y: height - 110, size: 14, color: rgb(0, 0, 0) });
+        page.drawText(`CNPJ/CPF: ${documentNumber}`, { x: 50, y: height - 130, size: 14, color: rgb(0, 0, 0) });
+        page.drawText(`Agência: ${agencyNumber} / Conta: ${accountNumber}`, { x: 50, y: height - 150, size: 14, color: rgb(0, 0, 0) });
+        page.drawText(`Nosso Número: ${ourNumber}`, { x: 50, y: height - 170, size: 14, color: rgb(0, 0, 0) });
+
+        // Informações do pagamento
+        page.drawText(`Data de Vencimento: ${dueDate}`, { x: 50, y: height - 200, size: 14, color: rgb(0, 0, 0) });
+        page.drawText(`Valor: ${amount}`, { x: 50, y: height - 220, size: 14, color: rgb(0, 0, 0) });
+
+        // Gerar código de barras
+        const barcodeCanvas = document.createElement('canvas');
+        JsBarcode(barcodeCanvas, boletoNumber, { format: 'CODE128', displayValue: false });
+        const barcodeImageData = barcodeCanvas.toDataURL('image/png');
+
+        // Adicionar código de barras ao PDF
+        const barcodeImage = await pdfDoc.embedPng(barcodeImageData);
+        page.drawImage(barcodeImage, { x: 50, y: height - 260, width: 500, height: 80 });
+
+        // Linha Digitável
+        page.drawText('Linha Digitável:', { x: 50, y: height - 340, size: 14, color: rgb(0, 0, 0) });
+        page.drawText(boletoNumber, { x: 50, y: height - 360, size: 14, color: rgb(0, 0, 0) });
+
+        // Rodapé
+        page.drawText('Instruções de Pagamento:', { x: 50, y: 30, size: 12, color: rgb(0, 0, 0) });
+        page.drawText('Após o vencimento, multa de 2% e juros de 1% ao mês.', { x: 50, y: 10, size: 12, color: rgb(0, 0, 0) });
+
+        // Salvar o PDF
+        const pdfBytes = await pdfDoc.save();
+
+        // Criar um blob e baixar o PDF
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'boleto.pdf';
+        link.click();
+    };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const amountPerInstallment = (totalPrice / installments).toFixed(2);
-        console.log('Processando pagamento para o plano:', selectedPlan.name);
-        console.log('Detalhes do pagamento:', { cardName, cardNumber, cardExpiry, cardCVC });
-        console.log('Dados do usuário:', formData);
-        alert(`Pagamento de R$${amountPerInstallment} por parcela para o plano ${selectedPlan.name} foi processado com sucesso!`);
+
+        if (paymentType === 'boleto') {
+            generateBoletoPDF();
+        } else {
+            alert(`Pagamento de R$${amountPerInstallment} por parcela para o plano ${selectedPlan.name} foi processado com sucesso!`);
+        }
     };
 
     const amountPerInstallment = (totalPrice / installments).toFixed(2);
@@ -116,6 +182,19 @@ const PaymentForm = ({ selectedPlan }) => {
                             value={formData.phone}
                             onChange={handleInputChange}
                             placeholder="Seu telefone"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label className="formlabel" htmlFor="cpf">CPF:</label>
+                        <input
+                            className="forminput"
+                            type="text"
+                            id="cpf"
+                            name="cpf"
+                            value={formData.cpf}
+                            onChange={handleInputChange}
+                            placeholder="Seu CPF"
                             required
                         />
                     </div>
@@ -170,9 +249,8 @@ const PaymentForm = ({ selectedPlan }) => {
                     {paymentType && (
                         <div id="paymentDetails" className="payment-details">
                             {paymentType === 'boleto' && (
-                                <div className="form-group">
-                                    <label className="formlabel" htmlFor="boletoNumber">Número do Boleto:</label>
-                                    <input className="forminput" type="text" id="boletoNumber" name="boletoNumber" />
+                                <div className="button-container">
+                                    <button className='buttonboleto' onClick={generateBoletoPDF}>Gerar Boleto</button>
                                 </div>
                             )}
                             {paymentType === 'pix' && (
@@ -313,6 +391,9 @@ const PaymentForm = ({ selectedPlan }) => {
                             Pagar
                         </Button>
                     )}
+
+                    {/* Exibição do Boleto */}
+
                 </form>
             </Row>
         </Container>
@@ -320,3 +401,4 @@ const PaymentForm = ({ selectedPlan }) => {
 };
 
 export default PaymentForm;
+

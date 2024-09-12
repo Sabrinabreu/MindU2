@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+
 
 /* Base Styles */
 body {
@@ -54,8 +54,23 @@ body {
     background-color: #46467a !important;
 }
 
+/* Card Styles */
+.cardBannerMaior {
+    position: absolute !important;
+    /* Ajuste a posição se necessário */
+    border-radius: 140px 140px 10px 10px !important;
+    height: 440px !important;
+    width: 280px !important;
+    border-color: #7866c6d2 !important;
+    border-width: 4px !important;
+    background-color: #7766C6 !important;
+}
+
 .cardProfsMenor {
-    left: 114% !important;
+    top: 70% !important;
+    left: 55% !important;
+    position: absolute !important;
+    /* Ajuste a posição se necessário */
     bottom: 72% !important;
     border-radius: 100% !important;
     height: 180px !important;
@@ -64,6 +79,7 @@ body {
     border-width: 4px !important;
     background-color: #46467a !important;
 }
+
 
 [data-theme='dark'] .cardProfsMenor {
     border-color: #e0dffd !important;
@@ -143,7 +159,7 @@ body {
     text-align: center;
     margin: 0 auto;
     padding: 140px !important;
-    margin-top: -140px !important;
+    margin-top: 30px !important;
 }
 
 .cards {
@@ -244,6 +260,7 @@ body {
     border: 2px solid #e0dffd !important;
     box-shadow: 0 4px 6px #e0dffd91;
 }
+
 
 .slide {
     justify-content: center !important;
@@ -555,14 +572,22 @@ body {
 
     .botaoSobre {
         width: 300px !important;
-        margin-left: 30px !important;
+        margin-left: 20px !important;
     }
 
 
     .cardBannerMaior,
     .cardProfsMenor {
         visibility: hidden !important;
+        width: 0 !important;
     }
+
+    .imagem1,
+    .imagem2 {
+        visibility: hidden !important;
+        width: 0 !important;
+    }
+
 
     .cards {
         flex-wrap: wrap !important;
@@ -594,6 +619,10 @@ body {
 
     .slick-dots li button {
         visibility: hidden !important;
+    }
+
+    .colab {
+        margin-left: 0 !important;
     }
 
     .results-container {
@@ -689,7 +718,15 @@ body {
     .cardBannerMaior,
     .cardProfsMenor {
         visibility: hidden !important;
+        width: 0 !important;
     }
+
+    .imagem1,
+    .imagem2 {
+        visibility: hidden !important;
+        width: 0 !important;
+    }
+
 
     .cards {
         flex-wrap: wrap !important;
@@ -722,6 +759,10 @@ body {
 
     .slick-dots li button {
         visibility: hidden !important;
+    }
+
+    .colab {
+        margin-left: 0 !important;
     }
 
     .results-container {
@@ -820,8 +861,8 @@ body {
 
     .cardBannerMaior {
         margin-top: 30px !important;
-        width: 200px !important;
-        height: 350px !important;
+        width: auto !important;
+        height: auto !important;
     }
 
     .cardProfsMenor {
@@ -880,6 +921,10 @@ body {
 
     .slick-dots li button {
         visibility: hidden !important;
+    }
+
+    .colab {
+        margin-left: 0 !important;
     }
 
     .results-container {
@@ -942,9 +987,9 @@ body {
 
 .material-symbols-outlined.home {
     font-size: 90px;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 700,
-  'GRAD' 0,
-  'opsz' 20
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 700,
+        'GRAD' 0,
+        'opsz' 20
 }

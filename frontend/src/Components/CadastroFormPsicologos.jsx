@@ -17,6 +17,7 @@ const CadastroFormPsi = () => {
         genero: '',
         telefone: '',
         email: '',
+        CPF: '',
         endereco: '',
         areasInteresse: '',
         preferenciaHorario: '',
@@ -83,6 +84,7 @@ const CadastroFormPsi = () => {
                     genero: '',
                     telefone: '',
                     email: '',
+                    CPF: '',
                     endereco: '',
                     areasInteresse: '',
                     preferenciaHorario: '',
@@ -137,6 +139,10 @@ const CadastroFormPsi = () => {
                         <input className='inputform cadPsi' type="email" name="email" placeholder="Digite seu e-mail aqui..." value={formData.email} onChange={handleChange} required />
                     </Col>
                     <Col md="6" sm="10">
+                        <label className='labelForms'>CPF</label>
+                        <input className='inputform cadPsi' type="text" name="CPF" placeholder="Digite seu CPF aqui..." value={formData.CPF} onChange={handleChange} required />
+                    </Col>
+                    <Col md="12" sm="10">
                         <label className='labelForms'>Endereço Completo (opcional)</label>
                         <input className='inputform cadPsi' type="text" name="endereco" placeholder="Digite seu endereço aqui..." value={formData.endereco} onChange={handleChange} />
                     </Col>

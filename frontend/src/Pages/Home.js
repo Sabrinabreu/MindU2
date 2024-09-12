@@ -6,7 +6,7 @@ import Avaliacoes from "../Components/SliderAvaliacoes";
 import FAQ from "../Components/faq";
 import Resultados from "../Components/ResultadosTratamento";
 import BAPO from "../Components/WidgetBAPO";
-import "../css/WidgetBAPO.css";
+import "../css/WidgetBAPO.css"; // Importar o CSS necessário
 
 const sectionsConfig = [
   { id: 'section1', delay: '0.2s' },
@@ -35,10 +35,15 @@ function Home() {
       });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    // RequestAnimationFrame for optimized scrolling
+    const debouncedHandleScroll = () => {
+      window.requestAnimationFrame(handleScroll);
+    };
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', debouncedHandleScroll);
+    handleScroll(); // Initial check
+
+    return () => window.removeEventListener('scroll', debouncedHandleScroll);
   }, []);
 
   return (
@@ -65,3 +70,4 @@ function Home() {
 }
 
 export default Home;
+
