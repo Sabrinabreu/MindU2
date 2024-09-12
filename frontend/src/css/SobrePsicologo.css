@@ -56,8 +56,6 @@
     /* border: 1.7px solid #252525;*/
     border-radius: 15px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    color: rgb(85, 0, 94);
     margin-top: 160px;
     margin-left: 90px;
     position: absolute;
@@ -239,7 +237,7 @@
     width: 95%;
     max-width: 510px;
     height: 400px;
-    background-color: var(--c-bg-tertiary);
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, .2), 0 5px 10px 0 rgba(0, 0, 0, .1);
     padding: 1rem;
