@@ -51,7 +51,7 @@ function Avaliacoes() {
 
     return (
         <Container className='colab'><Row> <Col md='12'>
-            <h1 className='text-center'>O que os colaboradores falam de nós: </h1>
+            <h1 className='text-center Avaliacao-TXT'>O que os colaboradores falam de nós: </h1>
 
             <div className="carousel-container">
                 <Slider {...settings}>

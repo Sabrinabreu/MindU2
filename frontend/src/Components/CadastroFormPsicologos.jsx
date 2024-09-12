@@ -216,7 +216,7 @@ const CadastroFormPsi = () => {
                         </div>
                     </Col>
                 </Row>
-                <button className='botaoBanner' type="submit">Enviar</button>
+                <button className='botaoBanner roxo' type="submit">Enviar</button>
             </Container>
         </form>
     );
