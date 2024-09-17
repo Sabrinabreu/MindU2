@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { parseJwt } from './jwtUtils';
+import {Container, Row, Col} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import MentalBalanceVid from '../img/mentalBalance.mp4'
+// import { Eye, EyeOff } from 'lucide-react';
 
 const LoginForm = () => {
   const [login, setLogin] = useState('');
@@ -36,11 +41,26 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <input type="text" placeholder="Login" value={login} onChange={(e) => setLogin(e.target.value)} />
-      <input type="password" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
-      <button type="submit">Entrar</button>
-    </form>
+    <Container>
+      <Row className='rowLogin'>
+        <Col className='colEsqLogin' md={6} sm={12}>
+          <video width="100%" height='auto' autoPlay muted playsInline preload="auto" loop  >
+            <source src={MentalBalanceVid} type='video/mp4' />
+          Seu navegador não suporta a tag de vídeo.
+          </video>  
+        </Col>
+        <Col className='colDirLogin' md={6} sm={12}>
+        <h2>Bem vindo de volta!</h2>
+        <p>Cuide da sua saúde com a MindU</p>
+          <form onSubmit={handleLogin} className='formLogin'>
+            <input type="text" className='inputLogin' placeholder="Login" value={login} onChange={(e) => setLogin(e.target.value)} />
+            <input type="password" className='inputLogin' placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
+            <Link className='esqueceuSenha'>Esqueceu a senha?</Link>
+            <button type="submit" className='inputLogin inputLoginbtn'>Entrar</button>
+          </form>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

@@ -1,0 +1,63 @@
+.rowLogin {
+    margin: 50px;
+    background-color: #e8def8;
+    border-radius: 20px;
+    /* overflow: hidden; */
+}
+
+.colEsqLogin {
+    border-radius: 0 20px 20px 0;
+    background-color: cadetblue;
+    overflow: hidden;
+    padding: 0;
+}
+
+.colDirLogin {
+    padding: 12% 0;
+    text-align: center;
+}
+
+.formLogin {
+    width: 50%;
+    margin: 10% auto 0;
+    display: grid;
+}
+
+.esqueceuSenha {
+    justify-self: end;
+    display: flex;
+    text-decoration: none;
+    color: #1B253D;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.inputLogin {
+    display: block;
+    width: 100%;
+    margin-bottom: 6px;
+    text-align: center;
+    padding: 3px 0;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+
+.inputLoginbtn {
+    margin-top: 25px;
+    background-color: transparent;
+    /* font-size: 12px; */
+    /* text-transform: uppercase; */
+    letter-spacing: 2.5px;
+    font-weight: 500 !important;
+    color: #6852a5 !important;
+    background-color: transparent;
+    border: 1.7px solid #6852a5 !important;
+}
+
+.field-icon {
+    float: right;
+    margin-left: -25px;
+    margin-top: -25px;
+    position: relative;
+    z-index: 2;
+  }
