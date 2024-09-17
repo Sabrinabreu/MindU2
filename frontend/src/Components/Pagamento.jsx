@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {Button, Col, Container, Row } from 'react-bootstrap';
 import CreditCards from 'react-credit-cards-2';
 import { QRCodeSVG } from 'qrcode.react';
-import '../css/Payment.css';  // Aqui você pode adicionar suas estilizações
+import 'react-credit-cards-2/dist/es/styles-compiled.css';
+import '../css/Payment.css';
 import { CopyIcon } from 'lucide-react';
 import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
