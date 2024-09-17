@@ -362,10 +362,39 @@
 
 
 /* DISPONIBILIDADE */
-/* Define o estilo para a classe CSS que foi atribuída aos eventos */
-.evento-disponivel {
-    background-color: #8e44ad; /* Cor roxa para os eventos */
-    border: none; /* Remove a borda */
-    color: white; /* Texto branco */
+/* Estilo para eventos de consulta */
+.evento-consulta {
+    background-color: #ff9999; /* Cor rosa claro */
+    border: 1px solid #cc6666; /* Borda rosa escuro */
+    color: #fff; /* Cor do texto */
   }
   
+  /* Estilo para eventos de reunião */
+  .evento-reuniao {
+    background-color: #99ccff; /* Cor azul claro */
+    border: 1px solid #6699ff; /* Borda azul escuro */
+    color: #fff; /* Cor do texto */
+  }
+  
+  /* Estilo para eventos de disponibilidade */
+  .evento-disponivel {
+    background-color: #800080; /* Cor roxa */
+    border: 1px solid #400040; /* Borda roxa escura */
+    color: #fff; /* Cor do texto */
+  }
+  
+  /* Estilo geral para outros eventos */
+  .evento-geral {
+    background-color: #e0e0e0; /* Cor cinza claro */
+    border: 1px solid #b0b0b0; /* Borda cinza escuro */
+    color: #000; /* Cor do texto */
+  }
+  
+  /* Outras possíveis personalizações */
+  .fc-daygrid-day {
+    border: 1px solid #ccc; /* Borda das células do calendário */
+  }
+  
+  .work{
+    color: #800080;
+  }
