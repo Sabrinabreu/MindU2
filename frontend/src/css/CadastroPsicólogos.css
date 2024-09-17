@@ -202,8 +202,7 @@ body {
 
 @media (max-width: 576px) {
     .imgpsi {
-        margin-left: -20px !important;
-        width: 400px !important;
+        width: 100% !important;
         height: 100% !important;
     }
 
@@ -218,9 +217,9 @@ body {
     }
 
     .imgporque {
-        margin-left: -70px !important;
-        width: 380px !important;
+        width: 100% !important;
         height: 100% !important;
+        margin: 0px !important;
     }
 
     .conteinerporque {

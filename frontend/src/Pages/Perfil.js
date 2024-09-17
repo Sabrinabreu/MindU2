@@ -20,6 +20,7 @@ function Perfil() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [setPsicologoNome] = useState('');
+    const [isPsicologo, setIsPsicologo] = useState(false);
 
     useEffect(() => {
         // Recupera o token do localStorage
@@ -56,6 +57,54 @@ function Perfil() {
                 console.error('Erro ao obter nome do psicólogo:', error);
             });
     }, [setPsicologoNome]);
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+        setPerfil(prevData => ({ ...prevData, senha: '' }));
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setPerfil(prevData => ({ ...prevData, [name]: value }));
+    };
+
+    const handleSave = (e) => {
+        e.preventDefault();
+        localStorage.setItem('perfil', JSON.stringify(perfil));
+        atualizarPerfilNoBackend();
+        setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(prevState => !prevState);
+    };
+
+    const atualizarPerfilNoBackend = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(perfil),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar o perfil');
+            }
+
+            const responseData = await response.json();
+            alert('Perfil atualizado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao atualizar perfil:', error);
+            alert('Erro ao atualizar o perfil.');
+        }
+    };
+
 
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
@@ -125,55 +174,6 @@ function Perfil() {
         setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
     };
 
-    const handleEditClick = () => {
-        setIsEditing(true);
-        // Limpar o campo de senha para não mostrar a senha criptografada
-        setPerfil(prevData => ({ ...prevData, senha: '' }));
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setPerfil(prevData => ({ ...prevData, [name]: value }));
-    };
-
-    const handleSave = (e) => {
-        e.preventDefault();
-        localStorage.setItem('perfil', JSON.stringify(perfil));
-        atualizarPerfilNoBackend();
-        setIsEditing(false);
-    };
-
-    const handleCancel = () => {
-        setIsEditing(false);
-    };
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(prevState => !prevState);
-    };
-
-    const atualizarPerfilNoBackend = async () => {
-        try {
-            const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(perfil),
-            });
-
-            if (!response.ok) {
-                throw new Error('Erro ao atualizar o perfil');
-            }
-
-            const responseData = await response.json();
-            console.log('Resposta do backend:', responseData);
-
-            alert('Perfil atualizado com sucesso!');
-        } catch (error) {
-            console.error('Erro ao atualizar perfil:', error);
-            alert('Erro ao atualizar o perfil.');
-        }
-    };
 
     const getInitials = (name) => {
         if (!name) return '';
@@ -335,9 +335,31 @@ function Perfil() {
                                         </Col>
                                     </Row>
                                     <hr />
+                                    {isPsicologo && (
+                                        <>
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Biografia</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.biografia}</Col>
+                                            </Row>
+                                            <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
+                                            </Row>
+                                            <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
+                                            </Row>
+                                            <hr />
+                                        </>
+                                    )}
                                     <Row>
                                         <Col sm={12}>
-                                            <Button className='editarBot' onClick={handleEditClick}>Editar</Button>
+                                            <Button className='editarBot' onClick={handleEditClick}>
+                                            <span class="material-symbols-outlined iconPerfil">
+                                                edit</span>
+                                            Editar</Button>
                                         </Col>
                                     </Row>
                                 </>

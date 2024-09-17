@@ -1,4 +1,34 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'; // Importa useParams para acessar parâmetros da URL
+import DispCalendario from "../Components/DispCalendario";
+
+const SaibaMais = () => {
+  const { psicologo_id } = useParams(); // Obtém o ID do psicólogo da URL
+  const [psicologoId, setPsicologoId] = useState(null);
+
+  useEffect(() => {
+    if (psicologo_id) {
+      setPsicologoId(psicologo_id);
+    }
+  }, [psicologo_id]);
+
+  if (!psicologoId) {
+    return <div>Carregando...</div>;
+  }
+
+  return (
+    <div>
+      <h1>Calendário de Disponibilidade do Psicólogo</h1>
+      <DispCalendario psicologoId={psicologoId} />
+    </div>
+  );
+};
+
+export default SaibaMais;
+
+
+
+/*import { useState } from 'react';
 import "../css/AgendarConsulta.css";
 import "../css/SobrePsicologo.css";
 import perfilPsicologo from '../img/perfilPsicologo.jfif';
@@ -7,6 +37,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import DatePicker from '../Components/Calendario';
 
 // Nome do psicólogo
 const nomePsico = 'Flávio Monteiro Lobato';
@@ -28,91 +59,6 @@ const availableTimes = {
     '2024-10-25': ['10:00', '11:00', '17:00'],
 };
 
-// Componente DatePicker
-const DatePicker = ({ onDateSelect }) => {
-    const [currentMonth, setCurrentMonth] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(null);
-
-    const handlePrevMonth = () => {
-        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
-    };
-
-    const handleNextMonth = () => {
-        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
-    };
-
-    const handleDateClick = (day) => {
-        const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-        setSelectedDate(newDate);
-        onDateSelect(newDate); // Notifica o componente pai sobre a data selecionada
-    };
-
-    const generateDays = () => {
-        const startDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
-        const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
-        const dates = [];
-        const availableDates = Object.keys(availableTimes);
-
-        // Dias vazios antes do início do mês
-        for (let i = 0; i < startDay; i++) {
-            dates.push(<button key={`empty-${i}`} className="date faded" disabled></button>);
-        }
-
-        // Dias do mês
-        for (let i = 1; i <= daysInMonth; i++) {
-            const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
-            const formattedDate = date.toISOString().split('T')[0];
-            const isAvailable = availableDates.includes(formattedDate);
-            const isToday = i === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear();
-            const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
-
-            dates.push(
-                <button
-                    key={`date-${i}`}
-                    className={`date ${isAvailable ? (isToday ? 'current-day' : (isSelected ? 'selected-day' : '')) : 'inactive'}`}
-                    onClick={isAvailable ? () => handleDateClick(i) : undefined}
-                >
-                    {i}
-                </button>
-            );
-        }
-
-        // Dias vazios após o fim do mês
-        const totalDays = startDay + daysInMonth;
-        for (let i = totalDays; i < 42; i++) {
-            dates.push(<button key={`empty-end-${i}`} className="date faded" disabled></button>);
-        }
-
-        return dates;
-    };
-
-    return (
-        <div className="datepicker">
-            <div className="datepicker-top">
-                <div className="month-selector">
-                    <button className="arrow" onClick={handlePrevMonth}>
-                        <i className="material-icons">
-                            <span className="material-symbols-outlined p-3">chevron_left</span>
-                        </i>
-                    </button>
-                    <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
-                    <button className="arrow" onClick={handleNextMonth}>
-                        <i className="material-icons">
-                            <span className="material-symbols-outlined p-3">chevron_right</span>
-                        </i>
-                    </button>
-                </div>
-            </div>
-            <div className="datepicker-calendar">
-                {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'].map((day, i) => (
-                    <span key={`day-${i}`} className="day">{day}</span>
-                ))}
-                {generateDays()}
-            </div>
-        </div>
-    );
-};
-
 // Componente principal de agendamento
 const Agendar = () => {
     const [show, setShow] = useState(false);
@@ -120,10 +66,10 @@ const Agendar = () => {
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
-    const [userId, setUserId] = useState('someUserId'); // Adicionei o userId
+    const [userId] = useState('someUserId');
 
-    const handleDateSelect = (date) => {
-        setSelectedDate(date);
+    const handleDateSelect = (data) => {
+        setSelectedDate(data);
     };
 
     const handleTimeClick = (time) => {
@@ -144,33 +90,48 @@ const Agendar = () => {
             return;
         }
 
-        const data = {
-            userId: userId,
-            data: selectedDate.toISOString().split('T')[0],
-            tipo: selectedTipo,
-            time: selectedTime,
-            assunto: assunto,
-            nomePsico: nomePsico
-        };
-
-        // Verifica a disponibilidade
-        fetch('http://localhost:3001/api/agendamento', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
+        // Primeiro, obtenha o ID do psicólogo
+        fetch(`http://localhost:3001/api/psicologos/by-name?nome=${encodeURIComponent(nomePsico)}`)
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    alert('Agendamento realizado com sucesso!');
+                if (data.id) {
+                    const psicologoId = data.id;
+                    const dataToSend = {
+                        userId: userId,
+                        psicologo_id: psicologoId,
+                        data: selectedDate.toISOString().split('T')[0],
+                        horario: selectedTime,
+                        tipo: selectedTipo,
+                        assunto: assunto
+                    };
+
+                    // Crie o agendamento com o ID do psicólogo obtido
+                    fetch('http://localhost:3001/api/agendamento', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(dataToSend),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                alert('Agendamento realizado com sucesso!');
+                            } else {
+                                alert('Erro ao agendar consulta: ' + data.error);
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Erro ao criar o agendamento:', err);
+                            alert('Erro ao criar o agendamento.');
+                        });
                 } else {
-                    alert('Erro ao agendar consulta: ' + data.error);
+                    alert('Erro ao buscar o ID do psicólogo.');
                 }
             })
-            .catch(error => {
-                alert('Erro ao agendar consulta: ' + error.message);
+            .catch(err => {
+                console.error('Erro ao buscar o ID do psicólogo:', err);
+                alert('Erro ao buscar o ID do psicólogo.');
             });
     };
 
@@ -225,8 +186,7 @@ const Agendar = () => {
                         <button
                             className='agendaConsulta'
                             onClick={handleShow}
-                            disabled={!selectedDate}
-                        >
+                            disabled={!selectedDate} >
                             Agendar consulta
                         </button>
 
@@ -286,9 +246,7 @@ const Agendar = () => {
 
                     <div className='localizacao p-4'>
                         <h5 className='titulosSobre p-3'>Localização</h5>
-                        <div className="cardMapa-psicologo">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29341.539628960563!2d-50.661641651811856!3d-23.18142224913242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94eadf17b06e81af%3A0xc38f2f9ebf143f8a!2sCorn%C3%A9lio%20Proc%C3%B3pio%2C%20PR%2C%2086300-000!5e0!3m2!1spt-BR!2sbr!4v1726141450249!5m2!1spt-BR!2sbr" width="100%" height="390" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
+                        <p>Cornélio Procópio - PR</p>
                     </div>
                 </Col>
             </Row>
@@ -296,4 +254,4 @@ const Agendar = () => {
     );
 }
 
-export default Agendar;
+export default Agendar;*/

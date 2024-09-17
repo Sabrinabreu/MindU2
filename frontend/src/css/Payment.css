@@ -437,6 +437,13 @@ body {
         gap: 10px;
     }
 
+    .rccs__card--unknown>div {
+        background: linear-gradient(25deg, #999, #999);
+        box-shadow: none;
+        width: 80% !important;
+        height: 80% !important;
+        margin: 10% !important;
+    }
 }
 
 @media (max-width: 767px) {
@@ -448,6 +455,14 @@ body {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
+    }
+
+    .rccs__card--unknown>div {
+        background: linear-gradient(25deg, #999, #999);
+        box-shadow: none;
+        width: 80% !important;
+        height: 80% !important;
+        margin: 10% !important;
     }
 
 }

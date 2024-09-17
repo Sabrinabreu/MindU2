@@ -107,4 +107,25 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+// Rota para buscar um psicólogo pelo nome
+router.get('/by-name', (req, res) => {
+    const { nome } = req.query;
+
+    if (!nome) {
+        return res.status(400).json({ error: 'O nome do psicólogo é obrigatório.' });
+    }
+
+    connection.query('SELECT id FROM psicologos WHERE nome = ?', [nome], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar o psicólogo pelo nome:', err);
+            return res.status(500).json({ error: 'Erro ao buscar o psicólogo' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Psicólogo não encontrado' });
+        }
+        res.json(results[0]);
+    });
+});
+
+
 module.exports = router;

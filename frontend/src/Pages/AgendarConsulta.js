@@ -165,8 +165,6 @@ function AgendarConsulta() {
     "Psicóloga Organizacional",
   ]);
 
-
-
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -199,20 +197,20 @@ function AgendarConsulta() {
   const getAvailableTimes = (psicologoIndex) => {
     const times = {
       0: {
-        "2024-09-11": ["09:00", "10:00", "11:00"],
-        "2024-09-12": ["14:00", "15:00"],
+        "2024-09-17": ["09:00", "10:00", "11:00"],
+        "2024-09-18": ["14:00", "15:00"],
         "2024-09-20": ["17:00", "20:00"],
       },
       1: {
-        "2024-09-11": ["08:00", "09:30"],
-        "2024-09-13": ["13:00", "15:00"],
+        "2024-09-19": ["08:00", "09:30"],
+        "2024-09-30": ["13:00", "15:00"],
       },
       3: {
         "2024-09-19": ["07:30", "10:30", "15:00"],
         "2024-09-29": ["15:00", "18:00", "20:00"],
       },
       4: {
-        "2024-09-10": ["08:00", "09:30"],
+        "2024-09-17": ["08:00", "09:30"],
         "2024-09-20": ["07:00", "11:00"],
       },
       5: {
@@ -220,12 +218,12 @@ function AgendarConsulta() {
         "2024-09-21": ["13:00", "15:00"],
       },
       6: {
-        "2024-09-10": ["08:00", "09:30"],
+        "2024-09-17": ["08:00", "09:30"],
         "2024-09-11": ["13:00", "15:00"],
       },
       7: {
-        "2024-09-12": ["08:00", "09:30"],
-        "2024-09-10": ["13:00", "15:00"],
+        "2024-09-18": ["08:00", "09:30"],
+        "2024-09-23": ["13:00", "15:00"],
       },
     };
 
@@ -288,18 +286,29 @@ function AgendarConsulta() {
   };
 
   const handleTimeChange = (time, psicologoIndex) => {
-    setEditableTimes(prev => ({
-      ...prev,
-      [psicologoIndex]: {
-        ...prev[psicologoIndex],
-        [selectedDate.toDateString()]: {
-          ...prev[psicologoIndex]?.[selectedDate.toDateString()],
-          [time]: !prev[psicologoIndex]?.[selectedDate.toDateString()]?.[time]
+    setEditableTimes(prev => {
+      return {
+        ...prev,
+        [psicologoIndex]: {
+          ...prev[psicologoIndex],
+          [selectedDate.toDateString()]: {
+            ...prev[psicologoIndex]?.[selectedDate.toDateString()],
+            [time]: !prev[psicologoIndex]?.[selectedDate.toDateString()]?.[time]
+          }
         }
-      }
-    }));
+      };
+    });
   };
 
+  const handleAtendendoHoje = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const atendendoHoje = slidesContent.filter(slide => {
+      const availableTimes = getAvailableTimes(slide.id);
+      return availableTimes[today] && availableTimes[today].length > 0;
+    });
+  
+    // Exiba apenas os psicólogos que estão atendendo hoje
+  };
 
   return (
     <>
@@ -371,7 +380,7 @@ function AgendarConsulta() {
           <div className="searchA onClick={handleSearch}">
             {isLoading ? 'Buscando...' : 'Buscar'}
           </div>
-          <button>Atendendo hoje</button>
+          <button onClick={handleAtendendoHoje}>Atendendo hoje</button>
         </div>
       </div>
 
@@ -419,67 +428,9 @@ function AgendarConsulta() {
                         {slide.tabs.map((tab, i) => (
                           <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
                             {tab.eventKey === 'agenda' ? (
-                              <div>
-                                <div className="calendar-container">
-                                  <center><div className="calendar-header">
-                                    <button className="setaCalendario" onClick={() => {
-                                      const newDate = new Date(selectedDate);
-                                      newDate.setDate(newDate.getDate() - 7);
-                                      setSelectedDate(newDate);
-                                      const available = getAvailableTimes(index)[newDate.toISOString().split('T')[0]] || [];
-                                      console.log(`Horários disponíveis para ${newDate.toISOString().split('T')[0]}:`, available);
-                                      setAvailableTimes(prev => ({
-                                        ...prev,
-                                        [index]: {
-                                          ...prev[index],
-                                          [newDate.toISOString().split('T')[0]]: available
-                                        }
-                                      }));
-                                    }}>
-                                      ←
-                                    </button>
-                                    <span>{selectedDate.toLocaleString('default', { month: 'long' })} {selectedDate.getFullYear()}</span>
-                                    <button className="setaCalendario" onClick={() => {
-                                      const newDate = new Date(selectedDate);
-                                      newDate.setDate(newDate.getDate() + 7);
-                                      setSelectedDate(newDate);
-                                      const available = getAvailableTimes(index)[newDate.toISOString().split('T')[0]] || [];
-                                      console.log(`Horários disponíveis para ${newDate.toISOString().split('T')[0]}:`, available);
-                                      setAvailableTimes(prev => ({
-                                        ...prev,
-                                        [index]: {
-                                          ...prev[index],
-                                          [newDate.toISOString().split('T')[0]]: available
-                                        }
-                                      }));
-                                    }}>
-                                      →
-                                    </button>
-                                  </div>
-                                  </center>
-                                  {generateWeek(selectedDate, index)}
-                                  <div className="available-times">
-                                    {timesForDate.length > 0 ? (
-                                      <div className="times-container">
-                                        {timesForDate.map(time => (
-                                          <button
-                                            key={time}
-                                            className={`time-button ${editableTimes[index]?.[selectedDate.toDateString()]?.[time] ? 'selected' : ''}`}
-                                            onClick={() => handleTimeChange(time, index)}
-                                          >
-                                            {time}
-                                          </button>
-                                        ))}
-                                      </div>
-                                    ) : (
-                                      <button className='semhora'>   <TriangleAlert className='semConsulta' />Sem horários disponíveis!</button>
-                                    )}
-                                  </div>
-                                  <Link to="/saibamais" className='agendarBot mt-3'>
-                                    Agendar consulta
-                                  </Link>
-                                </div>
-                              </div>
+                                <Link to="/saibamais" className='agendarBot mt-3'>
+                                  Agendar consulta
+                                </Link>
                             ) : (
                               <p>{tab.content}</p>
                             )}
@@ -491,6 +442,7 @@ function AgendarConsulta() {
                           </Tab>
                         ))}
                       </Tabs>
+                      <li><Link to="/psicologo/1">Ver Perfil do Psicólogo 1</Link></li>
                     </div>
                   </div>
                 </Col>
@@ -498,19 +450,13 @@ function AgendarConsulta() {
             );
           })
         ) : (
-          <p className='nenhumEcontrado'>Nenhum psicólogo encontrado :(</p>
-        )}
-
-        {filteredSlidesContent.length > Math.ceil(filteredSlidesContent.length / 2) && (
-          <div className="text-center">
-            <button className="verMaisBotao" onClick={() => setShowAll(!showAll)}>
-              {showAll ? 'Ver Menos' : 'Ver Mais'}
-            </button>
+          <div className="no-results">
+            <p>Nenhum resultado encontrado.</p>
           </div>
         )}
       </Container>
     </>
   );
-}
+};
 
 export default AgendarConsulta;

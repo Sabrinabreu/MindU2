@@ -6,9 +6,9 @@ const cors = require('cors');
 const rotaCadastropsi = require('./routesCadastropsi');
 const rotaLogin = require('./routesLogin');
 const rotaFuncionario = require('./routesFuncionario');
+const rotaPsicologos = require('./routesPsicologos');
 const agendamentoRoutes = require('./routesAgendamento');
 const rotaPerfilsuario = require('./routesPerfilusuario');
-const router = require('./routesCadastropsi');
 const routaDisponibilidade = require('./routesDisponibilidade');
 
 // Cria uma instância do Express
@@ -26,14 +26,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', rotaLogin);
 app.use('/', rotaCadastropsi);
 app.use('/', rotaFuncionario);
+app.use('/', rotaPsicologos);
 app.use('/api/agendamento', agendamentoRoutes);
 app.use('/api/atualizarPerfil', rotaPerfilsuario);
+app.use('/', routaDisponibilidade);
 
 // Remove rotas não definidas (ajustar ou remover se não houver)
 app.use('/', (req, res) => {
   res.status(404).send('Rota não encontrada');
 });
-app.use('/', routaDisponibilidade);
+
 
 // Inicia o servidor
 app.listen(port, () => {
