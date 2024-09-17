@@ -174,7 +174,7 @@
     color: #fff;
 }
 
-.nav-tabs .nav-link:hover {
+.nav-tabs nav-link:hover {
     background-color: #7866c619;
     border-bottom: 3px solid #6852a534 !important;
 }
