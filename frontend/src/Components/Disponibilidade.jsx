@@ -124,7 +124,7 @@ const Disponibilidade = () => {
                                 )}
                             </div>
                         ))}
-                        <Button className='mt-3' onClick={handleUpdate}>Atualizar</Button>
+                        <Button className='mt-3' onClick={handleUpdate}><span class="material-symbols-outlined iconsDisp">restart_alt</span>Atualizar</Button>
                     </Form>
                     </Col>
                     <Row className='my-4'>
