@@ -7,6 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import DatePicker from '../Components/Calendario';
 
 // Nome do psicólogo
 const nomePsico = 'Flávio Monteiro Lobato';
@@ -26,91 +27,6 @@ const availableTimes = {
     '2024-10-15': ['08:00', '14:00', '19:00'],
     '2024-10-20': ['09:00', '15:00'],
     '2024-10-25': ['10:00', '11:00', '17:00'],
-};
-
-// Componente DatePicker
-const DatePicker = ({ onDateSelect }) => {
-    const [currentMonth, setCurrentMonth] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(null);
-
-    const handlePrevMonth = () => {
-        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
-    };
-
-    const handleNextMonth = () => {
-        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
-    };
-
-    const handleDateClick = (day) => {
-        const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-        setSelectedDate(newDate);
-        onDateSelect(newDate); // Notifica o componente pai sobre a data selecionada
-    };
-
-    const generateDays = () => {
-        const startDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
-        const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
-        const dates = [];
-        const availableDates = Object.keys(availableTimes);
-
-        // Dias vazios antes do início do mês
-        for (let i = 0; i < startDay; i++) {
-            dates.push(<button key={`empty-${i}`} className="date faded" disabled></button>);
-        }
-
-        // Dias do mês
-        for (let i = 1; i <= daysInMonth; i++) {
-            const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
-            const formattedDate = date.toISOString().split('T')[0];
-            const isAvailable = availableDates.includes(formattedDate);
-            const isToday = i === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear();
-            const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
-
-            dates.push(
-                <button
-                    key={`date-${i}`}
-                    className={`date ${isAvailable ? (isToday ? 'current-day' : (isSelected ? 'selected-day' : '')) : 'inactive'}`}
-                    onClick={isAvailable ? () => handleDateClick(i) : undefined}
-                >
-                    {i}
-                </button>
-            );
-        }
-
-        // Dias vazios após o fim do mês
-        const totalDays = startDay + daysInMonth;
-        for (let i = totalDays; i < 42; i++) {
-            dates.push(<button key={`empty-end-${i}`} className="date faded" disabled></button>);
-        }
-
-        return dates;
-    };
-
-    return (
-        <div className="datepicker">
-            <div className="datepicker-top">
-                <div className="month-selector">
-                    <button className="arrow" onClick={handlePrevMonth}>
-                        <i className="material-icons">
-                            <span className="material-symbols-outlined p-3">chevron_left</span>
-                        </i>
-                    </button>
-                    <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
-                    <button className="arrow" onClick={handleNextMonth}>
-                        <i className="material-icons">
-                            <span className="material-symbols-outlined p-3">chevron_right</span>
-                        </i>
-                    </button>
-                </div>
-            </div>
-            <div className="datepicker-calendar">
-                {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'].map((day, i) => (
-                    <span key={`day-${i}`} className="day">{day}</span>
-                ))}
-                {generateDays()}
-            </div>
-        </div>
-    );
 };
 
 // Componente principal de agendamento
@@ -143,7 +59,7 @@ const Agendar = () => {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-    
+
         // Primeiro, obtenha o ID do psicólogo
         fetch(`http://localhost:3001/api/psicologos/by-name?nome=${encodeURIComponent(nomePsico)}`)
             .then(response => response.json())
@@ -158,7 +74,7 @@ const Agendar = () => {
                         tipo: selectedTipo,
                         assunto: assunto
                     };
-    
+
                     // Crie o agendamento com o ID do psicólogo obtido
                     fetch('http://localhost:3001/api/agendamento', {
                         method: 'POST',
@@ -167,19 +83,18 @@ const Agendar = () => {
                         },
                         body: JSON.stringify(dataToSend),
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data); // Adicione isto para ver a resposta da API
-                        if (data.message) {
-                            alert('Agendamento realizado com sucesso!');
-                        } else {
-                            alert('Erro ao agendar consulta: ' + data.error);
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Erro ao criar o agendamento:', err);
-                        alert('Erro ao criar o agendamento.');
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                alert('Agendamento realizado com sucesso!');
+                            } else {
+                                alert('Erro ao agendar consulta: ' + data.error);
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Erro ao criar o agendamento:', err);
+                            alert('Erro ao criar o agendamento.');
+                        });
                 } else {
                     alert('Erro ao buscar o ID do psicólogo.');
                 }
@@ -189,7 +104,6 @@ const Agendar = () => {
                 alert('Erro ao buscar o ID do psicólogo.');
             });
     };
-    
 
     const handleClose = () => {
         setShow(false);
@@ -242,8 +156,7 @@ const Agendar = () => {
                         <button
                             className='agendaConsulta'
                             onClick={handleShow}
-                            disabled={!selectedDate}
-                        >
+                            disabled={!selectedDate} >
                             Agendar consulta
                         </button>
 
