@@ -442,6 +442,7 @@ function AgendarConsulta() {
                           </Tab>
                         ))}
                       </Tabs>
+                      <li><Link to="/psicologo/1">Ver Perfil do Psicólogo 1</Link></li>
                     </div>
                   </div>
                 </Col>

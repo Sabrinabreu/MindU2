@@ -358,3 +358,14 @@
 @media (min-width: 601px) {
     
 }
+
+
+
+/* DISPONIBILIDADE */
+/* Define o estilo para a classe CSS que foi atribuída aos eventos */
+.evento-disponivel {
+    background-color: #8e44ad; /* Cor roxa para os eventos */
+    border: none; /* Remove a borda */
+    color: white; /* Texto branco */
+  }
+  
