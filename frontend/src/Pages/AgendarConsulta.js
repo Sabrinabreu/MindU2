@@ -428,67 +428,9 @@ function AgendarConsulta() {
                         {slide.tabs.map((tab, i) => (
                           <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
                             {tab.eventKey === 'agenda' ? (
-                              <div>
-                                <div className="calendar-container">
-                                  <center><div className="calendar-header">
-                                    <button className="setaCalendario" onClick={() => {
-                                      const newDate = new Date(selectedDate);
-                                      newDate.setDate(newDate.getDate() - 7);
-                                      setSelectedDate(newDate);
-                                      const available = getAvailableTimes(index)[newDate.toISOString().split('T')[0]] || [];
-                                      console.log(`Horários disponíveis para ${newDate.toISOString().split('T')[0]}:`, available);
-                                      setAvailableTimes(prev => ({
-                                        ...prev,
-                                        [index]: {
-                                          ...prev[index],
-                                          [newDate.toISOString().split('T')[0]]: available
-                                        }
-                                      }));
-                                    }}>
-                                      ←
-                                    </button>
-                                    <span>{selectedDate.toLocaleString('default', { month: 'long' })} {selectedDate.getFullYear()}</span>
-                                    <button className="setaCalendario" onClick={() => {
-                                      const newDate = new Date(selectedDate);
-                                      newDate.setDate(newDate.getDate() + 7);
-                                      setSelectedDate(newDate);
-                                      const available = getAvailableTimes(index)[newDate.toISOString().split('T')[0]] || [];
-                                      console.log(`Horários disponíveis para ${newDate.toISOString().split('T')[0]}:`, available);
-                                      setAvailableTimes(prev => ({
-                                        ...prev,
-                                        [index]: {
-                                          ...prev[index],
-                                          [newDate.toISOString().split('T')[0]]: available
-                                        }
-                                      }));
-                                    }}>
-                                      →
-                                    </button>
-                                  </div>
-                                  </center>
-                                  {generateWeek(selectedDate, index)}
-                                  <div className="available-times">
-                                    {timesForDate.length > 0 ? (
-                                      <div className="times-container">
-                                        {timesForDate.map(time => (
-                                          <button
-                                            key={time}
-                                            className={`time-button ${editableTimes[index]?.[selectedDate.toDateString()]?.[time] ? 'selected' : ''}`}
-                                            onClick={() => handleTimeChange(time, index)}
-                                          >
-                                            {time}
-                                          </button>
-                                        ))}
-                                      </div>
-                                    ) : (
-                                      <button className='semhora'>   <TriangleAlert className='semConsulta' />Sem horários disponíveis!</button>
-                                    )}
-                                  </div>
-                                  <Link to="/saibamais" className='agendarBot mt-3'>
-                                    Agendar consulta
-                                  </Link>
-                                </div>
-                              </div>
+                                <Link to="/saibamais" className='agendarBot mt-3'>
+                                  Agendar consulta
+                                </Link>
                             ) : (
                               <p>{tab.content}</p>
                             )}
