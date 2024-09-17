@@ -31,7 +31,7 @@ const availableTimes = {
 // Componente DatePicker
 const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
-    const [selectedData, setSelectedData] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const handlePrevMonth = () => {
         setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
@@ -43,7 +43,7 @@ const DatePicker = ({ onDateSelect }) => {
 
     const handleDateClick = (day) => {
         const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-        setSelectedData(newDate);
+        setSelectedDate(newDate);
         onDateSelect(newDate); // Notifica o componente pai sobre a data selecionada
     };
 
@@ -64,7 +64,7 @@ const DatePicker = ({ onDateSelect }) => {
             const formattedDate = date.toISOString().split('T')[0];
             const isAvailable = availableDates.includes(formattedDate);
             const isToday = i === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear();
-            const isSelected = selectedData && i === selectedData.getDate() && currentMonth.getMonth() === selectedData.getMonth() && currentMonth.getFullYear() === selectedData.getFullYear();
+            const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
 
             dates.push(
                 <button
@@ -116,14 +116,14 @@ const DatePicker = ({ onDateSelect }) => {
 // Componente principal de agendamento
 const Agendar = () => {
     const [show, setShow] = useState(false);
-    const [selectedData, setSelectedData] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
     const [userId] = useState('someUserId');
 
     const handleDateSelect = (data) => {
-        setSelectedData(data);
+        setSelectedDate(data);
     };
 
     const handleTimeClick = (time) => {
@@ -139,39 +139,57 @@ const Agendar = () => {
     };
 
     const handleSave = () => {
-        if (!selectedData || !selectedTime || !selectedTipo || !assunto) {
+        if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-
-        const data = {
-            userId: userId,
-            data: selectedData.toISOString().split('T')[0],
-            tipo: selectedTipo,
-            time: selectedTime,
-            assunto: assunto,
-            nomePsico: nomePsico
-        };
-
-        // Verifica a disponibilidade
-        fetch('http://localhost:3001/api/agendamento', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-.then(data => {
-    console.log(data); // Adicione isto para ver a resposta da API
-    if (data.success) {
-        alert('Agendamento realizado com sucesso!');
-    } else {
-        alert('Erro ao agendar consulta: ' + data.error);
-    }
-})
-       
+    
+        // Primeiro, obtenha o ID do psicólogo
+        fetch(`http://localhost:3001/api/psicologos/by-name?nome=${encodeURIComponent(nomePsico)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.id) {
+                    const psicologoId = data.id;
+                    const dataToSend = {
+                        userId: userId,
+                        psicologo_id: psicologoId,
+                        data: selectedDate.toISOString().split('T')[0],
+                        horario: selectedTime,
+                        tipo: selectedTipo,
+                        assunto: assunto
+                    };
+    
+                    // Crie o agendamento com o ID do psicólogo obtido
+                    fetch('http://localhost:3001/api/agendamento', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(dataToSend),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data); // Adicione isto para ver a resposta da API
+                        if (data.message) {
+                            alert('Agendamento realizado com sucesso!');
+                        } else {
+                            alert('Erro ao agendar consulta: ' + data.error);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Erro ao criar o agendamento:', err);
+                        alert('Erro ao criar o agendamento.');
+                    });
+                } else {
+                    alert('Erro ao buscar o ID do psicólogo.');
+                }
+            })
+            .catch(err => {
+                console.error('Erro ao buscar o ID do psicólogo:', err);
+                alert('Erro ao buscar o ID do psicólogo.');
+            });
     };
+    
 
     const handleClose = () => {
         setShow(false);
@@ -182,9 +200,9 @@ const Agendar = () => {
     };
 
     const renderAvailableTimes = () => {
-        if (!selectedData) return null;
+        if (!selectedDate) return null;
 
-        const formattedDate = selectedData.toISOString().split('T')[0];
+        const formattedDate = selectedDate.toISOString().split('T')[0];
         const times = availableTimes[formattedDate] || [];
 
         return times.length > 0 ? (
@@ -224,7 +242,7 @@ const Agendar = () => {
                         <button
                             className='agendaConsulta'
                             onClick={handleShow}
-                            disabled={!selectedData}
+                            disabled={!selectedDate}
                         >
                             Agendar consulta
                         </button>
@@ -234,9 +252,9 @@ const Agendar = () => {
                                 <Modal.Title className='agendando'>Agendar Consulta</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                {selectedData ? (
+                                {selectedDate ? (
                                     <>
-                                        <h6>Data selecionada: {selectedData.toLocaleDateString('pt-BR')}</h6>
+                                        <h6>Data selecionada: {selectedDate.toLocaleDateString('pt-BR')}</h6>
                                         <p className='tipoConsulta mb-1'>Tipo de consulta:</p>
                                         <button className={`botTipo ${selectedTipo === 'Online' ? 'active' : ''}`} onClick={() => handleTipoClick('Online')}>Online</button>
                                         <button className={`botTipo ${selectedTipo === 'Presencial' ? 'active' : ''}`} onClick={() => handleTipoClick('Presencial')}>Presencial</button>
@@ -285,9 +303,7 @@ const Agendar = () => {
 
                     <div className='localizacao p-4'>
                         <h5 className='titulosSobre p-3'>Localização</h5>
-                        <div className="cardMapa-psicologo">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29341.539628960563!2d-50.661641651811856!3d-23.18142224913242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94eadf17b06e81af%3A0xc38f2f9ebf143f8a!2sCorn%C3%A9lio%20Proc%C3%B3pio%2C%20PR%2C%2086300-000!5e0!3m2!1spt-BR!2sbr!4v1726141450249!5m2!1spt-BR!2sbr" width="100%" height="390" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
+                        <p>Cornélio Procópio - PR</p>
                     </div>
                 </Col>
             </Row>

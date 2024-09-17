@@ -9,8 +9,8 @@
     padding: 10px;
     cursor: pointer;
     z-index: 2000;
-    height: 9%;
-    width: 4%;
+    height: 50px;
+    width: 50px;
     transition: background 0.3s;
 }
 

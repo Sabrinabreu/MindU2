@@ -165,8 +165,6 @@ function AgendarConsulta() {
     "Psicóloga Organizacional",
   ]);
 
-
-
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -288,18 +286,29 @@ function AgendarConsulta() {
   };
 
   const handleTimeChange = (time, psicologoIndex) => {
-    setEditableTimes(prev => ({
-      ...prev,
-      [psicologoIndex]: {
-        ...prev[psicologoIndex],
-        [selectedDate.toDateString()]: {
-          ...prev[psicologoIndex]?.[selectedDate.toDateString()],
-          [time]: !prev[psicologoIndex]?.[selectedDate.toDateString()]?.[time]
+    setEditableTimes(prev => {
+      return {
+        ...prev,
+        [psicologoIndex]: {
+          ...prev[psicologoIndex],
+          [selectedDate.toDateString()]: {
+            ...prev[psicologoIndex]?.[selectedDate.toDateString()],
+            [time]: !prev[psicologoIndex]?.[selectedDate.toDateString()]?.[time]
+          }
         }
-      }
-    }));
+      };
+    });
   };
 
+  const handleAtendendoHoje = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const atendendoHoje = slidesContent.filter(slide => {
+      const availableTimes = getAvailableTimes(slide.id);
+      return availableTimes[today] && availableTimes[today].length > 0;
+    });
+  
+    // Exiba apenas os psicólogos que estão atendendo hoje
+  };
 
   return (
     <>
@@ -371,7 +380,7 @@ function AgendarConsulta() {
           <div className="searchA onClick={handleSearch}">
             {isLoading ? 'Buscando...' : 'Buscar'}
           </div>
-          <button>Atendendo hoje</button>
+          <button onClick={handleAtendendoHoje}>Atendendo hoje</button>
         </div>
       </div>
 
@@ -498,19 +507,13 @@ function AgendarConsulta() {
             );
           })
         ) : (
-          <p className='nenhumEcontrado'>Nenhum psicólogo encontrado :(</p>
-        )}
-
-        {filteredSlidesContent.length > Math.ceil(filteredSlidesContent.length / 2) && (
-          <div className="text-center">
-            <button className="verMaisBotao" onClick={() => setShowAll(!showAll)}>
-              {showAll ? 'Ver Menos' : 'Ver Mais'}
-            </button>
+          <div className="no-results">
+            <p>Nenhum resultado encontrado.</p>
           </div>
         )}
       </Container>
     </>
   );
-}
+};
 
 export default AgendarConsulta;
