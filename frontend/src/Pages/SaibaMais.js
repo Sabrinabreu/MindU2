@@ -31,7 +31,7 @@ const availableTimes = {
 // Componente DatePicker
 const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedData, setSelectedData] = useState(null);
 
     const handlePrevMonth = () => {
         setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
@@ -43,7 +43,7 @@ const DatePicker = ({ onDateSelect }) => {
 
     const handleDateClick = (day) => {
         const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-        setSelectedDate(newDate);
+        setSelectedData(newDate);
         onDateSelect(newDate); // Notifica o componente pai sobre a data selecionada
     };
 
@@ -64,7 +64,7 @@ const DatePicker = ({ onDateSelect }) => {
             const formattedDate = date.toISOString().split('T')[0];
             const isAvailable = availableDates.includes(formattedDate);
             const isToday = i === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear();
-            const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
+            const isSelected = selectedData && i === selectedData.getDate() && currentMonth.getMonth() === selectedData.getMonth() && currentMonth.getFullYear() === selectedData.getFullYear();
 
             dates.push(
                 <button
@@ -116,14 +116,14 @@ const DatePicker = ({ onDateSelect }) => {
 // Componente principal de agendamento
 const Agendar = () => {
     const [show, setShow] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedData, setSelectedData] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
-    const [userId, setUserId] = useState('someUserId'); // Adicionei o userId
+    const [userId] = useState('someUserId');
 
-    const handleDateSelect = (date) => {
-        setSelectedDate(date);
+    const handleDateSelect = (data) => {
+        setSelectedData(data);
     };
 
     const handleTimeClick = (time) => {
@@ -139,14 +139,14 @@ const Agendar = () => {
     };
 
     const handleSave = () => {
-        if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
+        if (!selectedData || !selectedTime || !selectedTipo || !assunto) {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
 
         const data = {
             userId: userId,
-            data: selectedDate.toISOString().split('T')[0],
+            data: selectedData.toISOString().split('T')[0],
             tipo: selectedTipo,
             time: selectedTime,
             assunto: assunto,
@@ -161,17 +161,16 @@ const Agendar = () => {
             },
             body: JSON.stringify(data),
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Agendamento realizado com sucesso!');
-                } else {
-                    alert('Erro ao agendar consulta: ' + data.error);
-                }
-            })
-            .catch(error => {
-                alert('Erro ao agendar consulta: ' + error.message);
-            });
+        .then(response => response.json())
+.then(data => {
+    console.log(data); // Adicione isto para ver a resposta da API
+    if (data.success) {
+        alert('Agendamento realizado com sucesso!');
+    } else {
+        alert('Erro ao agendar consulta: ' + data.error);
+    }
+})
+       
     };
 
     const handleClose = () => {
@@ -183,9 +182,9 @@ const Agendar = () => {
     };
 
     const renderAvailableTimes = () => {
-        if (!selectedDate) return null;
+        if (!selectedData) return null;
 
-        const formattedDate = selectedDate.toISOString().split('T')[0];
+        const formattedDate = selectedData.toISOString().split('T')[0];
         const times = availableTimes[formattedDate] || [];
 
         return times.length > 0 ? (
@@ -225,7 +224,7 @@ const Agendar = () => {
                         <button
                             className='agendaConsulta'
                             onClick={handleShow}
-                            disabled={!selectedDate}
+                            disabled={!selectedData}
                         >
                             Agendar consulta
                         </button>
@@ -235,9 +234,9 @@ const Agendar = () => {
                                 <Modal.Title className='agendando'>Agendar Consulta</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                {selectedDate ? (
+                                {selectedData ? (
                                     <>
-                                        <h6>Data selecionada: {selectedDate.toLocaleDateString('pt-BR')}</h6>
+                                        <h6>Data selecionada: {selectedData.toLocaleDateString('pt-BR')}</h6>
                                         <p className='tipoConsulta mb-1'>Tipo de consulta:</p>
                                         <button className={`botTipo ${selectedTipo === 'Online' ? 'active' : ''}`} onClick={() => handleTipoClick('Online')}>Online</button>
                                         <button className={`botTipo ${selectedTipo === 'Presencial' ? 'active' : ''}`} onClick={() => handleTipoClick('Presencial')}>Presencial</button>
