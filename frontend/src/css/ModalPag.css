@@ -1,4 +1,22 @@
 [data-theme='dark'] .modal-content {
-    background-color: #1e2736!important;
-    
+    background-color: #1e2736 !important;
+
+}
+
+.buttonmodal {
+    background-color: #7766C6 !important;
+    border-color: transparent !important;
+}
+
+.buttonmodal:hover {
+    background-color: #46467a !important;
+}
+
+
+[data-theme='dark'] .buttonmodal {
+    background-color: #6852a5 !important;
+}
+
+[data-theme='dark'] .buttonmodal:hover {
+    background-color: #e0dffdaf !important;
 }

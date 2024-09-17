@@ -1,12 +1,9 @@
-// ChatWidget.js
 import React, { useState } from 'react';
 import "../css/WidgetBAPO.css";
 import fotoBAPO from '../img/IABAPO.webp';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
 import { Row, Col } from "react-bootstrap";
-
-
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,22 +19,22 @@ const ChatWidget = () => {
       </button>
       {isOpen && (
         <div className="chat-box">
-          <div className="chat-header"> 
+          <div className="chat-header">
             <span className="chat-title">Precisa de ajuda?</span>
           </div>
           <div className="chat-body">
-            <Row className='rowBAPO'>
-              <Col md={3} sm={2}><img className="fotoBAPO" src={fotoBAPO} alt="foto da atendente"/></Col>
-              <Col> <p className='speech-bubble p-2'>Tem alguma pergunta? Ficarei feliz em ajudar.</p></Col>
-            </Row>
-            
-           
-            <div className="chat-options">
-              <Nav.Link className="chat-option" as={Link} to="/contato">Falar com time pessoal</Nav.Link>
-              <Nav.Link className="chat-option" as={Link} to="/cadastroempresa">Sou empresa</Nav.Link>
-              <Nav.Link className="chat-option" as={Link} to="/contato">Sou paciente e preciso de ajuda</Nav.Link>
-              <Nav.Link className="chat-option" as={Link} to="/agendarconsulta">Agendar demonstração</Nav.Link>
-              <Nav.Link className="chat-option" as={Link} to="/BAPO">Conversar com a MILA</Nav.Link>
+         
+
+
+            {/* Adiciona o iframe aqui */}
+            <div className="chat-iframe">
+              <iframe
+                src="https://webchat.botframework.com/embed/MINDUCHATBOT123-bot?s=04cGCIU0y9Q.NAMR51EDE1AsEJ2yYQ_DnOa_Nm0ol6ydoZ8t0jQH1CE"
+                title="Chatbot"
+                width="100%"
+                height="400px"
+                style={{ border: 'none' }}
+              ></iframe>
             </div>
           </div>
         </div>
@@ -47,3 +44,4 @@ const ChatWidget = () => {
 };
 
 export default ChatWidget;
+
