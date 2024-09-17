@@ -11,8 +11,8 @@ const Acessibilidade = () => {
     const [isHighlightActive, setIsHighlightActive] = useState(false);
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
 
-    const foco = useRef(null);
     const highlightBackground = useRef(null);
+    const highlightOverlay = useRef(null);
 
     const handleTogglePanel = () => setIsPanelOpen(prevState => !prevState);
 
@@ -54,11 +54,11 @@ const Acessibilidade = () => {
         setActiveButtons({});
         setIsHighlightActive(false);
         setIsTDHAFriendly(false);
-        if (foco.current) {
-            foco.current.style.display = 'none';
-        }
         if (highlightBackground.current) {
             highlightBackground.current.style.display = 'none';
+        }
+        if (highlightOverlay.current) {
+            highlightOverlay.current.style.display = 'none';
         }
     };
 
@@ -67,13 +67,18 @@ const Acessibilidade = () => {
         if (highlightBackground.current) {
             highlightBackground.current.style.display = isHighlightActive ? 'none' : 'block';
         }
+        if (highlightOverlay.current) {
+            highlightOverlay.current.style.display = isHighlightActive ? 'block' : 'none';
+        }
     };
 
     const updateHighlightPosition = (e) => {
-        if (foco.current && isHighlightActive) {
-            foco.current.style.left = `${e.clientX - (foco.current.offsetWidth / 2)}px`;
-            foco.current.style.top = `${e.clientY - (foco.current.offsetHeight / 2)}px`;
-            foco.current.style.display = 'block';
+        if (highlightBackground.current && isHighlightActive) {
+            const { clientY } = e;
+            const offset = 50; // Ajuste para centralizar a faixa ao redor do cursor
+
+            // Ajusta a posição da faixa para cobrir o mouse
+            highlightBackground.current.style.top = `${clientY - offset}px`;
         }
     };
 
@@ -89,8 +94,11 @@ const Acessibilidade = () => {
         } else {
             document.body.classList.remove('highlight-line');
             window.removeEventListener('mousemove', updateHighlightPosition);
-            if (foco.current) {
-                foco.current.style.display = 'none';
+            if (highlightBackground.current) {
+                highlightBackground.current.style.display = 'none';
+            }
+            if (highlightOverlay.current) {
+                highlightOverlay.current.style.display = 'none';
             }
         }
 
@@ -178,8 +186,8 @@ const Acessibilidade = () => {
                                 </Button>
 
                                 <Button
-                                    className={classNames('accessibility-button', { 'active': activeButtons['changeFont'] })}
-                                    onClick={() => toggleClass('fonte-arial', 'changeFont')}
+                                    className={classNames('accessibility-button', { 'active': activeButtons['fontArial'] })}
+                                    onClick={() => toggleClass('fonte-arial', 'fontArial')}
                                     aria-label="Fonte Arial"
                                 >
                                     <LetterText /> Fonte Arial
@@ -188,25 +196,25 @@ const Acessibilidade = () => {
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['textMagnifier'] })}
                                     onClick={() => toggleClass('text-magnifier', 'textMagnifier')}
-                                    aria-label="Lupa de texto"
+                                    aria-label="Lupa no Texto"
                                 >
-                                    <Search /> Lupa de Texto
+                                     <Search /> Lupa no Texto
                                 </Button>
 
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['highlight'] })}
                                     onClick={toggleHighlight}
-                                    aria-label="Destacar texto"
+                                    aria-label="Destacar linha"
                                 >
-                                    <MousePointerClick /> Destacar Texto
+                                     <Focus /> Destacar Linha
                                 </Button>
 
                                 <Button
-                                    className={classNames('accessibility-button', { 'active': isTDHAFriendly })}
+                                    className={classNames('accessibility-button', { 'active': activeButtons['tdahFriendly'] })}
                                     onClick={toggleTDHAFriendly}
                                     aria-label="Perfil TDAH"
                                 >
-                                    <Focus /> Perfil TDAH
+                                    <MousePointerClick /> Perfil TDAH
                                 </Button>
                             </div>
                         </div>
@@ -214,9 +222,8 @@ const Acessibilidade = () => {
                 </div>
             )}
 
-            <div ref={highlightBackground} className="highlight-background"></div>
-
-            <div ref={foco} className="brilhoTDAH" />
+            <div className={classNames('highlight-background', { 'show': isHighlightActive })} ref={highlightBackground}></div>
+            <div className={classNames('highlight-overlay', { 'show': isHighlightActive })} ref={highlightOverlay}></div>
         </>
     );
 };

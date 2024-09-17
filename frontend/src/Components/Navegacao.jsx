@@ -25,6 +25,10 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
       // auth: true  por enquanto pública
     },
     {
+      caminho: "/disponibilidade", nome: "Disponibilidade",
+      // auth: true  por enquanto pública
+    },
+    {
       caminho: "/agendarConsulta", nome: "Agendar Consultas",
       //  auth: true
     },

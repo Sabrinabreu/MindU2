@@ -385,13 +385,13 @@
 /* versao desktop  */
 @media (max-width: 601px) {
     .perfilPsico {
-        width: 93%;
+        width: 100%;
         position: relative;
         height: 400px;
     }
 
     .agenda {
-        width: 96%;
+        width: 100%;
         margin-left: -1%;
     }
 
@@ -406,11 +406,12 @@
 
     .contato, .localizacao, .biografia {
         left: 16%;
-        width: 97%;
+        width: 100%;
     }
 
     .displayCalendario {
         margin-right: -2%;
+        margin-left: 20px;
     }
 
     .agendaConsulta {

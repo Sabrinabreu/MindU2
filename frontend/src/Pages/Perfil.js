@@ -1,25 +1,40 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import "../css/Perfil.css";
 import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
 import { Eye, EyeOff } from 'lucide-react';
 import Logout from '../Components/Logout';
 import { parseJwt } from '../Components/jwtUtils';
 
+function formatarData(data) {
+    return new Date(data).toLocaleDateString('pt-BR'); // Formato dd/mm/yyyy
+}
+
 function Perfil() {
     const [consultationDetails, setConsultationDetails] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [isEditing, setIsEditing] = useState(false);
-    const [perfil, setPerfil] = useState({})
+    const [perfil, setPerfil] = useState({});
+    const [tipoUsuario, setTipoUsuario] = useState('');
+    const [nomeEmpresa, setNomeEmpresa] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
     const [setPsicologoNome] = useState('');
+    const [isPsicologo, setIsPsicologo] = useState(false);
 
     useEffect(() => {
         // Recupera o token do localStorage
         const token = localStorage.getItem('token');
+
         if (token) {
-          const decodedToken = parseJwt(token);  // Decodifica o token manualmente
-          setPerfil(decodedToken.perfil);  // Define o perfil com base nas informações do token
+            const decodedToken = parseJwt(token);  // Decodifica o token
+            setPerfil(decodedToken.perfil);  // Define as informações do perfil
+            setTipoUsuario(decodedToken.tipo_usuario);  // Define o tipo de usuário
+  
+            // Se for um funcionário, buscar o nome da empresa pelo `empresa_id`
+            if (decodedToken.tipo_usuario === 'funcionario') {
+              buscarNomeEmpresa(decodedToken.perfil.empresa_id); // Chama função para buscar nome da empresa
+            }
         }
       }, []);
 
@@ -36,16 +51,74 @@ function Perfil() {
         fetch('http://localhost:3001/api/psicologo')
             .then(response => response.json())
             .then(data => {
-                setPsicologoNome(data.nomePsico); // Supondo que o nome vem como `nomePsico`
+                setPsicologoNome(data.nomePsico);
             })
             .catch(error => {
                 console.error('Erro ao obter nome do psicólogo:', error);
             });
     }, [setPsicologoNome]);
 
+    const handleEditClick = () => {
+        setIsEditing(true);
+        setPerfil(prevData => ({ ...prevData, senha: '' }));
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setPerfil(prevData => ({ ...prevData, [name]: value }));
+    };
+
+    const handleSave = (e) => {
+        e.preventDefault();
+        localStorage.setItem('perfil', JSON.stringify(perfil));
+        atualizarPerfilNoBackend();
+        setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(prevState => !prevState);
+    };
+
+    const atualizarPerfilNoBackend = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(perfil),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar o perfil');
+            }
+
+            const responseData = await response.json();
+            alert('Perfil atualizado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao atualizar perfil:', error);
+            alert('Erro ao atualizar o perfil.');
+        }
+    };
+
+
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
     };
+
+      // Função para buscar o nome da empresa baseado no `empresa_id`
+      const buscarNomeEmpresa = async (empresaId) => {
+        try {
+          const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
+          setNomeEmpresa(response.data.nome);  // Define o nome da empresa no estado
+        } catch (error) {
+          console.error('Erro ao buscar o nome da empresa:', error);
+        }
+      };
 
     const generateCalendar = () => {
         const month = currentMonth.getMonth();
@@ -101,55 +174,6 @@ function Perfil() {
         setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
     };
 
-    const handleEditClick = () => {
-        setIsEditing(true);
-        // Limpar o campo de senha para não mostrar a senha criptografada
-        setPerfil(prevData => ({ ...prevData, senha: '' }));
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setPerfil(prevData => ({ ...prevData, [name]: value }));
-    };
-
-    const handleSave = (e) => {
-        e.preventDefault();
-        localStorage.setItem('perfil', JSON.stringify(perfil));
-        atualizarPerfilNoBackend();
-        setIsEditing(false);
-    };
-
-    const handleCancel = () => {
-        setIsEditing(false);
-    };
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(prevState => !prevState);
-    };
-
-    const atualizarPerfilNoBackend = async () => {
-        try {
-            const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(perfil),
-            });
-
-            if (!response.ok) {
-                throw new Error('Erro ao atualizar o perfil');
-            }
-
-            const responseData = await response.json();
-            console.log('Resposta do backend:', responseData);
-
-            alert('Perfil atualizado com sucesso!');
-        } catch (error) {
-            console.error('Erro ao atualizar perfil:', error);
-            alert('Erro ao atualizar o perfil.');
-        }
-    };
 
     const getInitials = (name) => {
         if (!name) return '';
@@ -204,6 +228,7 @@ function Perfil() {
                     </Card>
                     <Card className="cardPerfil mt-3">
                         <ListGroup variant="flush">
+                            {/* informações gerais */}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Email</h6>
                                 <span className="text-secondary">{perfil.email}</span>
@@ -214,16 +239,30 @@ function Perfil() {
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">CPF</h6>
-                                <span className="text-secondary">{perfil.cpf}</span>
+                                <span className="text-secondary">{perfil.CPF}</span>
                             </ListGroup.Item>
-                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 className="mb-0">Empresa</h6>
-                                <span className="text-secondary">{perfil.empresa}</span>
-                            </ListGroup.Item>
-                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 className="mb-0">Cargo</h6>
-                                <span className="text-secondary">{perfil.cargo}</span>
-                            </ListGroup.Item>
+                            {/* informações exclusivas de funcionário */}
+                            {tipoUsuario === 'funcionario' && (
+                                <>
+                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 className="mb-0">Empresa</h6>
+                                    <span className="text-secondary">{nomeEmpresa}</span>
+                                </ListGroup.Item>
+                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 className="mb-0">Cargo</h6>
+                                    <span className="text-secondary">{perfil.cargo}</span>
+                                </ListGroup.Item>
+                                </>
+                            )}
+                            {/* informações exclusivas de psicologo */}
+                            {tipoUsuario === 'psicologo' && (
+                                <>
+                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 className="mb-0">Data de Nascimento</h6>
+                                    <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
+                                </ListGroup.Item>
+                                </>
+                            )}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <Logout />
                             </ListGroup.Item>
@@ -296,9 +335,31 @@ function Perfil() {
                                         </Col>
                                     </Row>
                                     <hr />
+                                    {isPsicologo && (
+                                        <>
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Biografia</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.biografia}</Col>
+                                            </Row>
+                                            <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
+                                            </Row>
+                                            <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
+                                            </Row>
+                                            <hr />
+                                        </>
+                                    )}
                                     <Row>
                                         <Col sm={12}>
-                                            <Button className='editarBot' onClick={handleEditClick}>Editar</Button>
+                                            <Button className='editarBot' onClick={handleEditClick}>
+                                            <span class="material-symbols-outlined iconPerfil">
+                                                edit</span>
+                                            Editar</Button>
                                         </Col>
                                     </Row>
                                 </>

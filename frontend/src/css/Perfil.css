@@ -245,32 +245,32 @@
 
 /* EDITAR */
 .editarBot{
-    background-color: #F9B0C3;
+    background-color: #6852a5;
     border: none;
 }
 
 .editarBot:hover{
-    background-color: #efc0cd;
+    background-color: #4b3783;
 }
 
 .salvarBot{
-    background-color: #F9B0C3;
+    background-color: #6852a5;
     border: none;
 }
 
 .salvarBot:hover{
-    background-color: #e8b2c0;
+    background-color: #4b3783;
     border: none;
 }
 
 .cancelarBot{
-    background-color: #cdcbf5;
+    background-color: #6852a5ae;
     border: none;
     margin-left: 3px;
 }
 
 .cancelarBot:hover{
-    background-color: #dfddff;
+    background-color: #5b439cbb;
     border: none;
     margin-left: 3px;
 }
@@ -325,4 +325,16 @@
     font-size: 2rem;
     color: #333; /* Cor das iniciais */
     cursor: pointer;
+}
+
+
+.material-symbols-outlined.iconPerfil {
+    vertical-align: top;
+    margin-right: 3px;
+    font-size: 23px;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 350,
+  'GRAD' 0,
+  'opsz' 24
 }

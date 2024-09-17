@@ -15,7 +15,7 @@ function QualidadesMindU() {
         <Container>
             <Row >
                 <div className='qualidadesMindU'>
-                    <h1 className='text-center'>Porque escolher a MindU?</h1>
+                    <h1 className='mb-5 text-center textresultados'>Porque escolher a MindU?</h1>
                     <div className='d-flex cards'>
                         <Col md='4' sm='12'>
                             <Card className="text-center cardQualidades">

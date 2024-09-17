@@ -13,6 +13,7 @@ import Planos from './Pages/Planos'; //todos
 import Perfil from './Pages/Perfil'; //funcionarios e psicólogos
 import AcessoFuncionarios from './Pages/AcessoFuncionarios'; //empresa
 import Login from './Pages/Login'; //todos
+import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
 import Dashboard from "./Pages/Dashboard";
 
@@ -43,8 +44,9 @@ const Rotas = () => {
           <Route path="/agendarConsulta" element={<Agendarconsulta />} />
           <Route path="/acessoFuncionarios" element={<AcessoFuncionarios />} />
           <Route path="/perfil" element={<Perfil />} />
-          <Route path="/saibaMais" element={<SaibaMais />} />
+          <Route path="/psicologo/:psicologo_id" element={<SaibaMais />} />
           <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/disponibilidade" element={<Disponibilidade/>} />
         </>
 
       {/* Rotas não autenticados */}

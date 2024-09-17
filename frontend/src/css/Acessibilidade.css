@@ -212,7 +212,7 @@
     font-size: 1.2em;
 }
 
-/* faixa de destaque */
+/* faixa de destaque brilho 
 
 
 .brilhoTDAH::before {
@@ -226,28 +226,51 @@
     left: 0;
 }
 
-
-.highlight-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(133, 133, 130, 0.2);
-    pointer-events: none;
-    display: none; /* Inicialmente escondido */
-    z-index: 999;
-}
-
 .brilhoTDAH {
     position: fixed;
     background-color: rgba(255, 255, 255, 0);
     border: 2px solid #ffeeab;
     pointer-events: none;
-    display: none; /* Inicialmente escondido */
+    display: none;
     z-index: 1000;
     border-radius: 5px;
+    transition: all 0.3s ease;
+}*/
+/* Faixa de Destaque */
+.highlight-background {
+    position: fixed;
+    background-color: rgba(255, 255, 0, 0.5); /* Cor da faixa com opacidade */
+    pointer-events: none; /* A faixa não deve interceptar cliques */
+    display: none; /* Inicialmente escondido */
+    z-index: 999;
+    height: 100px; /* Altura da faixa */
+    width: 100%; /* Largura 100% da tela */
+    left: 0; /* Alinhar ao lado esquerdo da tela */
+    top: 0; /* Alinhar ao topo da tela */
 }
+
+/* Camada de Fundo ao redor da faixa */
+.highlight-overlay {
+    position: fixed;
+    pointer-events: none;
+    background-color: rgba(117, 117, 117, 0.986); /* Cor da área ao redor do cursor */
+    display: none; /* Inicialmente escondido */
+    z-index: 998;
+    width: 100%; /* Largura total da tela */
+    height: 100%; /* Altura total da tela */
+    left: 0; /* Alinhar ao lado esquerdo da tela */
+    top: 0; /* Alinhar ao topo da tela */
+}
+
+/* Mudar cor da área ao redor do cursor quando a faixa está ativa */
+.highlight-background.show {
+    display: block;
+}
+
+.highlight-overlay.show {
+    display: block;
+}
+
 
 
 
@@ -335,3 +358,43 @@
 @media (min-width: 601px) {
     
 }
+
+
+
+/* DISPONIBILIDADE */
+/* Estilo para eventos de consulta */
+.evento-consulta {
+    background-color: #ff9999; /* Cor rosa claro */
+    border: 1px solid #cc6666; /* Borda rosa escuro */
+    color: #fff; /* Cor do texto */
+  }
+  
+  /* Estilo para eventos de reunião */
+  .evento-reuniao {
+    background-color: #99ccff; /* Cor azul claro */
+    border: 1px solid #6699ff; /* Borda azul escuro */
+    color: #fff; /* Cor do texto */
+  }
+  
+  /* Estilo para eventos de disponibilidade */
+  .evento-disponivel {
+    background-color: #800080; /* Cor roxa */
+    border: 1px solid #400040; /* Borda roxa escura */
+    color: #fff; /* Cor do texto */
+  }
+  
+  /* Estilo geral para outros eventos */
+  .evento-geral {
+    background-color: #e0e0e0; /* Cor cinza claro */
+    border: 1px solid #b0b0b0; /* Borda cinza escuro */
+    color: #000; /* Cor do texto */
+  }
+  
+  /* Outras possíveis personalizações */
+  .fc-daygrid-day {
+    border: 1px solid #ccc; /* Borda das células do calendário */
+  }
+  
+  .work{
+    color: #800080;
+  }
