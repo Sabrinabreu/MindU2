@@ -30,12 +30,13 @@ app.use('/', rotaFuncionario);
 app.use('/', rotaPsicologos);
 app.use('/api/agendamento', agendamentoRoutes);
 app.use('/api/atualizarPerfil', rotaPerfilsuario);
+app.use('/', routaDisponibilidade);
 
 // Remove rotas não definidas (ajustar ou remover se não houver)
 app.use('/', (req, res) => {
   res.status(404).send('Rota não encontrada');
 });
-app.use('/', routaDisponibilidade);
+
 
 // Inicia o servidor
 app.listen(port, () => {

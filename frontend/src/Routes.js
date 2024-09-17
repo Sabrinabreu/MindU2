@@ -44,7 +44,7 @@ const Rotas = () => {
           <Route path="/agendarConsulta" element={<Agendarconsulta />} />
           <Route path="/acessoFuncionarios" element={<AcessoFuncionarios />} />
           <Route path="/perfil" element={<Perfil />} />
-          <Route path="/saibaMais" element={<SaibaMais />} />
+          <Route path="/psicologo/:psicologo_id" element={<SaibaMais />} />
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/disponibilidade" element={<Disponibilidade/>} />
         </>

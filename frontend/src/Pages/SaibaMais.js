@@ -1,4 +1,34 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'; // Importa useParams para acessar parâmetros da URL
+import DispCalendario from "../Components/DispCalendario";
+
+const SaibaMais = () => {
+  const { psicologo_id } = useParams(); // Obtém o ID do psicólogo da URL
+  const [psicologoId, setPsicologoId] = useState(null);
+
+  useEffect(() => {
+    if (psicologo_id) {
+      setPsicologoId(psicologo_id);
+    }
+  }, [psicologo_id]);
+
+  if (!psicologoId) {
+    return <div>Carregando...</div>;
+  }
+
+  return (
+    <div>
+      <h1>Calendário de Disponibilidade do Psicólogo</h1>
+      <DispCalendario psicologoId={psicologoId} />
+    </div>
+  );
+};
+
+export default SaibaMais;
+
+
+
+/*import { useState } from 'react';
 import "../css/AgendarConsulta.css";
 import "../css/SobrePsicologo.css";
 import perfilPsicologo from '../img/perfilPsicologo.jfif';
@@ -224,4 +254,4 @@ const Agendar = () => {
     );
 }
 
-export default Agendar;
+export default Agendar;*/

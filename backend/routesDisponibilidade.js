@@ -1,4 +1,36 @@
 const express = require('express');
+const connection = require('./db'); // Ajuste o caminho conforme necessário
+const router = express.Router();
+
+// Rota para buscar disponibilidades por psicólogo (para o calendário)
+router.get('/:psicologo_id', (req, res) => {
+    const psicologo_id = req.params.psicologo_id;
+    const sql = `
+        SELECT data, horario 
+        FROM disponibilidadepsico 
+        WHERE psicologo_id = ?
+    `;
+    
+    connection.query(sql, [psicologo_id], (err, results) => {
+        if (err) {
+            console.error('Erro ao consultar banco de dados:', err);
+            return res.status(500).json({ error: 'Erro ao consultar o banco de dados' });
+        }
+
+        // Mapeia os resultados para o formato de eventos do FullCalendar
+        const eventos = results.map(evento => ({
+            title: 'Disponível',
+            start: `${evento.data}T${evento.horario}`,
+            allDay: false
+        }));
+
+        res.json(eventos);
+    });
+});
+
+module.exports = router;
+
+/*const express = require('express');
 const router = express.Router();
 const connection = require('./db');
 
@@ -85,4 +117,4 @@ router.delete('/excluir/:id', async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = router;*/

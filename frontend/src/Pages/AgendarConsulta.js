@@ -487,6 +487,7 @@ function AgendarConsulta() {
                                   <Link to="/saibamais" className='agendarBot mt-3'>
                                     Agendar consulta
                                   </Link>
+                                  <li><Link to="/psicologo/1">Ver Perfil do Psicólogo 1</Link></li>
                                 </div>
                               </div>
                             ) : (
