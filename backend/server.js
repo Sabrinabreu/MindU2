@@ -9,7 +9,6 @@ const rotaFuncionario = require('./routesFuncionario');
 const rotaPsicologos = require('./routesPsicologos');
 const agendamentoRoutes = require('./routesAgendamento');
 const rotaPerfilsuario = require('./routesPerfilusuario');
-const router = require('./routesCadastropsi');
 const routaDisponibilidade = require('./routesDisponibilidade');
 
 // Cria uma instância do Express
