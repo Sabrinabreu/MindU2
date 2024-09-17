@@ -34,6 +34,9 @@ const Disponibilidade = () => {
         setEvents([...events, newEvent]);
     };
 
+     // Verifica se a data selecionada é anterior à data atual
+     const isPastDate = selectedDate && selectedDate < new Date().setHours(0, 0, 0, 0);
+
     return (
         <Container>
             <Row className='my-4'>
@@ -61,7 +64,13 @@ const Disponibilidade = () => {
                             ) : (
                                 <p className='avisoSemData'>Nenhum evento adicionado para esta data.</p>
                             )}
-                            <Button onClick={handleAddEvent}>Adicionar Evento</Button>
+                            {/* Desabilita o botão "Adicionar Evento" para datas passadas */}
+                            {!isPastDate && (
+                                <Button onClick={handleAddEvent}>Adicionar Evento</Button>
+                            )}
+                            {isPastDate && (
+                                <p className='avisoSemData'>Não é possível adicionar eventos a datas passadas.</p>
+                            )}
                         </>
                     ) : (
                         <p className='avisoSemData'>Por favor, selecione uma data para ver ou adicionar eventos.</p>
