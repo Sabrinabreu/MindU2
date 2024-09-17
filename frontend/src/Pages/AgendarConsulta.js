@@ -428,6 +428,7 @@ function AgendarConsulta() {
                         {slide.tabs.map((tab, i) => (
                           <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
                             {tab.eventKey === 'agenda' ? (
+<<<<<<< HEAD
                               <div>
                                 <div className="calendar-container">
                                   <center><div className="calendar-header">
@@ -490,6 +491,11 @@ function AgendarConsulta() {
                                   <li><Link to="/psicologo/1">Ver Perfil do Psicólogo 1</Link></li>
                                 </div>
                               </div>
+=======
+                                <Link to="/saibamais" className='agendarBot mt-3'>
+                                  Agendar consulta
+                                </Link>
+>>>>>>> 53b74c8bafa278819cc16b5b8e47e75134b5bb73
                             ) : (
                               <p>{tab.content}</p>
                             )}
