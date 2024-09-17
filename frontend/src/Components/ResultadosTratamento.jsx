@@ -6,7 +6,7 @@ function Resultados() {
     return (
 
         <Container className='results-container'> <Row>
-            <h1 className='text-center textresultados'> Resultados mensuráveis: </h1>
+            <h1 className='mb-4 text-center textresultados'> Resultados mensuráveis: </h1>
             <div className="d-flex container resultados">
                 <Col md='6' sm='10'>
                     <Card className="results cardmaior">
