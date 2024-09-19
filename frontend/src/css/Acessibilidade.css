@@ -239,27 +239,40 @@
 /* Faixa de Destaque */
 .highlight-background {
     position: fixed;
-    background-color: rgba(255, 255, 0, 0.5); /* Cor da faixa com opacidade */
-    pointer-events: none; /* A faixa não deve interceptar cliques */
-    display: none; /* Inicialmente escondido */
+    background-color: rgba(255, 255, 0, 0.5);
+    /* Cor da faixa com opacidade */
+    pointer-events: none;
+    /* A faixa não deve interceptar cliques */
+    display: none;
+    /* Inicialmente escondido */
     z-index: 999;
-    height: 100px; /* Altura da faixa */
-    width: 100%; /* Largura 100% da tela */
-    left: 0; /* Alinhar ao lado esquerdo da tela */
-    top: 0; /* Alinhar ao topo da tela */
+    height: 100px;
+    /* Altura da faixa */
+    width: 100%;
+    /* Largura 100% da tela */
+    left: 0;
+    /* Alinhar ao lado esquerdo da tela */
+    top: 0;
+    /* Alinhar ao topo da tela */
 }
 
 /* Camada de Fundo ao redor da faixa */
 .highlight-overlay {
     position: fixed;
     pointer-events: none;
-    background-color: rgba(117, 117, 117, 0.986); /* Cor da área ao redor do cursor */
-    display: none; /* Inicialmente escondido */
+    background-color: rgba(117, 117, 117, 0.986);
+    /* Cor da área ao redor do cursor */
+    display: none;
+    /* Inicialmente escondido */
     z-index: 998;
-    width: 100%; /* Largura total da tela */
-    height: 100%; /* Altura total da tela */
-    left: 0; /* Alinhar ao lado esquerdo da tela */
-    top: 0; /* Alinhar ao topo da tela */
+    width: 100%;
+    /* Largura total da tela */
+    height: 100%;
+    /* Altura total da tela */
+    left: 0;
+    /* Alinhar ao lado esquerdo da tela */
+    top: 0;
+    /* Alinhar ao topo da tela */
 }
 
 /* Mudar cor da área ao redor do cursor quando a faixa está ativa */
@@ -330,13 +343,35 @@
         display: none !important;
     }*/
 
-    a, button, p, h1, h2, h3, h4, h5, h6 {
+    a,
+    button,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         outline: 2px solid #000;
     }
-    p, h1, h2, h3, h4, h5, h6 {
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         outline: 2px solid #c07171;
     }
-    p, h1, h2, h3, h4, h5, h6 {
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         line-height: 1.5;
     }
 }
@@ -355,46 +390,4 @@
 }
 
 /* versao desktop */
-@media (min-width: 601px) {
-    
-}
-
-
-
-/* DISPONIBILIDADE */
-/* Estilo para eventos de consulta */
-.evento-consulta {
-    background-color: #ff9999; /* Cor rosa claro */
-    border: 1px solid #cc6666; /* Borda rosa escuro */
-    color: #fff; /* Cor do texto */
-  }
-  
-  /* Estilo para eventos de reunião */
-  .evento-reuniao {
-    background-color: #99ccff; /* Cor azul claro */
-    border: 1px solid #6699ff; /* Borda azul escuro */
-    color: #fff; /* Cor do texto */
-  }
-  
-  /* Estilo para eventos de disponibilidade */
-  .evento-disponivel {
-    background-color: #800080; /* Cor roxa */
-    border: 1px solid #400040; /* Borda roxa escura */
-    color: #fff; /* Cor do texto */
-  }
-  
-  /* Estilo geral para outros eventos */
-  .evento-geral {
-    background-color: #e0e0e0; /* Cor cinza claro */
-    border: 1px solid #b0b0b0; /* Borda cinza escuro */
-    color: #000; /* Cor do texto */
-  }
-  
-  /* Outras possíveis personalizações */
-  .fc-daygrid-day {
-    border: 1px solid #ccc; /* Borda das células do calendário */
-  }
-  
-  .work{
-    color: #800080;
-  }
+@media (min-width: 601px) {}

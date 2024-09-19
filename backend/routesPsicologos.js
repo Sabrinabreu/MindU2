@@ -58,16 +58,21 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     const { id } = req.params;
 
-    connection.query('SELECT * FROM psicologos WHERE id = ?', [id], (err, results) => {
-        if (err) {
-            console.error('Erro ao buscar o psicólogo:', err);
-            return res.status(500).json({ error: 'Erro ao buscar o psicólogo' });
-        }
-        if (results.length === 0) {
-            return res.status(404).json({ error: 'Psicólogo não encontrado' });
-        }
-        res.json(results[0]);
-    });
+    console.log(`Buscando psicólogo com ID: ${id}`);
+
+    router.get('/:psicologo_id', (req, res) => {
+        const { psicologo_id } = req.params;
+        connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [psicologo_id], (err, results) => {
+            if (err) {
+                console.error('Erro ao buscar o psicólogo:', err);
+                return res.status(500).json({ error: 'Erro ao buscar o psicólogo' });
+            }
+            if (results.length === 0) {
+                return res.status(404).json({ error: 'Psicólogo não encontrado' });
+            }
+            res.json(results[0]);
+        });
+    });    
 });
 
 // Rota para atualizar um psicólogo existente pelo ID
@@ -76,7 +81,7 @@ router.put('/:id', (req, res) => {
     const { nome, especialidade, localizacao } = req.body;
 
     connection.query(
-        'UPDATE psicologos SET nome = ?, especialidade = ?, localizacao = ? WHERE id = ?',
+        'UPDATE psicologos SET nome = ?, especialidade = ?, localizacao = ? WHERE psicologo_id = ?',
         [nome, especialidade, localizacao, id],
         (err, result) => {
             if (err) {
@@ -95,7 +100,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
 
-    connection.query('DELETE FROM psicologos WHERE id = ?', [id], (err, result) => {
+    connection.query('DELETE FROM psicologos WHERE psicologo_id = ?', [id], (err, result) => {
         if (err) {
             console.error('Erro ao excluir o psicólogo:', err);
             return res.status(500).json({ error: 'Erro ao excluir o psicólogo' });
@@ -115,7 +120,7 @@ router.get('/by-name', (req, res) => {
         return res.status(400).json({ error: 'O nome do psicólogo é obrigatório.' });
     }
 
-    connection.query('SELECT id FROM psicologos WHERE nome = ?', [nome], (err, results) => {
+    connection.query('SELECT psicologo_id FROM psicologos WHERE nome = ?', [nome], (err, results) => {
         if (err) {
             console.error('Erro ao buscar o psicólogo pelo nome:', err);
             return res.status(500).json({ error: 'Erro ao buscar o psicólogo' });
@@ -126,6 +131,5 @@ router.get('/by-name', (req, res) => {
         res.json(results[0]);
     });
 });
-
 
 module.exports = router;

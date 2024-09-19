@@ -1,34 +1,147 @@
 /*import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Importa useParams para acessar parâmetros da URL
+import { useParams } from 'react-router-dom';
 import DispCalendario from "../Components/DispCalendario";
 import { Container } from 'react-bootstrap';
 
-
-const SaibaMais = () => {
-    const { psicologo_id } = useParams(); // Obtém o ID do psicólogo da URL
-    const [psicologoId, setPsicologoId] = useState(null);
+const SobrePsicologo = () => {
+    const { psicologo_id } = useParams();
+    const [psicologo, setPsicologo] = useState(null); // Estado para armazenar os dados completos do psicólogo
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (psicologo_id) {
-            setPsicologoId(psicologo_id);
+            // Função para buscar o psicólogo
+            const fetchPsicologo = async () => {
+                try {
+                    console.log(`Buscando psicólogo com ID: ${psicologo_id}`); // Debug
+                    const response = await fetch(`http://localhost:3000/api/psicologos/${psicologo_id}`);
+                    console.log(await response.text()); // Isso mostrará o que está sendo retornado
+
+
+                    // Verifique se a resposta é bem-sucedida
+                    if (!response.ok) {
+                        throw new Error(`Erro ao buscar dados do psicólogo: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Dados do psicólogo:', data); // Debug para verificar os dados recebidos
+
+                    if (data) {
+                        setPsicologo(data); // Armazena os dados completos do psicólogo
+                    } else {
+                        console.error('Dados do psicólogo não encontrados');
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar dados do psicólogo:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchPsicologo();
         }
     }, [psicologo_id]);
 
-    if (!psicologoId) {
+    if (loading) {
         return <div>Carregando...</div>;
     }
+
+    if (!psicologo) {
+        return <div>Psicólogo não encontrado.</div>;
+    }
+
 
     return (
         <div>
             <Container>
-                <h1 className='mt-4'>Calendário de Disponibilidade do Psicólogo 1</h1>
-                <DispCalendario psicologoId={psicologoId} />
+                <h1 className='mt-4'>Informações do Psicólogo</h1>
+                <p><strong>Nome:</strong> {psicologo.nome}</p>
+                <p><strong>Especialidade:</strong> {psicologo.especialidade}</p>
+                <p><strong>Localização:</strong> {psicologo.localizacao}</p>
+                <p><strong>CRP:</strong> {psicologo.crp}</p>
+
+                <h2 className='mt-4'>Calendário de Disponibilidade</h2>
+                <DispCalendario psicologoId={psicologo_id} />
             </Container>
         </div>
     );
 };
 
-export default SaibaMais;*/
+export default SobrePsicologo;
+*/
+
+
+/*import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import DispCalendario from "../Components/DispCalendario";
+import { Container } from 'react-bootstrap';
+
+const SobrePsicologo = () => {
+    const { psicologo_id } = useParams();
+    const [psicologo, setPsicologo] = useState(null); // Estado para armazenar os dados completos do psicólogo
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (psicologo_id) {
+            // Função para buscar o psicólogo
+            const fetchPsicologo = async () => {
+                try {
+                    console.log(`Buscando psicólogo com ID: ${psicologo_id}`); // Debug
+                    const response = await fetch(`http://localhost:3000/api/psicologos/${psicologo_id}`);
+                    console.log(await response.text()); // Isso mostrará o que está sendo retornado
+
+
+                    // Verifique se a resposta é bem-sucedida
+                    if (!response.ok) {
+                        throw new Error(`Erro ao buscar dados do psicólogo: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Dados do psicólogo:', data); // Debug para verificar os dados recebidos
+
+                    if (data) {
+                        setPsicologo(data); // Armazena os dados completos do psicólogo
+                    } else {
+                        console.error('Dados do psicólogo não encontrados');
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar dados do psicólogo:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchPsicologo();
+        }
+    }, [psicologo_id]);
+
+    if (loading) {
+        return <div>Carregando...</div>;
+    }
+
+    if (!psicologo) {
+        return <div>Psicólogo não encontrado.</div>;
+    }
+
+
+    return (
+        <div>
+            <Container>
+                <h1 className='mt-4'>Informações do Psicólogo</h1>
+                <p><strong>Nome:</strong> {psicologo.nome}</p>
+                <p><strong>Especialidade:</strong> {psicologo.especialidade}</p>
+                <p><strong>Localização:</strong> {psicologo.localizacao}</p>
+                <p><strong>CRP:</strong> {psicologo.crp}</p>
+
+                <h2 className='mt-4'>Calendário de Disponibilidade</h2>
+                <DispCalendario psicologoId={psicologo_id} />
+            </Container>
+        </div>
+    );
+};
+
+export default SobrePsicologo;
+*/
 
 
 import { useState } from 'react';
