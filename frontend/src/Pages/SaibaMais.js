@@ -182,7 +182,7 @@ const Agendar = () => {
                 </Col>
                 <Col md={6}>
                     <div className='agenda'>
-                        <h5 className='titulosSobre p-3 mb-2'>Agende sua consulta...</h5>
+                        <h5 className='titulosSobre py-3 pl-2 mb-2'> <span class="material-symbols-outlined iconsSaibaMais">calendar_month</span>Agende sua consulta...</h5>
                         <div className='displayCalendario'>
                             <DatePicker onDateSelect={handleDateSelect} />
                         </div>
@@ -232,7 +232,7 @@ const Agendar = () => {
                     </div>
 
                     <div className='biografia p-4'>
-                        <h5 className='titulosSobre p-3'>Biografia</h5>
+                        <h5 className='titulosSobre py-3'><span class="material-symbols-outlined iconsSaibaMais">person_book</span>Biografia</h5>
                         <p className='mb-4'>
                             Psicólogo, formado em 1990 pela Universidade Estadual do Paraná. Especialista em Terapia Cognitivo-Comportamental e Psicoterapia de Casal.
                             Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
@@ -240,7 +240,7 @@ const Agendar = () => {
                     </div>
 
                     <div className='contato p-4'>
-                        <h5 className='titulosSobre p-3'>Contato</h5>
+                        <h5 className='titulosSobre py-3'><span class="material-symbols-outlined iconsSaibaMais">send</span>Contato</h5>
                         <p>
                             Telefone: (43) 1234-5678 <br />
                             Email: contato@psicologo.com.br
@@ -248,7 +248,7 @@ const Agendar = () => {
                     </div>
 
                     <div className='localizacao p-4'>
-                        <h5 className='titulosSobre p-3'>Localização</h5>
+                        <h5 className='titulosSobre py-3'><span class="material-symbols-outlined iconsSaibaMais">location_on</span>Localização</h5>
                         <p>Cornélio Procópio - PR</p>
                     </div>
                 </Col>

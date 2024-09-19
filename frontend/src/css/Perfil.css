@@ -245,32 +245,32 @@
 
 /* EDITAR */
 .editarBot{
-    background-color: #6852a5;
+    background-color: #6852a5 !important;
     border: none;
 }
 
 .editarBot:hover{
-    background-color: #4b3783;
+    background-color: #4b3783 !important;
 }
 
 .salvarBot{
-    background-color: #6852a5;
+    background-color: #6852a5 !important;
     border: none;
 }
 
 .salvarBot:hover{
-    background-color: #4b3783;
+    background-color: #4b3783 !important;
     border: none;
 }
 
 .cancelarBot{
-    background-color: #6852a5ae;
+    background-color: #6852a5ae !important;
     border: none;
     margin-left: 3px;
 }
 
 .cancelarBot:hover{
-    background-color: #5b439cbb;
+    background-color: #5b439cbb !important;
     border: none;
     margin-left: 3px;
 }
