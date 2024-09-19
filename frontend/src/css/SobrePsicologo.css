@@ -60,6 +60,7 @@
     margin-left: 90px;
     position: absolute;
     color: white;
+    cursor: default !important;
 }
 
 [data-theme='dark'] .valores {
