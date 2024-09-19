@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import '../css/Calendario.css'; // Seu arquivo CSS
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
+import { Container } from 'react-bootstrap';
 
 const DispCalendario = ({ psicologoId }) => {
   const [eventos, setEventos] = useState([]);
@@ -57,6 +58,7 @@ const DispCalendario = ({ psicologoId }) => {
 
   return (
     <div>
+      <Container>
       <h1 className='work'>{nomePsicologo || 'Psicólogo'}</h1> {/* Nome do psicólogo */}
       <FullCalendar
         plugins={[dayGridPlugin]}
@@ -75,7 +77,7 @@ const DispCalendario = ({ psicologoId }) => {
           meridiem: false
         }}
       />
-
+      </Container>
     </div>
   );
 };

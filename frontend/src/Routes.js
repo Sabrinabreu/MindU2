@@ -8,7 +8,7 @@ import Cadastroempresa from "./Pages/CadastroEmpresa"; //todos
 import Contato from "./Pages/Contato"; //todos
 import CadastroPsicólogos from './Pages/CadastroPsicólogos' //todos
 import Agendarconsulta from "./Pages/AgendarConsulta"; //funcionários
-/* import SaibaMais from './Pages/SaibaMais'; //todos */
+import SaibaMais from './Pages/SaibaMais'; //todos
 import Planos from './Pages/Planos'; //todos
 import Perfil from './Pages/Perfil'; //funcionarios e psicólogos
 import AcessoFuncionarios from './Pages/AcessoFuncionarios'; //empresa
@@ -16,7 +16,6 @@ import Login from './Pages/Login'; //todos
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
 import Dashboard from "./Pages/Dashboard";
-import DispCalendario from "./Components/DispCalendario";
 
 const ProtectedRoute = ({ children }) => {
   const { token } = useAuth();
@@ -45,8 +44,7 @@ const Rotas = () => {
           <Route path="/agendarConsulta" element={<Agendarconsulta />} />
           <Route path="/acessoFuncionarios" element={<AcessoFuncionarios />} />
           <Route path="/perfil" element={<Perfil />} />
-          {/*<Route path="/psicologo/:psicologo_id" element={<SaibaMais />} />*/}
-          <Route path="/psicologo/:id" element={<DispCalendario />} />
+          <Route path="/psicologo/:psicologo_id" element={<SaibaMais />} />
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/disponibilidade" element={<Disponibilidade/>} />
         </>
@@ -63,7 +61,7 @@ const Rotas = () => {
           <Route path="/agendarConsulta" element={<ProtectedRoute><Agendarconsulta /></ProtectedRoute>} />
           <Route path="/acessoFuncionarios" element={<ProtectedRoute><AcessoFuncionarios /></ProtectedRoute>} />
           <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
-          {/*<Route path="/saibaMais" element={<ProtectedRoute><SaibaMais /></ProtectedRoute>} />*/}
+          {<Route path="/saibaMais" element={<ProtectedRoute><SaibaMais /></ProtectedRoute>} />}
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
         </>
       )}

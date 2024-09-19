@@ -67,7 +67,25 @@ const DatePicker = ({ onDateSelect }) => {
     };
 
     return (
-        /*<div className="datepicker">
+        <>
+        <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        locale={ptBrLocale}
+        dayCellContent={(info) => (
+          <div className={`dia-${info.date.getDate()}`}>
+            {info.dayNumberText}
+          </div>
+        )}
+        eventClassNames="evento-disponivel"
+        eventTimeFormat={{
+          hour: '2-digit',
+          minute: '2-digit',
+          meridiem: false
+        }}
+      /> 
+
+        <div className="datepicker">
             <div className="datepicker-top">
                 <div className="month-selector">
                     <button className="arrow" onClick={handlePrevMonth}>
@@ -89,24 +107,8 @@ const DatePicker = ({ onDateSelect }) => {
                 ))}
                 {generateDays()}
             </div>
-        </div>*/
-
-        <FullCalendar
-        plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
-        locale={ptBrLocale}
-        dayCellContent={(info) => (
-          <div className={`dia-${info.date.getDate()}`}>
-            {info.dayNumberText}
-          </div>
-        )}
-        eventClassNames="evento-disponivel"
-        eventTimeFormat={{
-          hour: '2-digit',
-          minute: '2-digit',
-          meridiem: false
-        }}
-      /> 
+        </div>
+        </>
     );
 };
 
