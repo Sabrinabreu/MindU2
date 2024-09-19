@@ -3,6 +3,7 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import PaymentForm from './Pagamento';  // Importe o formulário de pagamento
 import '../css/ModalPag.css'
+import { X } from 'lucide-react';
 
 const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice }) => {
     return (
@@ -36,7 +37,7 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice }) => {
                 <PaymentForm selectedPlan={{ name: planName, price: planPrice }} />
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={onHide}>Fechar</Button>
+                <Button className='buttonmodal' onClick={onHide}><X /></Button>
             </Modal.Footer>
         </Modal>
 

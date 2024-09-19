@@ -1,0 +1,51 @@
+.evento-disponivel {
+  background-color: #ffcc00; /* Cor de fundo para eventos */
+  color: #333; /* Cor do texto dos eventos */
+  border-radius: 4px; /* Bordas arredondadas para eventos */
+}
+
+/* Fundo do dia de hoje */ 
+  /* Estilo dos eventos */
+  .fc-event {
+    background-color: #28a745;
+    color: #fff;
+    border: 1px solid #1e7e34;
+  }
+  
+
+/* Setas de navegação */
+.fc-button-prev, .fc-button-next {
+    background-color: #304c69; /* Cor de fundo das setas */
+    color: #fff; /* Cor do texto das setas */
+    border: none; /* Remove bordas padrão */
+  }
+  
+  .fc-button-prev:hover, .fc-button-next:hover {
+    background-color: #b3cbe4; /* Cor de fundo ao passar o mouse */
+  }
+  
+  /* Cabeçalhos do calendário */
+  .fc-col-header-cell {
+    background-color: #F9B0C3; 
+    color: #fff7f7 !important;
+    border: 1px solid #495057; 
+  }
+  
+
+
+  /* mês */
+  .fc-header-toolbar {
+    color: #000000;
+  }
+  
+  .fc-daygrid-day-number {
+    background-color: transparent;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .fc-daygrid-day.fc-daygrid-day-today {
+    background-color: #e3f2fd;
+    border: 2px solid #367ca2;
+  }
+  

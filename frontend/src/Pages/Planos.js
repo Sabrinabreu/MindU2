@@ -40,11 +40,7 @@ const Cadastro = () => {
         <>
             <BAPO />
             <Container className="caixaPlanos">
-                <Row>
-                    <Col className="title text-center">
-                        <h2>Nossos Planos</h2>
-                    </Col>
-                </Row>
+                        <h2 className="mb-4 title text-center">Nossos Planos</h2>
                 <Row className="assinatura">
                     <Row className="assinatura">
                         <Col>

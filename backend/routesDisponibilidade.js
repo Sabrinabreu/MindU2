@@ -1,5 +1,5 @@
 const express = require('express');
-const connection = require('./db'); // Ajuste o caminho conforme necessário
+const connection = require('./db');
 const router = express.Router();
 
 // Rota para buscar disponibilidades por psicólogo (para o calendário)
@@ -24,7 +24,7 @@ router.get('/:psicologo_id', (req, res) => {
             allDay: false
         }));
 
-        res.json(eventos);
+        res.json(eventos); // Retorna a resposta como JSON
     });
 });
 

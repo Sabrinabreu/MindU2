@@ -62,7 +62,8 @@
 }
       .footer-links a
       {
-        color:#12124f
+        color:#ffffff;
+        text-decoration: none;
       }
       .footer-links a:active,.footer-links a:focus,.footer-links a:hover
       {

@@ -13,8 +13,6 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
-import { TriangleAlert } from 'lucide-react';
-import { useParams } from 'react-router-dom';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -22,8 +20,7 @@ function AgendarConsulta() {
   const [filterType, setFilterType] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [availableTimes, setAvailableTimes] = useState({});
-  const [editableTimes, setEditableTimes] = useState({});
-  const [showAll, setShowAll] = useState(false);
+  const [ setEditableTimes] = useState({});
   const [selectedProfession, setSelectedProfession] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
@@ -226,6 +223,7 @@ function AgendarConsulta() {
         "2024-09-23": ["13:00", "15:00"],
       },
     };
+   
 
     if (typeof psicologoIndex !== 'number' || !times[psicologoIndex]) {
       console.warn(`Índice do psicólogo ${psicologoIndex} não encontrado ou inválido.`);
@@ -233,7 +231,7 @@ function AgendarConsulta() {
     }
 
     return times[psicologoIndex] || {};
-  };
+  }; 
 
   const generateWeek = (selectedDate, psicologoIndex) => {
     const startOfWeek = new Date(selectedDate);
@@ -306,7 +304,7 @@ function AgendarConsulta() {
       const availableTimes = getAvailableTimes(slide.id);
       return availableTimes[today] && availableTimes[today].length > 0;
     });
-  
+
     // Exiba apenas os psicólogos que estão atendendo hoje
   };
 
@@ -428,21 +426,22 @@ function AgendarConsulta() {
                         {slide.tabs.map((tab, i) => (
                           <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
                             {tab.eventKey === 'agenda' ? (
-                                <Link to="/saibamais" className='agendarBot mt-3'>
-                                  Agendar consulta
-                                </Link>
+                             
+                              <Link to={`/psicologo/${slide.id}`} className="agendarBot mt-3">
+                              {slide.title}
+                            </Link>
+                            
                             ) : (
                               <p>{tab.content}</p>
                             )}
                             {tab.eventKey === 'sobre' && activeTab === 'sobre' && (
-                              <Link to="/saibamais" className='saibaMais mt-3'>
-                                Saiba mais
-                              </Link>
+                              <Link to={`/psicologo/${slide.id}`} className="agendarBot mt-3">
+                              Saiba mais
+                            </Link>                
                             )}
                           </Tab>
                         ))}
                       </Tabs>
-                      <li><Link to="/psicologo/1">Ver Perfil do Psicólogo 1</Link></li>
                     </div>
                   </div>
                 </Col>
