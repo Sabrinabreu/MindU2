@@ -370,6 +370,11 @@
     }
 }
 
+.highlight-hover {
+    outline: 2px solid orange; /* Contorno para dar ênfase */
+    transition: background-color 0.3s ease, outline 0.3s ease;
+}
+
 /* versao mobile  */
 @media (max-width: 600px) {
     .accessibilidade-painel {

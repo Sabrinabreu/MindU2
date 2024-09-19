@@ -185,6 +185,39 @@ const Acessibilidade = ({ toggleTheme }) => {
         };
     }, []);
     
+    const toggleDynamicFocus = () => {
+        const allElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, button, input');
+    
+        const handleMouseEnter = (e) => {
+            e.target.classList.add('highlight-hover');
+        };
+    
+        const handleMouseLeave = (e) => {
+            e.target.classList.remove('highlight-hover');
+        };
+    
+        allElements.forEach((element) => {
+            element.addEventListener('mouseenter', handleMouseEnter);
+            element.addEventListener('mouseleave', handleMouseLeave);
+        });
+    
+        //remover os eventos ao desativar o foco dinâmico
+        return () => {
+            allElements.forEach((element) => {
+                element.removeEventListener('mouseenter', handleMouseEnter);
+                element.removeEventListener('mouseleave', handleMouseLeave);
+            });
+        };
+    };
+    
+    //ativação do foco dinâmico
+    const handleDynamicFocusToggle = () => {
+        toggleDynamicFocus();
+        setActiveButtons((prevState) => ({
+            ...prevState,
+            dynamicFocus: !prevState.dynamicFocus,
+        }));
+    };
 
     return (
         <>
@@ -291,11 +324,11 @@ const Acessibilidade = ({ toggleTheme }) => {
                                     <MousePointerClick /> Perfil TDAH
                                 </Button>
                                 <Button
-                                    className={classNames('accessibility-button', { 'active': activeButtons['tdahFriendly'] })}
-                                    onClick={toggleTDHAFriendly}
-                                    aria-label="Perfil TDAH"
+                                    className={classNames('accessibility-button', { 'active': activeButtons['dynamicFocus'] })}
+                                    onClick={handleDynamicFocusToggle}
+                                    aria-label="Foco Dinâmico"
                                 >
-                                    <MousePointerClick /> Foco dinamico
+                                    <Focus /> Foco Dinâmico
                                 </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['tdahFriendly'] })}
