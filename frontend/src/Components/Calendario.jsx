@@ -1,5 +1,11 @@
 import { useState } from 'react';
 import "../css/AgendarConsulta.css";
+
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import '../css/Calendario.css'; // Seu arquivo CSS
+import ptBrLocale from '@fullcalendar/core/locales/pt-br';
+
 // import { availableTimes } from './Agendar'; // Importe os horários disponíveis, caso estejam em outro arquivo
 
 // Componente DatePicker
@@ -61,7 +67,7 @@ const DatePicker = ({ onDateSelect }) => {
     };
 
     return (
-        <div className="datepicker">
+        /*<div className="datepicker">
             <div className="datepicker-top">
                 <div className="month-selector">
                     <button className="arrow" onClick={handlePrevMonth}>
@@ -83,7 +89,24 @@ const DatePicker = ({ onDateSelect }) => {
                 ))}
                 {generateDays()}
             </div>
-        </div>
+        </div>*/
+
+        <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        locale={ptBrLocale}
+        dayCellContent={(info) => (
+          <div className={`dia-${info.date.getDate()}`}>
+            {info.dayNumberText}
+          </div>
+        )}
+        eventClassNames="evento-disponivel"
+        eventTimeFormat={{
+          hour: '2-digit',
+          minute: '2-digit',
+          meridiem: false
+        }}
+      /> 
     );
 };
 

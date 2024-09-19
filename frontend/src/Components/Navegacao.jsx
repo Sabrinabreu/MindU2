@@ -20,10 +20,10 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
     { caminho: "/contato", nome: "Contato" },
     { caminho: "/cadastroPsicologos", nome: "Cadastre-se como Psicólogo" },
     { caminho: "/planos", nome: "Planos Empresariais" },
-    {
+    {/*{
       caminho: "/saibaMais", nome: "Saiba Mais",
       // auth: true  por enquanto pública
-    },
+    }*/},
     {
       caminho: "/disponibilidade", nome: "Disponibilidade",
       // auth: true  por enquanto pública

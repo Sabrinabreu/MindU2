@@ -23,10 +23,62 @@ body {
 .caixaPlanos {
   margin-top: 4%;
   margin-bottom: 5%;
+  margin-left: 80px;
 }
 
 .caixaPlanos h2 {
   color: #46467A;
+}
+
+@media (max-width: 1024px) {
+  .poptext {
+    margin-left: 10% !important;
+  }
+
+  .plan .inner {
+    height: 950px !important;
+  }
+
+  .featureList {
+    height: 600px !important;
+  }
+}
+
+@media (max-width: 920px) {
+  .poptext {
+    display: none;
+  }
+
+  .plan .inner {
+    height: 1100px !important;
+  }
+
+  .featureList {
+    height: 750px !important;
+  }
+
+  .botaoPlan {
+    padding: 1.3em 2em !important;
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 860px) {
+  .poptext {
+    margin-left: 10% !important;
+  }
+
+  .plan .inner {
+    height: 1100px !important;
+  }
+
+  .featureList {
+    height: 750px !important;
+  }
+
+  .caixaPlanos {
+    margin-left: 50px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -42,6 +94,75 @@ body {
   .caixaPlanos {
     margin-top: 16%;
     max-width: 90%;
+    margin-left: 22px;
+  }
+
+  .poptext {
+    margin-left: 15% !important;
+  }
+
+  .plan .inner {
+    height: 900px !important;
+  }
+
+  .featureList {
+    height: 550px !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .poptext {
+    margin-left: 40% !important;
+  }
+
+  .plan .inner {
+    height: 750px !important;
+  }
+
+  .featureList {
+    height: 400px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .poptext {
+    margin-left: 20% !important;
+  }
+
+  .plan .inner {
+    height: 850px !important;
+  }
+
+  .featureList {
+    height: 500px !important;
+  }
+}
+
+@media (max-width: 412px) {
+  .poptext {
+    margin-left: 18% !important;
+  }
+
+  .plan .inner {
+    height: 890px !important;
+  }
+
+  .featureList {
+    height: 550px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .poptext {
+    margin-left: 10% !important;
+  }
+
+  .plan .inner {
+    height: 950px !important;
+  }
+
+  .featureList {
+    height: 600px !important;
   }
 }
 
@@ -65,7 +186,8 @@ body {
   background-color: #836fbb;
   border-radius: 12px;
   position: relative;
-  border: double #6852a5;
+  border: double #46467A;
+  height: 800px;
 }
 
 .plan .title {
@@ -170,6 +292,7 @@ body {
   margin: 0 0 2.75rem;
   padding: 0;
   font-weight: 500;
+  height: 450px;
 
   li {
     color: var(--color);
@@ -179,6 +302,7 @@ body {
     gap: 1.5rem;
     padding-left: 1.9rem;
     position: relative;
+
 
     &:before {
       content: "";
