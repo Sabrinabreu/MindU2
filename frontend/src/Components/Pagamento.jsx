@@ -5,7 +5,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import '../css/Payment.css';
 import { CopyIcon } from 'lucide-react';
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
 const PaymentForm = ({ selectedPlan }) => {
     const [paymentType, setPaymentType] = useState('');
@@ -23,6 +23,8 @@ const PaymentForm = ({ selectedPlan }) => {
     const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000';
     const [selectedAgencyNumber, setSelectedAgencyNumber] = useState('');
     const agencyNumber = selectedAgencyNumber || "Agência não informada";
+
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -82,10 +84,8 @@ const PaymentForm = ({ selectedPlan }) => {
         const page = pdfDoc.addPage([595, 842]); // Tamanho A4 padrão
         const { width, height } = page.getSize();
 
-        const fontBold = await pdfDoc.embedFont('Helvetica-Bold');
-        const fontRegular = await pdfDoc.embedFont('Helvetica');
 
-        const { bankName, agencyNumber, accountNumber, name, cpf, address, city, state, zipCode, phone } = formData;
+        const { bankName, agencyNumber, name, cpf, address, city, state, zipCode, phone } = formData;
 
         // Dados do boleto
         const today = new Date();
@@ -95,13 +95,7 @@ const PaymentForm = ({ selectedPlan }) => {
         const nossoNumero = '123456789012'; // Gerar nosso número aleatório ou conforme a lógica da sua aplicação
         const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000'; // Exemplo de número do boleto
 
-        // Cálculo de multa e juros
         const amount = totalPrice.toFixed(2); // Valor total do boleto
-        const interestRate = 0.01; // Juros de 1% ao mês
-        const fineRate = 0.02; // Multa de 2%
-        const daysOverdue = 0; // Definir como o número de dias em atraso se necessário
-        const fine = (totalPrice * fineRate).toFixed(2);
-        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2); // Juros proporcional ao número de dias em atraso
 
         const drawSection = (x, y, width, height, borderWidth = 0.5) => {
             page.drawRectangle({
@@ -116,7 +110,7 @@ const PaymentForm = ({ selectedPlan }) => {
 
         // Seção do banco
         drawSection(0, height - 100, 595, 40); // Borda sem margem, ajustada para ocupar toda a largura da página
-        page.drawText(` ${bankName} ${agencyNumber}  ${boletoNumber}`, { x: 10, y: height - 60, size: 12, font: fontRegular });
+        page.drawText(` ${bankName} ${agencyNumber}  ${boletoNumber}`, { x: 10, y: height - 60, size: 12 });
 
 
         // Seção do cedente dividida em duas colunas
@@ -124,21 +118,21 @@ const PaymentForm = ({ selectedPlan }) => {
         drawSection(300, height - 150, 300, 140); // Coluna direita
 
         // Informações da coluna esquerda
-        page.drawText(`Nome: ${name}`, { x: 6, y: height - 220, size: 12, font: fontRegular });
-        page.drawText(`CPF: ${cpf}`, { x: 6, y: height - 240, size: 12, font: fontRegular });
-        page.drawText(`Endereço: ${address}`, { x: 6, y: height - 260, size: 12, font: fontRegular });
+        page.drawText(`Nome: ${name}`, { x: 6, y: height - 220, size: 12 });
+        page.drawText(`CPF: ${cpf}`, { x: 6, y: height - 240, size: 12 });
+        page.drawText(`Endereço: ${address}`, { x: 6, y: height - 260, size: 12 });
 
         // Informações da coluna direita
-        page.drawText(`Cidade: ${city}`, { x: 310, y: height - 220, size: 12, font: fontRegular });
-        page.drawText(`Estado: ${state}`, { x: 310, y: height - 240, size: 12, font: fontRegular });
-        page.drawText(`CEP: ${zipCode}`, { x: 310, y: height - 260, size: 12, font: fontRegular });
-        page.drawText(`Telefone: ${phone}`, { x: 310, y: height - 280, size: 12, font: fontRegular });
+        page.drawText(`Cidade: ${city}`, { x: 310, y: height - 220, size: 12 });
+        page.drawText(`Estado: ${state}`, { x: 310, y: height - 240, size: 12 });
+        page.drawText(`CEP: ${zipCode}`, { x: 310, y: height - 260, size: 12 });
+        page.drawText(`Telefone: ${phone}`, { x: 310, y: height - 280, size: 12 });
 
         // Seção de vencimento e valores
         drawSection(0, height - 290, 595, 50); // Ajustado para a largura total da página
-        page.drawText(`Data do Documento: ${todayFormatted}`, { x: 10, y: height - 295, size: 12, font: fontRegular });
-        page.drawText(`Vencimento: ${dueDateFormatted}`, { x: 10, y: height - 315, size: 12, font: fontRegular });
-        page.drawText(`Valor: R$ ${amount}`, { x: 10, y: height - 335, size: 12, font: fontRegular });
+        page.drawText(`Data do Documento: ${todayFormatted}`, { x: 10, y: height - 295, size: 12 });
+        page.drawText(`Vencimento: ${dueDateFormatted}`, { x: 10, y: height - 315, size: 12 });
+        page.drawText(`Valor: R$ ${amount}`, { x: 10, y: height - 335, size: 12 });
 
         // Gerar código de barras ocupando toda a largura da seção
         const barcodeCanvas = document.createElement('canvas');
@@ -503,6 +497,7 @@ const PaymentForm = ({ selectedPlan }) => {
 
                             {/* Parcelamento */}
                             {paymentType === "cartao" && (
+                                <>
                                 <Col md="12" sm="12">
                                     <div className="installments-container">
                                         <label className="formlabel" htmlFor="parcelasCartao">Escolha o número de parcelas:</label>
@@ -522,28 +517,29 @@ const PaymentForm = ({ selectedPlan }) => {
                                         </select>
                                     </div>
                                 </Col>
+
+                             </>
                             )}
                         </div>
                     )}
 
                     {/* Total e Botão de Pagamento */}
-                    {paymentType !== 'pix' && paymentType !== 'boleto' && (
+                    {paymentType === 'cartao' && (
                         <div>
                             <p className="text-center">Total: R${amountPerInstallment} </p>
-                        </div>
-                    )}
-                    {paymentType !== 'pix' && paymentType !== 'boleto' && (
                         <Button className="formbutton" variant="primary" type="submit">
-                            Pagar
-                        </Button>
+                        Pagar
+                    </Button>
+                    </div>
+                    )}
+                    {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' &&(
+                    <p className="text-center">Total: R${amountPerInstallment} </p>
                     )}
                     {paymentType === 'boleto' && (
                         <div className="button-container">
-                            <button className='buttonboleto' onClick={generateBoletoPDF}>Gerar Boleto</button>
+                            <Button className='my-2 mt-4 buttonboleto' onClick={generateBoletoPDF}>Gerar Boleto</Button>
                         </div>
                     )}
-
-
                 </form>
             </Row>
         </Container>
