@@ -6,7 +6,8 @@ const Logout = () => {
   const navegacao = useNavigate();
 
   const handleLogout = () => {
-    setToken();
+    localStorage.removeItem('token');
+    setToken(null);
     navegacao("/", { replace: true });
   };
 

@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { parseJwt } from './jwtUtils';
 import {Container, Row, Col} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
+import { useAuth } from '../provider/AuthProvider';
 import MentalBalanceVid from '../img/mentalBalance.mp4'
 // import { Eye, EyeOff } from 'lucide-react';
 
 const LoginForm = () => {
   const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
+  const { setToken } = useAuth(); 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -18,19 +19,17 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post('http://localhost:3001/login', { login, senha });
-      const { token} = response.data;
+      const { token } = response.data;
 
       if (token) {
-        localStorage.setItem('token', token); // Armazena o token no localStorage
+        localStorage.setItem('token', token);
+        setToken(token);
 
-        // Decodifica o token manualmente
+        //só pra ver as informações
         const decodedToken = parseJwt(token);
         console.log("Informações do token decodificado: ", decodedToken);
 
-        // Armazena as informações do perfil
-        // setPerfil(decodedToken.perfil);
-
-        navigate("/"); // Redireciona para a página de perfil
+        navigate("/");
       } else {
         console.log("Erro ao realizar login.");
       }
