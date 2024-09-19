@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import '../css/HomeMindU.css'
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 function TxtSobreMindU() {
     return (
@@ -21,8 +22,10 @@ function TxtSobreMindU() {
                         <br />
                     </div>
                     <div>
-                        <Link to="/planos" className='botaoSobre'>
-                            Veja os nossos planos aqui.
+                        <Link to="/planos">
+                            <Button className='botaoSobre'>
+                                Veja os nossos planos aqui.
+                            </Button>
                         </Link>
                     </div>
                 </Col>

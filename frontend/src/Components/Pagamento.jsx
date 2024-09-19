@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import CreditCards from 'react-credit-cards-2';
 import { QRCodeSVG } from 'qrcode.react';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
@@ -17,15 +17,28 @@ const PaymentForm = ({ selectedPlan }) => {
     const [isCVCVisible, setIsCVCVisible] = useState(false);
     const [installments, setInstallments] = useState(1);
     const [totalPrice, setTotalPrice] = useState(selectedPlan.price || 0);
-    const [boletoURL, setBoletoURL] = useState(''); // Para armazenar a URL do boleto gerado
+    const documentNumber = '123.456.789-01'; // Número de documento fictício
+    const today = new Date();
+    const dueDateGenerated = new Date(today.setDate(today.getDate() + 7)).toLocaleDateString('pt-BR'); // Data de vencimento para 7 dias à frente
+    const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000';
+    const [selectedAgencyNumber, setSelectedAgencyNumber] = useState('');
+    const agencyNumber = selectedAgencyNumber || "Agência não informada";
 
-    const pixKey = '12.345.678/0001-95';
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         phone: '',
-        cpf: '' // Adicionado para CPF no boleto
+        cpf: '',
+        bankName: '',
+        agencyNumber: '',
+        accountNumber: ''
     });
+    const pixKey = '12.345.678/0001-95';
+    const handleAgencyNumberChange = (e) => {
+        setSelectedAgencyNumber(e.target.value);
+    };
+
 
     useEffect(() => {
         if (selectedPlan) {
@@ -49,7 +62,6 @@ const PaymentForm = ({ selectedPlan }) => {
         else if (/^3[47]/.test(value)) setIssuer('amex');
         else setIssuer('');
     };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({
@@ -61,64 +73,83 @@ const PaymentForm = ({ selectedPlan }) => {
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text).then(() => { });
     };
+
     const generateBoletoPDF = async () => {
-        // Dados fictícios do boleto
-        const boletoNumber = '12345678901234567890123456789012345678901234';
-        const dueDate = '30/09/2024';
-        const amount = 'R$ 100,00';
-        const bankName = 'Banco Bradesco';
-        const agencyNumber = '1234';
-        const accountNumber = '56789-0';
-        const ourNumber = '12345678901234';
-        const customerName = 'Cliente Exemplo';
-        const documentNumber = '12345678900';
+        if (!formData) {
+            console.error("formData está indefinido.");
+            return;
+        }
 
-        // Criar um novo documento PDF
         const pdfDoc = await PDFDocument.create();
-        const page = pdfDoc.addPage([600, 300]);
-
-        // Adicionar logo do Banco Bradesco
-        // Nota: Você pode carregar uma imagem com pdfDoc.embedPng ou pdfDoc.embedJpg se tiver o logo em formato de imagem.
-        // Exemplo: const logoImage = await pdfDoc.embedPng(logoImageData);
-
-        // Adicionar o texto e informações do boleto
+        const page = pdfDoc.addPage([595, 842]); // Tamanho A4 padrão
         const { width, height } = page.getSize();
 
-        // Cabeçalho
-        page.drawText('Banco Bradesco', { x: 50, y: height - 50, size: 20, color: rgb(0, 0, 0), font: await pdfDoc.embedFont('Helvetica-Bold') });
-        page.drawText('BOLETO BANCÁRIO', { x: 50, y: height - 80, size: 16, color: rgb(0, 0, 0) });
 
-        // Informações do beneficiário
-        page.drawText(`Nome: ${customerName}`, { x: 50, y: height - 110, size: 14, color: rgb(0, 0, 0) });
-        page.drawText(`CNPJ/CPF: ${documentNumber}`, { x: 50, y: height - 130, size: 14, color: rgb(0, 0, 0) });
-        page.drawText(`Agência: ${agencyNumber} / Conta: ${accountNumber}`, { x: 50, y: height - 150, size: 14, color: rgb(0, 0, 0) });
-        page.drawText(`Nosso Número: ${ourNumber}`, { x: 50, y: height - 170, size: 14, color: rgb(0, 0, 0) });
+        const { bankName, agencyNumber, name, cpf, address, city, state, zipCode, phone } = formData;
 
-        // Informações do pagamento
-        page.drawText(`Data de Vencimento: ${dueDate}`, { x: 50, y: height - 200, size: 14, color: rgb(0, 0, 0) });
-        page.drawText(`Valor: ${amount}`, { x: 50, y: height - 220, size: 14, color: rgb(0, 0, 0) });
+        // Dados do boleto
+        const today = new Date();
+        const todayFormatted = today.toLocaleDateString('pt-BR'); // Data do documento (hoje)
+        const dueDate = new Date(today.setDate(today.getDate() + 7)); // Data de vencimento para 7 dias à frente
+        const dueDateFormatted = dueDate.toLocaleDateString('pt-BR');
+        const nossoNumero = '123456789012'; // Gerar nosso número aleatório ou conforme a lógica da sua aplicação
+        const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000'; // Exemplo de número do boleto
 
-        // Gerar código de barras
+        const amount = totalPrice.toFixed(2); // Valor total do boleto
+
+        const drawSection = (x, y, width, height, borderWidth = 0.5) => {
+            page.drawRectangle({
+                x: x,
+                y: y - height,
+                width: width,
+                height: height,
+                borderColor: rgb(0, 0, 0),
+                borderWidth: borderWidth,
+            });
+        };
+
+        // Seção do banco
+        drawSection(0, height - 100, 595, 40); // Borda sem margem, ajustada para ocupar toda a largura da página
+        page.drawText(` ${bankName} ${agencyNumber}  ${boletoNumber}`, { x: 10, y: height - 60, size: 12 });
+
+
+        // Seção do cedente dividida em duas colunas
+        drawSection(0, height - 150, 300, 140); // Coluna esquerda
+        drawSection(300, height - 150, 300, 140); // Coluna direita
+
+        // Informações da coluna esquerda
+        page.drawText(`Nome: ${name}`, { x: 6, y: height - 220, size: 12 });
+        page.drawText(`CPF: ${cpf}`, { x: 6, y: height - 240, size: 12 });
+        page.drawText(`Endereço: ${address}`, { x: 6, y: height - 260, size: 12 });
+
+        // Informações da coluna direita
+        page.drawText(`Cidade: ${city}`, { x: 310, y: height - 220, size: 12 });
+        page.drawText(`Estado: ${state}`, { x: 310, y: height - 240, size: 12 });
+        page.drawText(`CEP: ${zipCode}`, { x: 310, y: height - 260, size: 12 });
+        page.drawText(`Telefone: ${phone}`, { x: 310, y: height - 280, size: 12 });
+
+        // Seção de vencimento e valores
+        drawSection(0, height - 290, 595, 50); // Ajustado para a largura total da página
+        page.drawText(`Data do Documento: ${todayFormatted}`, { x: 10, y: height - 295, size: 12 });
+        page.drawText(`Vencimento: ${dueDateFormatted}`, { x: 10, y: height - 315, size: 12 });
+        page.drawText(`Valor: R$ ${amount}`, { x: 10, y: height - 335, size: 12 });
+
+        // Gerar código de barras ocupando toda a largura da seção
         const barcodeCanvas = document.createElement('canvas');
         JsBarcode(barcodeCanvas, boletoNumber, { format: 'CODE128', displayValue: false });
         const barcodeImageData = barcodeCanvas.toDataURL('image/png');
-
-        // Adicionar código de barras ao PDF
         const barcodeImage = await pdfDoc.embedPng(barcodeImageData);
-        page.drawImage(barcodeImage, { x: 50, y: height - 260, width: 500, height: 80 });
+        page.drawImage(barcodeImage, {
+            x: 0,
+            y: height - 430,
+            width: 595,
+            height: 40,
+        });
 
-        // Linha Digitável
-        page.drawText('Linha Digitável:', { x: 50, y: height - 340, size: 14, color: rgb(0, 0, 0) });
-        page.drawText(boletoNumber, { x: 50, y: height - 360, size: 14, color: rgb(0, 0, 0) });
+        // Seção do código de barras
+        drawSection(0, height - 470, 595, 40); // Ajustado para a largura total da página
 
-        // Rodapé
-        page.drawText('Instruções de Pagamento:', { x: 50, y: 30, size: 12, color: rgb(0, 0, 0) });
-        page.drawText('Após o vencimento, multa de 2% e juros de 1% ao mês.', { x: 50, y: 10, size: 12, color: rgb(0, 0, 0) });
-
-        // Salvar o PDF
         const pdfBytes = await pdfDoc.save();
-
-        // Criar um blob e baixar o PDF
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -126,6 +157,8 @@ const PaymentForm = ({ selectedPlan }) => {
         link.download = 'boleto.pdf';
         link.click();
     };
+
+
 
 
     const handleSubmit = (e) => {
@@ -145,59 +178,6 @@ const PaymentForm = ({ selectedPlan }) => {
         <Container className="formContainer">
             <Row>
                 <form className="payment-form" onSubmit={handleSubmit}>
-                    {/* Dados Pessoais */}
-                    <div className="form-group">
-                        <label className="formlabel" htmlFor="name">Nome:</label>
-                        <input
-                            className="forminput"
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            placeholder="Seu nome completo"
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label className="formlabel" htmlFor="email">E-mail:</label>
-                        <input
-                            className="forminput"
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            placeholder="Seu e-mail"
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label className="formlabel" htmlFor="phone">Telefone:</label>
-                        <input
-                            className="forminput"
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            placeholder="Seu telefone"
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label className="formlabel" htmlFor="cpf">CPF:</label>
-                        <input
-                            className="forminput"
-                            type="text"
-                            id="cpf"
-                            name="cpf"
-                            value={formData.cpf}
-                            onChange={handleInputChange}
-                            placeholder="Seu CPF"
-                            required
-                        />
-                    </div>
 
                     {/* Escolha de Tipo de Pagamento */}
                     <div className="form-group">
@@ -244,15 +224,175 @@ const PaymentForm = ({ selectedPlan }) => {
                             </div>
                         </div>
                     </div>
-
                     {/* Detalhes do Pagamento */}
                     {paymentType && (
                         <div id="paymentDetails" className="payment-details">
                             {paymentType === 'boleto' && (
-                                <div className="button-container">
-                                    <button className='buttonboleto' onClick={generateBoletoPDF}>Gerar Boleto</button>
-                                </div>
+                                <>
+                                    <Row>
+                                        <Col md='6'>
+                                            <div className="form-group">
+                                                <label htmlFor="name">Nome:</label>
+                                                <input
+                                                    className='forminput'
+                                                    id="name"
+                                                    name="name"
+                                                    type="text"
+                                                    value={formData.name}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </Col>
+
+                                        <Col md='6'>
+                                            <div className="form-group">
+                                                <label htmlFor="cpf">CPF:</label>
+                                                <input
+                                                    className='forminput'
+                                                    id="cpf"
+                                                    name="cpf"
+                                                    type="text"
+                                                    value={formData.cpf}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </Col>
+
+                                        <Col md='6'>
+                                            <div className="form-group">
+                                                <label htmlFor="bankName">Nome do Banco:</label>
+                                                <input
+                                                    className='forminput'
+                                                    id="bankName"
+                                                    name="bankName"
+                                                    type="text"
+                                                    value={formData.bankName}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </Col>
+
+                                        <Col md='3'>
+                                            <div className="form-group">
+                                                <label htmlFor="agencyNumber">Número da Agência:</label>
+                                                <select
+                                                    className='forminput'
+                                                    id="agencyNumber"
+                                                    name="agencyNumber"
+                                                    value={formData.agencyNumber}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                >
+                                                    <option value="">Selecione a Agência</option>
+                                                    <option value="1234">Agência 1234</option>
+                                                    <option value="5678">Agência 5678</option>
+                                                    <option value="9101">Agência 9101</option>
+                                                    {/* Adicione mais opções conforme necessário */}
+                                                </select>
+                                            </div>
+                                        </Col>
+
+                                        <Col md='3'>
+                                            <div className="form-group">
+                                                <label htmlFor="accountNumber">Número da Conta:</label>
+                                                <input
+                                                    className='forminput'
+                                                    id="accountNumber"
+                                                    name="accountNumber"
+                                                    type="text"
+                                                    value={formData.accountNumber}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </Col>
+
+                                        <Col md='6'>
+                                            <div className="form-group">
+                                                <label htmlFor="address">Endereço:</label>
+                                                <input
+                                                    className='forminput'
+                                                    id="address"
+                                                    name="address"
+                                                    type="text"
+                                                    value={formData.address}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Endereço completo"
+                                                    required
+                                                />
+                                            </div>
+                                        </Col>
+
+                                        <Col md='6'>
+                                            <div className="form-group">
+                                                <label htmlFor="city">Cidade:</label>
+                                                <input
+                                                    className='forminput'
+                                                    id="city"
+                                                    name="city"
+                                                    type="text"
+                                                    value={formData.city}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Cidade"
+                                                    required
+                                                />
+                                            </div>
+                                        </Col>
+
+                                        <Col md='4'>
+                                            <div className="form-group">
+                                                <label htmlFor="state">Estado:</label>
+                                                <input
+                                                    className='forminput'
+                                                    id="state"
+                                                    name="state"
+                                                    type="text"
+                                                    value={formData.state}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Estado"
+                                                    required
+                                                />
+                                            </div>
+                                        </Col>
+
+                                        <Col md='4'>
+                                            <div className="form-group">
+                                                <label htmlFor="zipCode">CEP:</label>
+                                                <input
+                                                    className='forminput'
+                                                    id="zipCode"
+                                                    name="zipCode"
+                                                    type="text"
+                                                    value={formData.zipCode}
+                                                    onChange={handleInputChange}
+                                                    placeholder="CEP"
+                                                    required
+                                                />
+                                            </div>
+                                        </Col>
+
+                                        <Col md='4'>
+                                            <div className="form-group">
+                                                <label htmlFor="phone">Telefone:</label>
+                                                <input
+                                                    className='forminput'
+                                                    id="phone"
+                                                    name="phone"
+                                                    type="text"
+                                                    value={formData.phone}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Telefone"
+                                                    required
+                                                />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </>
                             )}
+
                             {paymentType === 'pix' && (
                                 <div className="pix-section">
                                     <div className="qr-code-container">
@@ -357,6 +497,7 @@ const PaymentForm = ({ selectedPlan }) => {
 
                             {/* Parcelamento */}
                             {paymentType === "cartao" && (
+                                <>
                                 <Col md="12" sm="12">
                                     <div className="installments-container">
                                         <label className="formlabel" htmlFor="parcelasCartao">Escolha o número de parcelas:</label>
@@ -376,24 +517,29 @@ const PaymentForm = ({ selectedPlan }) => {
                                         </select>
                                     </div>
                                 </Col>
+
+                             </>
                             )}
                         </div>
                     )}
 
                     {/* Total e Botão de Pagamento */}
-                    {paymentType !== 'pix' && (
+                    {paymentType === 'cartao' && (
                         <div>
                             <p className="text-center">Total: R${amountPerInstallment} </p>
+                        <Button className="formbutton" variant="primary" type="submit">
+                        Pagar
+                    </Button>
+                    </div>
+                    )}
+                    {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' &&(
+                    <p className="text-center">Total: R${amountPerInstallment} </p>
+                    )}
+                    {paymentType === 'boleto' && (
+                        <div className="button-container">
+                            <Button className='my-2 mt-4 buttonboleto' onClick={generateBoletoPDF}>Gerar Boleto</Button>
                         </div>
                     )}
-                    {paymentType !== 'pix' && (
-                        <Button className="formbutton" variant="primary" type="submit">
-                            Pagar
-                        </Button>
-                    )}
-
-                    {/* Exibição do Boleto */}
-
                 </form>
             </Row>
         </Container>
@@ -401,4 +547,5 @@ const PaymentForm = ({ selectedPlan }) => {
 };
 
 export default PaymentForm;
+
 

@@ -59,7 +59,7 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
   return (
     <Navbar expand="lg" className={`custom-navbar ${isDarkMode ? 'dark-mode' : ''}`}>
       <Container className='navContainer'>
-        <Acessibilidade />
+      <Acessibilidade toggleTheme={toggleTheme} />
         <Navbar.Brand as={Link} to="/">
           <img width={"30px"} src={Logo} alt="Logo" />
         </Navbar.Brand>

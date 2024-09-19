@@ -4,6 +4,7 @@ import "../css/Perfil.css";
 import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
 import { Eye, EyeOff } from 'lucide-react';
 import Logout from '../Components/Logout';
+import "../css/Logout.css";
 import { parseJwt } from '../Components/jwtUtils';
 
 function formatarData(data) {
@@ -264,7 +265,7 @@ function Perfil() {
                                 </>
                             )}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                <Logout />
+                                <Logout/>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
@@ -369,6 +370,7 @@ function Perfil() {
                         
                     </Card>
 
+             {tipoUsuario === 'funcionario' && (
                     <Row>
                         <Col>
                             <div className="calendarioPerfil p-4 text-center">
@@ -393,9 +395,11 @@ function Perfil() {
                             </div>
                         </Col>
                     </Row>
+                    )}
                 </Col>
             </Row>
 
+            {tipoUsuario === 'funcionario' && (
             <div className="calendar-container">
                 <div className="calendar">
                     <h5>Detalhes da Consulta</h5>
@@ -405,19 +409,20 @@ function Perfil() {
                                 <div key={index}>
                                     <p><strong>Data:</strong> {detail.date}</p>
                                     <p><strong>Horário:</strong> {detail.time}</p>
-                                    <p><strong>Tipo:</strong> {detail.tipo}</p>
-                                    <p><strong>Assunto:</strong> {detail.assunto}</p>
+                                    <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>
+                                    <p><strong>Assuntos:</strong> {detail.assunto}</p>
                                     <hr />
                                 </div>
                             ))
                         ) : (
-                            <p>Nenhum agendamento encontrado.</p>
+                            <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
                         )
                     ) : (
-                        <p>Erro ao carregar os detalhes da consulta.</p>
+                        <p className='avisoSemData'>Erro ao carregar os detalhes da consulta.</p>
                     )}
                 </div>
             </div>
+            )}
         </Container>
     );
 }

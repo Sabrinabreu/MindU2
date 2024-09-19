@@ -4,12 +4,16 @@ import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, 
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
 
-const Acessibilidade = () => {
+const Acessibilidade = ({ toggleTheme }) => {
     const [fontSize, setFontSize] = useState(16);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
+
+    const [magnifiedText, setMagnifiedText] = useState('');
+    const [isMagnifierVisible, setIsMagnifierVisible] = useState(false);
+    const magnifierRef = useRef(null);
 
     const highlightBackground = useRef(null);
     const highlightOverlay = useRef(null);
@@ -107,6 +111,81 @@ const Acessibilidade = () => {
         };
     }, [isHighlightActive]);
 
+    // Funções para a lupa de texto
+    const handleMouseEnter = (e) => {
+        const target = e.target;
+        let textToMagnify = '';
+
+        if (target.tagName === 'IMG' && target.alt) {
+            textToMagnify = target.alt;
+        } else {
+            textToMagnify = target.innerText || target.textContent;
+        }
+
+        if (textToMagnify) {
+            setMagnifiedText(textToMagnify);
+            setIsMagnifierVisible(true);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        setIsMagnifierVisible(false);
+    };
+
+    const handleMouseMove = (e) => {
+        if (magnifierRef.current) {
+            magnifierRef.current.style.top = `${e.clientY + 20}px`;
+            magnifierRef.current.style.left = `${e.clientX + 20}px`;
+        }
+    };
+
+
+    useEffect(() => {
+        const handleMouseEnter = (e) => {
+            const target = e.target;
+            let textToMagnify = '';
+    
+            if (target.tagName === 'IMG' && target.alt) {
+                textToMagnify = target.alt;
+            } else if (target.nodeType === Node.TEXT_NODE || target.tagName === 'P' || target.tagName === 'SPAN') {
+                textToMagnify = target.textContent;
+            }
+    
+            if (textToMagnify) {
+                setMagnifiedText(textToMagnify);
+                setIsMagnifierVisible(true);
+            }
+        };
+    
+        const handleMouseLeave = () => {
+            setIsMagnifierVisible(false);
+        };
+    
+        const handleMouseMove = (e) => {
+            if (magnifierRef.current) {
+                magnifierRef.current.style.top = `${e.clientY + 20}px`;
+                magnifierRef.current.style.left = `${e.clientX + 20}px`;
+            }
+        };
+    
+        const allTextAndImages = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, img, div, a, b, button, input');
+    
+        allTextAndImages.forEach((element) => {
+            element.addEventListener('mouseenter', handleMouseEnter);
+            element.addEventListener('mouseleave', handleMouseLeave);
+            element.addEventListener('mousemove', handleMouseMove);
+        });
+    
+        return () => {
+            allTextAndImages.forEach((element) => {
+                element.removeEventListener('mouseenter', handleMouseEnter);
+                element.removeEventListener('mouseleave', handleMouseLeave);
+                element.removeEventListener('mousemove', handleMouseMove);
+            });
+        };
+    }, []);
+    
+
     return (
         <>
             <button className="accessibility-toggle" onClick={handleTogglePanel} aria-label="Abrir painel de acessibilidade">
@@ -147,18 +226,13 @@ const Acessibilidade = () => {
 
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['darkMode'] })}
-                                    onClick={() => toggleClass('dark-mode', 'darkMode')}
+                                    onClick={() => {
+                                    toggleClass('dark-mode', 'darkMode');
+                                    toggleTheme(); // Chamando a função para alternar o tema
+                                    }}
                                     aria-label="Modo escuro"
                                 >
                                     <Contrast /> Modo Escuro
-                                </Button>
-
-                                <Button
-                                    className={classNames('accessibility-button', { 'active': activeButtons['highContrast'] })}
-                                    onClick={() => toggleClass('high-contrast', 'highContrast')}
-                                    aria-label="Modo alto contraste"
-                                >
-                                    <Contrast /> Modo Alto Contraste
                                 </Button>
 
                                 <Button
@@ -194,12 +268,12 @@ const Acessibilidade = () => {
                                 </Button>
 
                                 <Button
-                                    className={classNames('accessibility-button', { 'active': activeButtons['textMagnifier'] })}
-                                    onClick={() => toggleClass('text-magnifier', 'textMagnifier')}
-                                    aria-label="Lupa no Texto"
-                                >
-                                     <Search /> Lupa no Texto
-                                </Button>
+                                className={classNames('accessibility-button', { 'active': activeButtons['textMagnifier'] })}
+                                onClick={() => toggleClass('text-magnifier', 'textMagnifier')}
+                                aria-label="Lupa no Texto"
+                            >
+                                <Search /> Lupa no Texto
+                            </Button>
 
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['highlight'] })}
@@ -216,12 +290,33 @@ const Acessibilidade = () => {
                                 >
                                     <MousePointerClick /> Perfil TDAH
                                 </Button>
+                                <Button
+                                    className={classNames('accessibility-button', { 'active': activeButtons['tdahFriendly'] })}
+                                    onClick={toggleTDHAFriendly}
+                                    aria-label="Perfil TDAH"
+                                >
+                                    <MousePointerClick /> Foco dinamico
+                                </Button>
+                                <Button
+                                    className={classNames('accessibility-button', { 'active': activeButtons['tdahFriendly'] })}
+                                    onClick={toggleTDHAFriendly}
+                                    aria-label="Perfil TDAH"
+                                >
+                                    <MousePointerClick /> Teclado digital
+                                </Button>
                             </div>
                         </div>
                     </div>
                 </div>
             )}
 
+            {/* Caixa da lupa de texto */}
+            {isMagnifierVisible && (
+                <div ref={magnifierRef} className="magnifier-box">
+                {magnifiedText}
+                </div>
+            )}
+            
             <div className={classNames('highlight-background', { 'show': isHighlightActive })} ref={highlightBackground}></div>
             <div className={classNames('highlight-overlay', { 'show': isHighlightActive })} ref={highlightOverlay}></div>
         </>
