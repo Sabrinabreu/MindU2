@@ -164,39 +164,52 @@ const Acessibilidade = ({ toggleTheme }) => {
     };
 }, [location, activeButtons['textMagnifier']]); // Atualiza os listeners sempre que a rota ou o estado do botão de lupa muda
     
-    const toggleDynamicFocus = () => {
-        const allElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, button, input');
-    
-        const handleMouseEnter = (e) => {
-            e.target.classList.add('highlight-hover');
-        };
-    
-        const handleMouseLeave = (e) => {
-            e.target.classList.remove('highlight-hover');
-        };
-    
+
+// foco dinâmico
+useEffect(() => {
+    const allElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, button, input');
+
+    const handleMouseEnter = (e) => {
+        e.target.classList.add('highlight-hover');
+    };
+
+    const handleMouseLeave = (e) => {
+        e.target.classList.remove('highlight-hover');
+    };
+
+    if (activeButtons['dynamicFocus']) {
+        // Adiciona os eventos quando o foco dinâmico está ativo
         allElements.forEach((element) => {
             element.addEventListener('mouseenter', handleMouseEnter);
             element.addEventListener('mouseleave', handleMouseLeave);
         });
-    
-        //remover os eventos ao desativar o foco dinâmico
-        return () => {
-            allElements.forEach((element) => {
-                element.removeEventListener('mouseenter', handleMouseEnter);
-                element.removeEventListener('mouseleave', handleMouseLeave);
-            });
-        };
+    } else {
+        // Remove os eventos quando o foco dinâmico está desativado
+        allElements.forEach((element) => {
+            element.removeEventListener('mouseenter', handleMouseEnter);
+            element.removeEventListener('mouseleave', handleMouseLeave);
+            // Remove qualquer highlight remanescente
+            element.classList.remove('highlight-hover');
+        });
+    }
+
+    // Cleanup: Remove os eventos ao desmontar o componente ou mudar de página
+    return () => {
+        allElements.forEach((element) => {
+            element.removeEventListener('mouseenter', handleMouseEnter);
+            element.removeEventListener('mouseleave', handleMouseLeave);
+        });
     };
-    
-    //ativação do foco dinâmico
-    const handleDynamicFocusToggle = () => {
-        toggleDynamicFocus();
-        setActiveButtons((prevState) => ({
-            ...prevState,
-            dynamicFocus: !prevState.dynamicFocus,
-        }));
-    };
+}, [activeButtons['dynamicFocus'], location]); // Atualiza sempre que o foco dinâmico muda ou a rota é alterada
+
+// Ativa ou desativa o foco dinâmico
+const handleDynamicFocusToggle = () => {
+    setActiveButtons((prevState) => ({
+        ...prevState,
+        dynamicFocus: !prevState.dynamicFocus,
+    }));
+};
+
 
     return (
         <>
