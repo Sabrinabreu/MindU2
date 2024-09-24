@@ -24,6 +24,8 @@ const PaymentForm = ({ selectedPlan }) => {
     const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000';
     const [selectedAgencyNumber, setSelectedAgencyNumber] = useState('');
     const agencyNumber = selectedAgencyNumber || "Agência não informada";
+
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -140,10 +142,8 @@ const PaymentForm = ({ selectedPlan }) => {
         const page = pdfDoc.addPage([595, 400]);
         const { width, height } = page.getSize();
 
-        const fontBold = await pdfDoc.embedFont('Helvetica-Bold');
-        const fontRegular = await pdfDoc.embedFont('Helvetica');
 
-        const { bankName, agencyNumber, accountNumber, name, cpf, address, city, state, zipCode, phone } = formData;
+        const { bankName, agencyNumber, name, cpf, address, city, state, zipCode, phone } = formData;
 
         // Dados do boleto
         const today = new Date();
@@ -153,13 +153,7 @@ const PaymentForm = ({ selectedPlan }) => {
         const nossoNumero = '123456789012'; // Gerar nosso número aleatório ou conforme a lógica da sua aplicação
         const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000'; // Exemplo de número do boleto
 
-        // Cálculo de multa e juros
         const amount = totalPrice.toFixed(2); // Valor total do boleto
-        const interestRate = 0.01; // Juros de 1% ao mês
-        const fineRate = 0.02; // Multa de 2%
-        const daysOverdue = 0; // Definir como o número de dias em atraso se necessário
-        const fine = (totalPrice * fineRate).toFixed(2);
-        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2); // Juros proporcional ao número de dias em atraso
 
         const drawSection = (x, y, width, height, borderWidth = 0.5) => {
             page.drawRectangle({
@@ -609,6 +603,7 @@ const PaymentForm = ({ selectedPlan }) => {
 
                             {/* Parcelamento */}
                             {paymentType === "cartao" && (
+                                <>
                                 <Col md="12" sm="12">
                                     <div className="installments-container">
                                         <label className="formlabel" htmlFor="parcelasCartao">Escolha o número de parcelas:</label>
@@ -628,28 +623,29 @@ const PaymentForm = ({ selectedPlan }) => {
                                         </select>
                                     </div>
                                 </Col>
+
+                             </>
                             )}
                         </div>
                     )}
 
                     {/* Total e Botão de Pagamento */}
-                    {paymentType !== 'pix' && paymentType !== 'boleto' && (
+                    {paymentType === 'cartao' && (
                         <div>
                             <p className="text-center">Total: R${amountPerInstallment} </p>
-                        </div>
-                    )}
-                    {paymentType !== 'pix' && paymentType !== 'boleto' && (
                         <Button className="formbutton" variant="primary" type="submit">
-                            Pagar
-                        </Button>
+                        Pagar
+                    </Button>
+                    </div>
+                    )}
+                    {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' &&(
+                    <p className="text-center">Total: R${amountPerInstallment} </p>
                     )}
                     {paymentType === 'boleto' && (
                         <div className="button-container">
-                            <button className='buttonboleto' onClick={generateBoletoPDF}>Gerar Boleto</button>
+                            <Button className='my-2 mt-4 buttonboleto' onClick={generateBoletoPDF}>Gerar Boleto</Button>
                         </div>
                     )}
-
-
                 </form>
             </Row>
         </Container>

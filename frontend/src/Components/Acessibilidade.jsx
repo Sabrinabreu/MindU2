@@ -3,13 +3,20 @@ import '../css/Acessibilidade.css';
 import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick } from 'lucide-react';
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
+import { useLocation } from 'react-router-dom';
 
-const Acessibilidade = () => {
+const Acessibilidade = ({ toggleTheme }) => {
     const [fontSize, setFontSize] = useState(16);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
+
+    const [magnifiedText, setMagnifiedText] = useState('');
+    const [isMagnifierVisible, setIsMagnifierVisible] = useState(false);
+    const magnifierRef = useRef(null);
+
+    const location = useLocation();
 
     const highlightBackground = useRef(null);
     const highlightOverlay = useRef(null);
@@ -107,6 +114,103 @@ const Acessibilidade = () => {
         };
     }, [isHighlightActive]);
 
+    // Funções para a lupa de texto
+    const handleMouseEnter = (e) => {
+        const target = e.target;
+        let textToMagnify = '';
+
+        if (target.tagName === 'IMG' && target.alt) {
+            textToMagnify = target.alt;
+        } else {
+            textToMagnify = target.innerText || target.textContent;
+        }
+
+        if (textToMagnify) {
+            setMagnifiedText(textToMagnify);
+            setIsMagnifierVisible(true);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        setIsMagnifierVisible(false);
+    };
+
+    const handleMouseMove = (e) => {
+        if (magnifierRef.current) {
+            magnifierRef.current.style.top = `${e.pageY + 20}px`; // Use pageY em vez de clientY
+            magnifierRef.current.style.left = `${e.pageX + 20}px`; // Use pageX em vez de clientX
+        }
+    };
+
+
+   // Atualiza os listeners ao trocar de rota ou quando o botão de lupa é ativado
+   useEffect(() => {
+    const allTextAndImages = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, img, a, button, input, label');
+
+    if (document.body.classList.contains('text-magnifier')) {
+        allTextAndImages.forEach((element) => {
+            element.addEventListener('mouseenter', handleMouseEnter);
+            element.addEventListener('mouseleave', handleMouseLeave);
+            element.addEventListener('mousemove', handleMouseMove);
+        });
+    }
+
+    return () => {
+        allTextAndImages.forEach((element) => {
+            element.removeEventListener('mouseenter', handleMouseEnter);
+            element.removeEventListener('mouseleave', handleMouseLeave);
+            element.removeEventListener('mousemove', handleMouseMove);
+        });
+    };
+}, [location, activeButtons['textMagnifier']]); // Atualiza os listeners sempre que a rota ou o estado do botão de lupa muda
+    
+
+// foco dinâmico
+useEffect(() => {
+    const allElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, button, input');
+
+    const handleMouseEnter = (e) => {
+        e.target.classList.add('highlight-hover');
+    };
+
+    const handleMouseLeave = (e) => {
+        e.target.classList.remove('highlight-hover');
+    };
+
+    if (activeButtons['dynamicFocus']) {
+        // Adiciona os eventos quando o foco dinâmico está ativo
+        allElements.forEach((element) => {
+            element.addEventListener('mouseenter', handleMouseEnter);
+            element.addEventListener('mouseleave', handleMouseLeave);
+        });
+    } else {
+        // Remove os eventos quando o foco dinâmico está desativado
+        allElements.forEach((element) => {
+            element.removeEventListener('mouseenter', handleMouseEnter);
+            element.removeEventListener('mouseleave', handleMouseLeave);
+            // Remove qualquer highlight remanescente
+            element.classList.remove('highlight-hover');
+        });
+    }
+
+    // Cleanup: Remove os eventos ao desmontar o componente ou mudar de página
+    return () => {
+        allElements.forEach((element) => {
+            element.removeEventListener('mouseenter', handleMouseEnter);
+            element.removeEventListener('mouseleave', handleMouseLeave);
+        });
+    };
+}, [activeButtons['dynamicFocus'], location]); // Atualiza sempre que o foco dinâmico muda ou a rota é alterada
+
+// Ativa ou desativa o foco dinâmico
+const handleDynamicFocusToggle = () => {
+    setActiveButtons((prevState) => ({
+        ...prevState,
+        dynamicFocus: !prevState.dynamicFocus,
+    }));
+};
+
+
     return (
         <>
             <button className="accessibility-toggle" onClick={handleTogglePanel} aria-label="Abrir painel de acessibilidade">
@@ -147,18 +251,13 @@ const Acessibilidade = () => {
 
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['darkMode'] })}
-                                    onClick={() => toggleClass('dark-mode', 'darkMode')}
+                                    onClick={() => {
+                                    toggleClass('dark-mode', 'darkMode');
+                                    toggleTheme(); // Chamando a função para alternar o tema
+                                    }}
                                     aria-label="Modo escuro"
                                 >
                                     <Contrast /> Modo Escuro
-                                </Button>
-
-                                <Button
-                                    className={classNames('accessibility-button', { 'active': activeButtons['highContrast'] })}
-                                    onClick={() => toggleClass('high-contrast', 'highContrast')}
-                                    aria-label="Modo alto contraste"
-                                >
-                                    <Contrast /> Modo Alto Contraste
                                 </Button>
 
                                 <Button
@@ -198,8 +297,9 @@ const Acessibilidade = () => {
                                     onClick={() => toggleClass('text-magnifier', 'textMagnifier')}
                                     aria-label="Lupa no Texto"
                                 >
-                                     <Search /> Lupa no Texto
+                                    <Search /> Lupa no Texto
                                 </Button>
+
 
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['highlight'] })}
@@ -216,12 +316,33 @@ const Acessibilidade = () => {
                                 >
                                     <MousePointerClick /> Perfil TDAH
                                 </Button>
+                                <Button
+                                    className={classNames('accessibility-button', { 'active': activeButtons['dynamicFocus'] })}
+                                    onClick={handleDynamicFocusToggle}
+                                    aria-label="Foco Dinâmico"
+                                >
+                                    <Focus /> Foco Dinâmico
+                                </Button>
+                                <Button
+                                    className={classNames('accessibility-button', { 'active': activeButtons['tdahFriendly'] })}
+                                    onClick={toggleTDHAFriendly}
+                                    aria-label="Perfil TDAH"
+                                >
+                                    <MousePointerClick /> Teclado digital
+                                </Button>
                             </div>
                         </div>
                     </div>
                 </div>
             )}
 
+            {/* Caixa da lupa de texto */}
+            {isMagnifierVisible && (
+                <div ref={magnifierRef} className="magnifier-box">
+                {magnifiedText}
+                </div>
+            )}
+            
             <div className={classNames('highlight-background', { 'show': isHighlightActive })} ref={highlightBackground}></div>
             <div className={classNames('highlight-overlay', { 'show': isHighlightActive })} ref={highlightOverlay}></div>
         </>

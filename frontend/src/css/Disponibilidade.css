@@ -21,3 +21,20 @@
   'GRAD' 0,
   'opsz' 24
 }
+
+.btnAtualizar {
+    background-color: #6852a5 !important;
+    border: 1px solid #564091;
+}
+.btnAtualizar:hover {
+    background-color: #564091 !important;
+}
+
+.btnAtualizar:focus .material-symbols-outlined.iconsDisp {
+    animation: girar 1s ease-in-out;
+}
+
+@keyframes girar {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

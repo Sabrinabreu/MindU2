@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
+import { Button } from 'react-bootstrap';
 
 const Logout = () => {
   const { setToken } = useAuth();
   const navegacao = useNavigate();
 
   const handleLogout = () => {
-    setToken();
+    localStorage.removeItem('token');
+    setToken(null);
     navegacao("/", { replace: true });
   };
 
@@ -14,7 +16,7 @@ const Logout = () => {
 //     handleLogout();
 //   }, 1 * 1500);
 
-  return <button onClick={handleLogout}>Sair da conta</button>;
+  return <Button className="btnLog" onClick={handleLogout}><span class="material-symbols-outlined iconLog">logout</span>Sair da conta</Button>;
 };
 
 export default Logout;

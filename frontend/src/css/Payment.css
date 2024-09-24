@@ -1,7 +1,6 @@
 /* PaymentForm.css */
 
 body {
-    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
@@ -399,25 +398,16 @@ body {
     margin-bottom: 50px !important;
 }
 
-.buttonboleto:hover {
-    background-color: #46467a !important;
-    transition: ease all 1s !important;
-}
-
-
 .buttonboleto {
-    background-color: #4d3a9e !important;
-    border-radius: 22px !important;
+    background-color: #6852a5 !important;
+    border: 1px solid #564091;
     justify-content: center !important;
     align-items: center !important;
     display: flex !important;
-    padding: 2px 10px 2px 10px !important;
-    color: white !important;
-    border-color: transparent !important;
     cursor: pointer;
-    /* Mostrar cursor de mão ao passar sobre o botão */
-    transition: background-color 0.3s;
-    /* Transição suave para cor de fundo */
+}
+.buttonboleto:hover {
+    background-color: #564091 !important;
 }
 
 .rccs__card--unknown>div {

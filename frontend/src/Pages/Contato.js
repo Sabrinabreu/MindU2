@@ -108,7 +108,7 @@ const Contato = () => {
         <Card className="centralizar card-contato">
           <Card.Body>
             <img className="Icon-card-contato mb-3" src={telefoneIcon} alt="icone de telefone amarelo." />
-          <Card.Title className="tit-Cont">Contato Telefônico</Card.Title>
+          <h5 className="tit-Cont card-title h5">Contato Telefônico</h5>
           <Card.Text>
           Fale conosco por telefone! Estamos prontos para responder suas dúvidas e fornecer mais informações sobre nossos serviços.
           </Card.Text>
@@ -124,7 +124,7 @@ const Contato = () => {
         <Card className="centralizar card-contato">
           <Card.Body>
             <img className="Icon-card-contato mb-3" src={ajudaIcon} alt="icone de mensagem amarelo." />
-          <Card.Title className="tit-Cont">Suporte por mensagem</Card.Title>
+          <h5 className="tit-Cont card-title h5">Suporte por mensagem</h5>
           <Card.Text>
           Envie uma mensagem! Nosso assistente virtual no WhatsApp está disponível para responder suas dúvidas instantaneamente.
           </Card.Text>
@@ -135,7 +135,7 @@ const Contato = () => {
         </Col>
         </CardGroup>
 
-        <h1 className="centralizar my-5">Conecte-se com um de nossos escritórios globais</h1>
+        <h1 className="centralizar textroxo my-5">Conecte-se com um de nossos escritórios globais</h1>
         <div className="scroll-section" id="section5">
         <Col className="mapa">
         <Card className="centralizar card-mapa my-2">
@@ -147,14 +147,14 @@ const Contato = () => {
               </div>
               <div className="cardMapa-direito">
 
-                <Col sm={12} className="mb-4">
+                <Col sm={12} className="mb-4 textroxo">
                 <h4>Clinica MindU</h4>
                 <p>Rua Santo André, 680<br/>
                 Boa Vista<br/>
                 São Caetano do Sul/SP</p>
                 </Col>
 
-                <Col sm={12} className="mt-4">
+                <Col sm={12} className="mt-4 textroxo">
                 <h4>Telefone / Fax</h4>
                 <p>+55 11 1000-0000<br/>
                   +55 21 1100-0000<br/></p>

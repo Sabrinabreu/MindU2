@@ -1,3 +1,7 @@
+body {
+    font-size: 16px !important;
+}
+
 .accessibility-toggle {
     position: fixed;
     bottom: 20px;
@@ -310,12 +314,41 @@
     transition: transform 0.3s ease;
 }
 
-.font-arial {
+.fonte-arial {
     font-family: Arial, sans-serif !important;
 }
 
-.text-magnifier {
-    font-size: 1.2em;
+.magnifier-box {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.865);
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    max-width: 700px;
+    word-wrap: break-word;
+    pointer-events: none;
+}
+
+.text-magnifier-active .text-magnifier-hover {
+    position: absolute;
+    display: block;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    font-size: 24px;
+    border-radius: 5px;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.text-magnifier-active .text-magnifier-hover img {
+    max-width: none;
+}
+
+.text-magnifier-active .text-magnifier-hover {
+    font-size: 24px;
 }
 
 .perfil-tdah {
@@ -339,6 +372,11 @@
     p, h1, h2, h3, h4, h5, h6 {
         line-height: 1.5;
     }
+}
+
+.highlight-hover {
+    outline: 2px solid orange; /* Contorno para dar ênfase */
+    transition: outline 0.3s ease;
 }
 
 /* versao mobile  */

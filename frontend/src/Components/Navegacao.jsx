@@ -7,41 +7,16 @@ import Acessibilidade from "./Acessibilidade";
 import "../css/Navbar.css";
 import Logo from "../img/logo.png";
 import { useAuth } from '../provider/AuthProvider';
+import { parseJwt } from './jwtUtils';
+import CadastroPsicólogos from '../Pages/CadastroPsicólogos';
 
 const Navegacao = ({ isDarkMode, toggleTheme }) => {
   const location = useLocation();
-  const { token } = useAuth();
+  const { token, setToken } = useAuth();
+  const decodedToken = token ? parseJwt(token) : null;
+  const tipoUsuario = decodedToken?.tipo_usuario;
 
   const isActive = (path) => location.pathname === path;
-
-  const links = [
-    { caminho: "/", nome: "Home" },
-    { caminho: "/cadastroEmpresa", nome: "Para sua empresa" },
-    { caminho: "/contato", nome: "Contato" },
-    { caminho: "/cadastroPsicologos", nome: "Cadastre-se como Psicólogo" },
-    { caminho: "/planos", nome: "Planos Empresariais" },
-    {
-      caminho: "/saibaMais", nome: "Saiba Mais",
-      // auth: true  por enquanto pública
-    },
-    {
-      caminho: "/disponibilidade", nome: "Disponibilidade",
-      // auth: true  por enquanto pública
-    },
-    {
-      caminho: "/agendarConsulta", nome: "Agendar Consultas",
-      //  auth: true
-    },
-    {
-      caminho: "/acessoFuncionarios", nome: "Visão dos Funcionários",
-      //  auth: true
-    },
-    {
-      caminho: "/perfil", nome: "Perfil",
-       auth: true
-    },
-    { caminho: "/login", nome: "Login", auth: false },
-  ];
 
   useEffect(() => {
     document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
@@ -56,10 +31,33 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
     }
   };
 
+  const links = [
+    { nome: "Home", caminho: "/", auth: false },
+    { nome: "Contato", caminho: "/contato", auth: false },
+    { nome: "Planos", caminho: "/planos", auth: false },
+    { nome: "Cadastre-se como psicólogo", caminho: "/cadastroPsicologos", auth: false },
+    { nome: "Cadastro Empresa", caminho: "/cadastroEmpresa", auth: false, tiposPermitidos: ["guest"] },
+    { nome: "Login", caminho: "/login", auth: false, tiposPermitidos: ["guest"] },
+    { nome: "Acesso Funcionários", caminho: "/acessoFuncionarios", auth: true, tiposPermitidos: ["empresa"] },
+    { nome: "Perfil", caminho: "/perfil", auth: true, tiposPermitidos: ["empresa", "psicologo", "funcionario"] },
+    { nome: "Dashboard", caminho: "/dashboard", auth: true, tiposPermitidos: ["empresa"] },
+  ];
+
+    // Função para verificar se o link deve ser exibido
+    const canAccessLink = (link) => {
+      if (!link.auth) {
+        // Se o link não exige autenticação, é sempre acessível
+        return true;
+      }
+      // Se o link exige autenticação, verificar o token e o tipo de usuário
+      return token && link.tiposPermitidos.includes(tipoUsuario);
+    };
+  
+
   return (
     <Navbar expand="lg" className={`custom-navbar ${isDarkMode ? 'dark-mode' : ''}`}>
       <Container className='navContainer'>
-        <Acessibilidade />
+      <Acessibilidade toggleTheme={toggleTheme} />
         <Navbar.Brand as={Link} to="/">
           <img width={"30px"} src={Logo} alt="Logo" />
         </Navbar.Brand>
@@ -67,20 +65,20 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             {links.map((link, index) => {
-              if (link.auth === undefined || link.auth === !!token) {
-                return (
-                  <Nav.Link
-                    key={index}
-                    as={Link}
-                    to={link.caminho}
-                    className={isActive(link.caminho) ? "active" : ""}
-                    aria-current={isActive(link.caminho) ? "page" : undefined}
+            if (canAccessLink(link)) {
+              return (
+                <Nav.Link
+                  key={index}
+                  as={Link}
+                  to={link.caminho}
+                  className={isActive(link.caminho) ? "active" : ""}
+                  aria-current={isActive(link.caminho) ? "page" : undefined}
                   >
                     {link.nome}
-                  </Nav.Link>
-                );
-              }
-              return null;
+                </Nav.Link>
+              );
+            }
+            return null;
             })}
           </Nav>
           <div className='button-toggle'>
@@ -108,7 +106,3 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
 };
 
 export default Navegacao;
-
-
-
-

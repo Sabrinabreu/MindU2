@@ -48,7 +48,6 @@ router.post('/login', async (req, res) => {
       perfil: userData  // Informações adicionais do perfil (empresa, funcionário ou psicólogo)
     };
 
-    // Gera o token JWT que expira depois de 1h
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 
     // Retorna o token e as informações adicionais para o frontend

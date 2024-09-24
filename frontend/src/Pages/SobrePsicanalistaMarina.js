@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+
+
+/*import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import "../css/AgendarConsulta.css";
 import "../css/SobrePsicologo.css";
@@ -295,3 +297,4 @@ const SaibaMaisMarina = () => {
 }
 
 export default SaibaMaisMarina;
+*/

@@ -1,35 +1,147 @@
 /*import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Importa useParams para acessar parâmetros da URL
+import { useParams } from 'react-router-dom';
 import DispCalendario from "../Components/DispCalendario";
 import { Container } from 'react-bootstrap';
 
-
-const SaibaMais = () => {
-    const { psicologo_id } = useParams(); // Obtém o ID do psicólogo da URL
-    const [psicologoId, setPsicologoId] = useState(null);
+const SobrePsicologo = () => {
+    const { psicologo_id } = useParams();
+    const [psicologo, setPsicologo] = useState(null); // Estado para armazenar os dados completos do psicólogo
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (psicologo_id) {
-            setPsicologoId(psicologo_id);
+            // Função para buscar o psicólogo
+            const fetchPsicologo = async () => {
+                try {
+                    console.log(`Buscando psicólogo com ID: ${psicologo_id}`); // Debug
+                    const response = await fetch(`http://localhost:3000/api/psicologos/${psicologo_id}`);
+                    console.log(await response.text()); // Isso mostrará o que está sendo retornado
+
+
+                    // Verifique se a resposta é bem-sucedida
+                    if (!response.ok) {
+                        throw new Error(`Erro ao buscar dados do psicólogo: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Dados do psicólogo:', data); // Debug para verificar os dados recebidos
+
+                    if (data) {
+                        setPsicologo(data); // Armazena os dados completos do psicólogo
+                    } else {
+                        console.error('Dados do psicólogo não encontrados');
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar dados do psicólogo:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchPsicologo();
         }
     }, [psicologo_id]);
 
-    if (!psicologoId) {
+    if (loading) {
         return <div>Carregando...</div>;
     }
+
+    if (!psicologo) {
+        return <div>Psicólogo não encontrado.</div>;
+    }
+
 
     return (
         <div>
             <Container>
-                <h1 className='mt-4'>Calendário de Disponibilidade do Psicólogo 1</h1>
-                <DispCalendario psicologoId={psicologoId} />
+                <h1 className='mt-4'>Informações do Psicólogo</h1>
+                <p><strong>Nome:</strong> {psicologo.nome}</p>
+                <p><strong>Especialidade:</strong> {psicologo.especialidade}</p>
+                <p><strong>Localização:</strong> {psicologo.localizacao}</p>
+                <p><strong>CRP:</strong> {psicologo.crp}</p>
+
+                <h2 className='mt-4'>Calendário de Disponibilidade</h2>
+                <DispCalendario psicologoId={psicologo_id} />
             </Container>
         </div>
     );
 };
 
-export default SaibaMais;*/
+export default SobrePsicologo;
+*/
 
+
+/*import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import DispCalendario from "../Components/DispCalendario";
+import { Container } from 'react-bootstrap';
+
+const SobrePsicologo = () => {
+    const { psicologo_id } = useParams();
+    const [psicologo, setPsicologo] = useState(null); // Estado para armazenar os dados completos do psicólogo
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (psicologo_id) {
+            // Função para buscar o psicólogo
+            const fetchPsicologo = async () => {
+                try {
+                    console.log(`Buscando psicólogo com ID: ${psicologo_id}`); // Debug
+                    const response = await fetch(`http://localhost:3000/api/psicologos/${psicologo_id}`);
+                    console.log(await response.text()); // Isso mostrará o que está sendo retornado
+
+
+                    // Verifique se a resposta é bem-sucedida
+                    if (!response.ok) {
+                        throw new Error(`Erro ao buscar dados do psicólogo: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Dados do psicólogo:', data); // Debug para verificar os dados recebidos
+
+                    if (data) {
+                        setPsicologo(data); // Armazena os dados completos do psicólogo
+                    } else {
+                        console.error('Dados do psicólogo não encontrados');
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar dados do psicólogo:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchPsicologo();
+        }
+    }, [psicologo_id]);
+
+    if (loading) {
+        return <div>Carregando...</div>;
+    }
+
+    if (!psicologo) {
+        return <div>Psicólogo não encontrado.</div>;
+    }
+
+
+    return (
+        <div>
+            <Container>
+                <h1 className='mt-4'>Informações do Psicólogo</h1>
+                <p><strong>Nome:</strong> {psicologo.nome}</p>
+                <p><strong>Especialidade:</strong> {psicologo.especialidade}</p>
+                <p><strong>Localização:</strong> {psicologo.localizacao}</p>
+                <p><strong>CRP:</strong> {psicologo.crp}</p>
+
+                <h2 className='mt-4'>Calendário de Disponibilidade</h2>
+                <DispCalendario psicologoId={psicologo_id} />
+            </Container>
+        </div>
+    );
+};
+
+export default SobrePsicologo;
+*/
 
 import { useState } from 'react';
 import "../css/AgendarConsulta.css";
@@ -45,23 +157,6 @@ import DatePicker from '../Components/Calendario';
 // Nome do psicólogo
 const nomePsico = 'Flávio Monteiro Lobato';
 
-// Horários disponíveis
-const availableTimes = {
-    '2024-09-12': ['09:00', '14:00', '15:00'],
-    '2024-09-15': ['11:00', '13:00'],
-    '2024-09-17': ['08:00', '15:00', '18:00'],
-    '2024-09-20': ['10:00', '11:00', '16:00'],
-    '2024-09-25': ['14:00', '15:00', '17:00'],
-    '2024-09-28': ['09:00', '13:00', '18:00'],
-    '2024-10-01': ['08:00', '12:00'],
-    '2024-10-05': ['11:00', '14:00'],
-    '2024-10-07': ['09:00', '16:00'],
-    '2024-10-10': ['07:00', '10:00', '13:00'],
-    '2024-10-15': ['08:00', '14:00', '19:00'],
-    '2024-10-20': ['09:00', '15:00'],
-    '2024-10-25': ['10:00', '11:00', '17:00'],
-};
-
 // Componente principal de agendamento
 const Agendar = () => {
     const [show, setShow] = useState(false);
@@ -70,9 +165,22 @@ const Agendar = () => {
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
     const [userId] = useState('someUserId');
+    const [availableTimes, setAvailableTimes] = useState([]);
 
     const handleDateSelect = (data) => {
         setSelectedDate(data);
+        fetchAvailableTimes(data); // Busque os horários disponíveis ao selecionar uma data
+    };
+
+    const fetchAvailableTimes = (date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        fetch(`http://localhost:3001/api/horarios?data=${formattedDate}`) // Ajuste a URL conforme necessário
+            .then(response => response.json())
+            .then(data => setAvailableTimes(data.horarios || []))
+            .catch(err => {
+                console.error('Erro ao buscar horários disponíveis:', err);
+                alert('Erro ao buscar horários disponíveis.');
+            });
     };
 
     const handleTimeClick = (time) => {
@@ -93,7 +201,6 @@ const Agendar = () => {
             return;
         }
 
-        // Primeiro, obtenha o ID do psicólogo
         fetch(`http://localhost:3001/api/psicologos/by-name?nome=${encodeURIComponent(nomePsico)}`)
             .then(response => response.json())
             .then(data => {
@@ -108,7 +215,6 @@ const Agendar = () => {
                         assunto: assunto
                     };
 
-                    // Crie o agendamento com o ID do psicólogo obtido
                     fetch('http://localhost:3001/api/agendamento', {
                         method: 'POST',
                         headers: {
@@ -140,6 +246,7 @@ const Agendar = () => {
 
     const handleClose = () => {
         setShow(false);
+        setAvailableTimes([]); // Limpa os horários disponíveis ao fechar
     };
 
     const handleShow = () => {
@@ -147,13 +254,8 @@ const Agendar = () => {
     };
 
     const renderAvailableTimes = () => {
-        if (!selectedDate) return null;
-
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-        const times = availableTimes[formattedDate] || [];
-
-        return times.length > 0 ? (
-            times.map(time => (
+        return availableTimes.length > 0 ? (
+            availableTimes.map(time => (
                 <button key={time} className={`time-slot ${selectedTime === time ? 'active' : ''}`} onClick={() => handleTimeClick(time)}>
                     {time}
                 </button>
@@ -182,14 +284,14 @@ const Agendar = () => {
                 </Col>
                 <Col md={6}>
                     <div className='agenda'>
-                        <h5 className='titulosSobre p-3 mb-2'>Agende sua consulta...</h5>
+                        <h5 className='titulosSobre py-3 pl-2 mb-2'> <span className="material-symbols-outlined iconsSaibaMais">calendar_month</span>Agende sua consulta...</h5>
                         <div className='displayCalendario'>
                             <DatePicker onDateSelect={handleDateSelect} />
                         </div>
                         <button
                             className='agendaConsulta'
                             onClick={handleShow}
-                            disabled={!selectedDate} >
+                            disabled={!selectedDate}>
                             Agendar consulta
                         </button>
 
@@ -232,7 +334,7 @@ const Agendar = () => {
                     </div>
 
                     <div className='biografia p-4'>
-                        <h5 className='titulosSobre p-3'>Biografia</h5>
+                        <h5 className='titulosSobre py-3'><span className="material-symbols-outlined iconsSaibaMais">person_book</span>Biografia</h5>
                         <p className='mb-4'>
                             Psicólogo, formado em 1990 pela Universidade Estadual do Paraná. Especialista em Terapia Cognitivo-Comportamental e Psicoterapia de Casal.
                             Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
@@ -240,7 +342,7 @@ const Agendar = () => {
                     </div>
 
                     <div className='contato p-4'>
-                        <h5 className='titulosSobre p-3'>Contato</h5>
+                        <h5 className='titulosSobre py-3'><span className="material-symbols-outlined iconsSaibaMais">send</span>Contato</h5>
                         <p>
                             Telefone: (43) 1234-5678 <br />
                             Email: contato@psicologo.com.br
@@ -248,7 +350,7 @@ const Agendar = () => {
                     </div>
 
                     <div className='localizacao p-4'>
-                        <h5 className='titulosSobre p-3'>Localização</h5>
+                        <h5 className='titulosSobre py-3'><span className="material-symbols-outlined iconsSaibaMais">location_on</span>Localização</h5>
                         <p>Cornélio Procópio - PR</p>
                     </div>
                 </Col>

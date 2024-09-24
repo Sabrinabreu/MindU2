@@ -103,7 +103,7 @@ const Disponibilidade = () => {
                                     onChange={() => handleDayChange(day)}
                                 />
                                 {workingDays[day] && (
-                                    <div className="time-inputs">
+                                    <div className="mb-4 mt-2 time-inputs">
                                         <Form.Group>
                                             <Form.Label>Horário de início para {day}:</Form.Label>
                                             <Form.Control
@@ -112,7 +112,7 @@ const Disponibilidade = () => {
                                                 onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
                                             />
                                         </Form.Group>
-                                        <Form.Group>
+                                        <Form.Group className='mt-2'>
                                             <Form.Label>Horário de término para {day}:</Form.Label>
                                             <Form.Control
                                                 type="time"
@@ -124,7 +124,7 @@ const Disponibilidade = () => {
                                 )}
                             </div>
                         ))}
-                        <Button className='mt-3' onClick={handleUpdate}><span class="material-symbols-outlined iconsDisp">restart_alt</span>Atualizar</Button>
+                        <Button className='mt-3 btnAtualizar' onClick={handleUpdate}><span class="material-symbols-outlined iconsDisp">restart_alt</span>Atualizar</Button>
                     </Form>
                     </Col>
                     <Row className='my-4'>
