@@ -1,7 +1,7 @@
 // CadastroFormEmpresa.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import {Container, Row, Col} from "react-bootstrap"
+import { Container, Row, Col } from "react-bootstrap"
 
 const CadastroForm = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +16,7 @@ const CadastroForm = () => {
     senha: '',
     senhaconfirma: '',
   });
-  
+
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
@@ -25,9 +25,27 @@ const CadastroForm = () => {
       ...formData,
       [name]: value
     });
+    // if (name === 'telefone') {
+    //   let input = value.replace(/\D/g, ''); // Remove tudo que não for número
+    //   if (input.length > 11) {
+    //     input = input.slice(0, 11); // Limita a quantidade de dígitos a 11
+    //   }
+
+    //   // Formata o telefone (00) 00000-0000
+    //   if (input.length > 6) {
+    //     input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}-${input.slice(7, 11)}`;
+    //   } else if (input.length > 2) {
+    //     input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}`;
+    //   }
+
+    //   setFormData({
+    //     ...formData,
+    //     [name]: input // Atualiza o campo telefone com a formatação
+    //   });
+    // }
   };
 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.senha !== formData.senhaconfirma) {
@@ -62,40 +80,40 @@ const CadastroForm = () => {
     }
   };
 
-return (
-          
+  return (
+
     <form onSubmit={handleSubmit}>
 
       <Container className="justify-content-center g-4 p-3" >
-      <label className='labelForms'>Nome da empresa</label>
-      <input className='inputgeral cadEmp' type="text" name="empresa" placeholder="Digite o nome da empresa aqui..." value={formData.empresa} onChange={handleChange} />
+        <label className='labelForms'>Nome da empresa</label>
+        <input className='inputgeral cadEmp' type="text" name="empresa" placeholder="Digite o nome da empresa aqui..." value={formData.empresa} onChange={handleChange} />
 
-      <label className='labelForms'>Email corporativo</label>
-      <input className='inputgeral cadEmp' type="email" name="email" placeholder="Digite o email corporativo aqui..." value={formData.email} onChange={handleChange} />
-
-
-      <Row>
-        <Col md={6} sm={12}><label className='labelForms'>Telefone corporativo</label>
-        <input className='inputgeral cadEmp' type="tel"  maxlength="15" name="telefone" placeholder="Digite o telefone da empresa aqui..." value={formData.telefone} onChange={handleChange} /></Col>
-        <Col><label className='labelForms'>Representante</label>
-        <input className='inputgeral cadEmp' type="text" name="nome" placeholder="Digite o nome do representante aqui..." value={formData.nome} onChange={handleChange} /></Col>
-      </Row>
-      
-      <Row >
-        <Col md={6} sm={12}><label className='labelForms'>Departamento</label>
-        <input className='inputgeral cadEmp' type="text" name="departamento" placeholder="Digite seu departamento aqui..." value={formData.departamento} onChange={handleChange} /></Col>
-        <Col><label className='labelForms'>Quantidade de funcionários</label>
-        <input className='inputgeral cadEmp' type="number" name="qtdfuncionarios" placeholder="Digite a quantidade de funcionários aqui..." value={formData.qtdfuncionarios} onChange={handleChange} /></Col>
-      </Row>
+        <label className='labelForms'>Email corporativo</label>
+        <input className='inputgeral cadEmp' type="email" name="email" placeholder="Digite o email corporativo aqui..." value={formData.email} onChange={handleChange} />
 
 
-      <Row >
-        <Col md={6} sm={12}><label className='labelForms'>Sua empresa já oferece algum plano de saúde?</label>
-        <input className='inputgeral cadEmp' type="text" name="planosaude" placeholder="Digite o nome do plano de saúde aqui..." value={formData.planosaude} onChange={handleChange} /></Col>
-        <Col><label className='labelForms'>Qual é o meio de contato de sua preferência?</label>
-        <input className='inputgeral cadEmp' type="text" name="contato" placeholder="Ex. Email, Whatsapp, Ligação..." value={formData.contato} onChange={handleChange} /></Col>
-      </Row>
-      <Row>
+        <Row>
+          <Col md={6} sm={12}><label className='labelForms'>Telefone corporativo</label>
+            <input className='inputgeral cadEmp' type="tel" maxlength="15" name="telefone" placeholder="Digite o telefone da empresa aqui..." value={formData.telefone} onChange={handleChange} /></Col>
+          <Col><label className='labelForms'>Representante</label>
+            <input className='inputgeral cadEmp' type="text" name="nome" placeholder="Digite o nome do representante aqui..." value={formData.nome} onChange={handleChange} /></Col>
+        </Row>
+
+        <Row >
+          <Col md={6} sm={12}><label className='labelForms'>Departamento</label>
+            <input className='inputgeral cadEmp' type="text" name="departamento" placeholder="Digite seu departamento aqui..." value={formData.departamento} onChange={handleChange} /></Col>
+          <Col><label className='labelForms'>Quantidade de funcionários</label>
+            <input className='inputgeral cadEmp' type="number" name="qtdfuncionarios" placeholder="Digite a quantidade de funcionários aqui..." value={formData.qtdfuncionarios} onChange={handleChange} /></Col>
+        </Row>
+
+
+        <Row >
+          <Col md={6} sm={12}><label className='labelForms'>Sua empresa já oferece algum plano de saúde?</label>
+            <input className='inputgeral cadEmp' type="text" name="planosaude" placeholder="Digite o nome do plano de saúde aqui..." value={formData.planosaude} onChange={handleChange} /></Col>
+          <Col><label className='labelForms'>Qual é o meio de contato de sua preferência?</label>
+            <input className='inputgeral cadEmp' type="text" name="contato" placeholder="Ex. Email, Whatsapp, Ligação..." value={formData.contato} onChange={handleChange} /></Col>
+        </Row>
+        <Row>
           <Col md={6} sm={12}><label className='labelForms'>Digite sua senha</label>
             <input className='inputgeral cadEmp' type="password" name="senha" placeholder="Digite sua senha aqui..." value={formData.senha} onChange={handleChange} /></Col>
           <Col><label className='labelForms'>Confirme sua senha</label>
@@ -104,8 +122,8 @@ return (
 
         {error && <p className="text-danger">{error}</p>}
 
-      <button className='botaoBanner roxo botaoBranco' type="submit">Enviar</button>
-      
+        <button className='botaoBanner roxo botaoBranco' type="submit">Enviar</button>
+
       </Container>
     </form>
   );

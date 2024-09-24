@@ -129,11 +129,11 @@ body {
 
 [data-theme='dark'] .botaoSobre {
     color: #000000;
-    background-color: #e0dffdaf;
-    border: 1.7px solid #e0dffd;
+    background-color: #c1bffdaf !important;
+    border: 1.7px solid #e0dffd !important;
 }
 
-.botaoSobre{
+.botaoSobre {
     z-index: 999 !important;
     padding: 1.3em 3em;
     font-size: 12px;

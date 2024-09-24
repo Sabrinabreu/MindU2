@@ -5,13 +5,14 @@ import { QRCodeSVG } from 'qrcode.react';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import '../css/Payment.css';
 import { CopyIcon } from 'lucide-react';
+
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
 const PaymentForm = ({ selectedPlan }) => {
     const [paymentType, setPaymentType] = useState('');
     const [cardNumber, setCardNumber] = useState('');
-    const [cardExpiry, setCardExpiry] = useState('');
+    const [cardExpiry, setCardExpiry] = useState('')
     const [cardCVC, setCardCVC] = useState('');
     const [cardName, setCardName] = useState('');
     const [issuer, setIssuer] = useState('');
@@ -139,11 +140,11 @@ const PaymentForm = ({ selectedPlan }) => {
         }
 
         const pdfDoc = await PDFDocument.create();
-        const page = pdfDoc.addPage([595, 400]);
+        const page = pdfDoc.addPage([595, 842]); // Tamanho A4 padrão
         const { width, height } = page.getSize();
 
 
-        const { bankName, agencyNumber, name, cpf, address, city, state, zipCode, phone } = formData;
+        const { bankName, agencyNumber, accountNumber, name, cpf, address, city, state, zipCode, phone } = formData;
 
         // Dados do boleto
         const today = new Date();
@@ -167,84 +168,45 @@ const PaymentForm = ({ selectedPlan }) => {
         };
 
         // Seção do banco
-        drawSection(0, height - 1, 595, 40);
-        page.drawText(` ${bankName}`, { x: 30, y: height - 26, size: 12, font: fontRegular });
-        drawSection(200, height - 1, 595, 40);
-        page.drawText(` ${agencyNumber}`, { x: 130, y: height - 26, size: 12, font: fontRegular });
-        drawSection(200, height - 1, 595, 40);
-        page.drawText(` ${boletoNumber}`, { x: 220, y: height - 26, size: 12, font: fontRegular });
-        drawSection(100, height - 1, 595, 40);
+        drawSection(0, height - 100, 595, 40); // Borda sem margem, ajustada para ocupar toda a largura da página
+        page.drawText(` ${bankName} ${agencyNumber}  ${boletoNumber}`, { x: 10, y: height - 60, size: 12 });
 
-        // Seção do cedente dividida em tres colunas
-        drawSection(0, height - 41, 200, 120);
-        drawSection(410, height - 41, 185, 120);
-        drawSection(200, height - 41, 210, 120);
 
-        drawSection(410, height - 41, 185, 30);
-        drawSection(410, height - 102, 185, 30);
-        page.drawText(`Data do Documento: ${todayFormatted}`, { x: 421, y: height - 60, size: 12, font: fontRegular });
-        page.drawText(`Vencimento: ${dueDateFormatted}`, { x: 422, y: height - 90, size: 12, font: fontRegular });
-        page.drawText(`Num Conta:  ${accountNumber}`, { x: 422, y: height - 120, size: 12, font: fontRegular });
-        page.drawText(`Valor: R$ ${amount}`, { x: 422, y: height - 150, size: 12, font: fontRegular });
+        // Seção do cedente dividida em duas colunas
+        drawSection(0, height - 150, 300, 140); // Coluna esquerda
+        drawSection(300, height - 150, 300, 140); // Coluna direita
 
-        drawSection(200, height - 41, 210, 30);
-        drawSection(200, height - 102, 210, 30);
         // Informações da coluna esquerda
-        page.drawText(`Nome: ${name}`, { x: 10, y: height - 63, size: 12, font: fontRegular });
-        drawSection(0, height - 41, 200, 35);
-        page.drawText(`CPF: ${cpf}`, { x: 10, y: height - 98, size: 12, font: fontRegular });
-        drawSection(0, height - 111, 200, 50);
-        page.drawText(`Endereço: ${address}`, { x: 10, y: height - 130, size: 12, font: fontRegular });
+        page.drawText(`Nome: ${name}`, { x: 6, y: height - 220, size: 12 });
+        page.drawText(`CPF: ${cpf}`, { x: 6, y: height - 240, size: 12 });
+        page.drawText(`Endereço: ${address}`, { x: 6, y: height - 260, size: 12 });
 
         // Informações da coluna direita
-        page.drawText(`Cidade: ${city}`, { x: 215, y: height - 60, size: 12, font: fontRegular });
-        page.drawText(`Estado: ${state}`, { x: 215, y: height - 90, size: 12, font: fontRegular });
-        page.drawText(`CEP: ${zipCode}`, { x: 215, y: height - 120, size: 12, font: fontRegular });
-        page.drawText(`Telefone: ${phone}`, { x: 215, y: height - 150, size: 12, font: fontRegular });
+        page.drawText(`Cidade: ${city}`, { x: 310, y: height - 220, size: 12 });
+        page.drawText(`Estado: ${state}`, { x: 310, y: height - 240, size: 12 });
+        page.drawText(`CEP: ${zipCode}`, { x: 310, y: height - 260, size: 12 });
+        page.drawText(`Telefone: ${phone}`, { x: 310, y: height - 280, size: 12 });
 
-        // Seção de multa
-        drawSection(0, height - 161, 595, 135); // Ajustado para a largura total da página
-        page.drawText('Instruções de Pagamento:', {
-            x: 20,
-            y: height - 180,
-            size: 12,
-            font: fontBold,
-            color: rgb(0, 0, 0)
-        });
-        drawSection(410, height - 161, 405, 135);
-        page.drawText(`Desconto / Abatimentos: `, { x: 421, y: height - 182, size: 12, font: fontRegular });
-        page.drawText(`Outras deduções:`, { x: 422, y: height - 216, size: 12, font: fontRegular });
-        page.drawText(`Multa:`, { x: 422, y: height - 252, size: 12, font: fontRegular });
-        page.drawText(`Outros acréscimos:`, { x: 422, y: height - 285, size: 12, font: fontRegular });
-
-        drawSection(410, height - 195, 405, 35);
-        drawSection(410, height - 230, 405, 35);
-
-        page.drawText('Após o vencimento, multa de 2% e juros de 1% ao mês.', {
-            x: 20,
-            y: height - 200,
-            size: 10,
-            font: fontRegular,
-            color: rgb(0, 0, 0)
-        });
+        // Seção de vencimento e valores
+        drawSection(0, height - 290, 595, 50); // Ajustado para a largura total da página
+        page.drawText(`Data do Documento: ${todayFormatted}`, { x: 10, y: height - 295, size: 12 });
+        page.drawText(`Vencimento: ${dueDateFormatted}`, { x: 10, y: height - 315, size: 12 });
+        page.drawText(`Valor: R$ ${amount}`, { x: 10, y: height - 335, size: 12 });
 
         // Gerar código de barras ocupando toda a largura da seção
         const barcodeCanvas = document.createElement('canvas');
         JsBarcode(barcodeCanvas, boletoNumber, { format: 'CODE128', displayValue: false });
         const barcodeImageData = barcodeCanvas.toDataURL('image/png');
         const barcodeImage = await pdfDoc.embedPng(barcodeImageData);
-        page.drawText('Sacado: ', {
-            x: 10, y: height - 310, size: 12, font: fontRegular
-        })
         page.drawImage(barcodeImage, {
-            x: 20,
-            y: height - 390,
-            width: 405,
-            height: 70,
+            x: 0,
+            y: height - 430,
+            width: 595,
+            height: 40,
         });
 
         // Seção do código de barras
-        drawSection(0, height - 296, 595, 120); // Ajustado para a largura total da página
+        drawSection(0, height - 470, 595, 40); // Ajustado para a largura total da página
 
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -254,7 +216,6 @@ const PaymentForm = ({ selectedPlan }) => {
         link.download = 'boleto.pdf';
         link.click();
     };
-
 
 
 
@@ -331,6 +292,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="name">Nome:</label>
                                                 <input
+                                                    placeholder='Nome:'
                                                     className='forminput'
                                                     id="name"
                                                     name="name"
@@ -346,6 +308,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="cpf">CPF:</label>
                                                 <input
+                                                    placeholder='CPF:'
                                                     className='forminput'
                                                     id="cpf"
                                                     name="cpf"
@@ -362,6 +325,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="bankName">Nome do Banco:</label>
                                                 <input
+                                                    placeholder='Nome do banco'
                                                     className='forminput'
                                                     id="bankName"
                                                     name="bankName"
@@ -397,6 +361,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="accountNumber">Número da Conta:</label>
                                                 <input
+
                                                     className='forminput'
                                                     id="accountNumber"
                                                     name="accountNumber"
@@ -604,27 +569,27 @@ const PaymentForm = ({ selectedPlan }) => {
                             {/* Parcelamento */}
                             {paymentType === "cartao" && (
                                 <>
-                                <Col md="12" sm="12">
-                                    <div className="installments-container">
-                                        <label className="formlabel" htmlFor="parcelasCartao">Escolha o número de parcelas:</label>
-                                        <br />
-                                        <select
-                                            className="formselect"
-                                            id="parcelasCartao"
-                                            name="parcelas"
-                                            value={installments}
-                                            onChange={(e) => setInstallments(Number(e.target.value))}
-                                        >
-                                            {[1, 2, 3, 4, 5, 6].map(n => (
-                                                <option key={n} value={n}>
-                                                    {n}x de R${(totalPrice / n).toFixed(2)} sem juros
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </Col>
+                                    <Col md="12" sm="12">
+                                        <div className="installments-container">
+                                            <label className="formlabel" htmlFor="parcelasCartao">Escolha o número de parcelas:</label>
+                                            <br />
+                                            <select
+                                                className="formselect"
+                                                id="parcelasCartao"
+                                                name="parcelas"
+                                                value={installments}
+                                                onChange={(e) => setInstallments(Number(e.target.value))}
+                                            >
+                                                {[1, 2, 3, 4, 5, 6].map(n => (
+                                                    <option key={n} value={n}>
+                                                        {n}x de R${(totalPrice / n).toFixed(2)} sem juros
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </Col>
 
-                             </>
+                                </>
                             )}
                         </div>
                     )}
@@ -633,13 +598,13 @@ const PaymentForm = ({ selectedPlan }) => {
                     {paymentType === 'cartao' && (
                         <div>
                             <p className="text-center">Total: R${amountPerInstallment} </p>
-                        <Button className="formbutton" variant="primary" type="submit">
-                        Pagar
-                    </Button>
-                    </div>
+                            <Button className="formbutton" variant="primary" type="submit">
+                                Pagar
+                            </Button>
+                        </div>
                     )}
-                    {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' &&(
-                    <p className="text-center">Total: R${amountPerInstallment} </p>
+                    {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' && (
+                        <p className="text-center">Total: R${amountPerInstallment} </p>
                     )}
                     {paymentType === 'boleto' && (
                         <div className="button-container">
