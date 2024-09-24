@@ -45,6 +45,7 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
     { nome: "Saiba Mais", caminho: "/saibaMais", auth: true, tiposPermitidos: ["psicologo, funcionario"] }
   ];
 
+
     // Função para verificar se o link deve ser exibido
     const canAccessLink = (link) => {
       if (!link.auth) {
@@ -67,6 +68,9 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             {links.map((link, index) => {
+  if (link.caminho === "/login" && token) {
+    return null;
+  }
             if (canAccessLink(link)) {
               return (
                 <Nav.Link
