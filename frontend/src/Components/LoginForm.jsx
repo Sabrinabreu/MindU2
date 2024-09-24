@@ -6,7 +6,11 @@ import {Container, Row, Col} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 import MentalBalanceVid from '../img/mentalBalance.mp4'
+import Stack from 'react-bootstrap/Stack';
+import { Building2, BookUser } from 'lucide-react';
 // import { Eye, EyeOff } from 'lucide-react';
+import iconPsicologo from '../img/psychologist.png'
+import iconEmpresa from '../img/office-building.png'
 
 const LoginForm = () => {
   const [login, setLogin] = useState('');
@@ -43,9 +47,9 @@ const LoginForm = () => {
     <Container>
       <Row className='rowLogin'>
         <Col className='colEsqLogin' md={6} sm={12}>
-          <video width="100%" height='auto' autoPlay muted playsInline preload="auto" loop  >
-            <source src={MentalBalanceVid} type='video/mp4' />
-          Seu navegador não suporta a tag de vídeo.
+          <video className='loginVideo' width="100%" height='100%' autoPlay muted playsInline preload="auto" loop  >
+            <source src={MentalBalanceVid} type='video/mp4' alt="imagem de mulher boiando na água para ilustrar login" />
+            Seu navegador não suporta a tag de vídeo.
           </video>  
         </Col>
         <Col className='colDirLogin' md={6} sm={12}>
@@ -57,6 +61,13 @@ const LoginForm = () => {
             <Link className='esqueceuSenha'>Esqueceu a senha?</Link>
             <button type="submit" className='inputLogin inputLoginbtn'>Entrar</button>
           </form>
+            <div className='semContadiv'>
+              <p>Não possúi conta? Escolha uma das opções de cadastro:</p>
+              <Stack direction="horizontal" gap={3}>
+                <Col as={Link} className='opcaoCadastroCard' to="/cadastroPsicologos"><img src={iconPsicologo} alt="icone para ilustrar empresa" /><spam>Empresa</spam></Col>
+                <Col as={Link} className='opcaoCadastroCard' to="/cadastroEmpresa"><img src={iconEmpresa} alt="icone para ilustrar psicologo" /><spam>Psicólogo</spam></Col>
+              </Stack>
+            </div>
         </Col>
       </Row>
     </Container>
