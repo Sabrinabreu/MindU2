@@ -50,11 +50,11 @@ body {
   }
 
   .plan .inner {
-    height: 1100px !important;
+    height: 1170px !important;
   }
 
   .featureList {
-    height: 750px !important;
+    height: 810px !important;
   }
 
   .botaoPlan {
@@ -69,15 +69,19 @@ body {
   }
 
   .plan .inner {
-    height: 1100px !important;
+    height: 1170px !important;
   }
 
   .featureList {
-    height: 750px !important;
+    height: 820px !important;
   }
 
   .caixaPlanos {
     margin-left: 50px;
+  }
+
+  .price {
+    font-size: 23px !important;
   }
 }
 
@@ -102,11 +106,11 @@ body {
   }
 
   .plan .inner {
-    height: 900px !important;
+    height: 950px !important;
   }
 
   .featureList {
-    height: 550px !important;
+    height: 600px !important;
   }
 }
 
@@ -116,11 +120,11 @@ body {
   }
 
   .plan .inner {
-    height: 750px !important;
+    height: 780px !important;
   }
 
   .featureList {
-    height: 400px !important;
+    height: 450px !important;
   }
 }
 
@@ -130,11 +134,11 @@ body {
   }
 
   .plan .inner {
-    height: 850px !important;
+    height: 930px !important;
   }
 
   .featureList {
-    height: 500px !important;
+    height: 580px !important;
   }
 }
 
@@ -144,11 +148,11 @@ body {
   }
 
   .plan .inner {
-    height: 890px !important;
+    height: 910px !important;
   }
 
   .featureList {
-    height: 550px !important;
+    height: 570px !important;
   }
 }
 
@@ -158,11 +162,11 @@ body {
   }
 
   .plan .inner {
-    height: 950px !important;
+    height: 960px !important;
   }
 
   .featureList {
-    height: 600px !important;
+    height: 620px !important;
   }
 }
 
@@ -187,7 +191,7 @@ body {
   border-radius: 12px;
   position: relative;
   border: double #46467A;
-  height: 800px;
+  height: 870px;
 }
 
 .plan .title {
@@ -292,7 +296,7 @@ body {
   margin: 0 0 2.75rem;
   padding: 0;
   font-weight: 500;
-  height: 450px;
+  height: 520px;
 
   li {
     color: var(--color);
