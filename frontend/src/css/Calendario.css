@@ -1,51 +1,98 @@
-.evento-disponivel {
-  background-color: #ffcc00; /* Cor de fundo para eventos */
-  color: #333; /* Cor do texto dos eventos */
-  border-radius: 4px; /* Bordas arredondadas para eventos */
+/* Fonte geral do calendário */
+.fc {
+  font-family: 'Arial', sans-serif;
 }
 
-/* Fundo do dia de hoje */ 
-  /* Estilo dos eventos */
-  .fc-event {
-    background-color: #28a745;
-    color: #fff;
-    border: 1px solid #1e7e34;
-  }
-  
+/* Cor de fundo do calendário */
+.fc-view {
+  background-color: #f9f9f9;
+}
 
-/* Setas de navegação */
-.fc-button-prev, .fc-button-next {
-    background-color: #304c69; /* Cor de fundo das setas */
-    color: #fff; /* Cor do texto das setas */
-    border: none; /* Remove bordas padrão */
-  }
-  
-  .fc-button-prev:hover, .fc-button-next:hover {
-    background-color: #b3cbe4; /* Cor de fundo ao passar o mouse */
-  }
-  
-  /* Cabeçalhos do calendário */
-  .fc-col-header-cell {
-    background-color: #F9B0C3; 
-    color: #fff7f7 !important;
-    border: 1px solid #495057; 
-  }
-  
+/* Estilo para os dias do calendário */
+.fc-daygrid-day {
+  background-color: #fff7f7;
+  border: 1px solid #ccc;
+  color: #333;
+  border-radius: 100%; 
+}
 
+/* Estilo para o número dos dias */
+.fc-daygrid-day-number {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #000000;
+  text-decoration: none;
+}
 
-  /* mês */
-  .fc-header-toolbar {
-    color: #000000;
-  }
-  
-  .fc-daygrid-day-number {
-    background-color: transparent;
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .fc-daygrid-day.fc-daygrid-day-today {
-    background-color: #e3f2fd;
-    border: 2px solid #367ca2;
-  }
-  
+/* Estilo para o dia de hoje */
+.fc-daygrid-day.fc-day-today {
+  background-color: #bd77b879 !important; /* Fundo diferente para o dia de hoje */
+  border: 2px solid #ac25b8; /* Bordas do dia de hoje */
+  font-weight: bold;
+  color: #000000;
+  border-radius: 50%; /* Redondo para o dia de hoje */
+}
+
+/* --- Cabeçalhos e Navegação --- */
+
+/* Estilo para o cabeçalho do mês */
+.fc-header-toolbar {
+  color: #000000;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+/* Estilo dos cabeçalhos dos dias da semana */
+.fc-col-header-cell {
+  background-color: #ff9eb8;
+  color: #fff7f7;
+  border: 1px solid #495057;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* --- Eventos --- */
+
+/* Estilo para os eventos */
+.fc-event {
+  background-color: #28a745 !important;
+  color: #fff;
+  border: 1px solid #1e7e34;
+  border-radius: 4px;
+  padding: 2px;
+  font-size: 0.9em;
+}
+
+/* Personalização para eventos disponíveis */
+.evento-disponivel {
+  background-color: #9a45e8 !important;
+  color: #ffffff;
+}
+
+/* DIAS DA SEMANA */
+.fc-col-header-cell-cushion{
+  color: #000000;
+  text-decoration: none;
+}
+
+/* Estilo para o texto dentro dos eventos */
+.fc-event-title {
+  font-weight: bold;
+  font-size: 1em;
+  white-space: normal;
+}
+
+/* --- Tooltip de Eventos (se quiser usar tooltips) --- */
+.fc-event:hover {
+  cursor: pointer;
+}
+
+.fc-event-tooltip {
+  background-color: #ffeb3b;
+  color: #333;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+  border: 1px solid #ccc;
+}

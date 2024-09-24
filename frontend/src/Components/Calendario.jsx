@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import "../css/AgendarConsulta.css";
-
+import '../css/Calendario.css';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import '../css/Calendario.css'; // Seu arquivo CSS
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 
 // import { availableTimes } from './Agendar'; // Importe os horários disponíveis, caso estejam em outro arquivo
@@ -68,46 +67,46 @@ const DatePicker = ({ onDateSelect }) => {
 
     return (
         <>
-        <FullCalendar
-        plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
-        locale={ptBrLocale}
-        dayCellContent={(info) => (
-          <div className={`dia-${info.date.getDate()}`}>
-            {info.dayNumberText}
-          </div>
-        )}
-        eventClassNames="evento-disponivel"
-        eventTimeFormat={{
-          hour: '2-digit',
-          minute: '2-digit',
-          meridiem: false
-        }}
-      /> 
+            <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                locale={ptBrLocale} // Exibe o calendário em português
+                dayCellContent={(info) => (
+                    <div className={`dia-${info.date.getDate()}`}>
+                        {info.dayNumberText}
+                    </div>
+                )}
+                eventClassNames="evento-disponivel"
+                eventTimeFormat={{
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false,
+                }}
+            />
 
-        <div className="datepicker">
-            <div className="datepicker-top">
-                <div className="month-selector">
-                    <button className="arrow" onClick={handlePrevMonth}>
-                        <i className="material-icons">
-                            <span className="material-symbols-outlined p-3">chevron_left</span>
-                        </i>
-                    </button>
-                    <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
-                    <button className="arrow" onClick={handleNextMonth}>
-                        <i className="material-icons">
-                            <span className="material-symbols-outlined p-3">chevron_right</span>
-                        </i>
-                    </button>
+            <div className="datepicker">
+                <div className="datepicker-top">
+                    <div className="month-selector">
+                        <button className="arrow" onClick={handlePrevMonth}>
+                            <i className="material-icons">
+                                <span className="material-symbols-outlined p-3">chevron_left</span>
+                            </i>
+                        </button>
+                        <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
+                        <button className="arrow" onClick={handleNextMonth}>
+                            <i className="material-icons">
+                                <span className="material-symbols-outlined p-3">chevron_right</span>
+                            </i>
+                        </button>
+                    </div>
+                </div>
+                <div className="datepicker-calendar">
+                    {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'].map((day, i) => (
+                        <span key={`day-${i}`} className="day">{day}</span>
+                    ))}
+                    {generateDays()}
                 </div>
             </div>
-            <div className="datepicker-calendar">
-                {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'].map((day, i) => (
-                    <span key={`day-${i}`} className="day">{day}</span>
-                ))}
-                {generateDays()}
-            </div>
-        </div>
         </>
     );
 };
