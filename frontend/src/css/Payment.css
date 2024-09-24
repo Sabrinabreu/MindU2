@@ -25,10 +25,6 @@ body {
     border-radius: 10px !important;
 }
 
-.forminput:active {
-    background-color: #46467ad6 !important;
-}
-
 [data-theme='dark'] .forminput {
     background-color: #28096b96 !important;
     border-color: transparent !important;
@@ -424,6 +420,9 @@ body {
     /* Transição suave para cor de fundo */
 }
 
+.rccs__card--unknown>div {
+    background: linear-gradient(25deg, #d3bff2, #7866c6);
+}
 
 
 @media (max-width: 991px) {
@@ -438,7 +437,7 @@ body {
     }
 
     .rccs__card--unknown>div {
-        background: linear-gradient(25deg, #999, #999);
+        background: linear-gradient(25deg, #d3bff2, #7866c6);
         box-shadow: none;
         width: 80% !important;
         height: 80% !important;
@@ -458,7 +457,7 @@ body {
     }
 
     .rccs__card--unknown>div {
-        background: linear-gradient(25deg, #999, #999);
+        background: linear-gradient(25deg, #d3bff2, #7866c6);
         box-shadow: none;
         width: 80% !important;
         height: 80% !important;

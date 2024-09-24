@@ -5,7 +5,8 @@ import { QRCodeSVG } from 'qrcode.react';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import '../css/Payment.css';
 import { CopyIcon } from 'lucide-react';
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
+import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
 const PaymentForm = ({ selectedPlan }) => {
     const [paymentType, setPaymentType] = useState('');
@@ -33,9 +34,25 @@ const PaymentForm = ({ selectedPlan }) => {
         accountNumber: ''
     });
     const pixKey = '12.345.678/0001-95';
+    const [showPopover, setShowPopover] = useState(false);
+
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text).then(() => {
+            setShowPopover(true);
+            setTimeout(() => setShowPopover(false), 2000); // Mostra o popover por 2 segundos
+        });
+    };
+
+    const popover = (
+        <Popover id="popover-basic">
+            <Popover.Body>Chave PIX copiada!</Popover.Body>
+        </Popover>
+    );
     const handleAgencyNumberChange = (e) => {
         setSelectedAgencyNumber(e.target.value);
     };
+
+
 
 
     useEffect(() => {
@@ -59,17 +76,58 @@ const PaymentForm = ({ selectedPlan }) => {
         else if (/^5[1-5]/.test(value)) setIssuer('mastercard');
         else if (/^3[47]/.test(value)) setIssuer('amex');
         else setIssuer('');
+
+        let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+        if (input.length > 16) {
+            input = input.slice(0, 16); // Limita a quantidade de dígitos a 16
+        }
+
+        // Adiciona espaços a cada 4 dígitos
+        const formattedInput = input.replace(/(.{4})/g, '$1 ').trim();
+        setCardNumber(formattedInput); // Atualiza o estado com o número formatado
+
+
     };
+
+    const handleCardExpiryChange = (e) => {
+        let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+        if (input.length > 4) {
+            input = input.slice(0, 4); // Limita a 4 dígitos (MMYY)
+        }
+
+        // Adiciona a barra (/) após o segundo dígito (formato MM/AA)
+        if (input.length >= 3) {
+            input = `${input.slice(0, 2)}/${input.slice(2, 4)}`;
+        }
+        setCardExpiry(input); // Atualiza o estado com a data formatada
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({
             ...prevData,
             [name]: value,
-        }));
-    };
+        }))
+        if (name === 'cpf') {
+            let input = value.replace(/\D/g, ''); // Remove tudo que não for número
+            if (input.length > 11) {
+                input = input.slice(0, 11); // Limita a quantidade de dígitos a 11
+            }
 
-    const copyToClipboard = (text) => {
-        navigator.clipboard.writeText(text).then(() => { });
+            // Formata o CPF (000.000.000-00)
+            if (input.length > 9) {
+                input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}-${input.slice(9, 11)}`;
+            } else if (input.length > 6) {
+                input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}`;
+            } else if (input.length > 3) {
+                input = `${input.slice(0, 3)}.${input.slice(3, 6)}`;
+            }
+
+            setFormData({
+                ...formData,
+                [name]: input // Atualiza o campo CPF com a formatação
+            });
+        }
     };
 
     const generateBoletoPDF = async () => {
@@ -79,7 +137,7 @@ const PaymentForm = ({ selectedPlan }) => {
         }
 
         const pdfDoc = await PDFDocument.create();
-        const page = pdfDoc.addPage([595, 842]); // Tamanho A4 padrão
+        const page = pdfDoc.addPage([595, 400]);
         const { width, height } = page.getSize();
 
         const fontBold = await pdfDoc.embedFont('Helvetica-Bold');
@@ -115,45 +173,84 @@ const PaymentForm = ({ selectedPlan }) => {
         };
 
         // Seção do banco
-        drawSection(0, height - 100, 595, 40); // Borda sem margem, ajustada para ocupar toda a largura da página
-        page.drawText(` ${bankName} ${agencyNumber}  ${boletoNumber}`, { x: 10, y: height - 60, size: 12, font: fontRegular });
+        drawSection(0, height - 1, 595, 40);
+        page.drawText(` ${bankName}`, { x: 30, y: height - 26, size: 12, font: fontRegular });
+        drawSection(200, height - 1, 595, 40);
+        page.drawText(` ${agencyNumber}`, { x: 130, y: height - 26, size: 12, font: fontRegular });
+        drawSection(200, height - 1, 595, 40);
+        page.drawText(` ${boletoNumber}`, { x: 220, y: height - 26, size: 12, font: fontRegular });
+        drawSection(100, height - 1, 595, 40);
 
+        // Seção do cedente dividida em tres colunas
+        drawSection(0, height - 41, 200, 120);
+        drawSection(410, height - 41, 185, 120);
+        drawSection(200, height - 41, 210, 120);
 
-        // Seção do cedente dividida em duas colunas
-        drawSection(0, height - 150, 300, 140); // Coluna esquerda
-        drawSection(300, height - 150, 300, 140); // Coluna direita
+        drawSection(410, height - 41, 185, 30);
+        drawSection(410, height - 102, 185, 30);
+        page.drawText(`Data do Documento: ${todayFormatted}`, { x: 421, y: height - 60, size: 12, font: fontRegular });
+        page.drawText(`Vencimento: ${dueDateFormatted}`, { x: 422, y: height - 90, size: 12, font: fontRegular });
+        page.drawText(`Num Conta:  ${accountNumber}`, { x: 422, y: height - 120, size: 12, font: fontRegular });
+        page.drawText(`Valor: R$ ${amount}`, { x: 422, y: height - 150, size: 12, font: fontRegular });
 
+        drawSection(200, height - 41, 210, 30);
+        drawSection(200, height - 102, 210, 30);
         // Informações da coluna esquerda
-        page.drawText(`Nome: ${name}`, { x: 6, y: height - 220, size: 12, font: fontRegular });
-        page.drawText(`CPF: ${cpf}`, { x: 6, y: height - 240, size: 12, font: fontRegular });
-        page.drawText(`Endereço: ${address}`, { x: 6, y: height - 260, size: 12, font: fontRegular });
+        page.drawText(`Nome: ${name}`, { x: 10, y: height - 63, size: 12, font: fontRegular });
+        drawSection(0, height - 41, 200, 35);
+        page.drawText(`CPF: ${cpf}`, { x: 10, y: height - 98, size: 12, font: fontRegular });
+        drawSection(0, height - 111, 200, 50);
+        page.drawText(`Endereço: ${address}`, { x: 10, y: height - 130, size: 12, font: fontRegular });
 
         // Informações da coluna direita
-        page.drawText(`Cidade: ${city}`, { x: 310, y: height - 220, size: 12, font: fontRegular });
-        page.drawText(`Estado: ${state}`, { x: 310, y: height - 240, size: 12, font: fontRegular });
-        page.drawText(`CEP: ${zipCode}`, { x: 310, y: height - 260, size: 12, font: fontRegular });
-        page.drawText(`Telefone: ${phone}`, { x: 310, y: height - 280, size: 12, font: fontRegular });
+        page.drawText(`Cidade: ${city}`, { x: 215, y: height - 60, size: 12, font: fontRegular });
+        page.drawText(`Estado: ${state}`, { x: 215, y: height - 90, size: 12, font: fontRegular });
+        page.drawText(`CEP: ${zipCode}`, { x: 215, y: height - 120, size: 12, font: fontRegular });
+        page.drawText(`Telefone: ${phone}`, { x: 215, y: height - 150, size: 12, font: fontRegular });
 
-        // Seção de vencimento e valores
-        drawSection(0, height - 290, 595, 50); // Ajustado para a largura total da página
-        page.drawText(`Data do Documento: ${todayFormatted}`, { x: 10, y: height - 295, size: 12, font: fontRegular });
-        page.drawText(`Vencimento: ${dueDateFormatted}`, { x: 10, y: height - 315, size: 12, font: fontRegular });
-        page.drawText(`Valor: R$ ${amount}`, { x: 10, y: height - 335, size: 12, font: fontRegular });
+        // Seção de multa
+        drawSection(0, height - 161, 595, 135); // Ajustado para a largura total da página
+        page.drawText('Instruções de Pagamento:', {
+            x: 20,
+            y: height - 180,
+            size: 12,
+            font: fontBold,
+            color: rgb(0, 0, 0)
+        });
+        drawSection(410, height - 161, 405, 135);
+        page.drawText(`Desconto / Abatimentos: `, { x: 421, y: height - 182, size: 12, font: fontRegular });
+        page.drawText(`Outras deduções:`, { x: 422, y: height - 216, size: 12, font: fontRegular });
+        page.drawText(`Multa:`, { x: 422, y: height - 252, size: 12, font: fontRegular });
+        page.drawText(`Outros acréscimos:`, { x: 422, y: height - 285, size: 12, font: fontRegular });
+
+        drawSection(410, height - 195, 405, 35);
+        drawSection(410, height - 230, 405, 35);
+
+        page.drawText('Após o vencimento, multa de 2% e juros de 1% ao mês.', {
+            x: 20,
+            y: height - 200,
+            size: 10,
+            font: fontRegular,
+            color: rgb(0, 0, 0)
+        });
 
         // Gerar código de barras ocupando toda a largura da seção
         const barcodeCanvas = document.createElement('canvas');
         JsBarcode(barcodeCanvas, boletoNumber, { format: 'CODE128', displayValue: false });
         const barcodeImageData = barcodeCanvas.toDataURL('image/png');
         const barcodeImage = await pdfDoc.embedPng(barcodeImageData);
+        page.drawText('Sacado: ', {
+            x: 10, y: height - 310, size: 12, font: fontRegular
+        })
         page.drawImage(barcodeImage, {
-            x: 0,
-            y: height - 430,
-            width: 595,
-            height: 40,
+            x: 20,
+            y: height - 390,
+            width: 405,
+            height: 70,
         });
 
         // Seção do código de barras
-        drawSection(0, height - 470, 595, 40); // Ajustado para a largura total da página
+        drawSection(0, height - 296, 595, 120); // Ajustado para a largura total da página
 
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -259,6 +356,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                                     id="cpf"
                                                     name="cpf"
                                                     type="text"
+                                                    maxLength={14}
                                                     value={formData.cpf}
                                                     onChange={handleInputChange}
                                                     required
@@ -315,6 +413,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                                 />
                                             </div>
                                         </Col>
+
 
                                         <Col md='6'>
                                             <div className="form-group">
@@ -411,7 +510,11 @@ const PaymentForm = ({ selectedPlan }) => {
                                     <div className="form-group">
                                         <div className="pix-key d-flex">
                                             <input readOnly value={pixKey} />
-                                            <CopyIcon onClick={() => copyToClipboard(pixKey)} />
+                                            <OverlayTrigger show={showPopover} placement="right" overlay={popover}>
+                                                <span onClick={() => copyToClipboard(pixKey)} style={{ cursor: 'pointer' }}>
+                                                    <CopyIcon /> {/* Aqui está o seu ícone como botão */}
+                                                </span>
+                                            </OverlayTrigger>
                                         </div>
                                     </div>
                                 </div>
@@ -454,6 +557,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                                         id="cardNumber"
                                                         name="cardNumber"
                                                         value={cardNumber}
+                                                        maxLength="19" // 16 dígitos + 3 espaços
                                                         onChange={handleCardNumberChange}
                                                         placeholder="Número do Cartão"
                                                     />
@@ -470,9 +574,11 @@ const PaymentForm = ({ selectedPlan }) => {
                                                         id="cardExpiry"
                                                         name="cardExpiry"
                                                         value={cardExpiry}
-                                                        onChange={(e) => setCardExpiry(e.target.value)}
+                                                        onChange={handleCardExpiryChange}
                                                         placeholder="MM/AA"
                                                         style={{ width: '100%' }}
+                                                        maxLength="5" // MM/AA tem no máximo 5 caracteres
+
                                                     />
                                                 </div>
                                             </Col>
