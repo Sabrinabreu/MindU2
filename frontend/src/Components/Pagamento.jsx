@@ -5,12 +5,14 @@ import { QRCodeSVG } from 'qrcode.react';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import '../css/Payment.css';
 import { CopyIcon } from 'lucide-react';
+
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
 const PaymentForm = ({ selectedPlan }) => {
     const [paymentType, setPaymentType] = useState('');
     const [cardNumber, setCardNumber] = useState('');
-    const [cardExpiry, setCardExpiry] = useState('');
+    const [cardExpiry, setCardExpiry] = useState('')
     const [cardCVC, setCardCVC] = useState('');
     const [cardName, setCardName] = useState('');
     const [issuer, setIssuer] = useState('');
@@ -35,9 +37,25 @@ const PaymentForm = ({ selectedPlan }) => {
         accountNumber: ''
     });
     const pixKey = '12.345.678/0001-95';
+    const [showPopover, setShowPopover] = useState(false);
+
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text).then(() => {
+            setShowPopover(true);
+            setTimeout(() => setShowPopover(false), 2000); // Mostra o popover por 2 segundos
+        });
+    };
+
+    const popover = (
+        <Popover id="popover-basic">
+            <Popover.Body>Chave PIX copiada!</Popover.Body>
+        </Popover>
+    );
     const handleAgencyNumberChange = (e) => {
         setSelectedAgencyNumber(e.target.value);
     };
+
+
 
 
     useEffect(() => {
@@ -61,17 +79,58 @@ const PaymentForm = ({ selectedPlan }) => {
         else if (/^5[1-5]/.test(value)) setIssuer('mastercard');
         else if (/^3[47]/.test(value)) setIssuer('amex');
         else setIssuer('');
+
+        let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+        if (input.length > 16) {
+            input = input.slice(0, 16); // Limita a quantidade de dígitos a 16
+        }
+
+        // Adiciona espaços a cada 4 dígitos
+        const formattedInput = input.replace(/(.{4})/g, '$1 ').trim();
+        setCardNumber(formattedInput); // Atualiza o estado com o número formatado
+
+
     };
+
+    const handleCardExpiryChange = (e) => {
+        let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+        if (input.length > 4) {
+            input = input.slice(0, 4); // Limita a 4 dígitos (MMYY)
+        }
+
+        // Adiciona a barra (/) após o segundo dígito (formato MM/AA)
+        if (input.length >= 3) {
+            input = `${input.slice(0, 2)}/${input.slice(2, 4)}`;
+        }
+        setCardExpiry(input); // Atualiza o estado com a data formatada
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({
             ...prevData,
             [name]: value,
-        }));
-    };
+        }))
+        if (name === 'cpf') {
+            let input = value.replace(/\D/g, ''); // Remove tudo que não for número
+            if (input.length > 11) {
+                input = input.slice(0, 11); // Limita a quantidade de dígitos a 11
+            }
 
-    const copyToClipboard = (text) => {
-        navigator.clipboard.writeText(text).then(() => { });
+            // Formata o CPF (000.000.000-00)
+            if (input.length > 9) {
+                input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}-${input.slice(9, 11)}`;
+            } else if (input.length > 6) {
+                input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}`;
+            } else if (input.length > 3) {
+                input = `${input.slice(0, 3)}.${input.slice(3, 6)}`;
+            }
+
+            setFormData({
+                ...formData,
+                [name]: input // Atualiza o campo CPF com a formatação
+            });
+        }
     };
 
     const generateBoletoPDF = async () => {
@@ -85,7 +144,7 @@ const PaymentForm = ({ selectedPlan }) => {
         const { width, height } = page.getSize();
 
 
-        const { bankName, agencyNumber, name, cpf, address, city, state, zipCode, phone } = formData;
+        const { bankName, agencyNumber, accountNumber, name, cpf, address, city, state, zipCode, phone } = formData;
 
         // Dados do boleto
         const today = new Date();
@@ -157,7 +216,6 @@ const PaymentForm = ({ selectedPlan }) => {
         link.download = 'boleto.pdf';
         link.click();
     };
-
 
 
 
@@ -234,6 +292,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="name">Nome:</label>
                                                 <input
+                                                    placeholder='Nome:'
                                                     className='forminput'
                                                     id="name"
                                                     name="name"
@@ -249,10 +308,12 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="cpf">CPF:</label>
                                                 <input
+                                                    placeholder='CPF:'
                                                     className='forminput'
                                                     id="cpf"
                                                     name="cpf"
                                                     type="text"
+                                                    maxLength={14}
                                                     value={formData.cpf}
                                                     onChange={handleInputChange}
                                                     required
@@ -264,6 +325,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="bankName">Nome do Banco:</label>
                                                 <input
+                                                    placeholder='Nome do banco'
                                                     className='forminput'
                                                     id="bankName"
                                                     name="bankName"
@@ -299,6 +361,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="accountNumber">Número da Conta:</label>
                                                 <input
+
                                                     className='forminput'
                                                     id="accountNumber"
                                                     name="accountNumber"
@@ -309,6 +372,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                                 />
                                             </div>
                                         </Col>
+
 
                                         <Col md='6'>
                                             <div className="form-group">
@@ -405,7 +469,11 @@ const PaymentForm = ({ selectedPlan }) => {
                                     <div className="form-group">
                                         <div className="pix-key d-flex">
                                             <input readOnly value={pixKey} />
-                                            <CopyIcon onClick={() => copyToClipboard(pixKey)} />
+                                            <OverlayTrigger show={showPopover} placement="right" overlay={popover}>
+                                                <span onClick={() => copyToClipboard(pixKey)} style={{ cursor: 'pointer' }}>
+                                                    <CopyIcon /> {/* Aqui está o seu ícone como botão */}
+                                                </span>
+                                            </OverlayTrigger>
                                         </div>
                                     </div>
                                 </div>
@@ -448,6 +516,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                                         id="cardNumber"
                                                         name="cardNumber"
                                                         value={cardNumber}
+                                                        maxLength="19" // 16 dígitos + 3 espaços
                                                         onChange={handleCardNumberChange}
                                                         placeholder="Número do Cartão"
                                                     />
@@ -464,9 +533,11 @@ const PaymentForm = ({ selectedPlan }) => {
                                                         id="cardExpiry"
                                                         name="cardExpiry"
                                                         value={cardExpiry}
-                                                        onChange={(e) => setCardExpiry(e.target.value)}
+                                                        onChange={handleCardExpiryChange}
                                                         placeholder="MM/AA"
                                                         style={{ width: '100%' }}
+                                                        maxLength="5" // MM/AA tem no máximo 5 caracteres
+
                                                     />
                                                 </div>
                                             </Col>
@@ -498,27 +569,27 @@ const PaymentForm = ({ selectedPlan }) => {
                             {/* Parcelamento */}
                             {paymentType === "cartao" && (
                                 <>
-                                <Col md="12" sm="12">
-                                    <div className="installments-container">
-                                        <label className="formlabel" htmlFor="parcelasCartao">Escolha o número de parcelas:</label>
-                                        <br />
-                                        <select
-                                            className="formselect"
-                                            id="parcelasCartao"
-                                            name="parcelas"
-                                            value={installments}
-                                            onChange={(e) => setInstallments(Number(e.target.value))}
-                                        >
-                                            {[1, 2, 3, 4, 5, 6].map(n => (
-                                                <option key={n} value={n}>
-                                                    {n}x de R${(totalPrice / n).toFixed(2)} sem juros
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </Col>
+                                    <Col md="12" sm="12">
+                                        <div className="installments-container">
+                                            <label className="formlabel" htmlFor="parcelasCartao">Escolha o número de parcelas:</label>
+                                            <br />
+                                            <select
+                                                className="formselect"
+                                                id="parcelasCartao"
+                                                name="parcelas"
+                                                value={installments}
+                                                onChange={(e) => setInstallments(Number(e.target.value))}
+                                            >
+                                                {[1, 2, 3, 4, 5, 6].map(n => (
+                                                    <option key={n} value={n}>
+                                                        {n}x de R${(totalPrice / n).toFixed(2)} sem juros
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </Col>
 
-                             </>
+                                </>
                             )}
                         </div>
                     )}
@@ -527,13 +598,13 @@ const PaymentForm = ({ selectedPlan }) => {
                     {paymentType === 'cartao' && (
                         <div>
                             <p className="text-center">Total: R${amountPerInstallment} </p>
-                        <Button className="formbutton" variant="primary" type="submit">
-                        Pagar
-                    </Button>
-                    </div>
+                            <Button className="formbutton" variant="primary" type="submit">
+                                Pagar
+                            </Button>
+                        </div>
                     )}
-                    {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' &&(
-                    <p className="text-center">Total: R${amountPerInstallment} </p>
+                    {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' && (
+                        <p className="text-center">Total: R${amountPerInstallment} </p>
                     )}
                     {paymentType === 'boleto' && (
                         <div className="button-container">

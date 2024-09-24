@@ -21,7 +21,7 @@ body {
 }
 
 .caixaPlanos {
-  margin-top: 4%;
+  margin-top: 2%;
   margin-bottom: 5%;
   margin-left: 80px;
 }
@@ -50,11 +50,11 @@ body {
   }
 
   .plan .inner {
-    height: 1100px !important;
+    height: 1170px !important;
   }
 
   .featureList {
-    height: 750px !important;
+    height: 830px !important;
   }
 
   .botaoPlan {
@@ -69,15 +69,19 @@ body {
   }
 
   .plan .inner {
-    height: 1100px !important;
+    height: 1170px !important;
   }
 
   .featureList {
-    height: 750px !important;
+    height: 820px !important;
   }
 
   .caixaPlanos {
     margin-left: 50px;
+  }
+
+  .price {
+    font-size: 23px !important;
   }
 }
 
@@ -102,11 +106,11 @@ body {
   }
 
   .plan .inner {
-    height: 900px !important;
+    height: 950px !important;
   }
 
   .featureList {
-    height: 550px !important;
+    height: 600px !important;
   }
 }
 
@@ -116,11 +120,11 @@ body {
   }
 
   .plan .inner {
-    height: 750px !important;
+    height: 780px !important;
   }
 
   .featureList {
-    height: 400px !important;
+    height: 480px !important;
   }
 }
 
@@ -130,11 +134,11 @@ body {
   }
 
   .plan .inner {
-    height: 850px !important;
+    height: 930px !important;
   }
 
   .featureList {
-    height: 500px !important;
+    height: 600px !important;
   }
 }
 
@@ -144,11 +148,11 @@ body {
   }
 
   .plan .inner {
-    height: 890px !important;
+    height: 910px !important;
   }
 
   .featureList {
-    height: 550px !important;
+    height: 590px !important;
   }
 }
 
@@ -158,12 +162,13 @@ body {
   }
 
   .plan .inner {
-    height: 950px !important;
+    height: 960px !important;
   }
 
   .featureList {
-    height: 600px !important;
+    height: 650px !important;
   }
+
 }
 
 .plan {
@@ -187,7 +192,7 @@ body {
   border-radius: 12px;
   position: relative;
   border: double #46467A;
-  height: 800px;
+  height: 870px;
 }
 
 .plan .title {
@@ -287,16 +292,15 @@ body {
   --color: #ffffff;
   --color: #ffffff;
   --icon: var(--redTick);
-  --height: 1.20rem;
+  --height: 0.20rem;
 
-  margin: 0 0 2.75rem;
   padding: 0;
   font-weight: 500;
-  height: 450px;
+  height: 540px;
 
   li {
     color: var(--color);
-    margin-bottom: 2rem;
+    margin-bottom: 0.8rem !important;
     display: flex;
     align-items: center;
     gap: 1.5rem;
@@ -310,21 +314,20 @@ body {
       background-size: cover;
       display: block;
       width: 1.125rem;
-      height: var(--height);
+      height: 1.200rem;
       padding-left: 0.2rem;
       position: absolute;
       left: 0;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
+      margin-bottom: 1rem !important;
     }
 
     &.disabled {
-      --color: #4f4f4f;
-      --color: #4f4f4f;
-      --height: 1.400rem;
+      color: #4f4f4f;
+      height: 2.800rem;
       --icon: var(--close);
     }
+
   }
+
+
 }

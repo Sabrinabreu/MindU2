@@ -108,7 +108,7 @@ const Contato = () => {
         <Card className="centralizar card-contato">
           <Card.Body>
             <img className="Icon-card-contato mb-3" src={telefoneIcon} alt="icone de telefone amarelo." />
-          <Card.Title className="tit-Cont">Contato Telefônico</Card.Title>
+          <h5 className="tit-Cont card-title h5">Contato Telefônico</h5>
           <Card.Text>
           Fale conosco por telefone! Estamos prontos para responder suas dúvidas e fornecer mais informações sobre nossos serviços.
           </Card.Text>
@@ -124,7 +124,7 @@ const Contato = () => {
         <Card className="centralizar card-contato">
           <Card.Body>
             <img className="Icon-card-contato mb-3" src={ajudaIcon} alt="icone de mensagem amarelo." />
-          <Card.Title className="tit-Cont">Suporte por mensagem</Card.Title>
+          <h5 className="tit-Cont card-title h5">Suporte por mensagem</h5>
           <Card.Text>
           Envie uma mensagem! Nosso assistente virtual no WhatsApp está disponível para responder suas dúvidas instantaneamente.
           </Card.Text>

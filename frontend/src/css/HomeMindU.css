@@ -114,13 +114,26 @@ body {
     color: #6852a5;
 }
 
-[data-theme='dark'] .botaoSobre {
-    color: #000000;
-    background-color: #e0dffdaf;
-    border: 1.7px solid #e0dffd;
+[data-theme='dark'] .txtSobre {
+    position: relative !important;
+    top: 4% !important;
+    bottom: 20% !important;
+    left: 6% !important;
+    width: 600px !important;
+    text-align: left !important;
+    padding: 1.3em 3em;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: #ffffff;
 }
 
-.botaoSobre{
+[data-theme='dark'] .botaoSobre {
+    color: #000000;
+    background-color: #c1bffdaf !important;
+    border: 1.7px solid #e0dffd !important;
+}
+
+.botaoSobre {
     z-index: 999 !important;
     padding: 1.3em 3em;
     font-size: 12px;
@@ -174,7 +187,7 @@ body {
     letter-spacing: 1px;
     font-weight: 500;
     color: #6852a5;
-    background-color: #e8def8 ;
+    background-color: #e8def8;
     border: 3px solid #6852a5b2;
     border-radius: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -404,6 +417,11 @@ body {
 .Faq-TXT {
     color: #6852a5;
 }
+
+[data-theme='dark'] .Faq-TXT {
+    color: #ffffff;
+}
+
 .faqaccordion {
     --bs-border-radius: 16px !important;
     --bs-accordion-inner-border-radius: calc(var(16px) -(var(1px)));
@@ -485,6 +503,13 @@ body {
 
 .results:active {
     transform: translateY(-4px);
+}
+
+[data-theme='dark'] .textresultados {
+    text-align: center !important;
+    font-size: 3em !important;
+    padding-left: -20px !important;
+    color: #ffff;
 }
 
 /* Card Styles */
