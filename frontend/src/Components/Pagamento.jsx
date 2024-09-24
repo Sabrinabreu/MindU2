@@ -5,13 +5,14 @@ import { QRCodeSVG } from 'qrcode.react';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import '../css/Payment.css';
 import { CopyIcon } from 'lucide-react';
+
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
 const PaymentForm = ({ selectedPlan }) => {
     const [paymentType, setPaymentType] = useState('');
     const [cardNumber, setCardNumber] = useState('');
-    const [cardExpiry, setCardExpiry] = useState('');
+    const [cardExpiry, setCardExpiry] = useState('')
     const [cardCVC, setCardCVC] = useState('');
     const [cardName, setCardName] = useState('');
     const [issuer, setIssuer] = useState('');
@@ -130,8 +131,25 @@ const PaymentForm = ({ selectedPlan }) => {
                 [name]: input // Atualiza o campo CPF com a formatação
             });
         }
-    };
+        else if (name === 'CEP') {
+            let input = value.replace(/\D/g, ''); // Remove tudo que não for número
 
+            // Limita a quantidade de dígitos a 8 (formato de CEP)
+            if (input.length > 8) {
+                input = input.slice(0, 8);
+            }
+
+            // Aplica a formatação do CEP (#####-###)
+            if (input.length > 5) {
+                input = `${input.slice(0, 5)}-${input.slice(5, 8)}`;
+            }
+
+            setFormData({
+                ...formData,
+                [name]: input // Atualiza o campo CEP com a formatação
+            });
+        }
+    };
     const generateBoletoPDF = async () => {
         if (!formData) {
             console.error("formData está indefinido.");
@@ -142,8 +160,10 @@ const PaymentForm = ({ selectedPlan }) => {
         const page = pdfDoc.addPage([595, 400]);
         const { width, height } = page.getSize();
 
+        const fontBold = await pdfDoc.embedFont('Helvetica-Bold');
+        const fontRegular = await pdfDoc.embedFont('Helvetica');
 
-        const { bankName, agencyNumber, name, cpf, address, city, state, zipCode, phone } = formData;
+        const { bankName, agencyNumber, accountNumber, name, cpf, address, city, state, zipCode, phone } = formData;
 
         // Dados do boleto
         const today = new Date();
@@ -153,7 +173,13 @@ const PaymentForm = ({ selectedPlan }) => {
         const nossoNumero = '123456789012'; // Gerar nosso número aleatório ou conforme a lógica da sua aplicação
         const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000'; // Exemplo de número do boleto
 
+        // Cálculo de multa e juros
         const amount = totalPrice.toFixed(2); // Valor total do boleto
+        const interestRate = 0.01; // Juros de 1% ao mês
+        const fineRate = 0.02; // Multa de 2%
+        const daysOverdue = 0; // Definir como o número de dias em atraso se necessário
+        const fine = (totalPrice * fineRate).toFixed(2);
+        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2); // Juros proporcional ao número de dias em atraso
 
         const drawSection = (x, y, width, height, borderWidth = 0.5) => {
             page.drawRectangle({
@@ -168,11 +194,11 @@ const PaymentForm = ({ selectedPlan }) => {
 
         // Seção do banco
         drawSection(0, height - 1, 595, 40);
-        page.drawText(` ${bankName}`, { x: 30, y: height - 26, size: 12, font: fontRegular });
+        page.drawText(`${bankName} `, { x: 30, y: height - 26, size: 12, font: fontRegular });
         drawSection(200, height - 1, 595, 40);
-        page.drawText(` ${agencyNumber}`, { x: 130, y: height - 26, size: 12, font: fontRegular });
+        page.drawText(`${agencyNumber} `, { x: 130, y: height - 26, size: 12, font: fontRegular });
         drawSection(200, height - 1, 595, 40);
-        page.drawText(` ${boletoNumber}`, { x: 220, y: height - 26, size: 12, font: fontRegular });
+        page.drawText(`${boletoNumber}`, { x: 220, y: height - 26, size: 12, font: fontRegular });
         drawSection(100, height - 1, 595, 40);
 
         // Seção do cedente dividida em tres colunas
@@ -184,7 +210,7 @@ const PaymentForm = ({ selectedPlan }) => {
         drawSection(410, height - 102, 185, 30);
         page.drawText(`Data do Documento: ${todayFormatted}`, { x: 421, y: height - 60, size: 12, font: fontRegular });
         page.drawText(`Vencimento: ${dueDateFormatted}`, { x: 422, y: height - 90, size: 12, font: fontRegular });
-        page.drawText(`Num Conta:  ${accountNumber}`, { x: 422, y: height - 120, size: 12, font: fontRegular });
+        page.drawText(`Num Conta: ${accountNumber}`, { x: 422, y: height - 120, size: 12, font: fontRegular });
         page.drawText(`Valor: R$ ${amount}`, { x: 422, y: height - 150, size: 12, font: fontRegular });
 
         drawSection(200, height - 41, 210, 30);
@@ -197,9 +223,9 @@ const PaymentForm = ({ selectedPlan }) => {
         page.drawText(`Endereço: ${address}`, { x: 10, y: height - 130, size: 12, font: fontRegular });
 
         // Informações da coluna direita
-        page.drawText(`Cidade: ${city}`, { x: 215, y: height - 60, size: 12, font: fontRegular });
-        page.drawText(`Estado: ${state}`, { x: 215, y: height - 90, size: 12, font: fontRegular });
-        page.drawText(`CEP: ${zipCode}`, { x: 215, y: height - 120, size: 12, font: fontRegular });
+        page.drawText(`Cidade: ${city} `, { x: 215, y: height - 60, size: 12, font: fontRegular });
+        page.drawText(`Estado:  ${state} `, { x: 215, y: height - 90, size: 12, font: fontRegular });
+        page.drawText(`CEP: ${zipCode} `, { x: 215, y: height - 120, size: 12, font: fontRegular });
         page.drawText(`Telefone: ${phone}`, { x: 215, y: height - 150, size: 12, font: fontRegular });
 
         // Seção de multa
@@ -212,10 +238,10 @@ const PaymentForm = ({ selectedPlan }) => {
             color: rgb(0, 0, 0)
         });
         drawSection(410, height - 161, 405, 135);
-        page.drawText(`Desconto / Abatimentos: `, { x: 421, y: height - 182, size: 12, font: fontRegular });
-        page.drawText(`Outras deduções:`, { x: 422, y: height - 216, size: 12, font: fontRegular });
-        page.drawText(`Multa:`, { x: 422, y: height - 252, size: 12, font: fontRegular });
-        page.drawText(`Outros acréscimos:`, { x: 422, y: height - 285, size: 12, font: fontRegular });
+        page.drawText('Desconto / Abatimentos:', { x: 421, y: height - 182, size: 12, font: fontRegular });
+        page.drawText('Outras deduções:', { x: 422, y: height - 216, size: 12, font: fontRegular });
+        page.drawText('Multa:', { x: 422, y: height - 252, size: 12, font: fontRegular });
+        page.drawText('Outros acréscimos:', { x: 422, y: height - 285, size: 12, font: fontRegular });
 
         drawSection(410, height - 195, 405, 35);
         drawSection(410, height - 230, 405, 35);
@@ -254,7 +280,6 @@ const PaymentForm = ({ selectedPlan }) => {
         link.download = 'boleto.pdf';
         link.click();
     };
-
 
 
 
@@ -331,6 +356,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="name">Nome:</label>
                                                 <input
+                                                    placeholder='Nome:'
                                                     className='forminput'
                                                     id="name"
                                                     name="name"
@@ -346,6 +372,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="cpf">CPF:</label>
                                                 <input
+                                                    placeholder='CPF:'
                                                     className='forminput'
                                                     id="cpf"
                                                     name="cpf"
@@ -362,6 +389,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="bankName">Nome do Banco:</label>
                                                 <input
+                                                    placeholder='Nome do banco'
                                                     className='forminput'
                                                     id="bankName"
                                                     name="bankName"
@@ -397,6 +425,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <div className="form-group">
                                                 <label htmlFor="accountNumber">Número da Conta:</label>
                                                 <input
+
                                                     className='forminput'
                                                     id="accountNumber"
                                                     name="accountNumber"
@@ -604,27 +633,27 @@ const PaymentForm = ({ selectedPlan }) => {
                             {/* Parcelamento */}
                             {paymentType === "cartao" && (
                                 <>
-                                <Col md="12" sm="12">
-                                    <div className="installments-container">
-                                        <label className="formlabel" htmlFor="parcelasCartao">Escolha o número de parcelas:</label>
-                                        <br />
-                                        <select
-                                            className="formselect"
-                                            id="parcelasCartao"
-                                            name="parcelas"
-                                            value={installments}
-                                            onChange={(e) => setInstallments(Number(e.target.value))}
-                                        >
-                                            {[1, 2, 3, 4, 5, 6].map(n => (
-                                                <option key={n} value={n}>
-                                                    {n}x de R${(totalPrice / n).toFixed(2)} sem juros
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </Col>
+                                    <Col md="12" sm="12">
+                                        <div className="installments-container">
+                                            <label className="formlabel" htmlFor="parcelasCartao">Escolha o número de parcelas:</label>
+                                            <br />
+                                            <select
+                                                className="formselect"
+                                                id="parcelasCartao"
+                                                name="parcelas"
+                                                value={installments}
+                                                onChange={(e) => setInstallments(Number(e.target.value))}
+                                            >
+                                                {[1, 2, 3, 4, 5, 6].map(n => (
+                                                    <option key={n} value={n}>
+                                                        {n}x de R${(totalPrice / n).toFixed(2)} sem juros
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </Col>
 
-                             </>
+                                </>
                             )}
                         </div>
                     )}
@@ -633,13 +662,13 @@ const PaymentForm = ({ selectedPlan }) => {
                     {paymentType === 'cartao' && (
                         <div>
                             <p className="text-center">Total: R${amountPerInstallment} </p>
-                        <Button className="formbutton" variant="primary" type="submit">
-                        Pagar
-                    </Button>
-                    </div>
+                            <Button className="formbutton" variant="primary" type="submit">
+                                Pagar
+                            </Button>
+                        </div>
                     )}
-                    {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' &&(
-                    <p className="text-center">Total: R${amountPerInstallment} </p>
+                    {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' && (
+                        <p className="text-center">Total: R${amountPerInstallment} </p>
                     )}
                     {paymentType === 'boleto' && (
                         <div className="button-container">

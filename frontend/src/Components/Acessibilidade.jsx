@@ -5,6 +5,10 @@ import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
 
+// // teclado virtual
+// import Keyboard from 'react-simple-keyboard';
+// import 'react-simple-keyboard/build/css/index.css';
+
 const Acessibilidade = ({ toggleTheme }) => {
     const [fontSize, setFontSize] = useState(16);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -178,22 +182,18 @@ useEffect(() => {
     };
 
     if (activeButtons['dynamicFocus']) {
-        // Adiciona os eventos quando o foco dinâmico está ativo
         allElements.forEach((element) => {
             element.addEventListener('mouseenter', handleMouseEnter);
             element.addEventListener('mouseleave', handleMouseLeave);
         });
     } else {
-        // Remove os eventos quando o foco dinâmico está desativado
         allElements.forEach((element) => {
             element.removeEventListener('mouseenter', handleMouseEnter);
             element.removeEventListener('mouseleave', handleMouseLeave);
-            // Remove qualquer highlight remanescente
             element.classList.remove('highlight-hover');
         });
     }
 
-    // Cleanup: Remove os eventos ao desmontar o componente ou mudar de página
     return () => {
         allElements.forEach((element) => {
             element.removeEventListener('mouseenter', handleMouseEnter);
@@ -202,7 +202,6 @@ useEffect(() => {
     };
 }, [activeButtons['dynamicFocus'], location]); // Atualiza sempre que o foco dinâmico muda ou a rota é alterada
 
-// Ativa ou desativa o foco dinâmico
 const handleDynamicFocusToggle = () => {
     setActiveButtons((prevState) => ({
         ...prevState,

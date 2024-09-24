@@ -6,12 +6,23 @@ import '../css/SideBar.css';
 import axios from "axios";
 import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX } from 'lucide-react';
 import BAPO from "../Components/WidgetBAPO";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../provider/AuthProvider";
 
 const Cadastro = () => {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [cards, setCards] = useState([]);
+
+    const { setToken } = useAuth();
+    const navegacao = useNavigate();
+  
+    const handleLogout = () => {
+      localStorage.removeItem('token');
+      setToken(null);
+      navegacao("/", { replace: true });
+    };
 
     useEffect(() => {
         fetchCards();
@@ -59,7 +70,7 @@ const Cadastro = () => {
                 <input id="nav-toggle" type="checkbox" onChange={toggleSidebar} />
                 <div id="nav-header">
                     <div className={`nav-title ${isSidebarCollapsed ? 'hidden' : ''}`}>
-                        Dashboard
+                        <h5>Dashboard</h5>
                     </div>
                     <label htmlFor="nav-toggle">
                         <span id="nav-toggle-burger"></span>
@@ -72,26 +83,6 @@ const Cadastro = () => {
                     </div>
                     <div className="nav-button">
                         <i className="fas"><CopyPlus /></i><span>Adicionar Funcionários</span>
-                    </div>
-                    <div className="nav-button">
-                        <i className="fas fa-thumbtack"></i><span>Pinned Items</span>
-                    </div>
-                    <hr />
-                    <div className="nav-button">
-                        <i className="fas fa-heart"></i><span>Following</span>
-                    </div>
-                    <div className="nav-button">
-                        <i className="fas fa-chart-line"></i><span>Trending</span>
-                    </div>
-                    <div className="nav-button">
-                        <i className="fas fa-fire"></i><span>Challenges</span>
-                    </div>
-                    <div className="nav-button">
-                        <i className="fas fa-magic"></i><span>Spark</span>
-                    </div>
-                    <hr />
-                    <div className="nav-button">
-                        <i className="fas fa-gem"></i><span>Codepen Pro</span>
                     </div>
                     <div id="nav-content-highlight"></div>
                 </div>
@@ -111,7 +102,7 @@ const Cadastro = () => {
                         </label>
                     </div>
                     <div id="nav-footer-content">
-                        <button className="logout">Sair<LogOut className="logsvg" /></button>
+                        <button onClick={handleLogout} className="logout">Sair<LogOut className="logsvg" /></button>
                     </div>
                 </div>
             </div>
