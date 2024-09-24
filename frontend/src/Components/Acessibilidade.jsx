@@ -3,6 +3,7 @@ import '../css/Acessibilidade.css';
 import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick } from 'lucide-react';
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
+import { useLocation } from 'react-router-dom';
 
 const Acessibilidade = ({ toggleTheme }) => {
     const [fontSize, setFontSize] = useState(16);
@@ -14,6 +15,8 @@ const Acessibilidade = ({ toggleTheme }) => {
     const [magnifiedText, setMagnifiedText] = useState('');
     const [isMagnifierVisible, setIsMagnifierVisible] = useState(false);
     const magnifierRef = useRef(null);
+
+    const location = useLocation();
 
     const highlightBackground = useRef(null);
     const highlightOverlay = useRef(null);
@@ -134,56 +137,32 @@ const Acessibilidade = ({ toggleTheme }) => {
 
     const handleMouseMove = (e) => {
         if (magnifierRef.current) {
-            magnifierRef.current.style.top = `${e.clientY + 20}px`;
-            magnifierRef.current.style.left = `${e.clientX + 20}px`;
+            magnifierRef.current.style.top = `${e.pageY + 20}px`; // Use pageY em vez de clientY
+            magnifierRef.current.style.left = `${e.pageX + 20}px`; // Use pageX em vez de clientX
         }
     };
 
 
-    useEffect(() => {
-        const handleMouseEnter = (e) => {
-            const target = e.target;
-            let textToMagnify = '';
-    
-            if (target.tagName === 'IMG' && target.alt) {
-                textToMagnify = target.alt;
-            } else if (target.nodeType === Node.TEXT_NODE || target.tagName === 'P' || target.tagName === 'SPAN') {
-                textToMagnify = target.textContent;
-            }
-    
-            if (textToMagnify) {
-                setMagnifiedText(textToMagnify);
-                setIsMagnifierVisible(true);
-            }
-        };
-    
-        const handleMouseLeave = () => {
-            setIsMagnifierVisible(false);
-        };
-    
-        const handleMouseMove = (e) => {
-            if (magnifierRef.current) {
-                magnifierRef.current.style.top = `${e.clientY + 20}px`;
-                magnifierRef.current.style.left = `${e.clientX + 20}px`;
-            }
-        };
-    
-        const allTextAndImages = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, img, div, a, b, button, input');
-    
+   // Atualiza os listeners ao trocar de rota ou quando o botão de lupa é ativado
+   useEffect(() => {
+    const allTextAndImages = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, img, a, button, input');
+
+    if (document.body.classList.contains('text-magnifier')) {
         allTextAndImages.forEach((element) => {
             element.addEventListener('mouseenter', handleMouseEnter);
             element.addEventListener('mouseleave', handleMouseLeave);
             element.addEventListener('mousemove', handleMouseMove);
         });
-    
-        return () => {
-            allTextAndImages.forEach((element) => {
-                element.removeEventListener('mouseenter', handleMouseEnter);
-                element.removeEventListener('mouseleave', handleMouseLeave);
-                element.removeEventListener('mousemove', handleMouseMove);
-            });
-        };
-    }, []);
+    }
+
+    return () => {
+        allTextAndImages.forEach((element) => {
+            element.removeEventListener('mouseenter', handleMouseEnter);
+            element.removeEventListener('mouseleave', handleMouseLeave);
+            element.removeEventListener('mousemove', handleMouseMove);
+        });
+    };
+}, [location, activeButtons['textMagnifier']]); // Atualiza os listeners sempre que a rota ou o estado do botão de lupa muda
     
     const toggleDynamicFocus = () => {
         const allElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, button, input');
@@ -301,12 +280,13 @@ const Acessibilidade = ({ toggleTheme }) => {
                                 </Button>
 
                                 <Button
-                                className={classNames('accessibility-button', { 'active': activeButtons['textMagnifier'] })}
-                                onClick={() => toggleClass('text-magnifier', 'textMagnifier')}
-                                aria-label="Lupa no Texto"
-                            >
-                                <Search /> Lupa no Texto
-                            </Button>
+                                    className={classNames('accessibility-button', { 'active': activeButtons['textMagnifier'] })}
+                                    onClick={() => toggleClass('text-magnifier', 'textMagnifier')}
+                                    aria-label="Lupa no Texto"
+                                >
+                                    <Search /> Lupa no Texto
+                                </Button>
+
 
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['highlight'] })}
