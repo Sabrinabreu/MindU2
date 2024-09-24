@@ -230,11 +230,12 @@
     box-shadow: 0 0 0 0;
     height: 65px;
     border: 0 none;
+    margin-left: 26%;
     border-top-left-radius: 20px !important;
     border-bottom-left-radius: 20px !important;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
-    background-color: #af6faf !important;
+    background-color:  rgba(205, 193, 239, 0.623) !important;
     color: white;
 }
 
@@ -270,7 +271,6 @@
 .buscaPor {
     height: 65px;
     width: 30%;
-    margin-right: 800px;
     margin-right: 2%;
     padding: 0 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -280,7 +280,7 @@
 
 .buscaPor:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #af6faf;
+    box-shadow: 0 0 0 2px #604c9c;
 }
 
 .buscaPor::placeholder {
@@ -291,19 +291,23 @@
 .searchA {
     height: 65px;
     border-radius: 20px;
-    background-color: #af6faf;
+    background-color: rgba(164, 139, 232, 0.623);
     color: white;
     border: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s;
     padding: 20px;
     cursor: pointer;
-    width: 200px;
+    width: 110px;
     text-align: center;
 }
 
 .searchA:hover {
-    background-color: #df95df;
+    background-color: #8a74c1;
+}
+
+[data-theme='dark'] .searchA, .dropFilter {
+    background-color: #816eb5 !important;
 }
 
 /*calendario*/
@@ -452,6 +456,25 @@
     color: #fff;
     border: 1.7px solid #ffffff;
 }
+
+
+.especialidade {
+    background-color: #f7f7f7;
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .especialidades {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .especialidades, .especialidade {
+    flex-basis: 30%;
+    margin: 7px;
+  }
 
 @media (max-width: 601px) {
     .imgPerfil {

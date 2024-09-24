@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
+import { Search } from 'lucide-react';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -38,7 +39,28 @@ function AgendarConsulta() {
       rating: 5,
       tabs: [
         { eventKey: "sobre", title: "Sobre Mim", content: "Sou Psicóloga pela Universidade Paulista, atuo com a abordagem Psicanalítica. Tenho experiência com atendimento psicológico de pessoas que estão passando pela depressão, transtorno de ansiedade, conflitos amorosos, conflitos familiares e problemas de autoestima." },
-        { eventKey: "servicos", title: "Serviços", content: "Psicóloga pela Universidade Paulista, atuo com a abordagem Psicanalítica. Tenho experiência com atendimento psicológico de pessoas que estão passando pela depressão, transtorno de ansiedade, conflitos amorosos, conflitos familiares e problemas de autoestima." },
+        {
+          eventKey: "espeialidades",
+          title: "Especialidades",
+          content: (
+            <div className="especialidades">
+              {[
+                { description: "Identidade" }, 
+                { description: "Dinâmica familiar" },
+                { description: "Comunicação" },
+                { description: "Resolução de conflitos" }, 
+                { description: "Autoestima e confiança" },
+                { description: "Depressão" },
+                { description: "Ansiedade" },
+                { description: "transtorno obsessivo-compulsivo" },
+              ].map((servico, index) => (
+                <div key={index}>
+                  <p className='especialidade'>{servico.description}</p>
+                </div>
+              ))}
+            </div>
+          ),
+        },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marina." }
       ]
     },
@@ -53,8 +75,28 @@ function AgendarConsulta() {
       valor: "sessão: R$100,00",
       rating: 5,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Flávio." },
-        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Flávio." },
+        { eventKey: "sobre", title: "Sobre Mim", content: "Sou formado na Pontifícia Universidade Católica (PUC), atuo com a abordagem Humanista. Experiência com atendimento psicológico de pessoas que estão passando por perdas, luto, estresse, ansiedade e problemas de autoconfiança." },
+        {
+          eventKey: "espeialidades",
+          title: "Especialidades",
+          content: (
+            <div className="especialidades">
+              {[
+                { description: "Transtornos mentais" }, 
+                { description: "Atenção" },
+                { description: "Insônia" },
+                { description: "Pensamento negativos e distorcidos" }, 
+                { description: "Autoestima e confiança" },
+                { description: "Memória" },
+                { description: "Luto" },
+              ].map((servico, index) => (
+                <div key={index}>
+                  <p className='especialidade'>{servico.description}</p>
+                </div>
+              ))}
+            </div>
+          ),
+        },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Flávio." }
       ]
     },
@@ -69,8 +111,28 @@ function AgendarConsulta() {
       valor: "sessão: R$150,00",
       rating: 5,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Cris." },
-        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Cris." },
+        { eventKey: "sobre", title: "Sobre Mim", content: "Sou Psicólogo pela Universidade Federal do Rio de Janeiro e atuo com a abordagem Sistêmica. Minha experiência inclui atendimento a famílias e indivíduos que enfrentam conflitos familiares, problemas de relacionamento, estresse e ansiedade. Meu objetivo é ajudar meus pacientes a encontrar soluções duradouras e melhorar sua qualidade de vida." },
+        {
+          eventKey: "espeialidades",
+          title: "Especialidades",
+          content: (
+            <div className="especialidades">
+              {[
+                { description: "Ansiedade" }, 
+                { description: "Apoio a doenças crônicas" }, 
+                { description: "Saúde mental de crianças e adolescentes" },
+                { description: "Luto e perda" },
+                { description: "Coping e resiliência" },
+                { description: "Resolução de conflitos" },
+                { description: "Trabalho" },
+              ].map((servico, index) => (
+                <div key={index}>
+                  <p className='especialidade'>{servico.description}</p>
+                </div>
+              ))}
+            </div>
+          ),
+        },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Cris." }
       ]
     },
@@ -85,8 +147,29 @@ function AgendarConsulta() {
       valor: "sessão: R$100,00",
       rating: 5,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Roberto." },
-        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Roberto." },
+        { eventKey: "sobre", title: "Sobre Mim", content: "Com formação pela Universidade Estadual de Campinas e abordagem Psicodinâmica, meu foco é ajudar meus pacientes a entender e superar seus padrões de pensamento e comportamento negativos. Tenho experiência em atendimento a pessoas que enfrentam depressão, ansiedade, conflitos amorosos e problemas de autoestima." },
+        {
+          eventKey: "espeialidades",
+          title: "Especialidades",
+          content: (
+            <div className="especialidades">
+              {[
+                { description: "Transtornos de personalidade" },
+                { description: "Identidade" }, 
+                { description: "Sexualidade" }, 
+                { description: "Autoestima e confiança" },
+                { description: "Carreira" },
+                { description: "Análise da dinâmica familiar" },
+                { description: "Resolução de conflitos" },
+                { description: "Trabalho" },
+              ].map((servico, index) => (
+                <div key={index}>
+                  <p className='especialidade'>{servico.description}</p>
+                </div>
+              ))}
+            </div>
+          ),
+        },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Roberto." }
       ]
     },
@@ -101,8 +184,27 @@ function AgendarConsulta() {
       valor: "sessão: R$350,00",
       rating: 5,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Lidiane." },
-        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Lidiane." },
+        { eventKey: "sobre", title: "Sobre Mim", content: "Como Psicóloga pela Universidade de Brasília, minha abordagem é baseada na Behaviorista. Meu objetivo é ajudar meus pacientes a identificar e mudar padrões de comportamento negativos, superando problemas de ansiedade, fobias, estresse e problemas de relacionamento." },
+        {
+          eventKey: "espeialidades",
+          title: "Especialidades",
+          content: (
+            <div className="especialidades">
+              {[
+                { description: "Dificuldades de aprendizagem" },
+                { description: "Habilidades  e emocionais" }, 
+                { description: "Técnicas de estudo" }, 
+                { description: "Intervenção em bullying" },
+                { description: "Adaptação escolar" },
+                { description: "Análise de clima organizacional" },
+              ].map((servico, index) => (
+                <div key={index}>
+                  <p className='especialidade'>{servico.description}</p>
+                </div>
+              ))}
+            </div>
+          ),
+        },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Lidiane." }
       ]
     },
@@ -117,27 +219,65 @@ function AgendarConsulta() {
       valor: "sessão: R$350,00",
       rating: 5,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Marilia." },
-        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Marilia." },
+        { eventKey: "sobre", title: "Sobre Mim", content: " Sou Psicóloga pela Universidade Federal do ABC e atuo com a abordagem Existencial. Meu trabalho é ajudar meus pacientes a encontrar significado e propósito na vida, superando crises existenciais, estresse, ansiedade, depressão e problemas de autoconhecimento. Meu objetivo é ajudar meus pacientes a viver uma vida mais autêntica e plena." },
+        {
+          eventKey: "espeialidades",
+          title: "Especialidades",
+          content: (
+            <div className="especialidades">
+              {[
+                { description: "Aconselhamento individual" },
+                { description: "Ansiedade" }, 
+                { description: "Habilidades para liderança" }, 
+                { description: "Estresse" },
+                { description: "Treinamento em comunicação eficaz" },
+                { description: "Análise de clima organizacional" },
+              ].map((servico, index) => (
+                <div key={index}>
+                  <p className='especialidade'>{servico.description}</p>
+                </div>
+              ))}
+            </div>
+          ),
+        },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marilia." }
       ]
     },
-    {
-      id: 7,
-      foto: perfilclinico,
-      title: "Caio Muniz de Almeida",
-      profissao: "Psicólogo Clínico",
-      local: "São Bernardo - SP",
-      sessao: "Duração da sessão",
-      hora: "2 horas",
-      valor: "sessão: R$350,00",
-      rating: 5,
-      tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Conteúdo de Sobre Mim para Caio." },
-        { eventKey: "servicos", title: "Serviços", content: "Conteúdo dos Serviços para Caio." },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Caio." }
-      ]
-    }
+  {
+    id: 7,
+    foto: perfilclinico,
+    title: "Caio Muniz de Almeida",
+    profissao: "Psicólogo Clínico",
+    local: "São Bernardo - SP",
+    sessao: "Duração da sessão",
+    hora: "2 horas",
+    valor: "sessão: R$350,00",
+    rating: 5,
+    tabs: [
+      { eventKey: "sobre", title: "Sobre Mim", content: " Sou Psicóloga pela Universidade Federal do ABC e atuo com a abordagem Existencial. Meu trabalho é ajudar meus pacientes a encontrar significado e propósito na vida, superando crises existenciais, estresse, ansiedade, depressão e problemas de autoconhecimento. Meu objetivo é ajudar meus pacientes a viver uma vida mais autêntica e plena." },
+      {
+        eventKey: "espeialidades",
+        title: "Especialidades",
+        content: (
+          <div className="especialidades">
+            {[
+              { description: "Aconselhamento individual e em grupo" },
+              { description: "Desenvolvimento de autoestima" }, 
+              { description: "Coaching" },
+              { description: "Habilidades para lidar com estresse e ansiedade" },
+            ].map((servico, index) => (
+              <div key={index}>
+                <p className='especialidade'>{servico.description}</p>
+              </div>
+            ))}
+          </div>
+        ),
+      },
+      { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para ele." }
+    ],
+  },
+
+
   ];
 
   const filteredSlidesContent = slidesContent.filter(slide => {
@@ -311,13 +451,16 @@ function AgendarConsulta() {
   return (
     <>
       <BAPO />
+
       <div className='fundoFiltro'>
         <div className="d-flex mb-4 align-items-center ">
+        <button onClick={handleAtendendoHoje} >Atendendo hoje</button>
+
           <Form.Control
             as="select"
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="dropFilter mr-2"
+            className="dropFilter mr-2 "
           >
             <option value="" >Selecionar <p className="setaSelecionar">→</p></option>
             <option
@@ -376,9 +519,8 @@ function AgendarConsulta() {
           )}
 
           <div className="searchA onClick={handleSearch}">
-            {isLoading ? 'Buscando...' : 'Buscar'}
+            {isLoading ? '...' :  <Search />}
           </div>
-          <button onClick={handleAtendendoHoje}>Atendendo hoje</button>
         </div>
       </div>
 
@@ -450,7 +592,7 @@ function AgendarConsulta() {
           })
         ) : (
           <div className="no-results">
-            <p>Nenhum resultado encontrado.</p>
+            <p>Nenhum resultado encontrado :(</p>
           </div>
         )}
       </Container>

@@ -160,7 +160,7 @@ const nomePsico = 'Flávio Monteiro Lobato';
 // Componente principal de agendamento
 const Agendar = () => {
     const [show, setShow] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
+    edDate] = useState(null);const [selectedDate, setSelect
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
@@ -363,16 +363,33 @@ export default Agendar;*/
 
 
 
-
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import "../css/AgendarConsulta.css";
+import "../css/SobrePsicologo.css";
+import perfilPsicologo from '../img/perfilPsicologo.jfif';
+import fundoPsico from '../img/fundoPsico.webp';
+import { Container, Row, Col } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
-import { useParams } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
 
-const DatePicker = () => {
-    const { psicologoId } = useParams(); // Supondo que o id do psicólogo vem da URL
+// Nome do psicólogo
+const nomePsico = 'Flávio Monteiro Lobato';
+
+// Componente principal de agendamento
+const Agendar = () => {
+    const { psicologoId } = useParams(); // Obtendo o ID do psicólogo da URL
+    const [show, setShow] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedTime, setSelectedTime] = useState(null);
+    const [selectedTipo, setSelectedTipo] = useState(null);
+    const [assunto, setAssunto] = useState('');
+    const [userId] = useState('someUserId');
+    const [availableTimes, setAvailableTimes] = useState([]);
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
@@ -381,48 +398,190 @@ const DatePicker = () => {
 
     const fetchDisponibilidades = async (psicologoId) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/disponibilidades/${psicologoId}/disponibilidade`);
-            if (!response.ok) {
-                throw new Error('Erro ao buscar as disponibilidades');
-            }
-            
-            const responseText = await response.text();  // Obtém o conteúdo da resposta como texto
-            console.log("Resposta recebida:", responseText); // Loga a resposta completa
-            
-            // Tenta parsear como JSON
-            try {
-                const data = JSON.parse(responseText);  // Faz o parse manualmente para evitar erro de parse
-                setEvents(data);  // Define os eventos com o JSON obtido
-            } catch (parseError) {
-                console.error("Erro ao fazer parse do JSON:", parseError);
-            }
-    
+            const response = await fetch(`http://localhost:3000/api/psicologo/${psicologoId}/disponibilidade`);
+            if (!response.ok) throw new Error(`Erro ao buscar as disponibilidades: ${response.status}`);
+            const data = await response.json();
+            setEvents(data);
         } catch (error) {
             console.error('Erro ao buscar as disponibilidades:', error);
         }
     };
-    
+
+    const handleDateSelect = (data) => {
+        setSelectedDate(data);
+        fetchAvailableTimes(data); // Busque os horários disponíveis ao selecionar uma data
+    };
+
+    const fetchAvailableTimes = (date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        fetch(`http://localhost:3001/api/horarios?data=${formattedDate}`)
+            .then(response => response.json())
+            .then(data => setAvailableTimes(data.horarios || []))
+            .catch(err => {
+                console.error('Erro ao buscar horários disponíveis:', err);
+                alert('Erro ao buscar horários disponíveis.');
+            });
+    };
+
+    const handleTimeClick = (time) => setSelectedTime(time);
+    const handleTipoClick = (tipo) => setSelectedTipo(tipo);
+    const handleAssuntoChange = (e) => setAssunto(e.target.value);
+
+    const handleSave = () => {
+        if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
+            alert('Por favor, preencha todos os campos antes de salvar.');
+            return;
+        }
+
+        fetch(`http://localhost:3001/api/psicologos/by-name?nome=${encodeURIComponent(nomePsico)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.id) {
+                    const psicologoId = data.id;
+                    const dataToSend = {
+                        userId: userId,
+                        psicologo_id: psicologoId,
+                        data: selectedDate.toISOString().split('T')[0],
+                        horario: selectedTime,
+                        tipo: selectedTipo,
+                        assunto: assunto
+                    };
+
+                    fetch('http://localhost:3001/api/agendamento', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(dataToSend),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                alert('Agendamento realizado com sucesso!');
+                            } else {
+                                alert('Erro ao agendar consulta: ' + data.error);
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Erro ao criar o agendamento:', err);
+                            alert('Erro ao criar o agendamento.');
+                        });
+                } else {
+                    alert('Erro ao buscar o ID do psicólogo.');
+                }
+            })
+            .catch(err => {
+                console.error('Erro ao buscar o ID do psicólogo:', err);
+                alert('Erro ao buscar o ID do psicólogo.');
+            });
+    };
+
+    const handleClose = () => {
+        setShow(false);
+        setAvailableTimes([]); // Limpa os horários disponíveis ao fechar
+    };
+
+    const handleShow = () => setShow(true);
+
+    const renderAvailableTimes = () => (
+        availableTimes.length > 0 ? (
+            availableTimes.map(time => (
+                <button key={time} className={`time-slot ${selectedTime === time ? 'active' : ''}`} onClick={() => handleTimeClick(time)}>
+                    {time}
+                </button>
+            ))
+        ) : (
+            <p>Não há horários disponíveis para esta data.</p>
+        )
+    );
+
     return (
         <Container>
-            <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView="dayGridMonth"
-                locale={ptBrLocale}
-                events={events}
-                dayCellContent={(info) => (
-                    <div className={`dia-${info.date.getDate()}`}>
-                        {info.dayNumberText}
+            <Row>
+                <Col md={6}>
+                    <div className='perfilPsico'>
+                        <img className="fundoPsico" src={fundoPsico} alt="Imagem de fundo" />
+                        <img className="psicologo" src={perfilPsicologo} alt="Perfil do psicólogo" />
+                        <button className='valores'>
+                            Duração da sessão <br />
+                            <b>1 hora</b>
+                        </button>
+                        <h4 className='nomePsico container p-4'>{nomePsico}</h4>
+                        <b className='infoPsico'>Psicólogo Cognitivo</b>
+                        <h6 className='infoPsico'>Cornélio Procópio - PR</h6>
+                        <h6 className='crp'>214579 / CRP - 4ª Região</h6>
                     </div>
-                )}
-                eventClassNames="evento-disponivel"
-                eventTimeFormat={{
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    meridiem: false,
-                }}
-            />
+                </Col>
+                <Col md={6}>
+                    <div className='agenda'>
+                        <h5 className='titulosSobre py-3 pl-2 mb-2'>
+                            <span className="material-symbols-outlined iconsSaibaMais">calendar_month</span> Agende sua consulta...
+                        </h5>
+                        <div className='displayCalendario'>
+                            <FullCalendar
+                                plugins={[dayGridPlugin]}
+                                locale={ptBrLocale}
+                                initialView="dayGridMonth"
+                                events={events}
+                                dateClick={(info) => handleDateSelect(new Date(info.date))}
+                            />
+                        </div>
+                        <button className='agendaConsulta' onClick={handleShow} disabled={!selectedDate}>
+                            Agendar consulta
+                        </button>
+
+                        <Modal show={show} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title className='agendando'>Agendar Consulta</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                {selectedDate ? (
+                                    <>
+                                        <h6>Data selecionada: {selectedDate.toLocaleDateString('pt-BR')}</h6>
+                                        <p className='tipoConsulta mb-1'>Tipo de consulta:</p>
+                                        <button className={`botTipo ${selectedTipo === 'Online' ? 'active' : ''}`} onClick={() => handleTipoClick('Online')}>Online</button>
+                                        <button className={`botTipo ${selectedTipo === 'Presencial' ? 'active' : ''}`} onClick={() => handleTipoClick('Presencial')}>Presencial</button>
+                                        <Form>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
+                                                <Form.Control as="textarea" rows={3} value={assunto} onChange={handleAssuntoChange} />
+                                            </Form.Group>
+                                        </Form>
+                                        <h6>Horários disponíveis:</h6>
+                                        <div className='time-slots'>
+                                            {renderAvailableTimes()}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <p>Por favor, selecione uma data para agendar a consulta.</p>
+                                )}
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>Fechar</Button>
+                                <Button className='salvar' onClick={handleSave}>Salvar</Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </div>
+
+                    <div className='biografia p-4'>
+                        <h5 className='titulosSobre py-3'><span className="material-symbols-outlined iconsSaibaMais">person_book</span> Biografia</h5>
+                        <p className='mb-4'>
+                            Psicólogo, formado em 1990 pela Universidade Estadual do Paraná. Especialista em Terapia Cognitivo-Comportamental e Psicoterapia de Casal.
+                            Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
+                        </p>
+                    </div>
+
+                    <div className='contato p-4'>
+                        <h5 className='titulosSobre py-3'><span className="material-symbols-outlined iconsSaibaMais">send</span> Contato</h5>
+                        <p>Telefone: (43) 1234-5678 <br /> Email: contato@psicologo.com.br</p>
+                    </div>
+
+                    <div className='localizacao p-4'>
+                        <h5 className='titulosSobre py-3'><span className="material-symbols-outlined iconsSaibaMais">location_on</span> Localização</h5>
+                        <p>Cornélio Procópio, PR - Brasil</p>
+                    </div>
+                </Col>
+            </Row>
         </Container>
     );
-}
+};
 
-export default DatePicker;
+export default Agendar;
