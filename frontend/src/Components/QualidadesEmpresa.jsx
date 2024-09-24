@@ -5,7 +5,6 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import '../css/HomeMindU.css'
 import { CalendarCog } from 'lucide-react';
-import Transformação from '../img/icons8-butterfly-100.png'
 import { GiDiploma } from "react-icons/gi";
 import { LockKeyhole } from 'lucide-react';
 

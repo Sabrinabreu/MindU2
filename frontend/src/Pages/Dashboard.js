@@ -6,12 +6,23 @@ import '../css/SideBar.css';
 import axios from "axios";
 import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX } from 'lucide-react';
 import BAPO from "../Components/WidgetBAPO";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../provider/AuthProvider";
 
 const Cadastro = () => {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [cards, setCards] = useState([]);
+
+    const { setToken } = useAuth();
+    const navegacao = useNavigate();
+  
+    const handleLogout = () => {
+      localStorage.removeItem('token');
+      setToken(null);
+      navegacao("/", { replace: true });
+    };
 
     useEffect(() => {
         fetchCards();
@@ -111,7 +122,7 @@ const Cadastro = () => {
                         </label>
                     </div>
                     <div id="nav-footer-content">
-                        <button className="logout">Sair<LogOut className="logsvg" /></button>
+                        <button onClick={handleLogout} className="logout">Sair<LogOut className="logsvg" /></button>
                     </div>
                 </div>
             </div>

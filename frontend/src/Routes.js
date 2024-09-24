@@ -9,8 +9,8 @@ import Home from "./Pages/Home";  //todos
 import Cadastroempresa from "./Pages/CadastroEmpresa"; //todos
 import Contato from "./Pages/Contato"; //todos
 import CadastroPsicólogos from './Pages/CadastroPsicólogos' //todos
-import Agendarconsulta from "./Pages/AgendarConsulta"; //funcionario
-import SaibaMais from './Pages/SaibaMais'; //todos autenticados
+import Agendarconsulta from "./Pages/AgendarConsulta"; //funcionario e psicologo
+import SaibaMais from './Pages/SaibaMais'; //funcionario e psicologo
 import Planos from './Pages/Planos'; //todos
 import Perfil from './Pages/Perfil'; //funcionario e psicologo
 import AcessoFuncionarios from './Pages/AcessoFuncionarios'; //empresa
@@ -101,13 +101,12 @@ const Rotas = () => {
       {/* Rotas psicologo e funcionários */}
 
 
-      {/* Rotas privadas para todos usuários*/}
       {token && (
         <>
           <Route
             path="/agendarConsulta"
             element={
-              <ProtectedRoute allowedRoles={['empresa', 'psicologo', 'funcionario']}>
+              <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>
                 <Agendarconsulta />
               </ProtectedRoute>
             }
@@ -115,7 +114,7 @@ const Rotas = () => {
           <Route
             path="/perfil"
             element={
-              <ProtectedRoute allowedRoles={['empresa', 'psicologo', 'funcionario']}>
+              <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>
                 <Perfil />
               </ProtectedRoute>
             }
@@ -123,7 +122,7 @@ const Rotas = () => {
           <Route
             path="/saibaMais"
             element={
-              <ProtectedRoute allowedRoles={['empresa', 'psicologo', 'funcionario']}>
+              <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>
                 <SaibaMais />
               </ProtectedRoute>
             }
@@ -131,6 +130,8 @@ const Rotas = () => {
           
         </>
       )}
+      
+      {/* Rotas privadas para todos usuários*/}
 
       {/* Rota de fallback para 404 */}
       <Route path="*" element={<NotFound />} />

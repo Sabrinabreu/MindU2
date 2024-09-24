@@ -8,7 +8,6 @@ import "../css/Navbar.css";
 import Logo from "../img/logo.png";
 import { useAuth } from '../provider/AuthProvider';
 import { parseJwt } from './jwtUtils';
-import CadastroPsicólogos from '../Pages/CadastroPsicólogos';
 
 const Navegacao = ({ isDarkMode, toggleTheme }) => {
   const location = useLocation();
@@ -36,11 +35,14 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
     { nome: "Contato", caminho: "/contato", auth: false },
     { nome: "Planos", caminho: "/planos", auth: false },
     { nome: "Cadastre-se como psicólogo", caminho: "/cadastroPsicologos", auth: false },
-    { nome: "Cadastro Empresa", caminho: "/cadastroEmpresa", auth: false, tiposPermitidos: ["guest"] },
-    { nome: "Login", caminho: "/login", auth: false, tiposPermitidos: ["guest"] },
+    { nome: "Cadastro Empresa", caminho: "/cadastroEmpresa", auth:false },
+    { nome: "Login", caminho: "/login", auth: false },
     { nome: "Acesso Funcionários", caminho: "/acessoFuncionarios", auth: true, tiposPermitidos: ["empresa"] },
-    { nome: "Perfil", caminho: "/perfil", auth: true, tiposPermitidos: ["empresa", "psicologo", "funcionario"] },
     { nome: "Dashboard", caminho: "/dashboard", auth: true, tiposPermitidos: ["empresa"] },
+    { nome: "Disponibilidade", caminho: "/disponibilidade", auth: true, tiposPermitidos: ["psicologo"] },
+    { nome: "Perfil", caminho: "/perfil", auth: true, tiposPermitidos: ["psicologo", "funcionario"] },
+    { nome: "Agendar Consulta", caminho: "/agendarConsulta", auth: true, tiposPermitidos: ["psicologo", "funcionario"] },
+    { nome: "Saiba Mais", caminho: "/saibaMais", auth: true, tiposPermitidos: ["psicologo, funcionario"] }
   ];
 
     // Função para verificar se o link deve ser exibido

@@ -3,10 +3,9 @@ import axios from 'axios';
 import "../css/Perfil.css";
 import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
 import { Eye, EyeOff } from 'lucide-react';
-import Logout from '../Components/Logout';
-import "../css/Logout.css";
 import { parseJwt } from '../Components/jwtUtils';
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../provider/AuthProvider";
 function formatarData(data) {
     return new Date(data).toLocaleDateString('pt-BR'); // Formato dd/mm/yyyy
 }
@@ -18,6 +17,8 @@ function Perfil() {
     const [perfil, setPerfil] = useState({});
     const [tipoUsuario, setTipoUsuario] = useState('');
     const [nomeEmpresa, setNomeEmpresa] = useState('');
+    const { setToken } = useAuth();
+    const navegacao = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
     const [setPsicologoNome] = useState('');
@@ -58,6 +59,12 @@ function Perfil() {
                 console.error('Erro ao obter nome do psicólogo:', error);
             });
     }, [setPsicologoNome]);
+  
+    const handleLogout = () => {
+      localStorage.removeItem('token');
+      setToken(null);
+      navegacao("/", { replace: true });
+    };
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -265,7 +272,7 @@ function Perfil() {
                                 </>
                             )}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                <Logout/>
+                            <Button className="btnLog" onClick={handleLogout}><span class="material-symbols-outlined iconLog">logout</span>Sair da conta</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
