@@ -145,7 +145,7 @@ const Acessibilidade = ({ toggleTheme }) => {
 
    // Atualiza os listeners ao trocar de rota ou quando o botão de lupa é ativado
    useEffect(() => {
-    const allTextAndImages = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, img, a, button, input');
+    const allTextAndImages = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, img, a, button, input, label');
 
     if (document.body.classList.contains('text-magnifier')) {
         allTextAndImages.forEach((element) => {
