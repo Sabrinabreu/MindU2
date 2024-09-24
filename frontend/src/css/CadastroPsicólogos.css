@@ -11,6 +11,12 @@ body {
     color: #6852a5;
 }
 
+[data-theme='dark'] .titleporque {
+    margin-top: -30px !important;
+    margin-bottom: 40px !important;
+    color: #ffffff;
+}
+
 .centralizar {
     display: block;
     text-align: -webkit-center;
@@ -170,6 +176,10 @@ body {
     color: #6852a5;
 }
 
+[data-theme='dark'] .txtporque {
+    margin-left: 24px !important;
+    color: #ffffff;
+}
 
 .cssbuttons-io-button {
     margin-top: 20px !important;
@@ -198,6 +208,11 @@ body {
 
 .cssbuttons-io-button:active {
     box-shadow: 0 0.3em 1em -0.5em rgb(160, 109, 255);
+}
+
+[data-theme='dark'] .text-muted {
+    --bs-text-opacity: 1;
+    color: #fff !important;
 }
 
 @media (max-width: 576px) {

@@ -9,7 +9,7 @@ const rotaFuncionario = require('./routesFuncionario');
 const rotaPsicologos = require('./routesPsicologos');
 const agendamentoRoutes = require('./routesAgendamento');
 const rotaPerfilsuario = require('./routesPerfilusuario');
-const routaDisponibilidade = require('./routesDisponibilidade');
+const disponibilidadesRoutes = require('./routesDisponibilidade');
 
 // Cria uma instância do Express
 const app = express();
@@ -29,7 +29,7 @@ app.use('/', rotaFuncionario);
 app.use('/', rotaPsicologos);
 app.use('/api/agendamento', agendamentoRoutes);
 app.use('/api/atualizarPerfil', rotaPerfilsuario);
-app.use('/', routaDisponibilidade);
+app.use('/api/disponibilidades', disponibilidadesRoutes);
 
 // Remove rotas não definidas (ajustar ou remover se não houver)
 app.use('/', (req, res) => {

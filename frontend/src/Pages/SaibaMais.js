@@ -67,11 +67,10 @@ const SobrePsicologo = () => {
     );
 };
 
-export default SobrePsicologo;
-*/
+export default SobrePsicologo;*/
 
-
-/*import React, { useState, useEffect } from 'react';
+/*
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DispCalendario from "../Components/DispCalendario";
 import { Container } from 'react-bootstrap';
@@ -140,9 +139,10 @@ const SobrePsicologo = () => {
     );
 };
 
-export default SobrePsicologo;
-*/
+export default SobrePsicologo;*/
 
+
+/* CERTINHO 
 import { useState } from 'react';
 import "../css/AgendarConsulta.css";
 import "../css/SobrePsicologo.css";
@@ -359,4 +359,70 @@ const Agendar = () => {
     );
 }
 
-export default Agendar;
+export default Agendar;*/
+
+
+
+
+import { useState, useEffect } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import ptBrLocale from '@fullcalendar/core/locales/pt-br';
+import { useParams } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
+
+const DatePicker = () => {
+    const { psicologoId } = useParams(); // Supondo que o id do psicólogo vem da URL
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        fetchDisponibilidades(psicologoId);
+    }, [psicologoId]);
+
+    const fetchDisponibilidades = async (psicologoId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/disponibilidades/${psicologoId}/disponibilidade`);
+            if (!response.ok) {
+                throw new Error('Erro ao buscar as disponibilidades');
+            }
+            
+            const responseText = await response.text();  // Obtém o conteúdo da resposta como texto
+            console.log("Resposta recebida:", responseText); // Loga a resposta completa
+            
+            // Tenta parsear como JSON
+            try {
+                const data = JSON.parse(responseText);  // Faz o parse manualmente para evitar erro de parse
+                setEvents(data);  // Define os eventos com o JSON obtido
+            } catch (parseError) {
+                console.error("Erro ao fazer parse do JSON:", parseError);
+            }
+    
+        } catch (error) {
+            console.error('Erro ao buscar as disponibilidades:', error);
+        }
+    };
+    
+    return (
+        <Container>
+            <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                locale={ptBrLocale}
+                events={events}
+                dayCellContent={(info) => (
+                    <div className={`dia-${info.date.getDate()}`}>
+                        {info.dayNumberText}
+                    </div>
+                )}
+                eventClassNames="evento-disponivel"
+                eventTimeFormat={{
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false,
+                }}
+            />
+        </Container>
+    );
+}
+
+export default DatePicker;
