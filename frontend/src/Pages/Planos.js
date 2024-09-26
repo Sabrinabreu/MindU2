@@ -14,18 +14,18 @@ const Cadastro = () => {
     const planos = {
         'Bem-Estar': {
             name: 'Bem-Estar',
-            price: 40399,
-            description: 'Ideal para quem busca suporte psicológico básico e orientação.'
+            price: 250.00,
+            
         },
         'Equilíbrio': {
             name: 'Equilíbrio',
-            price: 125799,
-            description: 'Para quem deseja um suporte psicológico mais abrangente e contínuo.'
+            price: 310.00,
+           
         },
         'Transformação': {
             name: 'Transformação',
-            price: 15000000,
-            description: 'Para quem busca um acompanhamento intensivo e personalizado.'
+            price: 600.00,
+          
         }
     };
 
@@ -48,9 +48,9 @@ const Cadastro = () => {
                                 <div className="inner">
                                     <p className="title">Bem-Estar</p>
                                     <p className="info">Ideal para quem busca suporte psicológico básico e orientação contínua.</p>
-                                    <div className="price">R$40.399<span>/ mês</span></div>
+                                    <div className="price">R$250,00<span>/ por funcionário</span></div>
                                     <ul className="featureList">
-                                        <li><p>200 funcionários</p></li>
+
                                         <li><p>Consultas semanais com psicólogo (1 sessão por semana)</p></li>
                                         <li><p>Acesso a workshops mensais sobre saúde mental</p></li>
                                         <li><p>Suporte online entre consultas</p></li>
@@ -78,9 +78,9 @@ const Cadastro = () => {
                                         </div>
                                     </div>
                                     <p className="info">Para quem deseja um suporte psicológico mais abrangente e contínuo.</p>
-                                    <div className="price">R$125.799<span>/ mês</span></div>
+                                    <div className="price">R$310,00<span>/por funcionário</span></div>
                                     <ul className="featureList">
-                                        <li><p>500 funcionários</p></li>
+
                                         <li><p>Consultas semanais com psicólogo (1 sessão por semana)</p></li>
                                         <li><p>Sessões de terapia em grupo (2 vezes por mês)</p></li>
                                         <li><p>Acesso a workshops semanais sobre saúde mental</p></li>
@@ -101,9 +101,9 @@ const Cadastro = () => {
                                 <div className="inner">
                                     <p className="title">Transformação</p>
                                     <p className="info">Para quem busca um acompanhamento intensivo e personalizado.</p>
-                                    <div className="price">R$1.5milhão<span>/ mês</span></div>
+                                    <div className="price">R$600,00<span>/ por funcionário</span></div>
                                     <ul className="featureList">
-                                        <li><p>10.000 funcionários</p></li>
+
                                         <li><p>Consultas semanais (2 sessões por semana)</p></li>
                                         <li><p>Sessões de terapia em grupo (4 vezes por mês)</p></li>
                                         <li><p>Acesso ilimitado a workshops e webinars sobre saúde mental</p></li>
@@ -129,7 +129,7 @@ const Cadastro = () => {
                 onHide={() => setModalShow(false)}
                 planName={selectedPlan?.name}
                 planPrice={selectedPlan?.price}
-                planDescription={selectedPlan?.description}
+
             />
         </>
     );

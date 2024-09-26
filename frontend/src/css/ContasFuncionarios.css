@@ -1,0 +1,22 @@
+.btnCreate {
+    height: 40px;
+    color: #46467a;
+    border-radius: 10px 10px 10px 10px;
+    border-style: solid solid solid none;
+    border-width: 1.4px;
+    border-color: #46467a89;
+    padding: 0 15px;
+    margin: 0;
+}
+
+.opcaoNumber {
+    width: 180px;
+    height: 40px;
+    border: 1.4px solid #46467a89;
+    border-radius: 10px;
+}
+
+[data-theme='dark'] .opcaoNumber {
+    background: #eee8f4 !important;
+    color: rgb(0, 0, 0);
+}

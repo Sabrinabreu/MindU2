@@ -17,10 +17,10 @@ const TabelaFuncionarios = ({ contas }) => {
         console.error('Erro ao buscar os funcionários:', error);
       }
     }
-  
+
     fetchData(); // Carrega os dados na primeira renderização ou quando "contas" mudar
   }, [contas]);
-  
+
 
   useEffect(() => {
     const fetchFuncionarios = async () => {
@@ -31,10 +31,10 @@ const TabelaFuncionarios = ({ contas }) => {
         console.error('Erro ao buscar os funcionários:', error);
       }
     };
-  
+
     fetchFuncionarios();
   }, []);
-  
+
 
   const handleRowSelected = React.useCallback(state => {
     setSelectedRows(state.selectedRows);
@@ -50,7 +50,7 @@ const TabelaFuncionarios = ({ contas }) => {
       console.error("Erro ao excluir usuário:", error);
     }
   };
-  
+
 
   const handleExcluirSelecionados = async () => {
     if (selectedRows.length === 0) {
@@ -68,7 +68,7 @@ const TabelaFuncionarios = ({ contas }) => {
       // Atualiza a lista de funcionários após excluir os selecionados
       const { data } = await axios.get("http://localhost:3001/contaFuncionarios");
       setcontasFuncionarios(data);
-      setSelectedRows([]); 
+      setSelectedRows([]);
       setToggleCleared(!toggleCleared); // Reseta a seleção
       console.log("Usuários excluídos com sucesso!");
     } catch (error) {
@@ -88,14 +88,14 @@ const TabelaFuncionarios = ({ contas }) => {
     },
     {
       cell: contaFuncionario => (
-        <Trash style={{color: "red", padding: "1.5px"}} onClick={() => handleExcluirUsuario(contaFuncionario.login)} />
+        <Trash style={{ color: "red", padding: "1.5px" }} onClick={() => handleExcluirUsuario(contaFuncionario.login)} />
       )
     }
   ];
 
   const contextActions = React.useMemo(() => {
     return (
-      <Trash style={{color: "red", padding: "1.5px"}} onClick={handleExcluirSelecionados} />
+      <Trash style={{ color: "red", padding: "1.5px" }} onClick={handleExcluirSelecionados} />
     );
   }, [selectedRows]);
 

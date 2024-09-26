@@ -8,24 +8,50 @@ import { CopyIcon } from 'lucide-react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
-const PaymentForm = ({ selectedPlan }) => {
+const PaymentForm = ({ selectedPlan, completeStep }) => {
     const [paymentType, setPaymentType] = useState('');
     const [cardNumber, setCardNumber] = useState('');
-    const [cardExpiry, setCardExpiry] = useState('')
+    const [cardExpiry, setCardExpiry] = useState('');
     const [cardCVC, setCardCVC] = useState('');
     const [cardName, setCardName] = useState('');
     const [issuer, setIssuer] = useState('');
     const [isCVCVisible, setIsCVCVisible] = useState(false);
     const [installments, setInstallments] = useState(1);
-    const [totalPrice, setTotalPrice] = useState(selectedPlan.price || 0);
+    const [nContas, setNContas] = useState(1);
+
+    // Verifica se o preço do plano é um número válido, senão define como 0
+    const initialPrice = parseFloat(selectedPlan?.price) || 0;
+    const [totalPrice, setTotalPrice] = useState(initialPrice * nContas);
+
+    useEffect(() => {
+        // Recalcula o preço total quando o número de contas ou preço do plano muda
+        const price = parseFloat(selectedPlan?.price) || 0;
+        setTotalPrice(price * nContas);
+    }, [nContas, selectedPlan]);
+
+    // Função para formatar o número e substituir vírgulas por pontos no input
+    const formatCurrency = (value) => {
+        // Converte o valor para float e depois formata para moeda brasileira
+        const formattedValue = parseFloat(value).toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+        return formattedValue;
+    };
+
+    // Converte o valor formatado em string (com vírgulas) para um número parseável
+    const parseCurrency = (value) => {
+        return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
+    };
+
+    // Garante que o cálculo da parcela seja válido
+    const amountPerInstallment = installments > 0 ? formatCurrency(totalPrice / installments) : '0,00';
     const documentNumber = '123.456.789-01'; // Número de documento fictício
     const today = new Date();
     const dueDateGenerated = new Date(today.setDate(today.getDate() + 7)).toLocaleDateString('pt-BR'); // Data de vencimento para 7 dias à frente
     const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000';
     const [selectedAgencyNumber, setSelectedAgencyNumber] = useState('');
     const agencyNumber = selectedAgencyNumber || "Agência não informada";
-
-
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -141,7 +167,7 @@ const PaymentForm = ({ selectedPlan }) => {
             // Aplica a formatação do CEP (#####-###)
             if (input.length > 5) {
                 input = `${input.slice(0, 5)}-${input.slice(5, 8)}`;
-            } 
+            }
 
             setFormData({
                 ...formData,
@@ -284,7 +310,6 @@ const PaymentForm = ({ selectedPlan }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const amountPerInstallment = (totalPrice / installments).toFixed(2);
 
         if (paymentType === 'boleto') {
             generateBoletoPDF();
@@ -293,8 +318,12 @@ const PaymentForm = ({ selectedPlan }) => {
         }
     };
 
-    const amountPerInstallment = (totalPrice / installments).toFixed(2);
 
+    const handleProceed = () => {
+        // Lógica para prosseguir
+        console.log("Prosseguindo com o pagamento...");
+        if (completeStep) completeStep(); // Chama a função de callback passada por props
+    };
     return (
         <Container className="formContainer">
             <Row>
@@ -629,6 +658,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                 </div>
                             )}
 
+
                             {/* Parcelamento */}
                             {paymentType === "cartao" && (
                                 <>
@@ -645,37 +675,53 @@ const PaymentForm = ({ selectedPlan }) => {
                                             >
                                                 {[1, 2, 3, 4, 5, 6].map(n => (
                                                     <option key={n} value={n}>
-                                                        {n}x de R${(totalPrice / n).toFixed(2)} sem juros
+                                                        {n}x de R${formatCurrency(totalPrice / n)} sem juros
                                                     </option>
                                                 ))}
                                             </select>
                                         </div>
                                     </Col>
-
                                 </>
                             )}
+
+
+
+
                         </div>
                     )}
 
                     {/* Total e Botão de Pagamento */}
                     {paymentType === 'cartao' && (
                         <div>
-                            <p className="text-center">Total: R${amountPerInstallment} </p>
+                            <p className="text-center">
+                                Total: R${formatCurrency(totalPrice)} (ou {installments}x de R${amountPerInstallment} sem juros)
+                            </p>
                             <Button className="formbutton" variant="primary" type="submit">
                                 Pagar
                             </Button>
                         </div>
                     )}
+
                     {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' && (
-                        <p className="text-center">Total: R${amountPerInstallment} </p>
+                        <p className="text-center">Total: R${totalPrice.toFixed(2)}</p>
                     )}
+
+
                     {paymentType === 'boleto' && (
                         <div className="button-container">
                             <Button className='my-2 mt-4 buttonboleto' onClick={generateBoletoPDF}>Gerar Boleto</Button>
                         </div>
                     )}
                 </form>
+
             </Row>
+            <Button
+                onClick={handleProceed}
+                disabled={!paymentType} // Desabilitar se nenhum tipo de pagamento estiver selecionado
+                className="mt-3"
+            >
+                Prosseguir
+            </Button>
         </Container>
     );
 };
