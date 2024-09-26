@@ -359,13 +359,11 @@ body {
     background: transparent !important;
 }
 
-/* Rating and Collaboration */
 .ratestar {
     font-size: 24px !important;
     color: #6852a5 !important;
 }
 
-/* Rating and Collaboration */
 [data-theme='dark'] .ratestar {
     font-size: 24px !important;
     color: #e0dffd !important;

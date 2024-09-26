@@ -1,5 +1,3 @@
-/* PaymentForm.css */
-
 body {
     background-color: #f4f4f4;
     margin: 0;
@@ -286,7 +284,6 @@ body {
 
 .pix-key input {
     width: calc(100% - 30px);
-    /* Ajuste para o input e o ícone */
     font-size: 14px;
     padding: 5px;
 }

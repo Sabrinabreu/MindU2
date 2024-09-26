@@ -1,18 +1,12 @@
-/* Estilos Gerais */
-/* Estilo para o botão de alternância com foco */
 .button-toggle .switch:focus-within {
-    /* Cor do foco, ajuste conforme necessário */
     outline-offset: 2px;
 }
 
-/* Estilo da switch e slider */
 .switch {
     display: inline-block;
     position: relative;
     width: 60px;
-    /* Ajuste o tamanho conforme necessário */
     height: 34px;
-    /* Ajuste o tamanho conforme necessário */
 }
 
 .switch input {
@@ -37,9 +31,7 @@
     position: absolute;
     content: "";
     height: 26px;
-    /* Ajuste o tamanho conforme necessário */
     width: 26px;
-    /* Ajuste o tamanho conforme necessário */
     border-radius: 50%;
     left: 4px;
     bottom: 4px;
@@ -49,7 +41,6 @@
 
 input:checked+.slider:before {
     transform: translateX(26px);
-    /* Ajuste conforme o tamanho do botão */
 }
 
 .navContainer {
@@ -65,39 +56,30 @@ input:checked+.slider:before {
 
 .nav-item {
     margin-right: 15px;
-    /* Ajuste o espaço entre os itens conforme necessário */
 }
 
 .nav-item a {
     color: rgb(255, 255, 255);
-    /* Cor do texto do link */
     text-decoration: none;
-    /* Remove o sublinhado dos links */
 }
 
-/* Estilos para o modo claro */
 .custom-navbar {
     background-color: #7766C6 !important;
-    /* Cor de fundo personalizada */
     color: #ffffff;
 }
 
 .custom-navbar .navbar-nav .nav-link {
     color: #ffffff;
-    /* Cor do texto dos links */
 }
 
 .custom-navbar .navbar-nav .nav-link:hover {
     color: #cdcbcb;
-    /* Cor do texto dos links ao passar o mouse */
     text-decoration: underline;
 }
 
 .custom-navbar .navbar-nav .nav-link.active {
     color: #F9B0C3 !important;
-    /* Cor do texto dos links ativos */
     font-weight: bold;
-    /* Deixe o link ativo em negrito para destaque */
 }
 
 .custom-navbar {
@@ -105,7 +87,6 @@ input:checked+.slider:before {
     color: #000000;
 }
 
-/* Switch Styles */
 .switch {
     font-size: 17px;
     position: relative;
@@ -114,14 +95,12 @@ input:checked+.slider:before {
     height: 2em;
 }
 
-/* Hide default HTML checkbox */
 .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-/* The slider */
 .slider {
     --background: #28096b;
     position: absolute;
@@ -163,22 +142,18 @@ input:checked+.slider:before {
 
 [data-theme='dark'] .custom-navbar {
     background-color: #28096b !important;
-    /* Cor de fundo da Navbar no modo escuro */
 }
 
 [data-theme='dark'] .custom-navbar .navbar-nav .nav-link {
     color: #f0f0f0;
-    /* Cor do texto dos links no modo escuro */
 }
 
 [data-theme='dark'] .custom-navbar .navbar-nav .nav-link:hover {
     color: #e0e0e0;
-    /* Cor do texto dos links ao passar o mouse no modo escuro */
 }
 
 [data-theme='dark'] .custom-navbar .navbar-nav .nav-link.active {
     color: #ff9f9f !important;
-    /* Cor do texto dos links ativos no modo escuro */
 }
 
 [data-theme='dark'] .slider {
