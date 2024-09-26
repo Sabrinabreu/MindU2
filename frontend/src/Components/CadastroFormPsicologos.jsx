@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
+
 const CadastroFormPsi = () => {
     const inputFileRef = useRef(null);
     const [formData, setFormData] = useState({
@@ -38,15 +39,15 @@ const CadastroFormPsi = () => {
         if (type === 'file') {
             setFormData({
                 ...formData,
-                [name]: files[0] // Atualiza o estado com o arquivo selecionado
+                [name]: files[0]
             });
         } else if (name === 'CPF') {
             let input = value.replace(/\D/g, ''); // Remove tudo que não for número
             if (input.length > 11) {
-                input = input.slice(0, 11); // Limita a quantidade de dígitos a 11
+                input = input.slice(0, 11);
             }
 
-            // Formata o CPF (000.000.000-00)
+            // Formata o CPF 
             if (input.length > 9) {
                 input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}-${input.slice(9, 11)}`;
             } else if (input.length > 6) {
@@ -57,15 +58,15 @@ const CadastroFormPsi = () => {
 
             setFormData({
                 ...formData,
-                [name]: input // Atualiza o campo CPF com a formatação
+                [name]: input
             });
         } else if (name === 'telefone') {
             let input = value.replace(/\D/g, ''); // Remove tudo que não for número
             if (input.length > 11) {
-                input = input.slice(0, 11); // Limita a quantidade de dígitos a 11
+                input = input.slice(0, 11); 
             }
 
-            // Formata o telefone (00) 00000-0000
+            // Formata o telefone
             if (input.length > 6) {
                 input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}-${input.slice(7, 11)}`;
             } else if (input.length > 2) {
@@ -74,12 +75,12 @@ const CadastroFormPsi = () => {
 
             setFormData({
                 ...formData,
-                [name]: input // Atualiza o campo telefone com a formatação
+                [name]: input 
             });
         } else {
             setFormData({
                 ...formData,
-                [name]: value // Atualiza os outros campos
+                [name]: value 
             });
         }
     };
@@ -134,7 +135,7 @@ const CadastroFormPsi = () => {
         } catch (error) {
             console.error('Erro ao criar cadastro:', error);
             if (error.response && error.response.status === 400) {
-                setError(error.response.data.error); // Exibe a mensagem de erro do servidor
+                setError(error.response.data.error);
             } else {
                 setError('Erro ao criar cadastro. Verifique o console para mais detalhes.');
             }
@@ -256,7 +257,7 @@ const CadastroFormPsi = () => {
                                     type="file"
                                     name="certificados"
                                     accept="image/*,application/pdf"
-                                    style={{ display: 'none' }} // Ocultando o input
+                                    style={{ display: 'none' }} 
                                     onChange={handleChange}
                                 />
                                 <button className='cssbuttons-io-button' onClick={handleButtonClick}>

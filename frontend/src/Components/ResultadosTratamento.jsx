@@ -1,10 +1,8 @@
-
-import Card from 'react-bootstrap/Card';
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 import { TrendingDown, TrendingUp } from 'lucide-react';
+
 function Resultados() {
     return (
-
         <Container className='results-container'> <Row>
             <h1 className='mb-4 text-center textresultados'> Resultados mensuráveis: </h1>
             <div className="d-flex container resultados">
@@ -68,9 +66,6 @@ function Resultados() {
                         </Card>
                     </Col></div>
             </div>
-
-
-
         </Row></Container >
 
     );

@@ -1,4 +1,3 @@
-//Cadastro
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import '../css/Dashboard.css';
@@ -9,7 +8,7 @@ import BAPO from "../Components/WidgetBAPO";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 
-const Cadastro = () => {
+const Dashboard = () => {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("all");
@@ -30,10 +29,9 @@ const Cadastro = () => {
 
     const fetchCards = async () => {
         try {
-            // Substitua pela URL do seu servidor Express
             const response = await axios.get('http://localhost:3001/contaFuncionarios', {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Supondo que você armazene o token no localStorage
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
             setCards(response.data);
@@ -107,8 +105,6 @@ const Cadastro = () => {
                 </div>
             </div>
 
-            {/* Final Sidebar */}
-
             {/* Filtro */}
 
             <div className={`dashboard ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
@@ -143,8 +139,6 @@ const Cadastro = () => {
                     </div>
                 </aside>
 
-                {/* Fim do Filtro */}
-
                 {/* Cards */}
 
                 <main class="content-wrap">
@@ -165,7 +159,7 @@ const Cadastro = () => {
                                                     </div>
                                                     <div className="box-actions">
                                                         <button>
-                                                            {/* Add your action icons here */}
+                                    
                                                         </button>
                                                     </div>
                                                 </div>
@@ -186,4 +180,4 @@ const Cadastro = () => {
     );
 };
 
-export default Cadastro;
+export default Dashboard;

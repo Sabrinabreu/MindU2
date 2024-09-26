@@ -11,16 +11,16 @@ const TabelaFuncionarios = ({ contas }) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('http://localhost:3001/contaFuncionarios'); // Axios inclui o token automaticamente no cabeçalho
-        setcontasFuncionarios(response.data);  // Atualiza a tabela com os dados dos funcionários
+        const response = await axios.get('http://localhost:3001/contaFuncionarios'); 
+        setcontasFuncionarios(response.data); 
       } catch (error) {
         console.error('Erro ao buscar os funcionários:', error);
       }
     }
-  
+
     fetchData(); // Carrega os dados na primeira renderização ou quando "contas" mudar
   }, [contas]);
-  
+
 
   useEffect(() => {
     const fetchFuncionarios = async () => {
@@ -31,10 +31,10 @@ const TabelaFuncionarios = ({ contas }) => {
         console.error('Erro ao buscar os funcionários:', error);
       }
     };
-  
+
     fetchFuncionarios();
   }, []);
-  
+
 
   const handleRowSelected = React.useCallback(state => {
     setSelectedRows(state.selectedRows);
@@ -50,7 +50,7 @@ const TabelaFuncionarios = ({ contas }) => {
       console.error("Erro ao excluir usuário:", error);
     }
   };
-  
+
 
   const handleExcluirSelecionados = async () => {
     if (selectedRows.length === 0) {
@@ -65,10 +65,9 @@ const TabelaFuncionarios = ({ contas }) => {
         })
       );
 
-      // Atualiza a lista de funcionários após excluir os selecionados
       const { data } = await axios.get("http://localhost:3001/contaFuncionarios");
       setcontasFuncionarios(data);
-      setSelectedRows([]); 
+      setSelectedRows([]);
       setToggleCleared(!toggleCleared); // Reseta a seleção
       console.log("Usuários excluídos com sucesso!");
     } catch (error) {
@@ -88,14 +87,14 @@ const TabelaFuncionarios = ({ contas }) => {
     },
     {
       cell: contaFuncionario => (
-        <Trash style={{color: "red", padding: "1.5px"}} onClick={() => handleExcluirUsuario(contaFuncionario.login)} />
+        <Trash style={{ color: "red", padding: "1.5px" }} onClick={() => handleExcluirUsuario(contaFuncionario.login)} />
       )
     }
   ];
 
   const contextActions = React.useMemo(() => {
     return (
-      <Trash style={{color: "red", padding: "1.5px"}} onClick={handleExcluirSelecionados} />
+      <Trash style={{ color: "red", padding: "1.5px" }} onClick={handleExcluirSelecionados} />
     );
   }, [selectedRows]);
 
@@ -111,7 +110,7 @@ const TabelaFuncionarios = ({ contas }) => {
         data={contasFuncionarios}
         contextActions={contextActions}
         noDataComponent="Não há registros para exibir"
-        clearSelectedRows={toggleCleared} // Passa o estado para resetar a seleção
+        clearSelectedRows={toggleCleared}
       />
     </div>
   );

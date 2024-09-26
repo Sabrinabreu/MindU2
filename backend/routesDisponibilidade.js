@@ -1,10 +1,11 @@
 const express = require('express');
+const connection = require('./db');
 const router = express.Router();
-const connection = require('./database'); // Verifique o caminho para sua configuração de banco de dados
 
-router.get('/api/psicologo/:id/disponibilidade', (req, res) => {
-    const psicologo_id = req.params.id; // Corrija aqui para usar req.params.id
-    const sql = `SELECT data, horario FROM disponibilidadepsico WHERE psicologo_id = ?`;
+// Rota para obter a disponibilidade de um psicólogo
+router.get('/psicologo/:id/disponibilidade', (req, res) => {
+    const psicologo_id = req.params.id; 
+    const sql = 'SELECT data, horario FROM disponibilidadepsico WHERE psicologo_id = ?';
 
     connection.query(sql, [psicologo_id], (err, results) => {
         if (err) {
@@ -18,14 +19,53 @@ router.get('/api/psicologo/:id/disponibilidade', (req, res) => {
             allDay: false
         }));
         
+        console.log('Eventos retornados:', eventos);
         res.json(eventos);
+    });
+});
+
+// Rota para inserir a disponibilidade de um psicólogo
+router.post('/disponibilidade/psicologo', (req, res) => {
+    const dataDisponibilidade = req.body;
+
+    console.log('Dados recebidos para inserção:', dataDisponibilidade);
+
+    // Verifique se os dados necessários foram enviados
+    if (!Array.isArray(dataDisponibilidade) || dataDisponibilidade.length === 0) {
+        console.log('Dados inválidos:', dataDisponibilidade);
+        return res.status(400).json({ error: 'Dados incompletos ou inválidos' });
+    }
+
+    // Cria uma query para inserir múltiplos registros
+    const query = 'INSERT INTO disponibilidadepsico (psicologo_id, data, horario) VALUES ?';
+    const values = dataDisponibilidade.map(item => [item.psicologo_id, item.data, item.horario]);
+
+    connection.query(query, [values], (error, results) => {
+        if (error) {
+            console.error('Erro ao inserir dados:', error);
+            return res.status(500).json({ error: 'Erro ao inserir dados' });
+        }
+        console.log('Disponibilidades inseridas com sucesso!');
+        res.status(201).json({ message: 'Disponibilidades inseridas com sucesso!', insertedCount: results.affectedRows });
+    });
+});
+
+// Rota para listar todas as disponibilidades (opcional)
+router.get('/disponibilidade', (req, res) => {
+    connection.query('SELECT * FROM disponibilidadepsico', (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar disponibilidades:', err);
+            return res.status(500).json({ error: 'Erro ao buscar disponibilidades' });
+        }
+        res.json(results);
     });
 });
 
 module.exports = router;
 
 
-/*const express = require('express');
+/*
+const express = require('express');
 const router = express.Router();
 const connection = require('./db');
 

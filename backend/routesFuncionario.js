@@ -43,8 +43,8 @@ router.post('/contaFuncionarios', verifyToken, async (req, res) => {
 
   try {
     const [result] = await connection.query(
-      'INSERT INTO contaFuncionarios (login, senha, empresa_id, cpf, nome, cargo, telefone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [null, null, empresa_id, cpf, nome, cargo, telefone, email]
+      'INSERT INTO contaFuncionarios (empresa_id, cpf, nome, cargo, telefone, email) VALUES (?, ?, ?, ?, ?, ?)',
+      [empresa_id, cpf, nome, cargo, telefone, email]
     );
     res.status(201).json({ message: 'Conta de funcionário criada com sucesso', id: result.insertId });
   } catch (err) {

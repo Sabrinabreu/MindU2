@@ -198,6 +198,7 @@ body {
     height: 16px;
 }
 
+
 /* funcionalidades */
 .large-cursor,
 .large-cursor * {
@@ -237,75 +238,13 @@ body {
     font-family: Arial, sans-serif !important;
 }
 
-
-.text-magnifier {
-    font-size: 1.2em;
-}
-
-/* faixa de destaque brilho 
-
-
-.brilhoTDAH::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 0, 0.1); 
-    z-index: -1; 
-    right: 0;
-    left: 0;
-}
-
-.brilhoTDAH {
-    position: fixed;
-    background-color: rgba(255, 255, 255, 0);
-    border: 2px solid #ffeeab;
-    pointer-events: none;
-    display: none;
-    z-index: 1000;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-}*/
 /* Faixa de Destaque */
-.highlight-background {
-    position: fixed;
-    background-color: rgba(255, 255, 0, 0.5); /* Cor da faixa com opacidade */
-    pointer-events: none; /* A faixa não deve interceptar cliques */
-    display: none; /* Inicialmente escondido */
-    z-index: 999;
-    height: 100px; /* Altura da faixa */
-    width: 100%; /* Largura 100% da tela */
-    left: 0; /* Alinhar ao lado esquerdo da tela */
-    top: 0; /* Alinhar ao topo da tela */
-}
-
-/* Camada de Fundo ao redor da faixa */
-.highlight-overlay {
-    position: fixed;
+  .highlight-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
     pointer-events: none;
-    background-color: rgba(117, 117, 117, 0.986); /* Cor da área ao redor do cursor */
-    display: none; /* Inicialmente escondido */
-    z-index: 998;
-    width: 100%; /* Largura total da tela */
-    height: 100%; /* Altura total da tela */
-    left: 0; /* Alinhar ao lado esquerdo da tela */
-    top: 0; /* Alinhar ao topo da tela */
+    transition: display 0.2s;
 }
 
-/* Mudar cor da área ao redor do cursor quando a faixa está ativa */
-.highlight-background.show {
-    display: block;
-}
-
-.highlight-overlay.show {
-    display: block;
-}
-
-
-
-
-
-/* Outros estilos */
 .large-cursor,
 .large-cursor * {
     cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="0.5" stroke-linejoin="round" d="M18 14.88 8.16 3.15c-.26-.31-.76-.12-.76.28v15.31c0 .36.42.56.7.33l3.1-2.6 1.55 4.25c.08.22.33.34.55.26l1.61-.59a.43.43 0 0 0 .26-.55l-1.55-4.25h4.05c.36 0 .56-.42.33-.7Z"></path></svg>'), auto !important;
@@ -319,11 +258,6 @@ body {
 
 .dark-mode {
     background-color: #333;
-    color: #fff;
-}
-
-.high-contrast {
-    background-color: #000;
     color: #fff;
 }
 
@@ -384,11 +318,6 @@ body {
     color: #000 !important;
     background-color: #fff !important;
 
-    /* Oculta elementos potencialmente distrativos 
-    .banner, .popups, .ads, .sidebars {
-        display: none !important;
-    }*/
-
     a, button, p, h1, h2, h3, h4, h5, h6 {
         outline: 2px solid #000;
     }
@@ -401,7 +330,7 @@ body {
 }
 
 .highlight-hover {
-    outline: 2px solid orange; /* Contorno para dar ênfase */
+    outline: 2px solid orange;
     transition: outline 0.3s ease;
 }
 

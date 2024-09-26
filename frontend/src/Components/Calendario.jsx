@@ -17,7 +17,7 @@ const DatePicker = ({ onDateSelect }) => {
     const handleDateClick = (day) => {
         const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
         setSelectedDate(newDate);
-        onDateSelect(newDate); // Notifica o componente pai sobre a data selecionada
+        onDateSelect(newDate);
     };
 
     const generateDays = () => {

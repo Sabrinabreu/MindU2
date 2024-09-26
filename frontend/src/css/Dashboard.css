@@ -463,12 +463,10 @@ body {
 
 .filter-selected .filtersvg {
   opacity: 0;
-  /* Esconde o ícone original */
 }
 
 .filter-selected .filterx {
   opacity: 1 !important;
-  /* Mostra o ícone sobreposto */
 }
 
 .search-wrap {

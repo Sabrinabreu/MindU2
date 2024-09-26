@@ -115,7 +115,6 @@
     background: var(--calBgColor);
 }
 
-/* Place on Timeline*/
 .start-10 {
     grid-row-start: 2;
 }
@@ -152,8 +151,6 @@
     grid-row-end: 9;
 }
 
-/* Event*/
-
 .title {
     font-weight: 600;
     margin-bottom: 0.25rem;
@@ -171,8 +168,6 @@
 .date {
     height: 60px
 }
-
-/*// Global / Etc*/
 
 .gutters-sm>.col, .gutters-sm>[class*=col-] {
     padding-right: 8px;
@@ -320,10 +315,10 @@
     align-items: center;
     width: 150px;
     height: 150px;
-    background-color: #ddd; /* Cor de fundo para as iniciais */
+    background-color: #ddd;
     border-radius: 50%;
     font-size: 2rem;
-    color: #333; /* Cor das iniciais */
+    color: #333;
     cursor: pointer;
 }
 

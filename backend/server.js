@@ -38,7 +38,6 @@ app.use('/', (req, res) => {
   res.status(404).send('Rota não encontrada');
 });
 
-
 // Inicia o servidor
 app.listen(port, () => {
   console.log(`Servidor está rodando na porta ${port}`);

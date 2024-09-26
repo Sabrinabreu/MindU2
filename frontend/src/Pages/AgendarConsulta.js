@@ -7,10 +7,8 @@ import perfilPsicanalista from '../img/perfilPsicanalista.jpeg';
 import perfilEscolar from '../img/perfilEscolar.avif';
 import perfilOrganizacional from '../img/perfilOrganizacional.avif';
 import perfilclinico from '../img/perfilClinico.jpg';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form, Tab, Tabs } from 'react-bootstrap';
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
 import { Search } from 'lucide-react';
@@ -329,7 +327,6 @@ function AgendarConsulta() {
     fetchData();
   }, [debouncedSearchTerm]);
 
-  /*const itemsToShow = showAll ? filteredSlidesContent : filteredSlidesContent.slice(0, 3);*/
 
   const getAvailableTimes = (psicologoIndex) => {
     const times = {

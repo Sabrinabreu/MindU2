@@ -1,14 +1,11 @@
-/* Fonte geral do calendário */
 .fc {
   font-family: 'Arial', sans-serif;
 }
 
-/* Cor de fundo do calendário */
 .fc-view {
   background-color: #f9f9f9;
 }
 
-/* Estilo para os dias do calendário */
 .fc-daygrid-day {
   background-color: #fff7f7;
   border: 1px solid #ccc;
@@ -16,7 +13,6 @@
   border-radius: 100%; 
 }
 
-/* Estilo para o número dos dias */
 .fc-daygrid-day-number {
   font-size: 1.2em;
   font-weight: bold;
@@ -24,25 +20,22 @@
   text-decoration: none;
 }
 
-/* Estilo para o dia de hoje */
 .fc-daygrid-day.fc-day-today {
   background-color: #bd77b879 !important;
-  border: 1px solid #ac25b8; /* Bordas do dia de hoje */
+  border: 1px solid #ac25b8;
   font-weight: bold;
   color: #000000;
-  border-radius: 100%; 
+  border-radius: 100%;
 }
 
 /* --- Cabeçalhos e Navegação --- */
 
-/* Estilo para o cabeçalho do mês */
 .fc-header-toolbar {
   color: #000000;
   font-size: 1.2em;
   font-weight: bold;
 }
 
-/* Estilo dos cabeçalhos dos dias da semana */
 .fc-col-header-cell {
   background-color: #ff9eb8;
   border: 1px solid #495057;
@@ -53,7 +46,6 @@
 
 /* --- Eventos --- */
 
-/* Estilo para os eventos */
 .fc-event {
   background-color: #28a745 !important;
   color: #fff;
@@ -63,33 +55,22 @@
   font-size: 0.9em;
 }
 
-/* Personalização para eventos disponíveis */
 .evento-disponivel {
   background-color: #9a45e8 !important;
   color: #ffffff;
 }
 
-/* DIAS DA SEMANA */
 .fc-col-header-cell-cushion{
   color: #604c9c;
   text-decoration: none;
 }
 
-.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
-  border-bottom-left-radius: 0px;
-  border-top-left-radius: 0px;
-  margin-left: -1px;
-  background-color: rgb(196, 152, 97) !important;
-}
-
-/* Estilo para o texto dentro dos eventos */
 .fc-event-title {
   font-weight: bold;
   font-size: 1em;
   white-space: normal;
 }
 
-/* --- Tooltip de Eventos (se quiser usar tooltips) --- */
 .fc-event:hover {
   cursor: pointer;
 }

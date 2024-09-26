@@ -6,14 +6,14 @@ import { parseJwt } from './Components/jwtUtils';
 
 //Páginas
 import Home from "./Pages/Home";  //todos
-import Cadastroempresa from "./Pages/CadastroEmpresa"; //todos
 import Contato from "./Pages/Contato"; //todos
-import CadastroPsicólogos from './Pages/CadastroPsicólogos' //todos
+import Cadastroempresa from "./Pages/CadastroEmpresa"; //não logados
+import CadastroPsicólogos from './Pages/CadastroPsicólogos' //não logados
 import Agendarconsulta from "./Pages/AgendarConsulta"; //funcionario e psicologo
 import SaibaMais from './Pages/SaibaMais'; //funcionario e psicologo
-import Planos from './Pages/Planos'; //todos
+import Planos from './Pages/Planos'; //empresa e usuários nn logados
 import Perfil from './Pages/Perfil'; //funcionario e psicologo
-import AcessoFuncionarios from './Pages/AcessoFuncionarios'; //empresa
+import AcessoFuncionarios from './Pages/TabelaFuncionarios'; //empresa
 import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
