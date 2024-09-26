@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import '../css/Planos.css';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import BAPO from "../Components/WidgetBAPO";
 import MyVerticallyCenteredModal from '../Components/ModalPag';
 import "../css/WidgetBAPO.css";
 import { useNavigate } from "react-router-dom";
-import PaymentForm from "../Components/Pagamento"; 
+import PaymentForm from "../Components/Pagamento";
 import { parseJwt } from "../Components/jwtUtils";
 
 const Planos = () => {
@@ -17,17 +17,17 @@ const Planos = () => {
         'Bem-Estar': {
             name: 'Bem-Estar',
             price: 250.00,
-            
+
         },
         'Equilíbrio': {
             name: 'Equilíbrio',
             price: 310.00,
-           
+
         },
         'Transformação': {
             name: 'Transformação',
             price: 600.00,
-          
+
         }
     };
 
@@ -35,23 +35,23 @@ const Planos = () => {
     const token = localStorage.getItem('token');
 
     const handlePlanSelect = (planName) => {
-    if (token) {
-        const decodedToken = parseJwt(token); 
-        setTipoUsuario(decodedToken.tipo_usuario); 
-        if (decodedToken.tipo_usuario === 'empresa') {
-            const selectedPlanDetails = planos[planName];
-            setSelectedPlan(selectedPlanDetails); 
-            setModalShow(true);
+        if (token) {
+            const decodedToken = parseJwt(token);
+            setTipoUsuario(decodedToken.tipo_usuario);
+            if (decodedToken.tipo_usuario === 'empresa') {
+                const selectedPlanDetails = planos[planName];
+                setSelectedPlan(selectedPlanDetails);
+                setModalShow(true);
+            }
+            else {
+                alert("você precisa de uma conta de empresa para contratar o nosso serviço");
+            }
         }
         else {
-            alert("você precisa de uma conta de empresa para contratar o nosso serviço");
+            navigate("/login");
         }
-    }
-    else {
-        navigate("/login");
-    }
- 
-        
+
+
     };
 
     return (
@@ -121,7 +121,6 @@ const Planos = () => {
                                     <p className="info">Para quem busca um acompanhamento intensivo e personalizado.</p>
                                     <div className="price">R$600,00<span>/ por funcionário</span></div>
                                     <ul className="featureList">
-
                                         <li><p>Consultas semanais (2 sessões por semana)</p></li>
                                         <li><p>Sessões de terapia em grupo (4 vezes por mês)</p></li>
                                         <li><p>Acesso ilimitado a workshops e webinars sobre saúde mental</p></li>

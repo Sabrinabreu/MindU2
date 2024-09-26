@@ -14,9 +14,14 @@
     height: 40px;
     border: 1.4px solid #46467a89;
     border-radius: 10px;
+    background-color: #b3b3eb !important;
 }
 
 [data-theme='dark'] .opcaoNumber {
     background: #eee8f4 !important;
     color: rgb(0, 0, 0);
+}
+
+.formPag {
+    padding: 4% !important;
 }

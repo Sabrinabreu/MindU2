@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../css/ContasFuncionarios.css'
 
 const PagFuncionarios = ({ completeStep, setNContas, nContas }) => {
 
@@ -42,7 +43,7 @@ const PagFuncionarios = ({ completeStep, setNContas, nContas }) => {
 
     return (
         <div className="divGeralAcesso">
-            <form>
+            <form className="formPag">
                 <label>Quantas contas deseja criar?</label><br />
                 <input
                     className="opcaoNumber"

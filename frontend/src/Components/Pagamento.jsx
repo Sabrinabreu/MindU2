@@ -112,7 +112,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
 
         // Adiciona espaços a cada 4 dígitos
         const formattedInput = input.replace(/(.{4})/g, '$1 ').trim();
-        setCardNumber(formattedInput); 
+        setCardNumber(formattedInput);
 
 
     };
@@ -153,7 +153,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
 
             setFormData({
                 ...formData,
-                [name]: input 
+                [name]: input
             });
         }
         else if (name === 'CEP') {
@@ -188,19 +188,19 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
 
         // Dados do boleto
         const today = new Date();
-        const todayFormatted = today.toLocaleDateString('pt-BR'); 
-        const dueDate = new Date(today.setDate(today.getDate() + 7)); 
+        const todayFormatted = today.toLocaleDateString('pt-BR');
+        const dueDate = new Date(today.setDate(today.getDate() + 7));
         const dueDateFormatted = dueDate.toLocaleDateString('pt-BR');
-        const nossoNumero = '123456789012'; 
-        const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000'; 
+        const nossoNumero = '123456789012';
+        const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000';
 
         // Cálculo de multa e juros
-        const amount = totalPrice.toFixed(2); 
-        const interestRate = 0.01; 
-        const fineRate = 0.02; 
+        const amount = totalPrice.toFixed(2);
+        const interestRate = 0.01;
+        const fineRate = 0.02;
         const daysOverdue = 0;
         const fine = (totalPrice * fineRate).toFixed(2);
-        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2); 
+        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2);
 
         const drawSection = (x, y, width, height, borderWidth = 0.5) => {
             page.drawRectangle({
@@ -249,7 +249,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         page.drawText(`Telefone: ${phone}`, { x: 215, y: height - 150, size: 12, font: fontRegular });
 
         // Seção de multa
-        drawSection(0, height - 161, 595, 135); 
+        drawSection(0, height - 161, 595, 135);
         page.drawText('Instruções de Pagamento:', {
             x: 20,
             y: height - 180,
@@ -309,7 +309,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         if (paymentType === 'boleto') {
             generateBoletoPDF();
         } else {
-            alert(`Pagamento de R$${amountPerInstallment} por parcela para o plano ${selectedPlan.name} foi processado com sucesso!`);
+            alert(`Pagamento de R$${amountPerInstallment} para o plano ${selectedPlan.name} foi processado com sucesso!`);
         }
     };
 
@@ -437,7 +437,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                                     <option value="1234">Agência 1234</option>
                                                     <option value="5678">Agência 5678</option>
                                                     <option value="9101">Agência 9101</option>
-                                                
+
                                                 </select>
                                             </div>
                                         </Col>
@@ -570,8 +570,8 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                             number={cardNumber}
                                             name={cardName}
                                             expiry={cardExpiry}
-                                            cvc={isCVCVisible ? cardCVC : ''}
-                                            focused={isCVCVisible ? 'cvc' : ''}
+                                            cvc={isCVCVisible ? cardCVC : ''} // Exibe o CVV somente se visível
+                                            focused={isCVCVisible ? 'cvc' : ''} // Foca no CVV se visível
                                             issuer={issuer}
                                         />
                                     </div>
@@ -621,8 +621,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                                         onChange={handleCardExpiryChange}
                                                         placeholder="MM/AA"
                                                         style={{ width: '100%' }}
-                                                        maxLength="5" 
-
+                                                        maxLength="5"
                                                     />
                                                 </div>
                                             </Col>
@@ -631,18 +630,19 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                                     <label className="formlabel" htmlFor="cardCVC">Código de Segurança:</label>
                                                     <input
                                                         className="forminput"
-                                                        type="text"
+                                                        type="password"
                                                         id="cardCVC"
                                                         name="cardCVC"
                                                         value={cardCVC}
                                                         onChange={(e) => {
                                                             setCardCVC(e.target.value);
-                                                            setIsCVCVisible(true);
+                                                            setIsCVCVisible(true); // Mantém o CVV visível ao digitar
                                                         }}
-                                                        onFocus={() => setIsCVCVisible(true)}
-                                                        onBlur={() => setIsCVCVisible(false)}
+                                                        onFocus={() => setIsCVCVisible(true)} // Foca no CVV
+                                                        onBlur={() => setIsCVCVisible(false)} // Desfoca o CVV
                                                         placeholder="CVV"
                                                         style={{ width: '100%' }}
+                                                        maxLength="4" // Limita o CVV a 4 caracteres
                                                     />
                                                 </div>
                                             </Col>
