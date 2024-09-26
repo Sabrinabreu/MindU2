@@ -132,4 +132,21 @@ router.get('/by-name', (req, res) => {
     });
 });
 
+/* testando essa */
+router.get('/psicologo/:id', (req, res) => {
+    const psicologoId = req.params.id;
+
+    connection.query('SELECT * FROM psicologos WHERE id = ?', [psicologoId], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar psicólogo:', err);
+            return res.status(500).json({ error: 'Erro ao buscar psicólogo' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Psicólogo não encontrado' });
+        }
+        res.json(results[0]);
+    });
+});
+
+
 module.exports = router;

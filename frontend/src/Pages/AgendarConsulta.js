@@ -59,7 +59,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marina." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Marina e agendar sua consulta." }
       ]
     },
     {
@@ -449,7 +449,7 @@ function AgendarConsulta() {
 
       <div className='fundoFiltro'>
         <div className="d-flex mb-4 align-items-center ">
-        <button onClick={handleAtendendoHoje} >Atendendo hoje</button>
+        <button onClick={handleAtendendoHoje} >hoje</button>
 
           <Form.Control
             as="select"
@@ -587,7 +587,7 @@ function AgendarConsulta() {
           })
         ) : (
           <div className="no-results">
-            <p>Nenhum resultado encontrado :(</p>
+            <h3 className='p-4 text-center'>Nenhum resultado encontrado :(</h3>
           </div>
         )}
       </Container>

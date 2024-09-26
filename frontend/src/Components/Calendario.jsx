@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import "../css/AgendarConsulta.css";
 import '../css/Calendario.css';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import ptBrLocale from '@fullcalendar/core/locales/pt-br';
-
-// import { availableTimes } from './Agendar'; // Importe os horários disponíveis, caso estejam em outro arquivo
 
 const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -38,20 +33,18 @@ const DatePicker = ({ onDateSelect }) => {
         // Dias do mês
         for (let i = 1; i <= daysInMonth; i++) {
             const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
-            const formattedDate = date.toISOString().split('T')[0];
-            // const isAvailable = availableDates.includes(formattedDate);
             const isToday = i === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear();
             const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
 
-            // dates.push(
-            //     <button
-            //         key={`date-${i}`}
-            //         className={`date ${isAvailable ? (isToday ? 'current-day' : (isSelected ? 'selected-day' : '')) : 'inactive'}`}
-            //         onClick={isAvailable ? () => handleDateClick(i) : undefined}
-            //     >
-            //         {i}
-            //     </button>
-            // );
+            dates.push(
+                <button
+                    key={`date-${i}`}
+                    className={`date ${isToday ? 'current-day' : (isSelected ? 'selected-day' : '')}`}
+                    onClick={() => handleDateClick(i)} // Todos os dias agora são clicáveis
+                >
+                    {i}
+                </button>
+            );
         }
 
         // Dias vazios após o fim do mês
@@ -64,48 +57,25 @@ const DatePicker = ({ onDateSelect }) => {
     };
 
     return (
-        <>
-            <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView="dayGridMonth"
-                locale={ptBrLocale}
-                dayCellContent={(info) => (
-                    <div className={`dia-${info.date.getDate()}`}>
-                        {info.dayNumberText}
-                    </div>
-                )}
-                eventClassNames="evento-disponivel"
-                eventTimeFormat={{
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    meridiem: false,
-                }}
-            />
-
-            <div className="datepicker">
-                <div className="datepicker-top">
-                    <div className="month-selector">
-                        <button className="arrow" onClick={handlePrevMonth}>
-                            <i className="material-icons">
-                                <span className="material-symbols-outlined p-3">chevron_left</span>
-                            </i>
-                        </button>
-                        <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
-                        <button className="arrow" onClick={handleNextMonth}>
-                            <i className="material-icons">
-                                <span className="material-symbols-outlined p-3">chevron_right</span>
-                            </i>
-                        </button>
-                    </div>
-                </div>
-                <div className="datepicker-calendar">
-                    {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'].map((day, i) => (
-                        <span key={`day-${i}`} className="day">{day}</span>
-                    ))}
-                    {generateDays()}
+        <div className="datepicker">
+            <div className="datepicker-top">
+                <div className="month-selector">
+                    <button className="arrow" onClick={handlePrevMonth}>
+                        <span className="material-symbols-outlined p-3">chevron_left</span>
+                    </button>
+                    <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
+                    <button className="arrow" onClick={handleNextMonth}>
+                        <span className="material-symbols-outlined p-3">chevron_right</span>
+                    </button>
                 </div>
             </div>
-        </>
+            <div className="datepicker-calendar">
+                {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'].map((day, i) => (
+                    <span key={`day-${i}`} className="day">{day}</span>
+                ))}
+                {generateDays()}
+            </div>
+        </div>
     );
 };
 
