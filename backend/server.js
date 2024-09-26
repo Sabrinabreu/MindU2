@@ -5,6 +5,7 @@ const cors = require('cors');
 // Importa as rotas
 const rotaCadastropsi = require('./routesCadastropsi');
 const rotaLogin = require('./routesLogin');
+const rotaempresa = require('./routesEmpresa');
 const rotaFuncionario = require('./routesFuncionario');
 const rotaPsicologos = require('./routesPsicologos');
 const agendamentoRoutes = require('./routesAgendamento');
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 // Usa as rotas do backend
 app.use('/', rotaLogin);
 app.use('/', rotaCadastropsi);
+app.use('/', rotaempresa);
 app.use('/', rotaFuncionario);
 app.use('/', rotaPsicologos);
 app.use('/api/agendamento', agendamentoRoutes);

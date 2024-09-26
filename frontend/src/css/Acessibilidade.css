@@ -38,6 +38,10 @@ body {
     border-radius: 17px;
 }
 
+[data-theme='dark'] .accessibilidade-painel {
+    background-color: #9486b0 !important;
+  }
+
 .accessibility-close {
     background: transparent;
     border: none;
@@ -56,6 +60,10 @@ body {
     color: #d55c7c;
 }
 
+[data-theme='dark'] .acessibilidade-title {
+    color: #333;
+  }
+
 .accessibility-content {
     display: flex;
     flex-direction: column;
@@ -70,12 +78,22 @@ body {
 
 }
 
+[data-theme='dark'] .fundoPainelA {
+    background: #a498be !important;
+  }
+
+
 .accessibility-section {
     background: #f6f8fabc;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+[data-theme='dark'] .accessibility-section {
+    background: #756b8d !important;
+    color: #fcecf7;
+  }
 
 .font-size-controls {
     display: flex;
@@ -92,6 +110,9 @@ body {
     cursor: pointer;
     font-size: 18px;
 }
+[data-theme='dark'] .font-size-btn {
+    background: #e1839c !important;
+  }
 
 .font-size-display {
     font-size: 1.2rem;
@@ -117,6 +138,11 @@ body {
     transition: background 0.3s, transform 0.3s;
     text-align: center;
 }
+
+[data-theme='dark'] .accessibility-button  {
+    background: #756b8d !important;
+    color: #fcecf7;
+  }
 
 .accessibility-button svg {
     margin-bottom: 5px;

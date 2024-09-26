@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../css/Acessibilidade.css';
-import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick } from 'lucide-react';
+import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick, Fullscreen, Keyboard } from 'lucide-react';
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
@@ -121,19 +121,26 @@ const Acessibilidade = ({ toggleTheme }) => {
     // Funções para a lupa de texto
     const handleMouseEnter = (e) => {
         const target = e.target;
+    
+        // Verifica se o elemento é o botão de lupa para não ativar a lupa nele
+        if (target.closest('.accessibility-button')) {
+            return;
+        }
+    
         let textToMagnify = '';
-
+    
         if (target.tagName === 'IMG' && target.alt) {
             textToMagnify = target.alt;
         } else {
             textToMagnify = target.innerText || target.textContent;
         }
-
+    
         if (textToMagnify) {
             setMagnifiedText(textToMagnify);
             setIsMagnifierVisible(true);
         }
     };
+    
 
     const handleMouseLeave = () => {
         setIsMagnifierVisible(false);
@@ -241,13 +248,12 @@ const handleDynamicFocusToggle = () => {
                             <div className="accessibility-buttons">
                                 {/* Botões de Acessibilidade */}
                                 <Button
-                                    className={classNames('accessibility-button', { 'active': activeButtons['increaseCursor'] })}
-                                    onClick={() => toggleClass('large-cursor', 'increaseCursor')}
-                                    aria-label="Aumentar cursor"
-                                >
-                                    <Pointer /> Aumentar Cursor
-                                </Button>
-
+                                        className={classNames('accessibility-button', { 'active': activeButtons['increaseCursor'] })}
+                                        onClick={() => toggleClass('large-cursor', 'increaseCursor')}
+                                        aria-label="Aumentar cursor"
+                                    >
+                                        <Pointer /> Aumentar Cursor
+                                    </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['darkMode'] })}
                                     onClick={() => {
@@ -305,7 +311,7 @@ const handleDynamicFocusToggle = () => {
                                     onClick={toggleHighlight}
                                     aria-label="Destacar linha"
                                 >
-                                     <Focus /> Destacar Linha
+                                     <Fullscreen /> Destacar Linha
                                 </Button>
 
                                 <Button
@@ -327,7 +333,7 @@ const handleDynamicFocusToggle = () => {
                                     onClick={toggleTDHAFriendly}
                                     aria-label="Perfil TDAH"
                                 >
-                                    <MousePointerClick /> Teclado digital
+                                    <Keyboard /> Teclado digital
                                 </Button>
                             </div>
                         </div>
