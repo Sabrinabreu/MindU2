@@ -1,6 +1,3 @@
-//Acesso da empresa a conta dos funcionários (parece um carrinho que tem um X para remover o funcionário do plano)
-//talvez uma opção de imprimir os cards dos funcionários selecionados (com select)
-// AcessoFuncionarios.js
 import React, { useState } from "react";
 import axios from "axios";
 import TabelaFuncionarios from "../Components/TabelaFuncionarios";
@@ -22,10 +19,9 @@ const AcessoFuncionarios = () => {
       
       for (let i = 0; i < nContas; i++) {
         const response = await axios.post('http://localhost:3001/contaFuncionarios', {
-          // Aqui pode enviar outros dados se necessário
         });
         
-        contasCriadas.push(response.data);  // Armazena as respostas (exemplo)
+        contasCriadas.push(response.data); 
       }
 
       setResultados(contasCriadas);

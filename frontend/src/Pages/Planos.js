@@ -5,15 +5,14 @@ import BAPO from "../Components/WidgetBAPO";
 import MyVerticallyCenteredModal from '../Components/ModalPag';
 import "../css/WidgetBAPO.css";
 import { useNavigate } from "react-router-dom";
-import PaymentForm from "../Components/Pagamento"; // Importe o PaymentForm
+import PaymentForm from "../Components/Pagamento"; 
 import { parseJwt } from "../Components/jwtUtils";
 
-const Cadastro = () => {
+const Planos = () => {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedPlan, setSelectedPlan] = React.useState(null);
     const [tipoUsuario, setTipoUsuario] = useState('');
 
-    // Definição dos planos com informações completas
     const planos = {
         'Bem-Estar': {
             name: 'Bem-Estar',
@@ -37,11 +36,11 @@ const Cadastro = () => {
 
     const handlePlanSelect = (planName) => {
     if (token) {
-        const decodedToken = parseJwt(token);  // Decodifica o token
-        setTipoUsuario(decodedToken.tipo_usuario);  // Define o tipo de usuário
+        const decodedToken = parseJwt(token); 
+        setTipoUsuario(decodedToken.tipo_usuario); 
         if (decodedToken.tipo_usuario === 'empresa') {
             const selectedPlanDetails = planos[planName];
-            setSelectedPlan(selectedPlanDetails);  // Passa todas as informações do plano
+            setSelectedPlan(selectedPlanDetails); 
             setModalShow(true);
         }
         else {
@@ -51,9 +50,7 @@ const Cadastro = () => {
     else {
         navigate("/login");
     }
-
-    // Função para selecionar o plano e exibir o modal
-    
+ 
         
     };
 
@@ -143,8 +140,6 @@ const Cadastro = () => {
                     </Row>
                 </Row>
             </Container>
-
-            {/* Passando as informações completas para o modal */}
             <MyVerticallyCenteredModal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
@@ -156,5 +151,5 @@ const Cadastro = () => {
     );
 };
 
-export default Cadastro;
+export default Planos;
 
