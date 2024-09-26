@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../css/Acessibilidade.css';
-import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick } from 'lucide-react';
+import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick, Fullscreen, Keyboard } from 'lucide-react';
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
@@ -311,7 +311,7 @@ const handleDynamicFocusToggle = () => {
                                     onClick={toggleHighlight}
                                     aria-label="Destacar linha"
                                 >
-                                     <Focus /> Destacar Linha
+                                     <Fullscreen /> Destacar Linha
                                 </Button>
 
                                 <Button
@@ -333,7 +333,7 @@ const handleDynamicFocusToggle = () => {
                                     onClick={toggleTDHAFriendly}
                                     aria-label="Perfil TDAH"
                                 >
-                                    <MousePointerClick /> Teclado digital
+                                    <Keyboard /> Teclado digital
                                 </Button>
                             </div>
                         </div>
