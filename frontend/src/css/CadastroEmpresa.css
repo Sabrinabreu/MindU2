@@ -17,36 +17,31 @@ body {
   background: rgb(244, 231, 204);
   background: linear-gradient(180deg, #afa5dd 0%, #f7f8fc 100%);
 }
-
-[data-theme='dark'] .fundo-site {
-  background: linear-gradient(180deg, #1e2736 0%, #384358 100%) !important;
-}
+      [data-theme='dark'] .fundo-site {
+        background: linear-gradient(180deg, #1e2736 0%, #384358 100%) !important;
+      }
 
 .fundoInfo {
   overflow: hidden;
 }
-
-.textoInfo {
-  padding: 1.3rem !important;
-  color: #2e1e5b;
-  font-size: 17px;
-}
-
-.textoInfo p {
-  text-align: justify;
-}
-
-.fotoInfo {
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
-  object-fit: scale-down;
-  filter: contrast(1.1);
-}
-
-[data-theme='dark'] .textoInfo {
-  color: #ddd6fa !important;
-}
+      .textoInfo {
+        padding: 1.3rem !important;
+        color: #2e1e5b;
+        font-size: 17px;
+      }
+        .textoInfo p {
+          text-align: justify;
+        }
+      .fotoInfo {
+        border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        object-fit: scale-down;
+        filter: contrast(1.1);
+      }
+        [data-theme='dark'] .textoInfo {
+          color: #ddd6fa !important;
+        }
 
 .textoCalc {
   padding: 1.6rem !important;
@@ -63,36 +58,29 @@ body {
     linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
   background-size: 55px 55px;
 }
+      .textoCalc h1 {
+        font-size: 25px;
+      }
+      .textRoxo {
+        font-size: 34px;
+        color: #6852a5;
+      }
+      .titCalc {
+        font-size: 30px;
+        font-weight: 650;
+      }
 
-.textoCalc h1 {
-  font-size: 25px;
-}
+      [data-theme='dark'] .textoCalc {
+        color: #ddd6fa !important;
+        background-color: #4e4e7f;
+        --color: #4e4e7f;
+        border: 3.5px solid #7866c689;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+      }
 
-.textRoxo {
-  font-size: 34px;
-  color: #6852a5;
-}
-
-/* .fundoColorido {
-        background: rgb(244, 231, 204);
-        background: linear-gradient(180deg, #f7f8fc 0%, #afa5dd 100%);
- } */
-.titCalc {
-  font-size: 30px;
-  font-weight: 650;
-}
-
-[data-theme='dark'] .textoCalc {
-  color: #ddd6fa !important;
-  background-color: #4e4e7f;
-  --color: #4e4e7f;
-  border: 3.5px solid #7866c689;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-[data-theme='dark'] .textRoxo {
-  color: #ddd6fa !important;
-}
+      [data-theme='dark'] .textRoxo {
+        color: #ddd6fa !important;
+      }
 
 
 .fundoForms {
@@ -100,28 +88,28 @@ body {
   overflow: hidden;
 }
 
-.blocoForms {
-  padding: 1.6rem !important;
-  border-radius: 15px;
-  color: #6852a5;
-  font-size: 17px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    .blocoForms {
+      padding: 1.6rem !important;
+      border-radius: 15px;
+      color: #6852a5;
+      font-size: 17px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 
-  /* quadriculado */
-  padding: 20px 0px;
-  background-color: #eee8f4;
-  background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent),
-    linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
-  background-size: 55px 55px;
-}
+      /* quadriculado */
+      padding: 20px 0px;
+      background-color: #eee8f4;
+      background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent),
+        linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%, transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%, transparent);
+      background-size: 55px 55px;
+    }
 
-      [data-theme='dark'] .blocoForms {
-        color: #ddd6fa !important;
-        background-color: #4e4e7f;
-        --color: #4e4e7f;
-        border: 2.5px solid #7866c689;
-        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-      }
+    [data-theme='dark'] .blocoForms {
+      color: #ddd6fa !important;
+      background-color: #4e4e7f;
+      --color: #4e4e7f;
+      border: 2.5px solid #7866c689;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    }
 
 .botaoBanner {
   padding: 1.3em 3em;
@@ -199,16 +187,14 @@ body {
 .labelForms {
   font-weight: 650;
 }
-
-.input-erro {
-  border: 2px solid red;
-}
-
-.mensagem-erro {
-  color: red;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
+    .input-erro {
+      border: 2px solid red;
+    }
+    .mensagem-erro {
+      color: red;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
 
 .form-check {
   text-align: left;

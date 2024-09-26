@@ -14,6 +14,10 @@ const Acessibilidade = ({ toggleTheme }) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
+    const highlightLineRef = useRef(null);
+    const [isLineVisible, setIsLineVisible] = useState(false);
+    const highlightOverlayTopRef = useRef(null);
+    const highlightOverlayBottomRef = useRef(null);
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
 
     const [magnifiedText, setMagnifiedText] = useState('');
@@ -73,29 +77,69 @@ const Acessibilidade = ({ toggleTheme }) => {
         }
     };
 
+    // destacar linha 
     const toggleHighlight = () => {
         setIsHighlightActive(prevState => !prevState);
-        if (highlightBackground.current) {
-            highlightBackground.current.style.display = isHighlightActive ? 'none' : 'block';
-        }
-        if (highlightOverlay.current) {
-            highlightOverlay.current.style.display = isHighlightActive ? 'block' : 'none';
-        }
+        setIsLineVisible(prevState => !prevState);
+        setActiveButtons(prevState => ({
+            ...prevState,
+            highlight: !prevState.highlight
+        }));
     };
+
+    useEffect(() => {
+        const handleMouseMove = (event) => {
+            if (isHighlightActive) {
+                const cursorY = event.clientY;
+                const overlayHeight = 550;
+                const spacing = 120; // espaço entre as sobreposições
+
+                if (highlightOverlayTopRef.current && highlightOverlayBottomRef.current) {
+                    highlightOverlayTopRef.current.style.top = `${cursorY - overlayHeight - spacing / 2}px`; // posição acima
+                    highlightOverlayBottomRef.current.style.top = `${cursorY + spacing / 2}px`; // posição abaixo
+                    highlightOverlayTopRef.current.style.display = 'block';
+                    highlightOverlayBottomRef.current.style.display = 'block';
+                }
+            }
+        };
+
+        if (isHighlightActive) {
+            window.addEventListener('mousemove', handleMouseMove);
+        } else {
+            window.removeEventListener('mousemove', handleMouseMove);
+            if (highlightOverlayTopRef.current) {
+                highlightOverlayTopRef.current.style.display = 'none';
+            }
+            if (highlightOverlayBottomRef.current) {
+                highlightOverlayBottomRef.current.style.display = 'none';
+            }
+        }
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+        };
+    }, [isHighlightActive]);
+    
 
     const updateHighlightPosition = (e) => {
         if (highlightBackground.current && isHighlightActive) {
             const { clientY } = e;
-            const offset = 50; // Ajuste para centralizar a faixa ao redor do cursor
-
-            // Ajusta a posição da faixa para cobrir o mouse
+            
+            // Calculo pra posicionar o mouse no centro
+            const lineHeight = highlightBackground.current.offsetHeight;
+            const offset = lineHeight / 2;
             highlightBackground.current.style.top = `${clientY - offset}px`;
         }
     };
+    
 
     const toggleTDHAFriendly = () => {
         setIsTDHAFriendly(prevState => !prevState);
         document.body.classList.toggle('perfil-tdah');
+        setActiveButtons(prevState => ({
+            ...prevState,
+            tdahFriendly: !prevState.tdahFriendly
+        }));
     };
 
     useEffect(() => {
@@ -118,11 +162,10 @@ const Acessibilidade = ({ toggleTheme }) => {
         };
     }, [isHighlightActive]);
 
-    // Funções para a lupa de texto
+
+    // lupa de texto
     const handleMouseEnter = (e) => {
         const target = e.target;
-    
-        // Verifica se o elemento é o botão de lupa para não ativar a lupa nele
         if (target.closest('.accessibility-button')) {
             return;
         }
@@ -148,13 +191,13 @@ const Acessibilidade = ({ toggleTheme }) => {
 
     const handleMouseMove = (e) => {
         if (magnifierRef.current) {
-            magnifierRef.current.style.top = `${e.pageY + 20}px`; // Use pageY em vez de clientY
-            magnifierRef.current.style.left = `${e.pageX + 20}px`; // Use pageX em vez de clientX
+            magnifierRef.current.style.top = `${e.pageY + 20}px`; 
+            magnifierRef.current.style.left = `${e.pageX + 20}px`;
         }
     };
 
 
-   // Atualiza os listeners ao trocar de rota ou quando o botão de lupa é ativado
+   // Atualiza os listeners ao trocar de rota (lupa)
    useEffect(() => {
     const allTextAndImages = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, img, a, button, input, label');
 
@@ -173,7 +216,7 @@ const Acessibilidade = ({ toggleTheme }) => {
             element.removeEventListener('mousemove', handleMouseMove);
         });
     };
-}, [location, activeButtons['textMagnifier']]); // Atualiza os listeners sempre que a rota ou o estado do botão de lupa muda
+}, [location, activeButtons['textMagnifier']]);
     
 
 // foco dinâmico
@@ -207,7 +250,8 @@ useEffect(() => {
             element.removeEventListener('mouseleave', handleMouseLeave);
         });
     };
-}, [activeButtons['dynamicFocus'], location]); // Atualiza sempre que o foco dinâmico muda ou a rota é alterada
+    // Atualiza os listeners ao trocar de rota (foco dinamico)
+}, [activeButtons['dynamicFocus'], location]);
 
 const handleDynamicFocusToggle = () => {
     setActiveButtons((prevState) => ({
@@ -215,7 +259,6 @@ const handleDynamicFocusToggle = () => {
         dynamicFocus: !prevState.dynamicFocus,
     }));
 };
-
 
     return (
         <>
@@ -235,7 +278,6 @@ const handleDynamicFocusToggle = () => {
                     <h3 className='acessibilidade-title'>Acessibilidade</h3>
                     <div className='fundoPainelA'>
                         <div className="accessibility-content">
-                            {/* Tamanho da Fonte */}
                             <div className="accessibility-section font-adjustment">
                                 <h5>Ajustar Tamanho da Fonte</h5>
                                 <div className="font-size-controls">
@@ -244,7 +286,6 @@ const handleDynamicFocusToggle = () => {
                                     <div className="font-size-btn" onClick={increaseFontSize} aria-label="Aumentar tamanho da fonte"><AArrowUp /></div>
                                 </div>
                             </div>
-                            {/* Outros Botões */}
                             <div className="accessibility-buttons">
                                 {/* Botões de Acessibilidade */}
                                 <Button
@@ -329,9 +370,9 @@ const handleDynamicFocusToggle = () => {
                                     <Focus /> Foco Dinâmico
                                 </Button>
                                 <Button
-                                    className={classNames('accessibility-button', { 'active': activeButtons['tdahFriendly'] })}
+                                    className={classNames('accessibility-button', { 'active': activeButtons['virtualKeyboard'] })}
                                     onClick={toggleTDHAFriendly}
-                                    aria-label="Perfil TDAH"
+                                    aria-label="Teclado digital"
                                 >
                                     <Keyboard /> Teclado digital
                                 </Button>
@@ -348,6 +389,42 @@ const handleDynamicFocusToggle = () => {
                 </div>
             )}
             
+
+            {/* sobreposição de cima  */}
+            <div
+                ref={highlightOverlayTopRef}
+                className="highlight-overlay"
+                style={{
+                    position: 'fixed',
+                    height: '90%',
+                    width: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    display: 'none',
+                    pointerEvents: 'none',
+                    zIndex: 1000,
+                    top: '0',
+                    left: '0',
+                }}
+            />
+
+            {/* sobreposição de baixo  */}
+            <div
+                ref={highlightOverlayBottomRef}
+                className="highlight-overlay"
+                style={{
+                    position: 'fixed',
+                    height: '100%',
+                    width: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    display: 'none',
+                    pointerEvents: 'none',
+                    zIndex: 1000,
+                    top: '0',
+                    left: '0',
+                }}
+            />
+
+
             <div className={classNames('highlight-background', { 'show': isHighlightActive })} ref={highlightBackground}></div>
             <div className={classNames('highlight-overlay', { 'show': isHighlightActive })} ref={highlightOverlay}></div>
         </>
