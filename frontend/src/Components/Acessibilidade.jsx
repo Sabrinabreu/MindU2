@@ -121,19 +121,26 @@ const Acessibilidade = ({ toggleTheme }) => {
     // Funções para a lupa de texto
     const handleMouseEnter = (e) => {
         const target = e.target;
+    
+        // Verifica se o elemento é o botão de lupa para não ativar a lupa nele
+        if (target.closest('.accessibility-button')) {
+            return;
+        }
+    
         let textToMagnify = '';
-
+    
         if (target.tagName === 'IMG' && target.alt) {
             textToMagnify = target.alt;
         } else {
             textToMagnify = target.innerText || target.textContent;
         }
-
+    
         if (textToMagnify) {
             setMagnifiedText(textToMagnify);
             setIsMagnifierVisible(true);
         }
     };
+    
 
     const handleMouseLeave = () => {
         setIsMagnifierVisible(false);
@@ -241,13 +248,12 @@ const handleDynamicFocusToggle = () => {
                             <div className="accessibility-buttons">
                                 {/* Botões de Acessibilidade */}
                                 <Button
-                                    className={classNames('accessibility-button', { 'active': activeButtons['increaseCursor'] })}
-                                    onClick={() => toggleClass('large-cursor', 'increaseCursor')}
-                                    aria-label="Aumentar cursor"
-                                >
-                                    <Pointer /> Aumentar Cursor
-                                </Button>
-
+                                        className={classNames('accessibility-button', { 'active': activeButtons['increaseCursor'] })}
+                                        onClick={() => toggleClass('large-cursor', 'increaseCursor')}
+                                        aria-label="Aumentar cursor"
+                                    >
+                                        <Pointer /> Aumentar Cursor
+                                    </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['darkMode'] })}
                                     onClick={() => {
