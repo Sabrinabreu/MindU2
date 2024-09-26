@@ -2,7 +2,7 @@ import { useState } from 'react';
 import "../css/AgendarConsulta.css";
 import '../css/Calendario.css';
 
-const DatePicker = ({ onDateSelect, availableDates = [] }) => {  // Valor padrão definido
+const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -33,16 +33,14 @@ const DatePicker = ({ onDateSelect, availableDates = [] }) => {  // Valor padrã
         // Dias do mês
         for (let i = 1; i <= daysInMonth; i++) {
             const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
-            const formattedDate = date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
-            const isAvailable = availableDates.includes(formattedDate);
             const isToday = i === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear();
             const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
 
             dates.push(
                 <button
                     key={`date-${i}`}
-                    className={`date ${isAvailable ? (isToday ? 'current-day' : (isSelected ? 'selected-day' : '')) : 'inactive'}`}
-                    onClick={isAvailable ? () => handleDateClick(i) : undefined}
+                    className={`date ${isToday ? 'current-day' : (isSelected ? 'selected-day' : '')}`}
+                    onClick={() => handleDateClick(i)} // Todos os dias agora são clicáveis
                 >
                     {i}
                 </button>
@@ -63,15 +61,11 @@ const DatePicker = ({ onDateSelect, availableDates = [] }) => {  // Valor padrã
             <div className="datepicker-top">
                 <div className="month-selector">
                     <button className="arrow" onClick={handlePrevMonth}>
-                        <i className="material-icons">
-                            <span className="material-symbols-outlined p-3">chevron_left</span>
-                        </i>
+                        <span className="material-symbols-outlined p-3">chevron_left</span>
                     </button>
                     <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
                     <button className="arrow" onClick={handleNextMonth}>
-                        <i className="material-icons">
-                            <span className="material-symbols-outlined p-3">chevron_right</span>
-                        </i>
+                        <span className="material-symbols-outlined p-3">chevron_right</span>
                     </button>
                 </div>
             </div>

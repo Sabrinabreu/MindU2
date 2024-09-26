@@ -371,12 +371,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import DatePicker from "../Components/Calendario";
-
-
 
 // Nome do psicólogo
 const nomePsico = 'Flávio Monteiro Lobato';
@@ -389,9 +384,7 @@ const Agendar = () => {
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTipo, setSelectedTipo] = useState(null);
     const [assunto, setAssunto] = useState('');
-    const [userId] = useState('someUserId');
     const [availableTimes, setAvailableTimes] = useState([]);
-    const [events, setEvents] = useState([]);
 
     useEffect(() => {
         fetchDisponibilidades(psicologoId);
@@ -400,28 +393,22 @@ const Agendar = () => {
     const fetchDisponibilidades = async (psicologoId) => {
         try {
             const response = await fetch(`http://localhost:3000/api/psicologo/${psicologoId}/disponibilidade`);
-            const text = await response.text();
-            console.log('Resposta da API:', text);
-
             if (!response.ok) {
                 throw new Error(`Erro ${response.status}: ${response.statusText}`);
             }
 
-            const data = JSON.parse(text);
-            setEvents(data);
+            const data = await response.json();
+            setAvailableTimes(data);
         } catch (error) {
             console.error('Erro ao buscar as disponibilidades:', error);
         }
     };
 
-    const handleShow = () => {
-        setShow(true);
-    };
-
-
-    const handleDateSelect = (info) => {
-        setSelectedDate(info.date);
-        fetchAvailableTimes(info.date); // Busque os horários disponíveis ao selecionar uma data
+    const handleShow = () => setShow(true);
+    
+    const handleDateSelect = (date) => {
+        setSelectedDate(date);
+        fetchAvailableTimes(date); // Busque os horários disponíveis ao selecionar uma data
         setShow(true); // Mostra o modal ao selecionar a data
     };
 
@@ -446,12 +433,13 @@ const Agendar = () => {
             return;
         }
 
-        // Resto do código para agendar a consulta...
+        // Aqui você deve adicionar a lógica para salvar o agendamento
+        console.log("Agendamento salvo:", { selectedDate, selectedTime, selectedTipo, assunto });
+        handleClose(); // Fecha o modal após salvar
     };
 
     const handleClose = () => {
         setShow(false);
-        setAvailableTimes([]);
         setSelectedDate(null);
         setSelectedTime(null);
         setSelectedTipo(null);
@@ -490,16 +478,7 @@ const Agendar = () => {
                             <span className="material-symbols-outlined iconsSaibaMais">calendar_month</span> Agende sua consulta...
                         </h5>
                         <div className='displayCalendario'>
-                            { /*<FullCalendar
-                                plugins={[dayGridPlugin]}
-                                locale={ptBrLocale}
-                                initialView="dayGridMonth"
-                                events={events}
-                                dateClick={(info) => handleDateSelect(new Date(info.date))}
-                            />*/}
-
-                            <DatePicker onDateSelect={handleDateSelect} availableDates={availableTimes.map(time => time.date)} />
-
+                            <DatePicker onDateSelect={handleDateSelect} />
                         </div>
                         <button className='agendaConsulta' onClick={handleShow} disabled={!selectedDate}>
                             Agendar consulta
