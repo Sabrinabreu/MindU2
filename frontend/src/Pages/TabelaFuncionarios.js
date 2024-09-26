@@ -11,8 +11,8 @@ const TabelaFuncionarios = ({ contas }) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('http://localhost:3001/contaFuncionarios'); // Axios inclui o token automaticamente no cabeçalho
-        setcontasFuncionarios(response.data);  // Atualiza a tabela com os dados dos funcionários
+        const response = await axios.get('http://localhost:3001/contaFuncionarios'); 
+        setcontasFuncionarios(response.data); 
       } catch (error) {
         console.error('Erro ao buscar os funcionários:', error);
       }
@@ -65,7 +65,6 @@ const TabelaFuncionarios = ({ contas }) => {
         })
       );
 
-      // Atualiza a lista de funcionários após excluir os selecionados
       const { data } = await axios.get("http://localhost:3001/contaFuncionarios");
       setcontasFuncionarios(data);
       setSelectedRows([]);
@@ -111,7 +110,7 @@ const TabelaFuncionarios = ({ contas }) => {
         data={contasFuncionarios}
         contextActions={contextActions}
         noDataComponent="Não há registros para exibir"
-        clearSelectedRows={toggleCleared} // Passa o estado para resetar a seleção
+        clearSelectedRows={toggleCleared}
       />
     </div>
   );

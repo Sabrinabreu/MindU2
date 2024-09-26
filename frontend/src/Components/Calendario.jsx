@@ -7,7 +7,6 @@ import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 
 // import { availableTimes } from './Agendar'; // Importe os horários disponíveis, caso estejam em outro arquivo
 
-// Componente DatePicker
 const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
@@ -23,14 +22,13 @@ const DatePicker = ({ onDateSelect }) => {
     const handleDateClick = (day) => {
         const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
         setSelectedDate(newDate);
-        onDateSelect(newDate); // Notifica o componente pai sobre a data selecionada
+        onDateSelect(newDate);
     };
 
     const generateDays = () => {
         const startDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
         const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
         const dates = [];
-        // const availableDates = Object.keys(availableTimes);
 
         // Dias vazios antes do início do mês
         for (let i = 0; i < startDay; i++) {
@@ -70,7 +68,7 @@ const DatePicker = ({ onDateSelect }) => {
             <FullCalendar
                 plugins={[dayGridPlugin]}
                 initialView="dayGridMonth"
-                locale={ptBrLocale} // Exibe o calendário em português
+                locale={ptBrLocale}
                 dayCellContent={(info) => (
                     <div className={`dia-${info.date.getDate()}`}>
                         {info.dayNumberText}

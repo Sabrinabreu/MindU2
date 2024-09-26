@@ -1,6 +1,6 @@
 import { Modal, Button } from 'react-bootstrap';
-import PaymentForm from './Pagamento';  // Importe o formulário de pagamento
-import '../css/ModalPag.css';
+import PaymentForm from './Pagamento'; 
+import '../css/ModalPag.css'
 import { X } from 'lucide-react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';

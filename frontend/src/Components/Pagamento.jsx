@@ -67,7 +67,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text).then(() => {
             setShowPopover(true);
-            setTimeout(() => setShowPopover(false), 2000); // Mostra o popover por 2 segundos
+            setTimeout(() => setShowPopover(false), 2000);
         });
     };
 
@@ -107,12 +107,12 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
 
         let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
         if (input.length > 16) {
-            input = input.slice(0, 16); // Limita a quantidade de dígitos a 16
+            input = input.slice(0, 16);
         }
 
         // Adiciona espaços a cada 4 dígitos
         const formattedInput = input.replace(/(.{4})/g, '$1 ').trim();
-        setCardNumber(formattedInput); // Atualiza o estado com o número formatado
+        setCardNumber(formattedInput); 
 
 
     };
@@ -120,14 +120,14 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
     const handleCardExpiryChange = (e) => {
         let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
         if (input.length > 4) {
-            input = input.slice(0, 4); // Limita a 4 dígitos (MMYY)
+            input = input.slice(0, 4); // Limita a 4 dígitos
         }
 
-        // Adiciona a barra (/) após o segundo dígito (formato MM/AA)
+        // Adiciona barra após o segundo dígito 
         if (input.length >= 3) {
             input = `${input.slice(0, 2)}/${input.slice(2, 4)}`;
         }
-        setCardExpiry(input); // Atualiza o estado com a data formatada
+        setCardExpiry(input);
     };
 
     const handleInputChange = (e) => {
@@ -139,10 +139,10 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         if (name === 'cpf') {
             let input = value.replace(/\D/g, ''); // Remove tudo que não for número
             if (input.length > 11) {
-                input = input.slice(0, 11); // Limita a quantidade de dígitos a 11
+                input = input.slice(0, 11);
             }
 
-            // Formata o CPF (000.000.000-00)
+            // Formata o CPF 
             if (input.length > 9) {
                 input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}-${input.slice(9, 11)}`;
             } else if (input.length > 6) {
@@ -153,25 +153,21 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
 
             setFormData({
                 ...formData,
-                [name]: input // Atualiza o campo CPF com a formatação
+                [name]: input 
             });
         }
         else if (name === 'CEP') {
             let input = value.replace(/\D/g, ''); // Remove tudo que não for número
-
-            // Limita a quantidade de dígitos a 8 (formato de CEP)
             if (input.length > 8) {
                 input = input.slice(0, 8);
             }
-
-            // Aplica a formatação do CEP (#####-###)
             if (input.length > 5) {
                 input = `${input.slice(0, 5)}-${input.slice(5, 8)}`;
             }
 
             setFormData({
                 ...formData,
-                [name]: input // Atualiza o campo CEP com a formatação
+                [name]: input
             });
         }
     };
@@ -192,19 +188,19 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
 
         // Dados do boleto
         const today = new Date();
-        const todayFormatted = today.toLocaleDateString('pt-BR'); // Data do documento (hoje)
-        const dueDate = new Date(today.setDate(today.getDate() + 7)); // Data de vencimento para 7 dias à frente
+        const todayFormatted = today.toLocaleDateString('pt-BR'); 
+        const dueDate = new Date(today.setDate(today.getDate() + 7)); 
         const dueDateFormatted = dueDate.toLocaleDateString('pt-BR');
-        const nossoNumero = '123456789012'; // Gerar nosso número aleatório ou conforme a lógica da sua aplicação
-        const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000'; // Exemplo de número do boleto
+        const nossoNumero = '123456789012'; 
+        const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000'; 
 
         // Cálculo de multa e juros
-        const amount = totalPrice.toFixed(2); // Valor total do boleto
-        const interestRate = 0.01; // Juros de 1% ao mês
-        const fineRate = 0.02; // Multa de 2%
-        const daysOverdue = 0; // Definir como o número de dias em atraso se necessário
+        const amount = totalPrice.toFixed(2); 
+        const interestRate = 0.01; 
+        const fineRate = 0.02; 
+        const daysOverdue = 0;
         const fine = (totalPrice * fineRate).toFixed(2);
-        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2); // Juros proporcional ao número de dias em atraso
+        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2); 
 
         const drawSection = (x, y, width, height, borderWidth = 0.5) => {
             page.drawRectangle({
@@ -226,7 +222,6 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         page.drawText(`${boletoNumber}`, { x: 220, y: height - 26, size: 12, font: fontRegular });
         drawSection(100, height - 1, 595, 40);
 
-        // Seção do cedente dividida em tres colunas
         drawSection(0, height - 41, 200, 120);
         drawSection(410, height - 41, 185, 120);
         drawSection(200, height - 41, 210, 120);
@@ -254,7 +249,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         page.drawText(`Telefone: ${phone}`, { x: 215, y: height - 150, size: 12, font: fontRegular });
 
         // Seção de multa
-        drawSection(0, height - 161, 595, 135); // Ajustado para a largura total da página
+        drawSection(0, height - 161, 595, 135); 
         page.drawText('Instruções de Pagamento:', {
             x: 20,
             y: height - 180,
@@ -279,7 +274,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
             color: rgb(0, 0, 0)
         });
 
-        // Gerar código de barras ocupando toda a largura da seção
+        // Gerar código de barras
         const barcodeCanvas = document.createElement('canvas');
         JsBarcode(barcodeCanvas, boletoNumber, { format: 'CODE128', displayValue: false });
         const barcodeImageData = barcodeCanvas.toDataURL('image/png');
@@ -295,7 +290,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         });
 
         // Seção do código de barras
-        drawSection(0, height - 296, 595, 120); // Ajustado para a largura total da página
+        drawSection(0, height - 296, 595, 120);
 
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -328,8 +323,6 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         <Container className="formContainer">
             <Row>
                 <form className="payment-form" onSubmit={handleSubmit}>
-
-                    {/* Escolha de Tipo de Pagamento */}
                     <div className="form-group">
                         <label className="formlabel">Escolha o Tipo de Pagamento:</label>
                         <div className="payment-options">
@@ -444,7 +437,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                                     <option value="1234">Agência 1234</option>
                                                     <option value="5678">Agência 5678</option>
                                                     <option value="9101">Agência 9101</option>
-                                                    {/* Adicione mais opções conforme necessário */}
+                                                
                                                 </select>
                                             </div>
                                         </Col>
@@ -563,7 +556,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                             <input readOnly value={pixKey} />
                                             <OverlayTrigger show={showPopover} placement="right" overlay={popover}>
                                                 <span onClick={() => copyToClipboard(pixKey)} style={{ cursor: 'pointer' }}>
-                                                    <CopyIcon /> {/* Aqui está o seu ícone como botão */}
+                                                    <CopyIcon />
                                                 </span>
                                             </OverlayTrigger>
                                         </div>
@@ -608,7 +601,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                                         id="cardNumber"
                                                         name="cardNumber"
                                                         value={cardNumber}
-                                                        maxLength="19" // 16 dígitos + 3 espaços
+                                                        maxLength="19"
                                                         onChange={handleCardNumberChange}
                                                         placeholder="Número do Cartão"
                                                     />
@@ -628,7 +621,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                                         onChange={handleCardExpiryChange}
                                                         placeholder="MM/AA"
                                                         style={{ width: '100%' }}
-                                                        maxLength="5" // MM/AA tem no máximo 5 caracteres
+                                                        maxLength="5" 
 
                                                     />
                                                 </div>
