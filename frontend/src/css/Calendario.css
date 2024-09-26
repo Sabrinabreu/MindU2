@@ -30,7 +30,7 @@
   border: 1px solid #ac25b8; /* Bordas do dia de hoje */
   font-weight: bold;
   color: #000000;
-  border-radius: 100%; /* Redondo para o dia de hoje */
+  border-radius: 100%; 
 }
 
 /* --- Cabeçalhos e Navegação --- */
@@ -38,7 +38,7 @@
 /* Estilo para o cabeçalho do mês */
 .fc-header-toolbar {
   color: #000000;
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: bold;
 }
 
@@ -73,6 +73,13 @@
 .fc-col-header-cell-cushion{
   color: #604c9c;
   text-decoration: none;
+}
+
+.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  margin-left: -1px;
+  background-color: rgb(196, 152, 97) !important;
 }
 
 /* Estilo para o texto dentro dos eventos */

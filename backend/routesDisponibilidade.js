@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const connection = require('./database'); // Verifique o caminho para sua configuração de banco de dados
 
-router.get('/:psicologo_id/disponibilidade', (req, res) => {
-    const psicologo_id = req.params.psicologo_id;
+router.get('/api/psicologo/:id/disponibilidade', (req, res) => {
+    const psicologo_id = req.params.id; // Corrija aqui para usar req.params.id
     const sql = `SELECT data, horario FROM disponibilidadepsico WHERE psicologo_id = ?`;
 
     connection.query(sql, [psicologo_id], (err, results) => {
@@ -22,7 +23,6 @@ router.get('/:psicologo_id/disponibilidade', (req, res) => {
 });
 
 module.exports = router;
-
 
 
 /*const express = require('express');
