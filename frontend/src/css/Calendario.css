@@ -26,11 +26,11 @@
 
 /* Estilo para o dia de hoje */
 .fc-daygrid-day.fc-day-today {
-  background-color: #bd77b879 !important; /* Fundo diferente para o dia de hoje */
-  border: 2px solid #ac25b8; /* Bordas do dia de hoje */
+  background-color: #bd77b879 !important;
+  border: 1px solid #ac25b8; /* Bordas do dia de hoje */
   font-weight: bold;
   color: #000000;
-  border-radius: 50%; /* Redondo para o dia de hoje */
+  border-radius: 100%; /* Redondo para o dia de hoje */
 }
 
 /* --- Cabeçalhos e Navegação --- */
@@ -45,7 +45,6 @@
 /* Estilo dos cabeçalhos dos dias da semana */
 .fc-col-header-cell {
   background-color: #ff9eb8;
-  color: #fff7f7;
   border: 1px solid #495057;
   font-size: 1.1em;
   font-weight: bold;
@@ -72,7 +71,7 @@
 
 /* DIAS DA SEMANA */
 .fc-col-header-cell-cushion{
-  color: #000000;
+  color: #604c9c;
   text-decoration: none;
 }
 
