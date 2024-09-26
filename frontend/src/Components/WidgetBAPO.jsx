@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import "../css/WidgetBAPO.css";
-import fotoBAPO from '../img/IABAPO.webp';
-import Nav from 'react-bootstrap/Nav';
-import { Link } from 'react-router-dom';
-import { Row, Col } from "react-bootstrap";
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,10 +10,8 @@ const ChatWidget = () => {
 
   const styles = {
     iframe: {
-      borderRadius: '8px', // Bordas arredondadas
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)', // Sombra do iframe
-      
-
+      borderRadius: '8px', 
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
     },
   };
 
@@ -33,8 +27,6 @@ const ChatWidget = () => {
             <span className="chat-title">Precisa de ajuda?</span>
           </div>
           <div className="chat-body">
-
-            {/* Adiciona o iframe aqui */}
             <div className="chat-iframe">
               <style data-emotion="webchat--css-mupcc" data-s="">
 

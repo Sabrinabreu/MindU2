@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import '../css/Calendario.css'; // Seu arquivo CSS
+import '../css/Calendario.css';
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import { Container } from 'react-bootstrap';
 
@@ -29,7 +29,7 @@ const DispCalendario = ({ psicologoId }) => {
     }
   };
 
-  // Função para buscar o nome do psicólogo diretamente do banco de dados
+  // Função para buscar o nome do psicólogo 
   const fetchPsicologo = async () => {
     try {
       const response = await fetch(`/api/psicologos/${psicologoId}`);
@@ -59,7 +59,7 @@ const DispCalendario = ({ psicologoId }) => {
   return (
     <div>
       <Container>
-      <h1 className='work'>{nomePsicologo || 'Psicólogo'}</h1> {/* Nome do psicólogo */}
+      <h1 className='work'>{nomePsicologo || 'Psicólogo'}</h1>
       <FullCalendar
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"

@@ -28,14 +28,13 @@ const Disponibilidade = () => {
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
-        // Aqui você pode buscar eventos para essa data
         setEvents([{
             nomePaciente: 'João Silva',
             idadePaciente: 32,
             tipoConsulta: 'Online',
             assuntos: 'Ansiedade, estresse no trabalho',
             time: '10:00',
-            details: '' // Se nenhum detalhe adicional for fornecido
+            details: ''
         }]);
     };
 
@@ -86,7 +85,7 @@ const Disponibilidade = () => {
     // verifica se a data selecionada é anterior a atual
     const isPastDate = selectedDate && selectedDate < new Date().setHours(0, 0, 0, 0);
 
-    // Determina se o dia da semana da data selecionada é um dia de trabalho
+    // Determina se é um dia de trabalho
     const isWorkingDay = selectedDate && workingDays.includes(selectedDate.toLocaleDateString('pt-BR', { weekday: 'long' }).toLowerCase());
 
     return (

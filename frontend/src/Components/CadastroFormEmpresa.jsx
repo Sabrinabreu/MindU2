@@ -26,12 +26,12 @@ const CadastroForm = () => {
       [name]: value
     });
     if (name === 'telefone') {
-      let input = value.replace(/\D/g, ''); // Remove tudo que não for número
+      let input = value.replace(/\D/g, ''); // Remove tudo que não é número
       if (input.length > 11) {
-        input = input.slice(0, 11); // Limita a quantidade de dígitos a 11
+        input = input.slice(0, 11);
       }
 
-      // Formata o telefone (00) 00000-0000
+      // mascara 
       if (input.length > 6) {
         input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}-${input.slice(7, 11)}`;
       } else if (input.length > 2) {
@@ -40,7 +40,7 @@ const CadastroForm = () => {
 
       setFormData({
         ...formData,
-        [name]: input // Atualiza o campo telefone com a formatação
+        [name]: input
       });
     }
   };

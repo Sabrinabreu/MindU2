@@ -22,11 +22,11 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
     localStorage.setItem('dark-mode', isDarkMode);
   }, [isDarkMode]);
 
-  // Função para alternar o modo escuro ao pressionar a tecla Espaço
+  // Função para alternar o modo escuro com Espaço
   const handleKeyDown = (event) => {
     if (event.key === ' ') {
-      event.preventDefault(); // Impede o comportamento padrão da tecla Espaço
-      toggleTheme(); // Alterna o tema
+      event.preventDefault();
+      toggleTheme();
     }
   };
 
@@ -92,14 +92,14 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
               className="switch"
               tabIndex="0"
               aria-label={isDarkMode ? "Desativar modo escuro" : "Ativar modo escuro"}
-              onKeyDown={handleKeyDown} // Adiciona a funcionalidade de tecla
+              onKeyDown={handleKeyDown}
             >
               <input
                 type="checkbox"
                 checked={isDarkMode}
                 onChange={toggleTheme}
                 aria-pressed={isDarkMode ? "true" : "false"}
-                tabIndex="0" // Adiciona o tabIndex para navegação com teclado
+                tabIndex="0"
               />
               <span className="slider"></span>
             </label>

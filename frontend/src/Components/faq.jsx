@@ -4,8 +4,6 @@ import Accordion from 'react-bootstrap/Accordion';
 function FAQ() {
     return (
         <Container><Row><Col md='12'>
-
-
             <Accordion className='faqaccordion'>
                 <h1 className='text-center Faq-TXT'> FAQ: Perguntas frequentes </h1>
                 <Accordion.Item eventKey="0">
