@@ -4,6 +4,9 @@ import { Modal, Button } from 'react-bootstrap';
 import PaymentForm from './Pagamento';  // Importe o formulário de pagamento
 import '../css/ModalPag.css'
 import { X } from 'lucide-react';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import AcessoFuncionarios from '../Pages/AcessoFuncionarios';
 
 const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice }) => {
     return (
@@ -34,7 +37,25 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice }) => {
 
             </Modal.Header>
             <Modal.Body>
-                <PaymentForm selectedPlan={{ name: planName, price: planPrice }} />
+
+                <div className='centralizar'>
+                    <Tabs
+                        defaultActiveKey="profile"
+                        id="uncontrolled-tab-example"
+                        className="mb-3 tabpag"
+                    >
+                        <Tab className='tab' eventKey="home" title="Passo 1: Crie suas contas">
+                            <AcessoFuncionarios />
+                        </Tab>
+                        <Tab className='tab' eventKey="profile" title="Passo 2: Pagamento">
+                            <PaymentForm selectedPlan={{ name: planName, price: planPrice }} />
+                        </Tab>
+
+                    </Tabs>
+
+                </div>
+
+
             </Modal.Body>
             <Modal.Footer>
                 <Button className='buttonmodal' onClick={onHide}><X /></Button>

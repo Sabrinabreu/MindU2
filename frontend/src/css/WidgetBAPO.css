@@ -58,19 +58,33 @@ body {
   text-align: center;
 }
 
+[data-theme='dark'] .chat-header {
+  background-color: #6102a4;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .chat-body p {
   margin: 0;
   padding: 0;
 }
 
-[data-theme='dark'] .chat-box {
+.chat-box {
   background: #343453 !important;
   border: 1px solid #f3819f;
+}
+
+[data-theme='dark'] .chat-box {
+  background: #343453 !important;
+  border: 1px solid #5b00bd;
 }
 
 .chat-options {
   margin-top: 10px;
 }
+
 
 .chat-option {
   display: block;
@@ -144,11 +158,10 @@ body {
 
 
 .chat-iframe {
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   border: 1px solid #ccc;
-  border-radius: 12px;
+  border-radius: 1px;
   overflow-x: hidden;
-  /* Esconde o overflow horizontal */
 }
 
 .chat-iframe iframe {

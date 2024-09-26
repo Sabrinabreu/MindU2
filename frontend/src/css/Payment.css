@@ -423,6 +423,9 @@ body {
     background: linear-gradient(25deg, #d3bff2, #7866c6);
 }
 
+[data-theme='dark'] .rccs__card--unknown>div {
+    background: linear-gradient(25deg, #ca5794, #7866c6);
+}
 
 @media (max-width: 991px) {
     .payment-option-container {
