@@ -8,7 +8,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-[data-theme='dark'] .title h2 {
+[data-theme='dark'] .title{
   color: #e0dffd !important;
 }
 

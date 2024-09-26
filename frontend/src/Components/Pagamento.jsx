@@ -5,7 +5,6 @@ import { QRCodeSVG } from 'qrcode.react';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import '../css/Payment.css';
 import { CopyIcon } from 'lucide-react';
-
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
@@ -142,7 +141,7 @@ const PaymentForm = ({ selectedPlan }) => {
             // Aplica a formatação do CEP (#####-###)
             if (input.length > 5) {
                 input = `${input.slice(0, 5)}-${input.slice(5, 8)}`;
-            }
+            } 
 
             setFormData({
                 ...formData,
