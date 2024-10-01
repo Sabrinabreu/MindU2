@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../css/Acessibilidade.css';
-import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick, Fullscreen, Keyboard } from 'lucide-react';
+import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick, Fullscreen, Keyboard, VolumeX, Volume2, Play, Pause, RotateCcw, SkipBack, SkipForward} from 'lucide-react';
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
@@ -10,15 +10,19 @@ import { useLocation } from 'react-router-dom';
 // import 'react-simple-keyboard/build/css/index.css';
 
 const Acessibilidade = ({ toggleTheme }) => {
-    const [fontSize, setFontSize] = useState(1);  // 1 significa 100% (nenhuma escala)
+    const [fontSize, setFontSize] = useState(16);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
-    const highlightLineRef = useRef(null);
     const [isLineVisible, setIsLineVisible] = useState(false);
     const highlightOverlayTopRef = useRef(null);
     const highlightOverlayBottomRef = useRef(null);
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
+
+    const [speechSynthesisActive, setSpeechSynthesisActive] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+    const [currentCharIndex, setCurrentCharIndex] = useState(0);
+    const utteranceRef = useRef(null);
 
     const [magnifiedText, setMagnifiedText] = useState('');
     const [isMagnifierVisible, setIsMagnifierVisible] = useState(false);
@@ -30,24 +34,14 @@ const Acessibilidade = ({ toggleTheme }) => {
     const highlightOverlay = useRef(null);
 
     const handleTogglePanel = () => setIsPanelOpen(prevState => !prevState);
-    
-    const adjustFontSize = (scaleFactor) => {
-        document.body.style.transform = `scale(${scaleFactor})`;
-        document.body.style.transformOrigin = 'top left';
-        document.body.style.width = `${100 / scaleFactor}%`;
-        setFontSize(scaleFactor);
+
+    const adjustFontSize = (size) => {
+        document.body.style.fontSize = size;
+        setFontSize(parseFloat(size));
     };
-    
-    const increaseFontSize = () => {
-        const newSize = Math.min(fontSize + 0.1, 1.5);  // Limitar o zoom máximo para 1.5x (150%)
-        adjustFontSize(newSize);
-    };
-    
-    const decreaseFontSize = () => {
-        const newSize = Math.max(fontSize - 0.1, 0.5);  // Limitar o zoom mínimo para 0.5x (50%)
-        adjustFontSize(newSize);
-    };
-    
+
+    const increaseFontSize = () => adjustFontSize(`${Math.min(fontSize + 2, 24)}px`);
+    const decreaseFontSize = () => adjustFontSize(`${Math.max(fontSize - 2, 12)}px`);
 
     const toggleClass = (className, buttonKey) => {
         const bodyClassList = document.body.classList;
@@ -61,7 +55,7 @@ const Acessibilidade = ({ toggleTheme }) => {
             [buttonKey]: !prevState[buttonKey]
         }));
     };
-    
+
     const resetAll = () => {
         document.body.classList.remove(
             'large-cursor',
@@ -79,12 +73,7 @@ const Acessibilidade = ({ toggleTheme }) => {
         setActiveButtons({});
         setIsHighlightActive(false);
         setIsTDHAFriendly(false);
-        if (highlightBackground.current) {
-            highlightBackground.current.style.display = 'none';
-        }
-        if (highlightOverlay.current) {
-            highlightOverlay.current.style.display = 'none';
-        }
+        stopTextToSpeech();
     };
 
     // destacar linha 
@@ -270,6 +259,73 @@ const handleDynamicFocusToggle = () => {
     }));
 };
 
+// TTS (Texto para Fala)
+const rewindTextToSpeech = () => {
+    stopTextToSpeech();
+    startTextToSpeech();
+};
+
+const stopTextToSpeech = () => {
+    speechSynthesis.cancel();
+    setSpeechSynthesisActive(false);
+    setIsPaused(false);
+    setCurrentCharIndex(0);
+};
+
+const startTextToSpeech = () => {
+    const text = document.body.innerText || document.body.textContent;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.onboundary = (event) => {
+        setCurrentCharIndex(event.charIndex);
+    };
+    speechSynthesis.speak(utterance);
+    utteranceRef.current = utterance;
+    setSpeechSynthesisActive(true);
+    setIsPaused(false);
+};
+
+const pauseTextToSpeech = () => {
+    speechSynthesis.pause();
+    setIsPaused(true);
+};
+
+const resumeTextToSpeech = () => {
+    speechSynthesis.resume();
+    setIsPaused(false);
+};
+
+const handleSkipBack = () => {
+    if (utteranceRef.current) {
+        stopTextToSpeech();
+        const newCharIndex = Math.max(0, currentCharIndex - 100); // Retrocede 100 caracteres
+        const text = document.body.innerText || document.body.textContent;
+        const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
+        utterance.lang = 'pt-BR';
+        utterance.onboundary = (event) => {
+            setCurrentCharIndex(newCharIndex + event.charIndex); // Atualiza a nova posição
+        };
+        speechSynthesis.speak(utterance);
+        utteranceRef.current = utterance;
+    }
+};
+
+const handleSkipForward = () => {
+    if (utteranceRef.current) {
+        stopTextToSpeech();
+        const text = document.body.innerText || document.body.textContent;
+        const newCharIndex = Math.min(text.length, currentCharIndex + 100); // Avança 100 caracteres
+        const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
+        utterance.lang = 'pt-BR';
+        utterance.onboundary = (event) => {
+            setCurrentCharIndex(newCharIndex + event.charIndex); // Atualiza a nova posição
+        };
+        speechSynthesis.speak(utterance);
+        utteranceRef.current = utterance;
+    }
+};
+
+
     return (
         <>
             <button className="accessibility-toggle" onClick={handleTogglePanel} aria-label="Abrir painel de acessibilidade">
@@ -292,7 +348,7 @@ const handleDynamicFocusToggle = () => {
                                 <h5>Ajustar Tamanho da Fonte</h5>
                                 <div className="font-size-controls">
                                     <div className="font-size-btn" onClick={decreaseFontSize} aria-label="Diminuir tamanho da fonte"><AArrowDown /></div>
-                                    <span className="font-size-display">{(fontSize * 100).toFixed(0)}%</span>
+                                    <span className="font-size-display">{(fontSize / 16 * 100).toFixed(0)}%</span>
                                     <div className="font-size-btn" onClick={increaseFontSize} aria-label="Aumentar tamanho da fonte"><AArrowUp /></div>
                                 </div>
                             </div>
@@ -386,6 +442,31 @@ const handleDynamicFocusToggle = () => {
                                 >
                                     <Keyboard /> Teclado digital
                                 </Button>
+                                {/* Botões de controle de leitura */}
+                                <Button
+                                    className={classNames('accessibility-button', { 'active': speechSynthesisActive })}
+                                    onClick={speechSynthesisActive ? stopTextToSpeech : startTextToSpeech}
+                                    aria-label={speechSynthesisActive ? "Parar leitura" : "Ler o conteúdo da página"}
+                                >
+                                    {speechSynthesisActive ? <VolumeX /> : <Volume2 />} {speechSynthesisActive ? "Parar Leitura" : "Ler Página"}
+                                </Button>
+                                
+                                {speechSynthesisActive && (
+                                    <>
+                                        <Button className="accessibility-button" onClick={isPaused ? resumeTextToSpeech : pauseTextToSpeech}>
+                                            {isPaused ? <Play /> : <Pause />} {isPaused ? "Retomar" : "Pausar"}
+                                        </Button>
+                                        <Button className="accessibility-button" onClick={rewindTextToSpeech} aria-label="Reiniciar leitura">
+                                            <RotateCcw /> Reiniciar
+                                        </Button>
+                                        <Button className="accessibility-button" onClick={handleSkipBack}>
+                                            <SkipBack /> Voltar
+                                        </Button>
+                                        <Button className="accessibility-button" onClick={handleSkipForward}>
+                                            <SkipForward /> Avançar
+                                        </Button>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>

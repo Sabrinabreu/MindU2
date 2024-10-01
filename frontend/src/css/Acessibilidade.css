@@ -23,7 +23,7 @@
     width: 420px;
     height: 75%;
     background: #f6f8fa;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     padding: 20px;
     overflow-y: auto;
     transition: transform 0.3s ease;
@@ -35,6 +35,18 @@
 [data-theme='dark'] .accessibilidade-painel {
     background-color: #9486b0 !important;
   }
+
+.text-content {
+    color: #333;
+}
+
+[data-theme='dark'] .text-content {
+    color: #f7f4ff !important;
+  }
+
+  .word {
+    transition: background-color 0.3s; /* Para suavizar a mudança de destaque */
+}
 
 .accessibility-close {
     background: transparent;
@@ -82,6 +94,7 @@
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #333;
 }
 
 [data-theme='dark'] .accessibility-section {
