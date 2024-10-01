@@ -120,7 +120,7 @@ const Rotas = () => {
             }
           />
           <Route
-            path="/saibaMais"
+            path="/psicologo/:id" 
             element={
               <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>
                 <SaibaMais />

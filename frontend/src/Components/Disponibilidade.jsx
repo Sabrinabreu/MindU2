@@ -94,7 +94,7 @@ const Disponibilidade = () => {
             return; // Interrompe a função se não houver horários
         }
     
-        fetch('http://localhost:3001/api/disponibilidade', {
+        fetch('http://localhost:3001/disponibilidade', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
