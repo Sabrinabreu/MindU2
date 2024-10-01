@@ -36,6 +36,18 @@
     background-color: #9486b0 !important;
   }
 
+.text-content {
+    color: #333;
+}
+
+[data-theme='dark'] .text-content {
+    color: #f7f4ff !important;
+  }
+
+  .word {
+    transition: background-color 0.3s; /* Para suavizar a mudança de destaque */
+}
+
 .accessibility-close {
     background: transparent;
     border: none;
