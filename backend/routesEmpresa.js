@@ -32,6 +32,24 @@ router.get('/cadastroempresa/:id', async (req, res) => {
   }
 });
 
+// Rota para buscar o nome da empresa pelo ID
+router.get('/empresa/:id', async (req, res) => {
+  const { id } = req.params; // Pega o id da empresa da URL
+
+  try {
+    const [results] = await connection.query('SELECT empresa FROM cadastroempresa WHERE id = ?', [id]);
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Empresa não encontrada' });
+    }
+
+    res.json({ nome: results[0].empresa });
+  } catch (err) {
+    console.error('Erro ao buscar o nome da empresa:', err);
+    res.status(500).json({ error: 'Erro ao buscar o nome da empresa' });
+  }
+});
+
 
 // criar novo registro
 router.post('/cadastroempresa', async (req, res) => {
@@ -66,22 +84,6 @@ router.post('/cadastroempresa', async (req, res) => {
     }
   }
 });
-
-
-
-// app.post('/cadastrar-empresa', async (req, res) => {
-//   const { nome, email, telefone, departamento, qtdfuncionarios, planosaude, contato } = req.body;
-//   const [result] = await db.query(
-//       `INSERT INTO empresa (nome, email, telefone, departamento, qtdfuncionarios, planosaude, contato)
-//        VALUES (?, ?, ?, ?, ?, ?, ?)`, [nome, email, telefone, departamento, qtdfuncionarios, planosaude, contato]
-//   );
-//   const empresaId = result.insertId;
-//   await db.query(
-//       `INSERT INTO usuarios (login, senha, tipo_usuario, id_referencia)
-//        VALUES (?, ?, 'empresa', ?)`, [email, 'senha123', empresaId]
-//   );
-//   res.status(201).send('Empresa cadastrada com sucesso');
-// });
 
 // Rota para atualizar um registro existente pelo ID
 router.put('/cadastroempresa/:id', async (req, res) => {
