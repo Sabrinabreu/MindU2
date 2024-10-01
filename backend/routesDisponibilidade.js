@@ -7,15 +7,12 @@ const router = express.Router();
 router.get('/psicologo/:id', (req, res) => { 
 
     console.log('Rota chamada com ID:', req.params.id); // Adicione esta linha 
-
     const psicologo_id = req.params.id;  
     const sql = 'SELECT data, horario FROM disponibilidadepsico WHERE psicologo_id = ?'; 
 
     connection.query(sql, [psicologo_id], (err, results) => { 
         if (err) { 
-
             console.error('Erro ao consultar o banco de dados:', err); 
-
             return res.status(500).json({ error: 'Erro ao consultar o banco de dados' }); 
         } 
 
