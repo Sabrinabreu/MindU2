@@ -8,24 +8,50 @@ import { CopyIcon } from 'lucide-react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
-const PaymentForm = ({ selectedPlan }) => {
+const PaymentForm = ({ selectedPlan, completeStep }) => {
     const [paymentType, setPaymentType] = useState('');
     const [cardNumber, setCardNumber] = useState('');
-    const [cardExpiry, setCardExpiry] = useState('')
+    const [cardExpiry, setCardExpiry] = useState('');
     const [cardCVC, setCardCVC] = useState('');
     const [cardName, setCardName] = useState('');
     const [issuer, setIssuer] = useState('');
     const [isCVCVisible, setIsCVCVisible] = useState(false);
     const [installments, setInstallments] = useState(1);
-    const [totalPrice, setTotalPrice] = useState(selectedPlan.price || 0);
+    const [nContas, setNContas] = useState(1);
+
+    // Verifica se o preço do plano é um número válido, senão define como 0
+    const initialPrice = parseFloat(selectedPlan?.price) || 0;
+    const [totalPrice, setTotalPrice] = useState(initialPrice * nContas);
+
+    useEffect(() => {
+        // Recalcula o preço total quando o número de contas ou preço do plano muda
+        const price = parseFloat(selectedPlan?.price) || 0;
+        setTotalPrice(price * nContas);
+    }, [nContas, selectedPlan]);
+
+    // Função para formatar o número e substituir vírgulas por pontos no input
+    const formatCurrency = (value) => {
+        // Converte o valor para float e depois formata para moeda brasileira
+        const formattedValue = parseFloat(value).toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+        return formattedValue;
+    };
+
+    // Converte o valor formatado em string (com vírgulas) para um número parseável
+    const parseCurrency = (value) => {
+        return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
+    };
+
+    // Garante que o cálculo da parcela seja válido
+    const amountPerInstallment = installments > 0 ? formatCurrency(totalPrice / installments) : '0,00';
     const documentNumber = '123.456.789-01'; // Número de documento fictício
     const today = new Date();
     const dueDateGenerated = new Date(today.setDate(today.getDate() + 7)).toLocaleDateString('pt-BR'); // Data de vencimento para 7 dias à frente
     const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000';
     const [selectedAgencyNumber, setSelectedAgencyNumber] = useState('');
     const agencyNumber = selectedAgencyNumber || "Agência não informada";
-
-
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -41,7 +67,7 @@ const PaymentForm = ({ selectedPlan }) => {
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text).then(() => {
             setShowPopover(true);
-            setTimeout(() => setShowPopover(false), 2000); // Mostra o popover por 2 segundos
+            setTimeout(() => setShowPopover(false), 2000);
         });
     };
 
@@ -81,12 +107,12 @@ const PaymentForm = ({ selectedPlan }) => {
 
         let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
         if (input.length > 16) {
-            input = input.slice(0, 16); // Limita a quantidade de dígitos a 16
+            input = input.slice(0, 16);
         }
 
         // Adiciona espaços a cada 4 dígitos
         const formattedInput = input.replace(/(.{4})/g, '$1 ').trim();
-        setCardNumber(formattedInput); // Atualiza o estado com o número formatado
+        setCardNumber(formattedInput);
 
 
     };
@@ -94,14 +120,14 @@ const PaymentForm = ({ selectedPlan }) => {
     const handleCardExpiryChange = (e) => {
         let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
         if (input.length > 4) {
-            input = input.slice(0, 4); // Limita a 4 dígitos (MMYY)
+            input = input.slice(0, 4); // Limita a 4 dígitos
         }
 
-        // Adiciona a barra (/) após o segundo dígito (formato MM/AA)
+        // Adiciona barra após o segundo dígito 
         if (input.length >= 3) {
             input = `${input.slice(0, 2)}/${input.slice(2, 4)}`;
         }
-        setCardExpiry(input); // Atualiza o estado com a data formatada
+        setCardExpiry(input);
     };
 
     const handleInputChange = (e) => {
@@ -113,10 +139,10 @@ const PaymentForm = ({ selectedPlan }) => {
         if (name === 'cpf') {
             let input = value.replace(/\D/g, ''); // Remove tudo que não for número
             if (input.length > 11) {
-                input = input.slice(0, 11); // Limita a quantidade de dígitos a 11
+                input = input.slice(0, 11);
             }
 
-            // Formata o CPF (000.000.000-00)
+            // Formata o CPF 
             if (input.length > 9) {
                 input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}-${input.slice(9, 11)}`;
             } else if (input.length > 6) {
@@ -127,25 +153,21 @@ const PaymentForm = ({ selectedPlan }) => {
 
             setFormData({
                 ...formData,
-                [name]: input // Atualiza o campo CPF com a formatação
+                [name]: input
             });
         }
         else if (name === 'CEP') {
             let input = value.replace(/\D/g, ''); // Remove tudo que não for número
-
-            // Limita a quantidade de dígitos a 8 (formato de CEP)
             if (input.length > 8) {
                 input = input.slice(0, 8);
             }
-
-            // Aplica a formatação do CEP (#####-###)
             if (input.length > 5) {
                 input = `${input.slice(0, 5)}-${input.slice(5, 8)}`;
-            } 
+            }
 
             setFormData({
                 ...formData,
-                [name]: input // Atualiza o campo CEP com a formatação
+                [name]: input
             });
         }
     };
@@ -166,19 +188,19 @@ const PaymentForm = ({ selectedPlan }) => {
 
         // Dados do boleto
         const today = new Date();
-        const todayFormatted = today.toLocaleDateString('pt-BR'); // Data do documento (hoje)
-        const dueDate = new Date(today.setDate(today.getDate() + 7)); // Data de vencimento para 7 dias à frente
+        const todayFormatted = today.toLocaleDateString('pt-BR');
+        const dueDate = new Date(today.setDate(today.getDate() + 7));
         const dueDateFormatted = dueDate.toLocaleDateString('pt-BR');
-        const nossoNumero = '123456789012'; // Gerar nosso número aleatório ou conforme a lógica da sua aplicação
-        const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000'; // Exemplo de número do boleto
+        const nossoNumero = '123456789012';
+        const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000';
 
         // Cálculo de multa e juros
-        const amount = totalPrice.toFixed(2); // Valor total do boleto
-        const interestRate = 0.01; // Juros de 1% ao mês
-        const fineRate = 0.02; // Multa de 2%
-        const daysOverdue = 0; // Definir como o número de dias em atraso se necessário
+        const amount = totalPrice.toFixed(2);
+        const interestRate = 0.01;
+        const fineRate = 0.02;
+        const daysOverdue = 0;
         const fine = (totalPrice * fineRate).toFixed(2);
-        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2); // Juros proporcional ao número de dias em atraso
+        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2);
 
         const drawSection = (x, y, width, height, borderWidth = 0.5) => {
             page.drawRectangle({
@@ -200,7 +222,6 @@ const PaymentForm = ({ selectedPlan }) => {
         page.drawText(`${boletoNumber}`, { x: 220, y: height - 26, size: 12, font: fontRegular });
         drawSection(100, height - 1, 595, 40);
 
-        // Seção do cedente dividida em tres colunas
         drawSection(0, height - 41, 200, 120);
         drawSection(410, height - 41, 185, 120);
         drawSection(200, height - 41, 210, 120);
@@ -228,7 +249,7 @@ const PaymentForm = ({ selectedPlan }) => {
         page.drawText(`Telefone: ${phone}`, { x: 215, y: height - 150, size: 12, font: fontRegular });
 
         // Seção de multa
-        drawSection(0, height - 161, 595, 135); // Ajustado para a largura total da página
+        drawSection(0, height - 161, 595, 135);
         page.drawText('Instruções de Pagamento:', {
             x: 20,
             y: height - 180,
@@ -253,7 +274,7 @@ const PaymentForm = ({ selectedPlan }) => {
             color: rgb(0, 0, 0)
         });
 
-        // Gerar código de barras ocupando toda a largura da seção
+        // Gerar código de barras
         const barcodeCanvas = document.createElement('canvas');
         JsBarcode(barcodeCanvas, boletoNumber, { format: 'CODE128', displayValue: false });
         const barcodeImageData = barcodeCanvas.toDataURL('image/png');
@@ -269,7 +290,7 @@ const PaymentForm = ({ selectedPlan }) => {
         });
 
         // Seção do código de barras
-        drawSection(0, height - 296, 595, 120); // Ajustado para a largura total da página
+        drawSection(0, height - 296, 595, 120);
 
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -284,23 +305,24 @@ const PaymentForm = ({ selectedPlan }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const amountPerInstallment = (totalPrice / installments).toFixed(2);
 
         if (paymentType === 'boleto') {
             generateBoletoPDF();
         } else {
-            alert(`Pagamento de R$${amountPerInstallment} por parcela para o plano ${selectedPlan.name} foi processado com sucesso!`);
+            alert(`Pagamento de R$${amountPerInstallment} para o plano ${selectedPlan.name} foi processado com sucesso!`);
         }
     };
 
-    const amountPerInstallment = (totalPrice / installments).toFixed(2);
 
+    const handleProceed = () => {
+        // Lógica para prosseguir
+        console.log("Prosseguindo com o pagamento...");
+        if (completeStep) completeStep(); // Chama a função de callback passada por props
+    };
     return (
         <Container className="formContainer">
             <Row>
                 <form className="payment-form" onSubmit={handleSubmit}>
-
-                    {/* Escolha de Tipo de Pagamento */}
                     <div className="form-group">
                         <label className="formlabel">Escolha o Tipo de Pagamento:</label>
                         <div className="payment-options">
@@ -415,7 +437,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                                     <option value="1234">Agência 1234</option>
                                                     <option value="5678">Agência 5678</option>
                                                     <option value="9101">Agência 9101</option>
-                                                    {/* Adicione mais opções conforme necessário */}
+
                                                 </select>
                                             </div>
                                         </Col>
@@ -534,7 +556,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                             <input readOnly value={pixKey} />
                                             <OverlayTrigger show={showPopover} placement="right" overlay={popover}>
                                                 <span onClick={() => copyToClipboard(pixKey)} style={{ cursor: 'pointer' }}>
-                                                    <CopyIcon /> {/* Aqui está o seu ícone como botão */}
+                                                    <CopyIcon />
                                                 </span>
                                             </OverlayTrigger>
                                         </div>
@@ -548,8 +570,8 @@ const PaymentForm = ({ selectedPlan }) => {
                                             number={cardNumber}
                                             name={cardName}
                                             expiry={cardExpiry}
-                                            cvc={isCVCVisible ? cardCVC : ''}
-                                            focused={isCVCVisible ? 'cvc' : ''}
+                                            cvc={isCVCVisible ? cardCVC : ''} // Exibe o CVV somente se visível
+                                            focused={isCVCVisible ? 'cvc' : ''} // Foca no CVV se visível
                                             issuer={issuer}
                                         />
                                     </div>
@@ -579,7 +601,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                                         id="cardNumber"
                                                         name="cardNumber"
                                                         value={cardNumber}
-                                                        maxLength="19" // 16 dígitos + 3 espaços
+                                                        maxLength="19"
                                                         onChange={handleCardNumberChange}
                                                         placeholder="Número do Cartão"
                                                     />
@@ -599,8 +621,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                                         onChange={handleCardExpiryChange}
                                                         placeholder="MM/AA"
                                                         style={{ width: '100%' }}
-                                                        maxLength="5" // MM/AA tem no máximo 5 caracteres
-
+                                                        maxLength="5"
                                                     />
                                                 </div>
                                             </Col>
@@ -609,18 +630,19 @@ const PaymentForm = ({ selectedPlan }) => {
                                                     <label className="formlabel" htmlFor="cardCVC">Código de Segurança:</label>
                                                     <input
                                                         className="forminput"
-                                                        type="text"
+                                                        type="password"
                                                         id="cardCVC"
                                                         name="cardCVC"
                                                         value={cardCVC}
                                                         onChange={(e) => {
                                                             setCardCVC(e.target.value);
-                                                            setIsCVCVisible(true);
+                                                            setIsCVCVisible(true); // Mantém o CVV visível ao digitar
                                                         }}
-                                                        onFocus={() => setIsCVCVisible(true)}
-                                                        onBlur={() => setIsCVCVisible(false)}
+                                                        onFocus={() => setIsCVCVisible(true)} // Foca no CVV
+                                                        onBlur={() => setIsCVCVisible(false)} // Desfoca o CVV
                                                         placeholder="CVV"
                                                         style={{ width: '100%' }}
+                                                        maxLength="4" // Limita o CVV a 4 caracteres
                                                     />
                                                 </div>
                                             </Col>
@@ -628,6 +650,7 @@ const PaymentForm = ({ selectedPlan }) => {
                                     </div>
                                 </div>
                             )}
+
 
                             {/* Parcelamento */}
                             {paymentType === "cartao" && (
@@ -645,37 +668,53 @@ const PaymentForm = ({ selectedPlan }) => {
                                             >
                                                 {[1, 2, 3, 4, 5, 6].map(n => (
                                                     <option key={n} value={n}>
-                                                        {n}x de R${(totalPrice / n).toFixed(2)} sem juros
+                                                        {n}x de R${formatCurrency(totalPrice / n)} sem juros
                                                     </option>
                                                 ))}
                                             </select>
                                         </div>
                                     </Col>
-
                                 </>
                             )}
+
+
+
+
                         </div>
                     )}
 
                     {/* Total e Botão de Pagamento */}
                     {paymentType === 'cartao' && (
                         <div>
-                            <p className="text-center">Total: R${amountPerInstallment} </p>
+                            <p className="text-center">
+                                Total: R${formatCurrency(totalPrice)} (ou {installments}x de R${amountPerInstallment} sem juros)
+                            </p>
                             <Button className="formbutton" variant="primary" type="submit">
                                 Pagar
                             </Button>
                         </div>
                     )}
+
                     {paymentType !== 'pix' && paymentType !== 'boleto' && paymentType !== 'cartao' && (
-                        <p className="text-center">Total: R${amountPerInstallment} </p>
+                        <p className="text-center">Total: R${totalPrice.toFixed(2)}</p>
                     )}
+
+
                     {paymentType === 'boleto' && (
                         <div className="button-container">
                             <Button className='my-2 mt-4 buttonboleto' onClick={generateBoletoPDF}>Gerar Boleto</Button>
                         </div>
                     )}
                 </form>
+
             </Row>
+            <Button
+                onClick={handleProceed}
+                disabled={!paymentType} // Desabilitar se nenhum tipo de pagamento estiver selecionado
+                className="mt-3"
+            >
+                Prosseguir
+            </Button>
         </Container>
     );
 };

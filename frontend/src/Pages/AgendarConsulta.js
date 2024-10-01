@@ -7,10 +7,8 @@ import perfilPsicanalista from '../img/perfilPsicanalista.jpeg';
 import perfilEscolar from '../img/perfilEscolar.avif';
 import perfilOrganizacional from '../img/perfilOrganizacional.avif';
 import perfilclinico from '../img/perfilClinico.jpg';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form, Tab, Tabs } from 'react-bootstrap';
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
 import { Search } from 'lucide-react';
@@ -61,7 +59,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marina." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Marina e agendar sua consulta." }
       ]
     },
     {
@@ -329,7 +327,6 @@ function AgendarConsulta() {
     fetchData();
   }, [debouncedSearchTerm]);
 
-  /*const itemsToShow = showAll ? filteredSlidesContent : filteredSlidesContent.slice(0, 3);*/
 
   const getAvailableTimes = (psicologoIndex) => {
     const times = {
@@ -444,8 +441,6 @@ function AgendarConsulta() {
       const availableTimes = getAvailableTimes(slide.id);
       return availableTimes[today] && availableTimes[today].length > 0;
     });
-
-    // Exiba apenas os psicólogos que estão atendendo hoje
   };
 
   return (
@@ -454,7 +449,7 @@ function AgendarConsulta() {
 
       <div className='fundoFiltro'>
         <div className="d-flex mb-4 align-items-center ">
-        <button onClick={handleAtendendoHoje} >Atendendo hoje</button>
+        <button onClick={handleAtendendoHoje} >hoje</button>
 
           <Form.Control
             as="select"
@@ -592,7 +587,7 @@ function AgendarConsulta() {
           })
         ) : (
           <div className="no-results">
-            <p>Nenhum resultado encontrado :(</p>
+            <h3 className='p-4 text-center'>Nenhum resultado encontrado :(</h3>
           </div>
         )}
       </Container>

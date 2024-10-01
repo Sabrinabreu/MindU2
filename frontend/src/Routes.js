@@ -13,8 +13,8 @@ import Agendarconsulta from "./Pages/AgendarConsulta"; //funcionario e psicologo
 import SaibaMais from './Pages/SaibaMais'; //funcionario e psicologo
 import Planos from './Pages/Planos'; //empresa e usuários nn logados
 import Perfil from './Pages/Perfil'; //funcionario e psicologo
-import AcessoFuncionarios from './Pages/AcessoFuncionarios'; //empresa
-import Login from './Pages/Login'; //não logados
+import AcessoFuncionarios from './Pages/TabelaFuncionarios'; //empresa
+import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
 import Dashboard from "./Pages/Dashboard"; //empresa

@@ -2,7 +2,7 @@
 import React from "react";
 import Disponibilidade from "../Components/Disponibilidade";
 
-const Cadastro = () => {
+const PagDisponibilidade = () => {
   return (
     <>
       <div>
@@ -12,4 +12,4 @@ const Cadastro = () => {
   );
 };
 
-export default Cadastro;
+export default PagDisponibilidade;

@@ -42,7 +42,7 @@ function CadastroPsicólogos() {
                     } else {
                         if (!hasScrolled) {
                             section.classList.remove('visible');
-                            section.style.transitionDelay = '0s'; // Remove o atraso quando a seção não estiver visível
+                            section.style.transitionDelay = '0s';
                         }
                     }
                 }
@@ -50,7 +50,7 @@ function CadastroPsicólogos() {
         };
 
         window.addEventListener('scroll', handleScroll);
-        handleScroll(); // Verifica visibilidade ao carregar
+        handleScroll(); 
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, [hasScrolled]);
@@ -135,8 +135,6 @@ function CadastroPsicólogos() {
 
                 </div>
             </Row>
-
-
         </Container>
     );
 }

@@ -25,17 +25,16 @@ function Perfil() {
     const [isPsicologo, setIsPsicologo] = useState(false);
 
     useEffect(() => {
-        // Recupera o token do localStorage
         const token = localStorage.getItem('token');
 
         if (token) {
-            const decodedToken = parseJwt(token);  // Decodifica o token
-            setPerfil(decodedToken.perfil);  // Define as informações do perfil
-            setTipoUsuario(decodedToken.tipo_usuario);  // Define o tipo de usuário
+            const decodedToken = parseJwt(token); 
+            setPerfil(decodedToken.perfil); 
+            setTipoUsuario(decodedToken.tipo_usuario); 
   
             // Se for um funcionário, buscar o nome da empresa pelo `empresa_id`
             if (decodedToken.tipo_usuario === 'funcionario') {
-              buscarNomeEmpresa(decodedToken.perfil.empresa_id); // Chama função para buscar nome da empresa
+              buscarNomeEmpresa(decodedToken.perfil.empresa_id); 
             }
         }
       }, []);
@@ -46,7 +45,7 @@ function Perfil() {
         if (savedConsultationDetails) {
             setConsultationDetails([JSON.parse(savedConsultationDetails)]);
         } else {
-            setConsultationDetails([]); // Se não houver detalhes salvos
+            setConsultationDetails([]); 
         }
 
         // Fetch para obter o nome do psicólogo
@@ -122,7 +121,7 @@ function Perfil() {
       const buscarNomeEmpresa = async (empresaId) => {
         try {
           const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
-          setNomeEmpresa(response.data.nome);  // Define o nome da empresa no estado
+          setNomeEmpresa(response.data.nome); 
         } catch (error) {
           console.error('Erro ao buscar o nome da empresa:', error);
         }
@@ -159,7 +158,6 @@ function Perfil() {
                     {i}
                     {isConsultationDate && consultationDetail && (
                         <div className="dot">
-                            {/* Exibe os detalhes da consulta */}
                             <div className="consultation-details">
                                 <p><strong>Nome:</strong> {consultationDetail.psicologo}</p>
                                 <p><strong>Horário:</strong> {consultationDetail.time}</p>
@@ -307,7 +305,7 @@ function Perfil() {
                                         <Form.Control
                                             type={showPassword ? "text" : "password"}
                                             name="senha"
-                                            value={perfil.senha || ''} // O valor será vazio quando em modo de edição
+                                            value={perfil.senha || ''}
                                             onChange={handleChange}
                                             placeholder="Digite uma nova senha"
                                         />

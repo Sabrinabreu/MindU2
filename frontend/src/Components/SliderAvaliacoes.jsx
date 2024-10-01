@@ -14,7 +14,6 @@ import Colab8 from '../img/artur-grynbaum.jpg'
 import { Container, Row, Col } from 'react-bootstrap';
 
 
-
 function Avaliacoes() {
     const settings = {
         dots: true,
@@ -46,7 +45,6 @@ function Avaliacoes() {
             
         ],
     };
-
 
 
     return (
@@ -120,7 +118,6 @@ function Avaliacoes() {
                             <p>A MindU oferece planos econômicos e workshops de bem-estar que têm um grande impacto. A flexibilidade de horários e o atendimento híbrido são um diferencial, e o sigilo é impecável. Altamente recomendada.</p>
                         </div>
                     </div>
-                    {/* Adicione mais slides conforme necessário */}
                 </Slider>
             </div>
         </Col>

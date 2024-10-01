@@ -7,8 +7,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 import MentalBalanceVid from '../img/mentalBalance.mp4'
 import Stack from 'react-bootstrap/Stack';
-import { Building2, BookUser } from 'lucide-react';
-// import { Eye, EyeOff } from 'lucide-react';
 import iconPsicologo from '../img/psychologist.png'
 import iconEmpresa from '../img/office-building.png'
 
@@ -29,7 +27,6 @@ const LoginForm = () => {
         localStorage.setItem('token', token);
         setToken(token);
 
-        //só pra ver as informações
         const decodedToken = parseJwt(token);
         console.log("Informações do token decodificado: ", decodedToken);
 
