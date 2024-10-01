@@ -30,16 +30,15 @@ const Acessibilidade = ({ toggleTheme }) => {
     const highlightOverlay = useRef(null);
 
     const handleTogglePanel = () => setIsPanelOpen(prevState => !prevState);
-    
+
     const adjustFontSize = (size) => {
-        document.body.classList.remove('font-size-12', 'font-size-14', 'font-size-16', 'font-size-18', 'font-size-20', 'font-size-24');
-        document.body.classList.add(`font-size-${size}`);
-        setFontSize(size);
+        document.body.style.fontSize = size;
+        setFontSize(parseFloat(size));
     };
-    
-    const increaseFontSize = () => adjustFontSize(Math.min(fontSize + 2, 24));
-    const decreaseFontSize = () => adjustFontSize(Math.max(fontSize - 2, 12));
-    
+
+    const increaseFontSize = () => adjustFontSize(`${Math.min(fontSize + 2, 24)}px`);
+    const decreaseFontSize = () => adjustFontSize(`${Math.max(fontSize - 2, 12)}px`);
+
     const toggleClass = (className, buttonKey) => {
         const bodyClassList = document.body.classList;
         if (bodyClassList.contains(className)) {
