@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "../css/Perfil.css";
-import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Card, ListGroup, Button, Form, Alert } from 'react-bootstrap';
 import { Eye, EyeOff, LogOut, Pencil } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
@@ -17,18 +17,23 @@ function Perfil() {
     const [perfil, setPerfil] = useState({});
     const [tipoUsuario, setTipoUsuario] = useState('');
     const [nomeEmpresa, setNomeEmpresa] = useState('');
+    const [selectedQuestion, setSelectedQuestion] = useState('');
+    const [securityAnswer, setSecurityAnswer] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
     const { setToken } = useAuth();
     const navegacao = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
     const [setPsicologoNome] = useState('');
     const [isPsicologo, setIsPsicologo] = useState(false);
+    const token = localStorage.getItem('token');
+    const decodedToken = parseJwt(token); 
+    console.log ("token decodadokk: ", decodedToken)
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
 
         if (token) {
-            const decodedToken = parseJwt(token); 
             setPerfil(decodedToken.perfil); 
             setTipoUsuario(decodedToken.tipo_usuario); 
   
@@ -58,6 +63,7 @@ function Perfil() {
                 console.error('Erro ao obter nome do psicólogo:', error);
             });
     }, [setPsicologoNome]);
+
   
     const handleLogout = () => {
       localStorage.removeItem('token');
@@ -77,9 +83,38 @@ function Perfil() {
 
     const handleSave = (e) => {
         e.preventDefault();
-        localStorage.setItem('perfil', JSON.stringify(perfil));
-        atualizarPerfilNoBackend();
+    
+        // Verifica se a pergunta foi selecionada e se a resposta foi fornecida
+        if (!selectedQuestion) {
+            setErrorMessage('Por favor, selecione uma pergunta de segurança.');
+            return;
+        }
+    
+        if (!securityAnswer || securityAnswer.trim() === '') {
+            setErrorMessage('Por favor, forneça uma resposta para a pergunta de segurança.');
+            return;
+        }
+    
+        // Limpa a mensagem de erro se tudo estiver certo
+        setErrorMessage('');
+    
+        const updatedPerfil = {
+            ...perfil,
+            perguntaSeguranca: selectedQuestion,
+            respostaSeguranca: securityAnswer,
+        };
+    
+        setPerfil(updatedPerfil);
+        localStorage.setItem('perfil', JSON.stringify(updatedPerfil));
+        atualizarPerfilNoBackend(updatedPerfil);
         setIsEditing(false);
+    };
+    
+    
+    
+    
+    const handleQuestionChange = (e) => {
+        setSelectedQuestion(e.target.value);
     };
 
     const handleCancel = () => {
@@ -90,20 +125,20 @@ function Perfil() {
         setShowPassword(prevState => !prevState);
     };
 
-    const atualizarPerfilNoBackend = async () => {
+    const atualizarPerfilNoBackend = async (updatedPerfil) => {
         try {
             const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(perfil),
+                body: JSON.stringify(updatedPerfil),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Erro ao atualizar o perfil');
             }
-
+    
             const responseData = await response.json();
             alert('Perfil atualizado com sucesso!');
         } catch (error) {
@@ -111,21 +146,23 @@ function Perfil() {
             alert('Erro ao atualizar o perfil.');
         }
     };
+    
 
 
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
     };
 
-      // Função para buscar o nome da empresa baseado no `empresa_id`
-      const buscarNomeEmpresa = async (empresaId) => {
-        try {
-          const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
-          setNomeEmpresa(response.data.nome); 
-        } catch (error) {
-          console.error('Erro ao buscar o nome da empresa:', error);
-        }
-      };
+    // Função para buscar o nome da empresa baseado no `empresa_id`
+    const buscarNomeEmpresa = async (empresaId) => {
+      try {
+        const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
+        setNomeEmpresa(response.data.nome); 
+      } catch (error) {
+        console.error('Erro ao buscar o nome da empresa:', error);
+      }
+    };
+
 
     const generateCalendar = () => {
         const month = currentMonth.getMonth();
@@ -211,8 +248,22 @@ function Perfil() {
     const backgroundColor = getColorFromInitials(getInitials(perfil.nome || ''));
     const textColor = getContrastingColor(backgroundColor);
 
+    useEffect(() => {
+        if (decodedToken.perfil.cadastrado === 0 || decodedToken.cadastrado === false) {
+            setShowAlert(true); // Define o estado do alerta para ser exibido
+        }
+    }, [decodedToken]); // Executa o useEffect quando o decodedToken for alterado
+
     return (
         <Container className='mt-4'>
+            {showAlert && (
+                <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
+                    <Alert.Heading>Atualização de dados cadastrais necessária!</Alert.Heading>
+                    <p>
+                        É necessário atualizar seus dados para usar as funções do site.
+                    </p>
+                </Alert>
+            )}
             <Row>
                 <Col md={4}>
                     <Card className='cardPerfil'>
@@ -237,15 +288,15 @@ function Perfil() {
                             {/* informações gerais */}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Email</h6>
-                                <span className="text-secondary">{perfil.email}</span>
+                                <span className="text-secondary">{perfil.email || "definir"}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Telefone</h6>
-                                <span className="text-secondary">{perfil.telefone}</span>
+                                <span className="text-secondary">{perfil.telefone || "definir"}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">CPF</h6>
-                                <span className="text-secondary">{perfil.CPF}</span>
+                                <span className="text-secondary">{perfil.CPF || "definir"}</span>
                             </ListGroup.Item>
                             {/* informações exclusivas de funcionário */}
                             {tipoUsuario === 'funcionario' && (
@@ -256,7 +307,7 @@ function Perfil() {
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 className="mb-0">Cargo</h6>
-                                    <span className="text-secondary">{perfil.cargo}</span>
+                                    <span className="text-secondary">{perfil.cargo || "definir"}</span>
                                 </ListGroup.Item>
                                 </>
                             )}
@@ -319,6 +370,33 @@ function Perfil() {
                                         )}
                                     </div>
                                 </Form.Group>
+                                <Form.Group controlId="formPergunta">
+                                    <Form.Label>Pergunta de segurança</Form.Label>
+                                    <Form.Control
+                                        as="select"
+                                        name="pergunta"
+                                        value={selectedQuestion}
+                                        onChange={(e) => setSelectedQuestion(e.target.value)}
+                                    >
+                                        <option value="">Selecione uma pergunta</option>
+                                        <option value="animal">Qual era o nome do seu primeiro animal de estimação?</option>
+                                        <option value="comida">Qual é a sua comida favorita?</option>
+                                        <option value="trabalho">Qual o emprego dos seus sonhos?</option>
+                                    </Form.Control>
+                                </Form.Group>
+
+                                <Form.Group controlId="formResposta">
+                                    <Form.Label>Resposta da pergunta de segurança</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="resposta"
+                                        value={securityAnswer}
+                                        onChange={(e) => setSecurityAnswer(e.target.value)}
+                                        disabled={!selectedQuestion}
+                                    />
+                                    {errorMessage && <div className="error-message">{errorMessage}</div>}
+                                </Form.Group>
+
                                     <Button className='salvarBot mt-3' type="submit">Salvar</Button>
                                     <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
                                 </Form>
@@ -339,6 +417,11 @@ function Perfil() {
                                         <Col sm={9} className="text-secondary">
                                             {isEditing ? perfil.senha : '*****'}
                                         </Col>
+                                    </Row>
+                                    <hr />
+                                    <Row>
+                                        <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
+                                        <Col sm={9} className="text-secondary">{perfil.perguntaSeguranca}</Col>
                                     </Row>
                                     <hr />
                                     {isPsicologo && (

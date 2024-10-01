@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "../css/AgendarConsulta.css";
 import "../css/Disponibilidade.css";
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
-import DatePicker from './Calendario';
+import DatePicker from './DispCalendario';
 
 const Disponibilidade = () => {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -34,14 +34,14 @@ const Disponibilidade = () => {
             tipoConsulta: 'Online',
             assuntos: 'Ansiedade, estresse no trabalho',
             time: '10:00',
-            details: '' 
+            details: ''
         }]);
     };
 
     const handleDayChange = (day) => {
         setWorkingDays(prevDays => ({
             ...prevDays,
-            [day]: !prevDays[day]
+            [day]: !prevDays[day],
         }));
     };
 
@@ -56,19 +56,17 @@ const Disponibilidade = () => {
     };
 
     const handleUpdate = () => {
-        const psicologo_id = 1; // Defina o ID do psicólogo conforme necessário
+        const psicologo_id = 1;
         const dataDisponibilidade = [];
-    
-        let hasWorkingDays = false; // Variável para verificar se há dias de trabalho selecionados
+        let hasWorkingDays = false;
     
         Object.keys(workingDays).forEach(day => {
             if (workingDays[day]) {
-                hasWorkingDays = true; // Define como verdadeiro se algum dia estiver selecionado
+                hasWorkingDays = true;
                 const startTime = workingHours[day].start;
                 const endTime = workingHours[day].end;
     
-                if (startTime && endTime) { // Verifica se os horários de início e término estão preenchidos
-                    // Calcular as datas para o dia da semana selecionado
+                if (startTime && endTime) {
                     for (let d = 0; d < 7; d++) {
                         const currentDate = new Date();
                         currentDate.setDate(currentDate.getDate() + d);
@@ -76,7 +74,7 @@ const Disponibilidade = () => {
                             dataDisponibilidade.push({
                                 psicologo_id,
                                 data: currentDate.toISOString().split('T')[0],
-                                horario: startTime // e término se necessário
+                                horario: startTime
                             });
                         }
                     }
@@ -86,49 +84,37 @@ const Disponibilidade = () => {
     
         if (!hasWorkingDays) {
             alert('Por favor, selecione pelo menos um dia de trabalho.');
-            return; // Interrompe a função se não houver dias de trabalho selecionados
+            return;
         }
     
         if (dataDisponibilidade.length === 0) {
             alert('Por favor, preencha os horários de trabalho antes de atualizar.');
-            return; // Interrompe a função se não houver horários
+            return;
         }
     
-        fetch('http://localhost:3001/api/disponibilidade', {
+        fetch('http://localhost:3001/disponibilidade/psicologo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(dataDisponibilidade),
         })
-        .then(response => {
-            return response.text(); // Altere para text() para visualizar a resposta
-        })
+        .then(response => response.json())
         .then(data => {
-            console.log('Resposta do servidor:', data);
-            // Tente fazer o parsing apenas se a resposta for JSON
-            try {
-                const jsonData = JSON.parse(data);
-                if (jsonData.success) {
-                    alert('Dias e horários de trabalho atualizados com sucesso!');
-                } else {
-                    alert('Erro ao atualizar dias e horários de trabalho.');
-                }
-            } catch (error) {
-                console.error('Erro ao parsear JSON:', error);
-                alert('Erro ao processar a resposta do servidor.');
+            console.log(data); // Adicione este log para verificar a resposta
+            if (data.success) {
+                alert('Dias e horários de trabalho atualizados com sucesso!');
+            } else {
+                alert('Erro ao atualizar dias e horários de trabalho.');
             }
         })
         .catch(err => {
-            console.error('Erro ao enviar dados:', err);
-            alert('Erro ao enviar dados.');
-        });        
-    };    
+            alert('Erro ao enviar dados: ' + err.message);
+        });
+    };
+    
 
-    // Verifica se a data selecionada é anterior a atual
     const isPastDate = selectedDate && selectedDate < new Date().setHours(0, 0, 0, 0);
-
-    // Determina se o dia da semana da data selecionada é um dia de trabalho
     const isWorkingDay = selectedDate && workingDays[selectedDate.toLocaleDateString('pt-BR', { weekday: 'long' }).toLowerCase()];
 
     return (
@@ -136,36 +122,48 @@ const Disponibilidade = () => {
             <Col className='my-4' md={12}>
                 <h1 className='mb-4 text-center textroxo'>Selecione seus dias e horários de trabalho</h1>
                 <Form>
-                    {Object.keys(workingDays).map(day => (
-                        <div key={day}>
-                            <Form.Check
-                                type="checkbox"
-                                label={day.charAt(0).toUpperCase() + day.slice(1)}
-                                checked={workingDays[day]}
-                                onChange={() => handleDayChange(day)}
-                            />
-                            {workingDays[day] && (
-                                <div className="mb-4 mt-2 time-inputs">
-                                    <Form.Group>
-                                        <Form.Label>Horário de início para {day}:</Form.Label>
-                                        <Form.Control
-                                            type="time"
-                                            value={workingHours[day]?.start || ''}
-                                            onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className='mt-2'>
-                                        <Form.Label>Horário de término para {day}:</Form.Label>
-                                        <Form.Control
-                                            type="time"
-                                            value={workingHours[day]?.end || ''}
-                                            onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
-                                        />
-                                    </Form.Group>
-                                </div>
-                            )}
-                        </div>
-                    ))}
+                    <div className="dias-container p-3 mb-4" style={{ backgroundColor: '#fff', borderRadius: '10px' }}>
+                        <Row className="mb-3 g-3">
+                            {Object.keys(workingDays).map(day => (
+                                <Col key={day} md={3}>
+                                    <div className="day-checkbox">
+                                        <label>
+                                            <input
+                                                className="inputSemana"
+                                                type="checkbox"
+                                                checked={workingDays[day]}
+                                                onChange={() => handleDayChange(day)}
+                                            />
+                                            <span className="custom-checkbox"></span>
+                                            {day.charAt(0).toUpperCase() + day.slice(1)}
+                                        </label>
+                                    </div>
+                                    {workingDays[day] && (
+                                        <div className="mb-2 time-inputs d-flex">
+                                            <Form.Group className="mr-2">
+                                                <Form.Label>Início:</Form.Label>
+                                                <Form.Control
+                                                    type="time"
+                                                    value={workingHours[day]?.start || ''}
+                                                    onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
+                                                />
+                                            </Form.Group>
+
+                                            <Form.Group>
+                                                <Form.Label>Fim:</Form.Label>
+                                                <Form.Control
+                                                    type="time"
+                                                    value={workingHours[day]?.end || ''}
+                                                    onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                    )}
+                                </Col>
+                            ))}
+                        </Row>
+                    </div>
+
                     <Button className='mt-3 btnAtualizar' onClick={handleUpdate}>
                         <span className="material-symbols-outlined iconsDisp">restart_alt</span>
                         Atualizar
@@ -175,7 +173,7 @@ const Disponibilidade = () => {
             <Row className='my-4'>
                 <Col md={5}>
                     <h1 className='mb-4 text-center textroxo'>Calendário</h1>
-                    <DatePicker onDateSelect={handleDateSelect} />
+                    <DatePicker onDateSelect={handleDateSelect} workingDays={workingDays} />
                 </Col>
                 <Col md={7}>
                     {selectedDate ? (
@@ -197,7 +195,7 @@ const Disponibilidade = () => {
                                             </Card>
                                         ))
                                     ) : (
-                                        <p className='avisoSemData'>Nenhum evento adicionado para esta data.</p>
+                                        <p className='avisoSemData'>Sem consultas marcadas para esse dia.</p>
                                     )}
                                 </>
                             ) : (

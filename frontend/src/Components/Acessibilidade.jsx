@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../css/Acessibilidade.css';
-import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick, Fullscreen, Keyboard } from 'lucide-react';
+import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick, Fullscreen, Keyboard, VolumeX, Volume2, Play, Pause, RotateCcw, SkipBack, SkipForward} from 'lucide-react';
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
@@ -14,11 +14,15 @@ const Acessibilidade = ({ toggleTheme }) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
-    const highlightLineRef = useRef(null);
     const [isLineVisible, setIsLineVisible] = useState(false);
     const highlightOverlayTopRef = useRef(null);
     const highlightOverlayBottomRef = useRef(null);
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
+
+    const [speechSynthesisActive, setSpeechSynthesisActive] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+    const [currentCharIndex, setCurrentCharIndex] = useState(0);
+    const utteranceRef = useRef(null);
 
     const [magnifiedText, setMagnifiedText] = useState('');
     const [isMagnifierVisible, setIsMagnifierVisible] = useState(false);
@@ -69,12 +73,7 @@ const Acessibilidade = ({ toggleTheme }) => {
         setActiveButtons({});
         setIsHighlightActive(false);
         setIsTDHAFriendly(false);
-        if (highlightBackground.current) {
-            highlightBackground.current.style.display = 'none';
-        }
-        if (highlightOverlay.current) {
-            highlightOverlay.current.style.display = 'none';
-        }
+        stopTextToSpeech();
     };
 
     // destacar linha 
@@ -260,6 +259,73 @@ const handleDynamicFocusToggle = () => {
     }));
 };
 
+// TTS (Texto para Fala)
+const rewindTextToSpeech = () => {
+    stopTextToSpeech();
+    startTextToSpeech();
+};
+
+const stopTextToSpeech = () => {
+    speechSynthesis.cancel();
+    setSpeechSynthesisActive(false);
+    setIsPaused(false);
+    setCurrentCharIndex(0);
+};
+
+const startTextToSpeech = () => {
+    const text = document.body.innerText || document.body.textContent;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.onboundary = (event) => {
+        setCurrentCharIndex(event.charIndex);
+    };
+    speechSynthesis.speak(utterance);
+    utteranceRef.current = utterance;
+    setSpeechSynthesisActive(true);
+    setIsPaused(false);
+};
+
+const pauseTextToSpeech = () => {
+    speechSynthesis.pause();
+    setIsPaused(true);
+};
+
+const resumeTextToSpeech = () => {
+    speechSynthesis.resume();
+    setIsPaused(false);
+};
+
+const handleSkipBack = () => {
+    if (utteranceRef.current) {
+        stopTextToSpeech();
+        const newCharIndex = Math.max(0, currentCharIndex - 100); // Retrocede 100 caracteres
+        const text = document.body.innerText || document.body.textContent;
+        const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
+        utterance.lang = 'pt-BR';
+        utterance.onboundary = (event) => {
+            setCurrentCharIndex(newCharIndex + event.charIndex); // Atualiza a nova posição
+        };
+        speechSynthesis.speak(utterance);
+        utteranceRef.current = utterance;
+    }
+};
+
+const handleSkipForward = () => {
+    if (utteranceRef.current) {
+        stopTextToSpeech();
+        const text = document.body.innerText || document.body.textContent;
+        const newCharIndex = Math.min(text.length, currentCharIndex + 100); // Avança 100 caracteres
+        const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
+        utterance.lang = 'pt-BR';
+        utterance.onboundary = (event) => {
+            setCurrentCharIndex(newCharIndex + event.charIndex); // Atualiza a nova posição
+        };
+        speechSynthesis.speak(utterance);
+        utteranceRef.current = utterance;
+    }
+};
+
+
     return (
         <>
             <button className="accessibility-toggle" onClick={handleTogglePanel} aria-label="Abrir painel de acessibilidade">
@@ -376,6 +442,31 @@ const handleDynamicFocusToggle = () => {
                                 >
                                     <Keyboard /> Teclado digital
                                 </Button>
+                                {/* Botões de controle de leitura */}
+                                <Button
+                                    className={classNames('accessibility-button', { 'active': speechSynthesisActive })}
+                                    onClick={speechSynthesisActive ? stopTextToSpeech : startTextToSpeech}
+                                    aria-label={speechSynthesisActive ? "Parar leitura" : "Ler o conteúdo da página"}
+                                >
+                                    {speechSynthesisActive ? <VolumeX /> : <Volume2 />} {speechSynthesisActive ? "Parar Leitura" : "Ler Página"}
+                                </Button>
+                                
+                                {speechSynthesisActive && (
+                                    <>
+                                        <Button className="accessibility-button" onClick={isPaused ? resumeTextToSpeech : pauseTextToSpeech}>
+                                            {isPaused ? <Play /> : <Pause />} {isPaused ? "Retomar" : "Pausar"}
+                                        </Button>
+                                        <Button className="accessibility-button" onClick={rewindTextToSpeech} aria-label="Reiniciar leitura">
+                                            <RotateCcw /> Reiniciar
+                                        </Button>
+                                        <Button className="accessibility-button" onClick={handleSkipBack}>
+                                            <SkipBack /> Voltar
+                                        </Button>
+                                        <Button className="accessibility-button" onClick={handleSkipForward}>
+                                            <SkipForward /> Avançar
+                                        </Button>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>

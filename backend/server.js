@@ -31,7 +31,7 @@ app.use('/', rotaFuncionario);
 app.use('/', rotaPsicologos);
 app.use('/api/agendamento', agendamentoRoutes);
 app.use('/api/atualizarPerfil', rotaPerfilsuario);
-app.use('/api/psicologo', disponibilidadesRoutes);
+app.use('/', disponibilidadesRoutes);
 
 // Remove rotas não definidas (ajustar ou remover se não houver)
 app.use('/', (req, res) => {

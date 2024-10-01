@@ -15,17 +15,18 @@
     vertical-align: top;
     margin-right: 3px;
     font-size: 23px;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 350,
-  'GRAD' 0,
-  'opsz' 24
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 350,
+        'GRAD' 0,
+        'opsz' 24
 }
 
 .btnAtualizar {
     background-color: #6852a5 !important;
     border: 1px solid #564091;
 }
+
 .btnAtualizar:hover {
     background-color: #564091 !important;
 }
@@ -34,7 +35,72 @@
     animation: girar 1s ease-in-out;
 }
 
+.dias-container {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.time-inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100px;
+}
+
+.day-checkbox {
+    margin-bottom: 25px; /* Ajuste conforme necessário */
+}
+
+
+.time-inputs .form-group {
+    flex: 1;
+    margin-right: 1000px;
+}
+
+/* INPUT personalizado */
+.inputSemana[type="checkbox"] {
+    display: none;
+}
+
+/* checkbox */
+.custom-checkbox {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid pink;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+/* checkmark */
+.custom-checkbox::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5px;
+    height: 5px;
+    background-color: pink;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+
+.inputSemana[type="checkbox"]:checked+.custom-checkbox::after {
+    opacity: 1;
+}
+
 @keyframes girar {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

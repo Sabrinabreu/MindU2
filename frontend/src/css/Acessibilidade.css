@@ -1,20 +1,14 @@
-body {
-    font-size: 16px !important;
-}
-
 .accessibility-toggle {
-    position: fixed;
-    bottom: 20px;
     left: 20px;
-    background: #7766C6;
+    background: #f3819f;
     color: white;
     border: none;
     border-radius: 50%;
-    padding: 10px;
+    /* padding: 10px; */
     cursor: pointer;
     z-index: 2000;
-    height: 50px;
-    width: 50px;
+    height: 37px;
+    width: 37px;
     transition: background 0.3s;
 }
 
@@ -24,12 +18,12 @@ body {
 
 .accessibilidade-painel {
     position: fixed;
-    left: 100px;
-    bottom: 0;
+    left: 20px;
+    top: 46px;
     width: 420px;
     height: 75%;
     background: #f6f8fa;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     padding: 20px;
     overflow-y: auto;
     transition: transform 0.3s ease;
@@ -41,6 +35,18 @@ body {
 [data-theme='dark'] .accessibilidade-painel {
     background-color: #9486b0 !important;
   }
+
+.text-content {
+    color: #333;
+}
+
+[data-theme='dark'] .text-content {
+    color: #f7f4ff !important;
+  }
+
+  .word {
+    transition: background-color 0.3s; /* Para suavizar a mudança de destaque */
+}
 
 .accessibility-close {
     background: transparent;
@@ -88,12 +94,17 @@ body {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #333;
 }
 
 [data-theme='dark'] .accessibility-section {
     background: #756b8d !important;
     color: #fcecf7;
   }
+
+.divNavCentro {
+    width: 1000px;
+}
 
 .font-size-controls {
     display: flex;
@@ -152,6 +163,19 @@ body {
     background: #f19fb5;
     border-color: transparent;
 }
+
+[data-theme='dark'] .accessibility-button.active  {
+    background: #463e58 !important;
+    color: #fcecf7;
+  }
+  [data-theme='dark'] .accessibility-button:hover  {
+    background: #463e58 !important;
+    color: #fcecf7;
+  }
+  [data-theme='dark'] .accessibility-button.active:hover  {
+    background: #463e58 !important;
+    color: #fcecf7;
+  }
 
 .accessibility-button:hover {
     background: #d6d6d6;
@@ -213,11 +237,6 @@ body {
 
 .dark-mode {
     background-color: #333;
-    color: #fff;
-}
-
-.high-contrast {
-    background-color: #000;
     color: #fff;
 }
 
