@@ -61,8 +61,8 @@ const LoginForm = () => {
             <div className='semContadiv'>
               <p>Não possúi conta? Escolha uma das opções de cadastro:</p>
               <Stack direction="horizontal" gap={3}>
-                <Col as={Link} className='opcaoCadastroCard' to="/cadastroPsicologos"><img src={iconPsicologo} alt="icone para ilustrar empresa" /><spam>Empresa</spam></Col>
-                <Col as={Link} className='opcaoCadastroCard' to="/cadastroEmpresa"><img src={iconEmpresa} alt="icone para ilustrar psicologo" /><spam>Psicólogo</spam></Col>
+                <Col as={Link} className='opcaoCadastroCard' to="/cadastroPsicologos"><img src={iconPsicologo} alt="icone para ilustrar empresa" /><spam>Psicólogo</spam></Col>
+                <Col as={Link} className='opcaoCadastroCard' to="/cadastroEmpresa"><img src={iconEmpresa} alt="icone para ilustrar psicologo" /><spam>Empresa</spam></Col>
               </Stack>
             </div>
         </Col>
