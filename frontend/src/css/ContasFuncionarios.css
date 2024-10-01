@@ -1,7 +1,8 @@
 .btnCreate {
     height: 40px;
-    color: #46467a;
-    border-radius: 10px 10px 10px 10px;
+    color: #46467a !important;
+    background-color: #adade0 !important;
+    border-radius: 10px 10px 10px 12px;
     border-style: solid solid solid none;
     border-width: 1.4px;
     border-color: #46467a89;
@@ -9,16 +10,29 @@
     margin: 0;
 }
 
+[data-theme='dark'] .btnCreate {
+    height: 40px;
+    color: #ffffff !important;
+    background-color: #6565ba !important;
+    border-radius: 10px 10px 10px 12px;
+    border-style: solid solid solid none;
+    border-width: 1.4px;
+    border-color: #46467a89;
+    padding: 0 15px;
+    margin: 0;
+}
+
+
 .opcaoNumber {
     width: 180px;
     height: 40px;
     border: 1.4px solid #46467a89;
     border-radius: 10px;
-    background-color: #b3b3eb !important;
+    background-color: #e4e4f9 !important;
 }
 
 [data-theme='dark'] .opcaoNumber {
-    background: #eee8f4 !important;
+    background: #acacd2 !important;
     color: rgb(0, 0, 0);
 }
 
