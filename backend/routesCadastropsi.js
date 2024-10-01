@@ -4,6 +4,7 @@ const path = require('path');
 const connection = require('./db'); // Ajuste o caminho conforme necessário
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const { error } = require('console');
 
 const saltRounds = 10;
 
@@ -148,9 +149,20 @@ router.post('/cadastropsicologos', upload.single('certificados'), async (req, re
 
     res.status(201).json({ message: 'Registro criado com sucesso', id: result.insertId });
   } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+      // Verifica qual campo causou a duplicidade
+      if (err.message.includes('CPF')) {
+        return res.status(400).json({ error: 'CPF já cadastrado.' });
+
+      }
+    }
+
     console.error('Erro ao criar o registro:', err);
     res.status(500).json({ error: 'Erro ao criar o registro' });
   }
+
 });
+
+
 
 module.exports = router;

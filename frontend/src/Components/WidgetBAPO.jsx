@@ -16,6 +16,7 @@ const ChatWidget = () => {
   };
 
 
+  
   return (
     <div className="chat-widget">
       <button className="chat-button" onClick={toggleChat}>
