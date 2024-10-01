@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom';
 // import 'react-simple-keyboard/build/css/index.css';
 
 const Acessibilidade = ({ toggleTheme }) => {
-    const [fontSize, setFontSize] = useState(1);  // 1 significa 100% (nenhuma escala)
+    const [fontSize, setFontSize] = useState(16);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
@@ -31,24 +31,15 @@ const Acessibilidade = ({ toggleTheme }) => {
 
     const handleTogglePanel = () => setIsPanelOpen(prevState => !prevState);
     
-    const adjustFontSize = (scaleFactor) => {
-        document.body.style.transform = `scale(${scaleFactor})`;
-        document.body.style.transformOrigin = 'top left';
-        document.body.style.width = `${100 / scaleFactor}%`;
-        setFontSize(scaleFactor);
+    const adjustFontSize = (size) => {
+        document.body.classList.remove('font-size-12', 'font-size-14', 'font-size-16', 'font-size-18', 'font-size-20', 'font-size-24');
+        document.body.classList.add(`font-size-${size}`);
+        setFontSize(size);
     };
     
-    const increaseFontSize = () => {
-        const newSize = Math.min(fontSize + 0.1, 1.5);  // Limitar o zoom máximo para 1.5x (150%)
-        adjustFontSize(newSize);
-    };
+    const increaseFontSize = () => adjustFontSize(Math.min(fontSize + 2, 24));
+    const decreaseFontSize = () => adjustFontSize(Math.max(fontSize - 2, 12));
     
-    const decreaseFontSize = () => {
-        const newSize = Math.max(fontSize - 0.1, 0.5);  // Limitar o zoom mínimo para 0.5x (50%)
-        adjustFontSize(newSize);
-    };
-    
-
     const toggleClass = (className, buttonKey) => {
         const bodyClassList = document.body.classList;
         if (bodyClassList.contains(className)) {
@@ -292,7 +283,7 @@ const handleDynamicFocusToggle = () => {
                                 <h5>Ajustar Tamanho da Fonte</h5>
                                 <div className="font-size-controls">
                                     <div className="font-size-btn" onClick={decreaseFontSize} aria-label="Diminuir tamanho da fonte"><AArrowDown /></div>
-                                    <span className="font-size-display">{(fontSize * 100).toFixed(0)}%</span>
+                                    <span className="font-size-display">{(fontSize / 16 * 100).toFixed(0)}%</span>
                                     <div className="font-size-btn" onClick={increaseFontSize} aria-label="Aumentar tamanho da fonte"><AArrowUp /></div>
                                 </div>
                             </div>
