@@ -17,6 +17,9 @@ function Perfil() {
     const [perfil, setPerfil] = useState({});
     const [tipoUsuario, setTipoUsuario] = useState('');
     const [nomeEmpresa, setNomeEmpresa] = useState('');
+    const [selectedQuestion, setSelectedQuestion] = useState('');
+    const [securityAnswer, setSecurityAnswer] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const { setToken } = useAuth();
     const navegacao = useNavigate();
 
@@ -77,9 +80,38 @@ function Perfil() {
 
     const handleSave = (e) => {
         e.preventDefault();
-        localStorage.setItem('perfil', JSON.stringify(perfil));
-        atualizarPerfilNoBackend();
+    
+        // Verifica se a pergunta foi selecionada e se a resposta foi fornecida
+        if (!selectedQuestion) {
+            setErrorMessage('Por favor, selecione uma pergunta de segurança.');
+            return;
+        }
+    
+        if (!securityAnswer || securityAnswer.trim() === '') {
+            setErrorMessage('Por favor, forneça uma resposta para a pergunta de segurança.');
+            return;
+        }
+    
+        // Limpa a mensagem de erro se tudo estiver certo
+        setErrorMessage('');
+    
+        const updatedPerfil = {
+            ...perfil,
+            perguntaSeguranca: selectedQuestion,
+            respostaSeguranca: securityAnswer,
+        };
+    
+        setPerfil(updatedPerfil);
+        localStorage.setItem('perfil', JSON.stringify(updatedPerfil));
+        atualizarPerfilNoBackend(updatedPerfil);
         setIsEditing(false);
+    };
+    
+    
+    
+    
+    const handleQuestionChange = (e) => {
+        setSelectedQuestion(e.target.value);
     };
 
     const handleCancel = () => {
@@ -90,20 +122,20 @@ function Perfil() {
         setShowPassword(prevState => !prevState);
     };
 
-    const atualizarPerfilNoBackend = async () => {
+    const atualizarPerfilNoBackend = async (updatedPerfil) => {
         try {
             const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(perfil),
+                body: JSON.stringify(updatedPerfil),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Erro ao atualizar o perfil');
             }
-
+    
             const responseData = await response.json();
             alert('Perfil atualizado com sucesso!');
         } catch (error) {
@@ -111,6 +143,7 @@ function Perfil() {
             alert('Erro ao atualizar o perfil.');
         }
     };
+    
 
 
     const daysInMonth = (month, year) => {
@@ -319,6 +352,33 @@ function Perfil() {
                                         )}
                                     </div>
                                 </Form.Group>
+                                <Form.Group controlId="formPergunta">
+                                    <Form.Label>Pergunta de segurança</Form.Label>
+                                    <Form.Control
+                                        as="select"
+                                        name="pergunta"
+                                        value={selectedQuestion}
+                                        onChange={(e) => setSelectedQuestion(e.target.value)}
+                                    >
+                                        <option value="">Selecione uma pergunta</option>
+                                        <option value="animal">Qual era o nome do seu primeiro animal de estimação?</option>
+                                        <option value="comida">Qual é a sua comida favorita?</option>
+                                        <option value="trabalho">Qual o emprego dos seus sonhos?</option>
+                                    </Form.Control>
+                                </Form.Group>
+
+                                <Form.Group controlId="formResposta">
+                                    <Form.Label>Resposta da pergunta de segurança</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="resposta"
+                                        value={securityAnswer}
+                                        onChange={(e) => setSecurityAnswer(e.target.value)}
+                                        disabled={!selectedQuestion}
+                                    />
+                                    {errorMessage && <div className="error-message">{errorMessage}</div>}
+                                </Form.Group>
+
                                     <Button className='salvarBot mt-3' type="submit">Salvar</Button>
                                     <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
                                 </Form>
@@ -339,6 +399,11 @@ function Perfil() {
                                         <Col sm={9} className="text-secondary">
                                             {isEditing ? perfil.senha : '*****'}
                                         </Col>
+                                    </Row>
+                                    <hr />
+                                    <Row>
+                                        <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
+                                        <Col sm={9} className="text-secondary">{perfil.perguntaSeguranca}</Col>
                                     </Row>
                                     <hr />
                                     {isPsicologo && (
