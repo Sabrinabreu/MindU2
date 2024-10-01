@@ -68,13 +68,14 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
   return (
     <Navbar expand="lg" className={`custom-navbar ${isDarkMode ? 'dark-mode' : ''}`}>
       <Container className='navContainer'>
-      <Acessibilidade toggleTheme={toggleTheme} />
+      <Acessibilidade toggleTheme={toggleTheme}/>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <div className='navCentro mx-auto'>
         <Navbar.Brand as={Link} to="/">
           <img width={"30px"} src={Logo} alt="Logo" />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
+        <Nav>
   {links.map((link, index) => {
     // Oculta as páginas de login/cadastro se o usuário estiver logado
     if (token && (link.caminho === "/login" || link.caminho.includes("cadastro"))) {
@@ -99,7 +100,7 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
         return null; // Não exibe o link se o usuário não tiver permissão
       })}
     </Nav>
-
+</div>
           <div className='button-toggle'>
             <label
               className="switch"
@@ -118,7 +119,7 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
             </label>
           </div>
         </Navbar.Collapse>
-
+        
       </Container>
     </Navbar>
   );
