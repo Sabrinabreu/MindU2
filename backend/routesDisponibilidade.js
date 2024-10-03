@@ -2,12 +2,12 @@ const express = require('express');
 const connection = require('./db'); 
 const router = express.Router(); 
 
-// Rota para obter a disponibilidade de um psicólogo 
+// Rota para obter a disponibilidade de um psicólog
 
 router.get('/psicologo/:id', (req, res) => { 
 
     console.log('Rota chamada com ID:', req.params.id); // Adicione esta linha 
-    const psicologo_id = req.params.id;  
+    const psicologo_id = req.params.id;  z
     const sql = 'SELECT data, horario FROM disponibilidadepsico WHERE psicologo_id = ?'; 
 
     connection.query(sql, [psicologo_id], (err, results) => { 
