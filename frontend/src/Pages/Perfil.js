@@ -370,6 +370,23 @@ function Perfil() {
                                         )}
                                     </div>
                                 </Form.Group>
+                                    <Form.Group controlId="formSecurityQuestion">
+                                            <Form.Label>Pergunta de Segurança</Form.Label>
+                                            <Form.Control as="select" value={selectedQuestion} onChange={handleQuestionChange}>
+                                                <option value="">Selecione uma pergunta</option>
+                                                <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
+                                                <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
+                                                <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                        <Form.Group controlId="formSecurityAnswer">
+                                            <Form.Label>Resposta de Segurança</Form.Label>
+                                            <Form.Control
+                                                type={showPassword ? "text" : "password"}
+                                                value={securityAnswer}
+                                                onChange={(e) => setSecurityAnswer(e.target.value)}
+                                            />
+                                        </Form.Group>
                                 <Form.Group controlId="formSecurityQuestion">
                                 <Form.Label>Pergunta de Segurança</Form.Label>
                                 <Form.Control 
@@ -390,7 +407,6 @@ function Perfil() {
                                         value={perfil.resposta_seguranca}
                                         onChange={(e) => setPerfil({ ...perfil, resposta_seguranca: e.target.value })}
                                     />
-                                    <span onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff /> : <Eye />}</span>
                                 </Form.Group>
                                         <Button variant="primary" type="submit">Salvar</Button>
                                         <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>

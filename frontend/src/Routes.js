@@ -63,11 +63,10 @@ const Rotas = () => {
           <Route path="/contato" element={<Contato />} />
           <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
           <Route path="/planos" element={<Planos />} />
-          <Route path="/esqueciSenha" element={<EsqueciSenha />} />
 
       {/* Rotas não autenticados */}
       {!token && (
-          <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
       )}
 
       {/* Rotas somente empresa */}
@@ -122,17 +121,16 @@ const Rotas = () => {
             }
           />
           <Route
-            path="/psicologo/:id" 
+            path="/psicologo/:psicologo_id"
             element={
               <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>
                 <SaibaMais />
               </ProtectedRoute>
             }
           />
-          
         </>
       )}
-      
+
       {/* Rotas privadas para todos usuários*/}
 
       {/* Rota de fallback para 404 */}

@@ -66,16 +66,14 @@ const EsqueciSenha = () => {
   return (
     <>
       <BAPO />
-      <div>
-        <h2>Para recuperar sua conta, siga os passos abaixo.</h2>
-        <h4>Se você não configurou uma pergunta de segurança previamente, não será possível recuperar sua conta por este método.</h4>
-
+      <Container>
+      <h2 className="textroxo centralizar mt-5">Para recuperar sua conta, siga os passos abaixo.</h2>
+        <Row>
+          <Col md={5}>     
         {!emailEnviado ? (
           <form onSubmit={handleEmailSubmit}>
             <Container className="justify-content-center g-4 p-3">
-              <Row>
-                <Col md={6} sm={12}>
-                  <label className="labelForms">Email</label>
+                  <label className="labelForms labelesqueci">Email</label>
                   <input
                     className="inputgeral cadEmp"
                     type="email"
@@ -84,8 +82,6 @@ const EsqueciSenha = () => {
                     placeholder="Digite seu email aqui..."
                     required
                   />
-                </Col>
-              </Row>
               {error && <p className="text-danger">{error}</p>}
               <button className="botaoBanner roxo botaoBranco" type="submit">Enviar</button>
             </Container>
@@ -146,7 +142,18 @@ const EsqueciSenha = () => {
             </Container>
           </form>
         )}
-      </div>
+          </Col>
+
+          <Col>
+              <div className="bloco-aviso">
+                <svg className="iconWarning" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                <h5><b>Aviso: </b>Se você não configurou uma pergunta de segurança previamente, não será possível recuperar sua conta por este método.</h5>
+              </div>
+          </Col>
+        </Row>
+            
+         
+      </Container>
     </>
   );
 };

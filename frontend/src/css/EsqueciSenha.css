@@ -1,0 +1,19 @@
+.bloco-aviso {
+    background-color: #ffd5d5;
+    padding: 20px 15px;
+    margin: 30px;
+    border-radius: 10px;
+    color: #b13737;
+    border: 1px solid #6852a546; 
+    display: flex;
+}
+
+.iconWarning {
+    margin: 0 20px;
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.labelesqueci {
+    color: #6852a5;
+}

@@ -50,10 +50,10 @@ function AgendarConsulta() {
           content: (
             <div className="especialidades">
               {[
-                { description: "Identidade" }, 
+                { description: "Identidade" },
                 { description: "Dinâmica familiar" },
                 { description: "Comunicação" },
-                { description: "Resolução de conflitos" }, 
+                { description: "Resolução de conflitos" },
                 { description: "Autoestima e confiança" },
                 { description: "Depressão" },
                 { description: "Ansiedade" },
@@ -80,10 +80,10 @@ function AgendarConsulta() {
           content: (
             <div className="especialidades">
               {[
-                { description: "Transtornos mentais" }, 
+                { description: "Transtornos mentais" },
                 { description: "Atenção" },
                 { description: "Insônia" },
-                { description: "Pensamento negativos e distorcidos" }, 
+                { description: "Pensamento negativos e distorcidos" },
                 { description: "Autoestima e confiança" },
                 { description: "Memória" },
                 { description: "Luto" },
@@ -109,8 +109,8 @@ function AgendarConsulta() {
           content: (
             <div className="especialidades">
               {[
-                { description: "Ansiedade" }, 
-                { description: "Apoio a doenças crônicas" }, 
+                { description: "Ansiedade" },
+                { description: "Apoio a doenças crônicas" },
                 { description: "Saúde mental de crianças e adolescentes" },
                 { description: "Luto e perda" },
                 { description: "Coping e resiliência" },
@@ -139,8 +139,8 @@ function AgendarConsulta() {
             <div className="especialidades">
               {[
                 { description: "Transtornos de personalidade" },
-                { description: "Identidade" }, 
-                { description: "Sexualidade" }, 
+                { description: "Identidade" },
+                { description: "Sexualidade" },
                 { description: "Autoestima e confiança" },
                 { description: "Carreira" },
                 { description: "Análise da dinâmica familiar" },
@@ -169,8 +169,8 @@ function AgendarConsulta() {
             <div className="especialidades">
               {[
                 { description: "Dificuldades de aprendizagem" },
-                { description: "Habilidades  e emocionais" }, 
-                { description: "Técnicas de estudo" }, 
+                { description: "Habilidades  e emocionais" },
+                { description: "Técnicas de estudo" },
                 { description: "Intervenção em bullying" },
                 { description: "Adaptação escolar" },
                 { description: "Análise de clima organizacional" },
@@ -197,8 +197,8 @@ function AgendarConsulta() {
             <div className="especialidades">
               {[
                 { description: "Aconselhamento individual" },
-                { description: "Ansiedade" }, 
-                { description: "Habilidades para liderança" }, 
+                { description: "Ansiedade" },
+                { description: "Habilidades para liderança" },
                 { description: "Estresse" },
                 { description: "Treinamento em comunicação eficaz" },
                 { description: "Análise de clima organizacional" },
@@ -225,7 +225,7 @@ function AgendarConsulta() {
             <div className="especialidades">
               {[
                 { description: "Aconselhamento individual e em grupo" },
-                { description: "Desenvolvimento de autoestima" }, 
+                { description: "Desenvolvimento de autoestima" },
                 { description: "Coaching" },
                 { description: "Habilidades para lidar com estresse e ansiedade" },
               ].map((servico, index) => (
@@ -334,9 +334,9 @@ function AgendarConsulta() {
                     <p className='local'>{psicologo.localizacao}</p>
                     <div className="estrelas">
                       {[...Array(5)].map((_, i) => (
-                        <span key={i} className={`star ${i < psicologo.rating ? 'filled' : ''}`}></span> 
+                        <span key={i} className={`star ${i < psicologo.rating ? 'filled' : ''}`}></span>
                       ))}
-                    </div> 
+                    </div>
                   </div>
                   <div className='segundo'>
                     <Col className='p-2'>
