@@ -4,7 +4,7 @@ const connection = require('./db');
 const bcrypt = require('bcrypt');
 
 router.put('/', async (req, res) => {
-    const { login, nome, senha, email } = req.body;
+    const { login, nome, senha, email, perguntaSeguranca, respostaSeguranca } = req.body;
 
     try {
         let hashedPassword;
@@ -17,13 +17,17 @@ router.put('/', async (req, res) => {
 
         const query = `
             UPDATE contaFuncionarios 
-            SET nome = ?, ${senha ? 'senha = ?,' : ''} email = ? 
+            SET nome = ?, 
+                ${senha ? 'senha = ?,' : ''} 
+                email = ?, 
+                pergunta_seguranca = ?, 
+                resposta_seguranca = ? 
             WHERE login = ?
         `;
 
         const values = [nome];
         if (senha) values.push(hashedPassword);
-        values.push(email, login);
+        values.push(email, perguntaSeguranca, respostaSeguranca, login);
 
         connection.query(query, values, (error, results) => {
             if (error) {

@@ -32,17 +32,17 @@ function Perfil() {
     console.log ("token decodadokk: ", decodedToken)
 
     useEffect(() => {
-
         if (token) {
             setPerfil(decodedToken.perfil); 
             setTipoUsuario(decodedToken.tipo_usuario); 
-  
-            // Se for um funcionário, buscar o nome da empresa pelo `empresa_id`
+            setSelectedQuestion(decodedToken.perfil.perguntaSeguranca || ''); // Inicializa a pergunta de segurança
+            setSecurityAnswer(decodedToken.perfil.respostaSeguranca || ''); // Inicializa a resposta de segurança
+    
             if (decodedToken.tipo_usuario === 'funcionario') {
-              buscarNomeEmpresa(decodedToken.perfil.empresa_id); 
+                buscarNomeEmpresa(decodedToken.perfil.empresa_id); 
             }
         }
-      }, []);
+    }, []);    
 
     useEffect(() => {
         // Carrega os detalhes da consulta do localStorage
@@ -106,11 +106,9 @@ function Perfil() {
     
         setPerfil(updatedPerfil);
         localStorage.setItem('perfil', JSON.stringify(updatedPerfil));
-        atualizarPerfilNoBackend(updatedPerfil);
+        atualizarPerfilNoBackend(updatedPerfil); // Chama a função para atualizar no backend
         setIsEditing(false);
     };
-    
-    
     
     
     const handleQuestionChange = (e) => {
@@ -376,7 +374,7 @@ function Perfil() {
                                         as="select"
                                         name="pergunta"
                                         value={selectedQuestion}
-                                        onChange={(e) => setSelectedQuestion(e.target.value)}
+                                        onChange={handleQuestionChange} // Use a função handleQuestionChange
                                     >
                                         <option value="">Selecione uma pergunta</option>
                                         <option value="animal">Qual era o nome do seu primeiro animal de estimação?</option>
@@ -392,11 +390,12 @@ function Perfil() {
                                         name="resposta"
                                         value={securityAnswer}
                                         onChange={(e) => setSecurityAnswer(e.target.value)}
-                                        disabled={!selectedQuestion}
+                                        disabled={!selectedQuestion} // Desabilitado até que uma pergunta seja selecionada
                                     />
                                     {errorMessage && <div className="error-message">{errorMessage}</div>}
                                 </Form.Group>
 
+                                  
                                     <Button className='salvarBot mt-3' type="submit">Salvar</Button>
                                     <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
                                 </Form>
