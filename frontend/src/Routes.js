@@ -63,6 +63,7 @@ const Rotas = () => {
           <Route path="/contato" element={<Contato />} />
           <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
           <Route path="/planos" element={<Planos />} />
+          <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
 
       {/* Rotas não autenticados */}
       {!token && (

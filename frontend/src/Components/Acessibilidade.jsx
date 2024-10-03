@@ -10,7 +10,6 @@ import { useLocation } from 'react-router-dom';
 // import 'react-simple-keyboard/build/css/index.css';
 
 const Acessibilidade = ({ toggleTheme }) => {
-    const [fontSize, setFontSize] = useState(16);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
@@ -363,9 +362,9 @@ const handleSkipForward = () => {
                             <div className="accessibility-section font-adjustment">
                                 <h5>Ajustar Tamanho da Fonte</h5>
                                 <div className="font-size-controls">
-                                    <button onClick={() => adjustFontSize(-10)} aria-label="Diminuir tamanho da fonte"> <AArrowDown /> </button>
+                                    <button className='font-size-btn' onClick={() => adjustFontSize(-10)} aria-label="Diminuir tamanho da fonte"> <AArrowDown /> </button>
                                     <span>{fontSizeLevel}%</span>
-                                    <button onClick={() => adjustFontSize(10)} aria-label="Aumentar tamanho da fonte"><AArrowUp /></button>
+                                    <button className='font-size-btn' onClick={() => adjustFontSize(10)} aria-label="Aumentar tamanho da fonte"><AArrowUp /></button>
                                 </div>
                             </div>
                             <div className="accessibility-buttons">
