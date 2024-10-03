@@ -9,19 +9,19 @@ router.post('/verificar-email', (req, res) => {
   // Verifica se o email está na tabela de contaFuncionarios
   connection.query('SELECT pergunta_seguranca, tipo_usuario FROM contaFuncionarios WHERE email = ?', [email], (error, results) => {
     if (results.length > 0) {
-      return res.json({ success: true, perguntaSeguranca: results[0].pergunta_seguranca });
+      return res.json({ success: true, pergunta_seguranca: results[0].pergunta_seguranca });
     }
     
     // Se não encontrou, verifica na tabela de cadastroempresa
     connection.query('SELECT pergunta_seguranca, tipo_usuario FROM cadastroempresa WHERE email = ?', [email], (error, results) => {
       if (results.length > 0) {
-        return res.json({ success: true, perguntaSeguranca: results[0].pergunta_seguranca });
+        return res.json({ success: true, pergunta_seguranca: results[0].pergunta_seguranca });
       }
 
       // Se não encontrou, verifica na tabela de cadastropsicologos
       connection.query('SELECT pergunta_seguranca, tipo_usuario FROM cadastropsicologos WHERE email = ?', [email], (error, results) => {
         if (results.length > 0) {
-          return res.json({ success: true, perguntaSeguranca: results[0].pergunta_seguranca });
+          return res.json({ success: true, pergunta_seguranca: results[0].pergunta_seguranca });
         }
 
         // Se não encontrou em nenhuma tabela
@@ -33,12 +33,12 @@ router.post('/verificar-email', (req, res) => {
 
 // Rota para verificar se a resposta da pergunta de segurança está certa
 router.post('/verificar-resposta', (req, res) => {
-  const { email, respostaSeguranca } = req.body;
+  const { email, resposta_seguranca } = req.body;
   
   // Aqui você precisaria verificar a resposta na tabela correta de acordo com o tipo de usuário que foi encontrado
   connection.query('SELECT resposta_seguranca FROM contaFuncionarios WHERE email = ?', [email], (error, results) => {
     if (results.length > 0) {
-      const isMatch = respostaSeguranca === results[0].resposta_seguranca; // Você pode usar bcrypt.compare se a resposta estiver criptografada
+      const isMatch = resposta_seguranca === results[0].resposta_seguranca; // Você pode usar bcrypt.compare se a resposta estiver criptografada
       return res.json({ success: isMatch });
     }
 

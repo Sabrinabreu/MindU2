@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
     const usuario = userResult[0];
     let userData = {};
 
-    // !!!!!!!!!!!! isso acontece tbm com o funcionário, mas só se ele tiver uma conta atualizada, aí ficaria tipo if cadastrado true ele faz a função tbm
+    // !!!!!!!!!!!! isso acontece tbm com o funcionário, mas só se ele tiver uma conta atualizada, aí ficaria tipo if loginMethod email ele faz a função tbm
     if (usuario.tipo_usuario === 'empresa' || usuario.tipo_usuario === 'psicologo') {
     // Comparar a senha fornecida com a senha criptografada
     const match = await bcrypt.compare(senha, usuario.senha);

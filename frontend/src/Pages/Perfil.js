@@ -17,8 +17,6 @@ function Perfil() {
     const [perfil, setPerfil] = useState({});
     const [tipoUsuario, setTipoUsuario] = useState('');
     const [nomeEmpresa, setNomeEmpresa] = useState('');
-    const [selectedQuestion, setSelectedQuestion] = useState('');
-    const [securityAnswer, setSecurityAnswer] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const { setToken } = useAuth();
@@ -28,47 +26,23 @@ function Perfil() {
     const [setPsicologoNome] = useState('');
     const [isPsicologo, setIsPsicologo] = useState(false);
     const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token); 
-    // console.log ("token decodadokk: ", decodedToken)
+    const decodedToken = parseJwt(token);
 
     useEffect(() => {
         if (token) {
-            setPerfil(decodedToken.perfil); 
-            setTipoUsuario(decodedToken.tipo_usuario); 
-            setSelectedQuestion(decodedToken.perfil.perguntaSeguranca || '');
-            setSecurityAnswer(decodedToken.perfil.respostaSeguranca || '');
+            setPerfil(decodedToken.perfil);
+            setTipoUsuario(decodedToken.tipo_usuario);
 
             if (decodedToken.tipo_usuario === 'funcionario') {
-                buscarNomeEmpresa(decodedToken.perfil.empresa_id); 
+                buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
-    }, [token, decodedToken]); 
+    }, [token]);
 
-    useEffect(() => {
-        // Carrega os detalhes da consulta do localStorage
-        const savedConsultationDetails = localStorage.getItem('consultationDetails');
-        if (savedConsultationDetails) {
-            setConsultationDetails([JSON.parse(savedConsultationDetails)]);
-        } else {
-            setConsultationDetails([]); 
-        }
-
-        // Fetch para obter o nome do psicólogo
-        fetch('http://localhost:3001/api/psicologo')
-            .then(response => response.json())
-            .then(data => {
-                setPsicologoNome(data.nomePsico);
-            })
-            .catch(error => {
-                console.error('Erro ao obter nome do psicólogo:', error);
-            });
-    }, [setPsicologoNome]);
-
-  
     const handleLogout = () => {
-      localStorage.removeItem('token');
-      setToken(null);
-      navegacao("/", { replace: true });
+        localStorage.removeItem('token');
+        setToken(null);
+        navegacao("/", { replace: true });
     };
 
     const handleEditClick = () => {
@@ -77,7 +51,7 @@ function Perfil() {
     };
 
     const validateForm = () => {
-        if (!perfil.nome || !perfil.email || !perfil.cpf || !perfil.telefone || !perfil.senha || !selectedQuestion || !securityAnswer) {
+        if (!perfil.nome || !perfil.email || !perfil.cpf || !perfil.telefone || !perfil.senha || !perfil.pergunta_seguranca || !perfil.resposta_seguranca) {
             setErrorMessage('Todos os campos são obrigatórios.');
             return false;
         }
@@ -86,35 +60,22 @@ function Perfil() {
 
     const handleSave = async (e) => {
         e.preventDefault();
-    
-        // Verifica se a pergunta de segurança e a resposta estão preenchidas
-        if (!selectedQuestion || !securityAnswer.trim()) {
-            setErrorMessage('Selecione uma pergunta de segurança e forneça uma resposta.');
-            return;
-        }
-    
-        console.log("perfil atualizado:", perfil);
-        console.log("Pergunta de segurança selecionada:", selectedQuestion);
-        console.log("Resposta de segurança:", securityAnswer);
 
-
-        // Verifica se o formulário está válido antes de prosseguir
         if (!validateForm()) {
             setErrorMessage('Preencha todos os campos obrigatórios.');
             return;
         }
-    
-        // Limpa mensagens de erro antes de continuar
+
         setErrorMessage('');
-    
+
         const updatedPerfil = {
             ...perfil,
-            perguntaSeguranca: selectedQuestion,
-            respostaSeguranca: securityAnswer,
             loginMethod: 'email',
-            senha: perfil.senha
+            // senha: perfil.senha
         };
-    
+
+        console.log("infos perfil: ", perfil)
+
         try {
             const response = await axios.put('http://localhost:3001/api/atualizarPerfil', updatedPerfil, {
                 headers: {
@@ -122,12 +83,9 @@ function Perfil() {
                     Authorization: `Bearer ${token}`,
                 },
             });
-        
-            console.log('Resposta do backend:', response);
-        
+
             if (response.status >= 200 && response.status < 300) {
-                // Atualiza o estado do perfil com os dados retornados do backend
-                setPerfil(response.data.perfilAtualizado); 
+                setPerfil(response.data.perfilAtualizado);
                 alert('Perfil atualizado com sucesso!');
                 setIsEditing(false);
             } else {
@@ -136,31 +94,25 @@ function Perfil() {
         } catch (error) {
             setErrorMessage('Erro ao atualizar o perfil.');
             console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
-        }      
-             
-    };    
-
-    const handleQuestionChange = (e) => {
-        setSelectedQuestion(e.target.value);
+        }
     };
 
     const handleCancel = () => {
         setIsEditing(false);
-        setPerfil(decodedToken.perfil); // Restaura o estado original do perfil
-    }; 
+        setPerfil(decodedToken.perfil);
+    };
 
     const togglePasswordVisibility = () => {
         setShowPassword(prevState => !prevState);
     };
 
-    // Função para buscar o nome da empresa baseado no `empresa_id`
     const buscarNomeEmpresa = async (empresaId) => {
-      try {
-        const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
-        setNomeEmpresa(response.data.nome); 
-      } catch (error) {
-        console.error('Erro ao buscar o nome da empresa:', error);
-      }
+        try {
+            const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
+            setNomeEmpresa(response.data.nome);
+        } catch (error) {
+            console.error('Erro ao buscar o nome da empresa:', error);
+        }
     };
 
     useEffect(() => {
@@ -418,24 +370,28 @@ function Perfil() {
                                         )}
                                     </div>
                                 </Form.Group>
-                                    <Form.Group controlId="formSecurityQuestion">
-                                            <Form.Label>Pergunta de Segurança</Form.Label>
-                                            <Form.Control as="select" value={selectedQuestion} onChange={handleQuestionChange}>
-                                                <option value="">Selecione uma pergunta</option>
-                                                <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
-                                                <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
-                                                <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
-                                            </Form.Control>
-                                        </Form.Group>
-                                        <Form.Group controlId="formSecurityAnswer">
-                                            <Form.Label>Resposta de Segurança</Form.Label>
-                                            <Form.Control
-                                                type={showPassword ? "text" : "password"}
-                                                value={securityAnswer}
-                                                onChange={(e) => setSecurityAnswer(e.target.value)}
-                                            />
-                                            <span onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff /> : <Eye />}</span>
-                                        </Form.Group>
+                                <Form.Group controlId="formSecurityQuestion">
+                                <Form.Label>Pergunta de Segurança</Form.Label>
+                                <Form.Control 
+                                    as="select" 
+                                    value={perfil.pergunta_seguranca} 
+                                    onChange={(e) => setPerfil({ ...perfil, pergunta_seguranca: e.target.value })}
+                                >
+                                    <option value="">Selecione uma pergunta</option>
+                                    <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
+                                    <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
+                                    <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
+                                </Form.Control>
+                                </Form.Group>
+                                <Form.Group controlId="formSecurityAnswer">
+                                    <Form.Label>Resposta de Segurança</Form.Label>
+                                    <Form.Control
+                                        type={showPassword ? "text" : "password"}
+                                        value={perfil.resposta_seguranca}
+                                        onChange={(e) => setPerfil({ ...perfil, resposta_seguranca: e.target.value })}
+                                    />
+                                    <span onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff /> : <Eye />}</span>
+                                </Form.Group>
                                         <Button variant="primary" type="submit">Salvar</Button>
                                         <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
                                         {errorMessage && <p className="text-danger">{errorMessage}</p>}
@@ -477,7 +433,7 @@ function Perfil() {
                                     <hr />
                                     <Row>
                                         <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
-                                        <Col sm={9} className="text-secondary">{perfil.perguntaSeguranca}</Col>
+                                        <Col sm={9} className="text-secondary">{perfil.pergunta_seguranca}</Col>
                                     </Row>
                                     <hr />
                                     {isPsicologo && (
