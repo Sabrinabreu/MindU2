@@ -437,7 +437,6 @@ function Perfil() {
                                                 value={securityAnswer}
                                                 onChange={(e) => setSecurityAnswer(e.target.value)}
                                             />
-                                            <span onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff /> : <Eye />}</span>
                                         </Form.Group>
                                         <Button variant="primary" type="submit">Salvar</Button>
                                         <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>

@@ -5,18 +5,27 @@ import '../css/SideBar.css';
 import axios from "axios";
 import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX } from 'lucide-react';
 import BAPO from "../Components/WidgetBAPO";
+import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 
 const Dashboard = () => {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [perfil, setPerfil] = useState({});
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [cards, setCards] = useState([]);
 
     const { setToken } = useAuth();
     const navegacao = useNavigate();
+    const token = localStorage.getItem('token');
+    const decodedToken = parseJwt(token); 
   
+    useEffect(() => {
+        setPerfil(decodedToken.perfil);
+    }, [decodedToken.perfil]);
+
+    
     const handleLogout = () => {
       localStorage.removeItem('token');
       setToken(null);
@@ -94,7 +103,7 @@ const Dashboard = () => {
                         </div>
                         <div id="nav-footer-titlebox">
                             <a id="nav-footer-title"
-                                target="_blank" rel="noopener noreferrer">Empresa</a>
+                                target="_blank" rel="noopener noreferrer">{perfil.empresa}</a>
                             <span id="nav-footer-subtitle">Admin</span>
                         </div>
                         <label htmlFor="nav-footer-toggle">
