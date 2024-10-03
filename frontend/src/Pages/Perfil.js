@@ -128,7 +128,22 @@ function Perfil() {
         };
         fetchEmpresa();
     }, [token]);
-    
+
+    const atualizarPerfil = async (novosDados) => {
+        try {
+          const response = await axios.put('/rota-do-perfil', novosDados);
+      
+          if (response.status === 200) {
+            // Atualizar o estado do perfil
+            setPerfil(response.data.perfilAtualizado);
+            
+            // Atualizar também o localStorage (se você estiver armazenando o perfil lá)
+            localStorage.setItem('perfil', JSON.stringify(response.data.perfilAtualizado));
+          }
+        } catch (error) {
+          console.error('Erro ao atualizar o perfil:', error);
+        }
+      };     
 
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
@@ -369,24 +384,7 @@ function Perfil() {
                                             </div>
                                         )}
                                     </div>
-                                </Form.Group>
-                                    <Form.Group controlId="formSecurityQuestion">
-                                            <Form.Label>Pergunta de Segurança</Form.Label>
-                                            <Form.Control as="select" value={selectedQuestion} onChange={handleQuestionChange}>
-                                                <option value="">Selecione uma pergunta</option>
-                                                <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
-                                                <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
-                                                <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
-                                            </Form.Control>
-                                        </Form.Group>
-                                        <Form.Group controlId="formSecurityAnswer">
-                                            <Form.Label>Resposta de Segurança</Form.Label>
-                                            <Form.Control
-                                                type={showPassword ? "text" : "password"}
-                                                value={securityAnswer}
-                                                onChange={(e) => setSecurityAnswer(e.target.value)}
-                                            />
-                                        </Form.Group>
+                                </Form.Group>                                        
                                 <Form.Group controlId="formSecurityQuestion">
                                 <Form.Label>Pergunta de Segurança</Form.Label>
                                 <Form.Control 
