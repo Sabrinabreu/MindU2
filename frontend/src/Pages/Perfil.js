@@ -29,7 +29,7 @@ function Perfil() {
     const [isPsicologo, setIsPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token); 
-    console.log ("token decodadokk: ", decodedToken)
+    // console.log ("token decodadokk: ", decodedToken)
 
     useEffect(() => {
         if (token) {
@@ -76,79 +76,84 @@ function Perfil() {
         setPerfil(prevData => ({ ...prevData, senha: '' }));
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setPerfil(prevData => ({ ...prevData, [name]: value }));
-    };
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setPerfil(prevData => ({ ...prevData, [name]: value }));
+    // };
 
-    const handleSave = (e) => {
+    const validateForm = () => {
+        if (!perfil.nome || !perfil.email || !perfil.cpf || !perfil.telefone || !perfil.senha || !selectedQuestion || !securityAnswer) {
+            setErrorMessage('Todos os campos são obrigatórios.');
+            return false;
+        }
+        return true;
+    };    
+
+    const handleSave = async (e) => {
         e.preventDefault();
     
-        // Verifica se a pergunta foi selecionada e se a resposta foi fornecida
-        if (!selectedQuestion) {
-            setErrorMessage('Por favor, selecione uma pergunta de segurança.');
+        // Verifica se a pergunta de segurança e a resposta estão preenchidas
+        if (!selectedQuestion || !securityAnswer.trim()) {
+            setErrorMessage('Selecione uma pergunta de segurança e forneça uma resposta.');
             return;
         }
     
-        if (!securityAnswer || securityAnswer.trim() === '') {
-            setErrorMessage('Por favor, forneça uma resposta para a pergunta de segurança.');
+        console.log("Nome atualizado:", perfil);
+        console.log("Pergunta de segurança selecionada:", selectedQuestion);
+        console.log("Resposta de segurança:", securityAnswer);
+
+
+        // Verifica se o formulário está válido antes de prosseguir
+        if (!validateForm()) {
+            setErrorMessage('Preencha todos os campos obrigatórios.');
             return;
         }
     
-        // Limpa a mensagem de erro se tudo estiver certo
+        // Limpa mensagens de erro antes de continuar
         setErrorMessage('');
     
         const updatedPerfil = {
             ...perfil,
             perguntaSeguranca: selectedQuestion,
             respostaSeguranca: securityAnswer,
+            loginMethod: 'email',
         };
     
-        setPerfil(updatedPerfil);
-        localStorage.setItem('perfil', JSON.stringify(updatedPerfil));
-        atualizarPerfilNoBackend(updatedPerfil); // Chama a função para atualizar no backend
-        setIsEditing(false);
-    };
-    
-    
+        try {
+            const response = await axios.put('http://localhost:3001/api/atualizarPerfil', updatedPerfil, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        
+            console.log('Resposta do backend:', response);
+        
+            if (response.status >= 200 && response.status < 300) {
+                setPerfil(response.data.perfilAtualizado); // Atualiza o estado do perfil com os dados do backend
+                alert('Perfil atualizado com sucesso!');
+                setIsEditing(false);
+            } else {
+                setErrorMessage('Erro ao atualizar o perfil.');
+            }
+        } catch (error) {
+            setErrorMessage('Erro ao atualizar o perfil.');
+            console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
+        }
+             
+    };    
+
     const handleQuestionChange = (e) => {
         setSelectedQuestion(e.target.value);
     };
 
     const handleCancel = () => {
         setIsEditing(false);
-    };
+        setPerfil(decodedToken.perfil); // Restaura o estado original do perfil
+    }; 
 
     const togglePasswordVisibility = () => {
         setShowPassword(prevState => !prevState);
-    };
-
-    const atualizarPerfilNoBackend = async (updatedPerfil) => {
-        try {
-            const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedPerfil),
-            });
-    
-            if (!response.ok) {
-                throw new Error('Erro ao atualizar o perfil');
-            }
-    
-            const responseData = await response.json();
-            alert('Perfil atualizado com sucesso!');
-        } catch (error) {
-            console.error('Erro ao atualizar perfil:', error);
-            alert('Erro ao atualizar o perfil.');
-        }
-    };
-    
-
-
-    const daysInMonth = (month, year) => {
-        return new Date(year, month + 1, 0).getDate();
     };
 
     // Função para buscar o nome da empresa baseado no `empresa_id`
@@ -161,6 +166,24 @@ function Perfil() {
       }
     };
 
+    useEffect(() => {
+        const fetchEmpresa = async () => {
+            if (token) {
+                setPerfil(decodedToken.perfil); 
+                setTipoUsuario(decodedToken.tipo_usuario);
+    
+                if (decodedToken.tipo_usuario === 'funcionario') {
+                    await buscarNomeEmpresa(decodedToken.perfil.empresa_id);
+                }
+            }
+        };
+        fetchEmpresa();
+    }, [token]);
+    
+
+    const daysInMonth = (month, year) => {
+        return new Date(year, month + 1, 0).getDate();
+    };
 
     const generateCalendar = () => {
         const month = currentMonth.getMonth();
@@ -247,10 +270,10 @@ function Perfil() {
     const textColor = getContrastingColor(backgroundColor);
 
     useEffect(() => {
-        if (decodedToken.perfil.cadastrado === 0 || decodedToken.cadastrado === false) {
-            setShowAlert(true); // Define o estado do alerta para ser exibido
+        if (decodedToken.perfil && decodedToken.perfil.loginMethod === 'login_temporario') {
+            setShowAlert(true);
         }
-    }, [decodedToken]); // Executa o useEffect quando o decodedToken for alterado
+    }, [decodedToken]); 
 
     return (
         <Container className='mt-4'>
@@ -258,7 +281,7 @@ function Perfil() {
                 <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
                     <Alert.Heading>Atualização de dados cadastrais necessária!</Alert.Heading>
                     <p>
-                        É necessário atualizar seus dados para usar as funções do site.
+                        É necessário atualizar seus dados para usar as funções do sistema.
                     </p>
                 </Alert>
             )}
@@ -336,28 +359,58 @@ function Perfil() {
                                             type="text"
                                             name="nome"
                                             value={perfil.nome}
-                                            onChange={handleChange}
+                                            onChange={(e) => setPerfil({ ...perfil, nome: e.target.value })}
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formEmail">
-                                        <Form.Label>Login</Form.Label>
+                                        <Form.Label>Email</Form.Label>
                                         <Form.Control
                                             type="email"
                                             name="login"
                                             value={perfil.email}
-                                            onChange={handleChange}
+                                            onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group 
+                                    // controlId="formEmail"
+                                    >
+                                        <Form.Label>CPF</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="cpf"
+                                            value={perfil.cpf}
+                                            onChange={(e) => setPerfil({ ...perfil, cpf: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        {/* //mudar esses ids depois */}
+                                        <Form.Label>Cargo</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="cargo"
+                                            value={perfil.cargo}
+                                            onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Telefone</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="telefone"
+                                            value={perfil.telefone}
+                                            onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formPassword">
                                     <Form.Label>Senha</Form.Label>
                                     <div className="password-container">
-                                        <Form.Control
-                                            type={showPassword ? "text" : "password"}
-                                            name="senha"
-                                            value={perfil.senha || ''}
-                                            onChange={handleChange}
-                                            placeholder="Digite uma nova senha"
-                                        />
+                                    <Form.Control
+                                        type={showPassword ? "text" : "password"}
+                                        name="senha"
+                                        value={perfil.senha || ''}
+                                        onChange={(e) => setPerfil({ ...perfil, senha: e.target.value })}
+                                        placeholder="Digite uma nova senha"
+                                    />
                                         {isEditing && (
                                             <div
                                                 className='olho'
@@ -398,7 +451,9 @@ function Perfil() {
                                   
                                     <Button className='salvarBot mt-3' type="submit">Salvar</Button>
                                     <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
+                                    {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
                                 </Form>
+                                
                             ) : (
                                 <>
                                     <Row>
@@ -407,8 +462,23 @@ function Perfil() {
                                     </Row>
                                     <hr />
                                     <Row>
-                                        <Col sm={3}><h6 className="mb-0">Login</h6></Col>
+                                        <Col sm={3}><h6 className="mb-0">Email</h6></Col>
                                         <Col sm={9} className="text-secondary">{perfil.email}</Col>
+                                    </Row>
+                                    <hr />
+                                    <Row>
+                                        <Col sm={3}><h6 className="mb-0">CPF</h6></Col>
+                                        <Col sm={9} className="text-secondary">{perfil.cpf}</Col>
+                                    </Row>
+                                    <hr />
+                                    <Row>
+                                        <Col sm={3}><h6 className="mb-0">Cargo</h6></Col>
+                                        <Col sm={9} className="text-secondary">{perfil.cargo}</Col>
+                                    </Row>
+                                    <hr />
+                                    <Row>
+                                        <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                        <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
                                     </Row>
                                     <hr />
                                     <Row>
