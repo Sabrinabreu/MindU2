@@ -38,7 +38,7 @@ router.post('/login', async (req, res) => {
       const [funcionarioData] = await connection.query('SELECT * FROM contaFuncionarios WHERE id = ?', [usuario.id_referencia]);
       userData = funcionarioData[0];
     } else if (usuario.tipo_usuario === 'psicologo') {
-      const [psicologoData] = await connection.query('SELECT * FROM cadastropsicologos WHERE id = ?', [usuario.id_referencia]);
+      const [psicologoData] = await connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [usuario.id_referencia]);
       userData = psicologoData[0];
     }
 

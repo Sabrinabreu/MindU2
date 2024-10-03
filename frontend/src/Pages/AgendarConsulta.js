@@ -13,6 +13,7 @@ import perfilEscolar from '../img/perfilEscolar.avif';
 import perfilOrganizacional from '../img/perfilOrganizacional.avif';
 import perfilclinico from '../img/perfilClinico.jpg';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});

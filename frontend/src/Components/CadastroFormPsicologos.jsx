@@ -12,10 +12,11 @@ const CadastroFormPsi = () => {
         email: '',
         CPF: '',
         endereco: '',
-        areasInteresse: '',
+        crp: '',
+        especialidade: '',
         preferenciaHorario: '',
         disponibilidade: '',
-        localidades: '',
+        localizacao: '',
         motivacao: '',
         objetivos: '',
         senha: '',
@@ -103,7 +104,7 @@ const CadastroFormPsi = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/cadastropsicologos', data, {
+            const response = await axios.post('http://localhost:3001/psicologos', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -119,10 +120,11 @@ const CadastroFormPsi = () => {
                     email: '',
                     CPF: '',
                     endereco: '',
-                    areasInteresse: '',
+                    crp: '',
+                    especialidade: '',
                     preferenciaHorario: '',
                     disponibilidade: '',
-                    localidades: '',
+                    localizacao: '',
                     motivacao: '',
                     objetivos: '',
                     senha: '',
@@ -197,15 +199,20 @@ const CadastroFormPsi = () => {
                         <input className='inputform cadPsi' type="text" name="CPF" placeholder="Digite seu CPF aqui..." value={formData.CPF} onChange={handleChange} required />
                         {error && error.field === 'CPF' && <p className="text-danger">{error.message}</p>}
                     </Col>
-                    <Col md="12" sm="10">
+                    <Col md="6" sm="10">
                         <label className='labelForms'>Endereço Completo (opcional)</label>
                         <input className='inputform cadPsi' type="text" name="endereco" placeholder="Digite seu endereço aqui..." value={formData.endereco} onChange={handleChange} />
                         {error && error.field === 'endereco' && <p className="text-danger">{error.message}</p>}
                     </Col>
                     <Col md="6" sm="10">
+                    <label className='labelForms'>CRP</label>
+                        <input className='inputform cadPsi' type="text" name="crp" placeholder="Digite seu CRP aqui..." value={formData.crp} onChange={handleChange} />
+                        {error && error.field === 'crp' && <p className="text-danger">{error.message}</p>}
+                    </Col>
+                    <Col md="6" sm="10">
                         <label className='labelForms'>Áreas de Interesse e Especialização</label>
-                        <input className='inputform cadPsi' type="text" name="areasInteresse" placeholder="Digite suas áreas de interesse e especialização aqui..." value={formData.areasInteresse} onChange={handleChange} required />
-                        {error && error.field === 'areasInteresse' && <p className="text-danger">{error.message}</p>}
+                        <input className='inputform cadPsi' type="text" name="especialidade" placeholder="Digite suas áreas de interesse e especialização aqui..." value={formData.especialidade} onChange={handleChange} required />
+                        {error && error.field === 'especialidade' && <p className="text-danger">{error.message}</p>}
                     </Col>
                     <Col md="6" sm="10">
                         <label className='labelForms'>Preferência de Horário de Trabalho</label>
@@ -224,8 +231,8 @@ const CadastroFormPsi = () => {
                     </Col>
                     <Col md="6" sm="10">
                         <label className='labelForms'>Regiões ou Localidades Preferidas para Atendimento</label>
-                        <input className='inputform cadPsi' type="text" name="localidades" placeholder="Digite suas regiões ou localidades preferidas aqui..." value={formData.localidades} onChange={handleChange} required />
-                        {error && error.field === 'localidades' && <p className="text-danger">{error.message}</p>}
+                        <input className='inputform cadPsi' type="text" name="localizacao" placeholder="Digite suas regiões ou localidades preferidas aqui..." value={formData.localizacao} onChange={handleChange} required />
+                        {error && error.field === 'localizacao' && <p className="text-danger">{error.message}</p>}
                     </Col>
                     <Col md="6" sm="10">
                         <label className='labelForms'>Motivação para Trabalhar na MindU</label>
