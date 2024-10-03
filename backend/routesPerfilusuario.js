@@ -4,46 +4,53 @@ const connection = require('./db');
 const bcrypt = require('bcrypt');
 
 router.put('/', async (req, res) => {
-    const { login, nome, senha, email, cpf, cargo, telefone } = req.body;
+    const { login, nome, senha, email, cpf, cargo, telefone, perguntaSeguranca, respostaSeguranca } = req.body;
 
     try {
         let hashedPassword;
-        let query;
         const values = [nome, email, cpf, cargo, telefone];
+        let query;
 
         if (senha) {
             // Se uma nova senha for fornecida, criptografe-a
             const saltRounds = 10;
             hashedPassword = await bcrypt.hash(senha, saltRounds);
+            values.unshift(hashedPassword); 
             query = `
                 UPDATE contaFuncionarios 
                 SET 
-                    nome = ?, 
                     senha = ?, 
+                    nome = ?, 
                     email = ?, 
                     cpf = ?, 
                     cargo = ?, 
                     telefone = ?, 
+                    perguntaSeguranca = ?, 
+                    respostaSeguranca = ?, 
                     loginMethod = 'email' 
                 WHERE login = ?
             `;
-            values.splice(1, 0, hashedPassword);  // Insere a senha na posição correta no array
+            values.push(perguntaSeguranca, login);
         } else {
             query = `
                 UPDATE contaFuncionarios 
                 SET 
                     nome = ?, 
-                    ${senha ? 'senha = ?,' : ''} 
                     email = ?, 
                     cpf = ?, 
                     cargo = ?, 
                     telefone = ?, 
+                    perguntaSeguranca = ?, 
+                    respostaSeguranca = ?, 
                     loginMethod = 'email' 
                 WHERE login = ?
             `;
+            values.push(perguntaSeguranca, login);
         }
-
-        values.push(login);  // Adiciona o login no final do array
+        
+         if (!senha) {
+            values.unshift(null);
+        }
 
         connection.query(query, values, (error, results) => {
             if (error) {

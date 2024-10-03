@@ -35,14 +35,14 @@ function Perfil() {
         if (token) {
             setPerfil(decodedToken.perfil); 
             setTipoUsuario(decodedToken.tipo_usuario); 
-            setSelectedQuestion(decodedToken.perfil.perguntaSeguranca || ''); // Inicializa a pergunta de segurança
-            setSecurityAnswer(decodedToken.perfil.respostaSeguranca || ''); // Inicializa a resposta de segurança
-    
+            setSelectedQuestion(decodedToken.perfil.perguntaSeguranca || '');
+            setSecurityAnswer(decodedToken.perfil.respostaSeguranca || '');
+
             if (decodedToken.tipo_usuario === 'funcionario') {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id); 
             }
         }
-    }, []);    
+    }, [token, decodedToken]); 
 
     useEffect(() => {
         // Carrega os detalhes da consulta do localStorage
@@ -87,7 +87,7 @@ function Perfil() {
             return false;
         }
         return true;
-    };    
+    };
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -421,38 +421,28 @@ function Perfil() {
                                         )}
                                     </div>
                                 </Form.Group>
-                                <Form.Group controlId="formPergunta">
-                                    <Form.Label>Pergunta de segurança</Form.Label>
-                                    <Form.Control
-                                        as="select"
-                                        name="pergunta"
-                                        value={selectedQuestion}
-                                        onChange={handleQuestionChange} // Use a função handleQuestionChange
-                                    >
-                                        <option value="">Selecione uma pergunta</option>
-                                        <option value="animal">Qual era o nome do seu primeiro animal de estimação?</option>
-                                        <option value="comida">Qual é a sua comida favorita?</option>
-                                        <option value="trabalho">Qual o emprego dos seus sonhos?</option>
-                                    </Form.Control>
-                                </Form.Group>
-
-                                <Form.Group controlId="formResposta">
-                                    <Form.Label>Resposta da pergunta de segurança</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        name="resposta"
-                                        value={securityAnswer}
-                                        onChange={(e) => setSecurityAnswer(e.target.value)}
-                                        disabled={!selectedQuestion} // Desabilitado até que uma pergunta seja selecionada
-                                    />
-                                    {errorMessage && <div className="error-message">{errorMessage}</div>}
-                                </Form.Group>
-
-                                  
-                                    <Button className='salvarBot mt-3' type="submit">Salvar</Button>
-                                    <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
-                                    {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-                                </Form>
+                                    <Form.Group controlId="formSecurityQuestion">
+                                            <Form.Label>Pergunta de Segurança</Form.Label>
+                                            <Form.Control as="select" value={selectedQuestion} onChange={handleQuestionChange}>
+                                                <option value="">Selecione uma pergunta</option>
+                                                <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
+                                                <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
+                                                <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                        <Form.Group controlId="formSecurityAnswer">
+                                            <Form.Label>Resposta de Segurança</Form.Label>
+                                            <Form.Control
+                                                type={showPassword ? "text" : "password"}
+                                                value={securityAnswer}
+                                                onChange={(e) => setSecurityAnswer(e.target.value)}
+                                            />
+                                            <span onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff /> : <Eye />}</span>
+                                        </Form.Group>
+                                        <Button variant="primary" type="submit">Salvar</Button>
+                                        <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
+                                        {errorMessage && <p className="text-danger">{errorMessage}</p>}
+                                    </Form>
                                 
                             ) : (
                                 <>
