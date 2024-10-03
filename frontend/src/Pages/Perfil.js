@@ -128,22 +128,7 @@ function Perfil() {
         };
         fetchEmpresa();
     }, [token]);
-
-    const atualizarPerfil = async (novosDados) => {
-        try {
-          const response = await axios.put('/rota-do-perfil', novosDados);
-      
-          if (response.status === 200) {
-            // Atualizar o estado do perfil
-            setPerfil(response.data.perfilAtualizado);
-            
-            // Atualizar também o localStorage (se você estiver armazenando o perfil lá)
-            localStorage.setItem('perfil', JSON.stringify(response.data.perfilAtualizado));
-          }
-        } catch (error) {
-          console.error('Erro ao atualizar o perfil:', error);
-        }
-      };     
+    
 
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
@@ -281,7 +266,7 @@ function Perfil() {
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">CPF</h6>
-                                <span className="text-secondary">{perfil.CPF || "definir"}</span>
+                                <span className="text-secondary">{perfil.cpf || "definir"}</span>
                             </ListGroup.Item>
                             {/* informações exclusivas de funcionário */}
                             {tipoUsuario === 'funcionario' && (
