@@ -76,11 +76,6 @@ function Perfil() {
         setPerfil(prevData => ({ ...prevData, senha: '' }));
     };
 
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setPerfil(prevData => ({ ...prevData, [name]: value }));
-    // };
-
     const validateForm = () => {
         if (!perfil.nome || !perfil.email || !perfil.cpf || !perfil.telefone || !perfil.senha || !selectedQuestion || !securityAnswer) {
             setErrorMessage('Todos os campos são obrigatórios.');
@@ -98,7 +93,7 @@ function Perfil() {
             return;
         }
     
-        console.log("Nome atualizado:", perfil);
+        console.log("perfil atualizado:", perfil);
         console.log("Pergunta de segurança selecionada:", selectedQuestion);
         console.log("Resposta de segurança:", securityAnswer);
 
@@ -117,6 +112,7 @@ function Perfil() {
             perguntaSeguranca: selectedQuestion,
             respostaSeguranca: securityAnswer,
             loginMethod: 'email',
+            senha: perfil.senha
         };
     
         try {
@@ -130,7 +126,8 @@ function Perfil() {
             console.log('Resposta do backend:', response);
         
             if (response.status >= 200 && response.status < 300) {
-                setPerfil(response.data.perfilAtualizado); // Atualiza o estado do perfil com os dados do backend
+                // Atualiza o estado do perfil com os dados retornados do backend
+                setPerfil(response.data.perfilAtualizado); 
                 alert('Perfil atualizado com sucesso!');
                 setIsEditing(false);
             } else {
@@ -139,7 +136,7 @@ function Perfil() {
         } catch (error) {
             setErrorMessage('Erro ao atualizar o perfil.');
             console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
-        }
+        }      
              
     };    
 
@@ -450,7 +447,6 @@ function Perfil() {
 
                                     <Button className='salvarBot mt-3' type="submit">Salvar</Button>
                                     <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
-                                    {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
                                 </Form>
                                 
                             ) : (

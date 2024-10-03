@@ -32,8 +32,7 @@ router.put('/', async (req, res) => {
             query = `
                 UPDATE contaFuncionarios 
                 SET 
-                    nome = ?, 
-                    ${senha ? 'senha = ?,' : ''} 
+                    nome = ?,
                     email = ?, 
                     cpf = ?, 
                     cargo = ?, 
@@ -51,8 +50,25 @@ router.put('/', async (req, res) => {
                 return res.status(500).json({ message: 'Erro ao atualizar o perfil' });
             }
             console.log('Resultados da atualização:', results);
-            res.status(200).json({ message: 'Perfil atualizado com sucesso' });
+        
+            // Se a atualização foi bem-sucedida, envie o perfil atualizado no response
+            const updatedPerfil = {
+                login,
+                nome,
+                email,
+                cpf,
+                cargo,
+                telefone,
+                senha: senha ? hashedPassword : undefined,  // Opcionalmente enviar a senha
+            };
+        
+            res.status(200).json({
+                message: 'Perfil atualizado com sucesso',
+                perfilAtualizado: updatedPerfil  // Retorna o perfil atualizado
+            });
         });
+        
+
     } catch (error) {
         console.error('Erro ao processar a atualização:', error);
         res.status(500).json({ message: 'Erro ao atualizar o perfil' });
