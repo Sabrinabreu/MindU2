@@ -18,18 +18,20 @@ const Acessibilidade = ({ toggleTheme }) => {
     const highlightOverlayTopRef = useRef(null);
     const highlightOverlayBottomRef = useRef(null);
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
+    const location = useLocation();
 
+    //tts
     const [speechSynthesisActive, setSpeechSynthesisActive] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [currentCharIndex, setCurrentCharIndex] = useState(0);
     const utteranceRef = useRef(null);
 
+    //lupa
     const [magnifiedText, setMagnifiedText] = useState('');
     const [isMagnifierVisible, setIsMagnifierVisible] = useState(false);
     const magnifierRef = useRef(null);
 
-    const location = useLocation();
-
+    //destacar linha
     const highlightBackground = useRef(null);
     const highlightOverlay = useRef(null);
 
@@ -249,7 +251,6 @@ useEffect(() => {
             element.removeEventListener('mouseleave', handleMouseLeave);
         });
     };
-    // Atualiza os listeners ao trocar de rota (foco dinamico)
 }, [activeButtons['dynamicFocus'], location]);
 
 const handleDynamicFocusToggle = () => {
@@ -298,12 +299,12 @@ const resumeTextToSpeech = () => {
 const handleSkipBack = () => {
     if (utteranceRef.current) {
         stopTextToSpeech();
-        const newCharIndex = Math.max(0, currentCharIndex - 100); // Retrocede 100 caracteres
+        const newCharIndex = Math.max(0, currentCharIndex - 100); 
         const text = document.body.innerText || document.body.textContent;
         const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
         utterance.lang = 'pt-BR';
         utterance.onboundary = (event) => {
-            setCurrentCharIndex(newCharIndex + event.charIndex); // Atualiza a nova posição
+            setCurrentCharIndex(newCharIndex + event.charIndex);
         };
         speechSynthesis.speak(utterance);
         utteranceRef.current = utterance;
@@ -314,11 +315,11 @@ const handleSkipForward = () => {
     if (utteranceRef.current) {
         stopTextToSpeech();
         const text = document.body.innerText || document.body.textContent;
-        const newCharIndex = Math.min(text.length, currentCharIndex + 100); // Avança 100 caracteres
+        const newCharIndex = Math.min(text.length, currentCharIndex + 100); 
         const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
         utterance.lang = 'pt-BR';
         utterance.onboundary = (event) => {
-            setCurrentCharIndex(newCharIndex + event.charIndex); // Atualiza a nova posição
+            setCurrentCharIndex(newCharIndex + event.charIndex); 
         };
         speechSynthesis.speak(utterance);
         utteranceRef.current = utterance;

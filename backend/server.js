@@ -11,6 +11,7 @@ const rotaPsicologos = require('./routesPsicologos');
 const agendamentoRoutes = require('./routesAgendamento');
 const rotaPerfilsuario = require('./routesPerfilusuario');
 const disponibilidadesRoutes = require('./routesDisponibilidade');
+const rotaEsqueciSenha = require('./routesEsqueciSenha');
 
 // Cria uma instância do Express
 const app = express();
@@ -32,6 +33,7 @@ app.use('/', rotaPsicologos);
 app.use('/api/agendamento', agendamentoRoutes);
 app.use('/api/atualizarPerfil', rotaPerfilsuario);
 app.use('/api/psicologo', disponibilidadesRoutes);
+app.use('/api/esqueci-senha', rotaEsqueciSenha);
 
 // Remove rotas não definidas (ajustar ou remover se não houver)
 app.use('/', (req, res) => {
@@ -42,5 +44,6 @@ app.use('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor está rodando na porta ${port}`);
 });
+
 
 module.exports = app;

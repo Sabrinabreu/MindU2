@@ -43,6 +43,7 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
     { nome: "Perfil", caminho: "/perfil", auth: true, tiposPermitidos: ["psicologo", "funcionario"] }, // Psicólogos e funcionários logados
     { nome: "Agendar Consulta", caminho: "/agendarConsulta", auth: true, tiposPermitidos: ["psicologo", "funcionario"] }, // Psicólogos e funcionários logados
     { nome: "Saiba Mais", caminho: "/saibaMais", auth: true, tiposPermitidos: ["psicologo", "funcionario"] }, // Psicólogos e funcionários logados
+    { nome: "Esqueci a Senha", caminho: "/esquecisenha", auth: false, tiposPermitidos: [] }, // todos
   ];
   
   const canAccessLink = (link, token, tipoUsuario) => {
