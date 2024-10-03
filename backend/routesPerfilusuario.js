@@ -4,26 +4,46 @@ const connection = require('./db');
 const bcrypt = require('bcrypt');
 
 router.put('/', async (req, res) => {
-    const { login, nome, senha, email } = req.body;
+    const { login, nome, senha, email, cpf, cargo, telefone } = req.body;
 
     try {
         let hashedPassword;
+        let query;
+        const values = [nome, email, cpf, cargo, telefone];
 
         if (senha) {
             // Se uma nova senha for fornecida, criptografe-a
             const saltRounds = 10;
             hashedPassword = await bcrypt.hash(senha, saltRounds);
+            query = `
+                UPDATE contaFuncionarios 
+                SET 
+                    nome = ?, 
+                    senha = ?, 
+                    email = ?, 
+                    cpf = ?, 
+                    cargo = ?, 
+                    telefone = ?, 
+                    loginMethod = 'email' 
+                WHERE login = ?
+            `;
+            values.splice(1, 0, hashedPassword);  // Insere a senha na posição correta no array
+        } else {
+            query = `
+                UPDATE contaFuncionarios 
+                SET 
+                    nome = ?, 
+                    ${senha ? 'senha = ?,' : ''} 
+                    email = ?, 
+                    cpf = ?, 
+                    cargo = ?, 
+                    telefone = ?, 
+                    loginMethod = 'email' 
+                WHERE login = ?
+            `;
         }
 
-        const query = `
-            UPDATE contaFuncionarios 
-            SET nome = ?, ${senha ? 'senha = ?,' : ''} email = ? 
-            WHERE login = ?
-        `;
-
-        const values = [nome];
-        if (senha) values.push(hashedPassword);
-        values.push(email, login);
+        values.push(login);  // Adiciona o login no final do array
 
         connection.query(query, values, (error, results) => {
             if (error) {
