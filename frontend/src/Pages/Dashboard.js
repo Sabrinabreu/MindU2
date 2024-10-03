@@ -49,10 +49,12 @@ const Dashboard = () => {
     };
 
     const filteredCards = cards.filter(card => {
-        const matchesSearch = card.nomeFunc.toLowerCase().includes(searchTerm.toLowerCase());
+        const nomeFunc = card.nomeFunc ? card.nomeFunc.toLowerCase() : "";  // Verifique se card.nomeFunc existe
+        const matchesSearch = nomeFunc.includes(searchTerm.toLowerCase());
         const matchesCategory = selectedCategory === "all" || card.categoria === selectedCategory;
         return matchesSearch && matchesCategory;
     });
+    
 
     const resetFilter = () => {
         setSelectedCategory("all");

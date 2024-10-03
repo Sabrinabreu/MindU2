@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "../css/Perfil.css";
-import { Container, Row, Col, Card, ListGroup, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Card, ListGroup, Button, Form, Alert } from 'react-bootstrap';
 import { Eye, EyeOff, LogOut, Pencil } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
@@ -20,18 +20,20 @@ function Perfil() {
     const [selectedQuestion, setSelectedQuestion] = useState('');
     const [securityAnswer, setSecurityAnswer] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
     const { setToken } = useAuth();
     const navegacao = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
     const [setPsicologoNome] = useState('');
     const [isPsicologo, setIsPsicologo] = useState(false);
+    const token = localStorage.getItem('token');
+    const decodedToken = parseJwt(token); 
+    console.log ("token decodadokk: ", decodedToken)
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
 
         if (token) {
-            const decodedToken = parseJwt(token); 
             setPerfil(decodedToken.perfil); 
             setTipoUsuario(decodedToken.tipo_usuario); 
   
@@ -61,6 +63,7 @@ function Perfil() {
                 console.error('Erro ao obter nome do psicólogo:', error);
             });
     }, [setPsicologoNome]);
+
   
     const handleLogout = () => {
       localStorage.removeItem('token');
@@ -150,15 +153,16 @@ function Perfil() {
         return new Date(year, month + 1, 0).getDate();
     };
 
-      // Função para buscar o nome da empresa baseado no `empresa_id`
-      const buscarNomeEmpresa = async (empresaId) => {
-        try {
-          const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
-          setNomeEmpresa(response.data.nome); 
-        } catch (error) {
-          console.error('Erro ao buscar o nome da empresa:', error);
-        }
-      };
+    // Função para buscar o nome da empresa baseado no `empresa_id`
+    const buscarNomeEmpresa = async (empresaId) => {
+      try {
+        const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
+        setNomeEmpresa(response.data.nome); 
+      } catch (error) {
+        console.error('Erro ao buscar o nome da empresa:', error);
+      }
+    };
+
 
     const generateCalendar = () => {
         const month = currentMonth.getMonth();
@@ -244,8 +248,22 @@ function Perfil() {
     const backgroundColor = getColorFromInitials(getInitials(perfil.nome || ''));
     const textColor = getContrastingColor(backgroundColor);
 
+    useEffect(() => {
+        if (decodedToken.perfil.cadastrado === 0 || decodedToken.cadastrado === false) {
+            setShowAlert(true); // Define o estado do alerta para ser exibido
+        }
+    }, [decodedToken]); // Executa o useEffect quando o decodedToken for alterado
+
     return (
         <Container className='mt-4'>
+            {showAlert && (
+                <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
+                    <Alert.Heading>Atualização de dados cadastrais necessária!</Alert.Heading>
+                    <p>
+                        É necessário atualizar seus dados para usar as funções do site.
+                    </p>
+                </Alert>
+            )}
             <Row>
                 <Col md={4}>
                     <Card className='cardPerfil'>
@@ -270,15 +288,15 @@ function Perfil() {
                             {/* informações gerais */}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Email</h6>
-                                <span className="text-secondary">{perfil.email}</span>
+                                <span className="text-secondary">{perfil.email || "definir"}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Telefone</h6>
-                                <span className="text-secondary">{perfil.telefone}</span>
+                                <span className="text-secondary">{perfil.telefone || "definir"}</span>
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">CPF</h6>
-                                <span className="text-secondary">{perfil.CPF}</span>
+                                <span className="text-secondary">{perfil.CPF || "definir"}</span>
                             </ListGroup.Item>
                             {/* informações exclusivas de funcionário */}
                             {tipoUsuario === 'funcionario' && (
@@ -289,7 +307,7 @@ function Perfil() {
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 className="mb-0">Cargo</h6>
-                                    <span className="text-secondary">{perfil.cargo}</span>
+                                    <span className="text-secondary">{perfil.cargo || "definir"}</span>
                                 </ListGroup.Item>
                                 </>
                             )}

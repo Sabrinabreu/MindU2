@@ -21,11 +21,13 @@ router.post('/login', async (req, res) => {
     const usuario = userResult[0];
     let userData = {};
 
+    // !!!!!!!!!!!! isso acontece tbm com o funcionário, mas só se ele tiver uma conta atualizada, aí ficaria tipo if cadastrado true ele faz a função tbm
+    if (usuario.tipo_usuario === 'empresa' || usuario.tipo_usuario === 'psicologo') {
     // Comparar a senha fornecida com a senha criptografada
     const match = await bcrypt.compare(senha, usuario.senha);
     if (!match) {
       return res.status(404).json({ error: 'Usuário ou senha incorretos' });
-    }
+    }}
 
     // Verifica o tipo de usuário e busca as informações adicionais
     if (usuario.tipo_usuario === 'empresa') {
@@ -35,7 +37,7 @@ router.post('/login', async (req, res) => {
       const [funcionarioData] = await connection.query('SELECT * FROM contaFuncionarios WHERE id = ?', [usuario.id_referencia]);
       userData = funcionarioData[0];
     } else if (usuario.tipo_usuario === 'psicologo') {
-      const [psicologoData] = await connection.query('SELECT * FROM cadastropsicologos WHERE id = ?', [usuario.id_referencia]);
+      const [psicologoData] = await connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [usuario.id_referencia]);
       userData = psicologoData[0];
     }
 

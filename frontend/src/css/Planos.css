@@ -8,7 +8,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-[data-theme='dark'] .title{
+[data-theme='dark'] .title h2 {
   color: #e0dffd !important;
 }
 
@@ -36,12 +36,18 @@ body {
   }
 
   .plan .inner {
-    height: 950px !important;
+    height: 870px !important;
   }
 
   .featureList {
-    height: 600px !important;
+    height: 550px !important;
   }
+
+  .disabled {
+    &:last-child {
+      margin-top: 20px;
+    }
+}
 }
 
 @media (max-width: 920px) {
@@ -50,11 +56,15 @@ body {
   }
 
   .plan .inner {
-    height: 1170px !important;
+    height: 1110px !important;
+  }
+
+  .price {
+    font-size: 25px !important;
   }
 
   .featureList {
-    height: 830px !important;
+    height: 770px !important;
   }
 
   .botaoPlan {
@@ -69,11 +79,11 @@ body {
   }
 
   .plan .inner {
-    height: 1170px !important;
+    height: 1110px !important;
   }
 
   .featureList {
-    height: 820px !important;
+    height: 780px !important;
   }
 
   .caixaPlanos {
@@ -83,6 +93,12 @@ body {
   .price {
     font-size: 23px !important;
   }
+
+  .disabled {
+    &:last-child {
+      margin-top: 40px;
+    }
+}
 }
 
 @media (max-width: 600px) {
@@ -120,11 +136,11 @@ body {
   }
 
   .plan .inner {
-    height: 780px !important;
+    height: 730px !important;
   }
 
   .featureList {
-    height: 480px !important;
+    height: 430px !important;
   }
 }
 
@@ -134,11 +150,11 @@ body {
   }
 
   .plan .inner {
-    height: 930px !important;
+    height: 825px !important;
   }
 
   .featureList {
-    height: 600px !important;
+    height: 525px !important;
   }
 }
 
@@ -148,11 +164,11 @@ body {
   }
 
   .plan .inner {
-    height: 910px !important;
+    height: 870px !important;
   }
 
   .featureList {
-    height: 590px !important;
+    height: 560px !important;
   }
 }
 
@@ -162,11 +178,11 @@ body {
   }
 
   .plan .inner {
-    height: 960px !important;
+    height: 930px !important;
   }
 
   .featureList {
-    height: 650px !important;
+    height: 620px !important;
   }
 
 }
@@ -192,7 +208,7 @@ body {
   border-radius: 12px;
   position: relative;
   border: double #46467A;
-  height: 870px;
+  height: 830px;
 }
 
 .plan .title {
@@ -296,7 +312,7 @@ body {
 
   padding: 0;
   font-weight: 500;
-  height: 540px;
+  height: 500px;
 
   li {
     color: var(--color);
@@ -319,6 +335,10 @@ body {
       position: absolute;
       left: 0;
       margin-bottom: 1rem !important;
+    }
+
+    &:last-child {
+      margin-bottom: 0 !important;
     }
 
     &.disabled {

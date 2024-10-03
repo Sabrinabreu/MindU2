@@ -1,85 +1,85 @@
-import React, { useEffect, useState } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import { useState } from 'react';
+import "../css/AgendarConsulta.css";
 import '../css/Calendario.css';
-import ptBrLocale from '@fullcalendar/core/locales/pt-br';
-import { Container } from 'react-bootstrap';
 
-const DispCalendario = ({ psicologoId }) => {
-  const [eventos, setEventos] = useState([]);
-  const [nomePsicologo, setNomePsicologo] = useState('');
+const DatePicker = ({ onDateSelect, workingDays }) => {
+    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(null);
 
-  // Função para buscar a disponibilidade do psicólogo
-  const fetchDisponibilidade = async () => {
-    try {
-      const response = await fetch(`/api/disponibilidade/${psicologoId}`);
-      if (!response.ok) {
-        throw new Error('Erro ao buscar disponibilidade');
-      }
+    const handlePrevMonth = () => {
+        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+    };
 
-      const contentType = response.headers.get('Content-Type');
-      if (contentType && contentType.includes('application/json')) {
-        const data = await response.json();
-        setEventos(data);
-      } else {
-        throw new Error('Resposta não é JSON');
-      }
-    } catch (error) {
-      console.error('Erro ao buscar disponibilidade:', error);
-    }
-  };
+    const handleNextMonth = () => {
+        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+    };
 
-  // Função para buscar o nome do psicólogo 
-  const fetchPsicologo = async () => {
-    try {
-      const response = await fetch(`/api/psicologos/${psicologoId}`);
-      if (!response.ok) {
-        throw new Error('Erro ao buscar psicólogo');
-      }
+    const handleDateClick = (day) => {
+        const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+        setSelectedDate(newDate);
+        onDateSelect(newDate);
+    };
 
-      const contentType = response.headers.get('Content-Type');
-      if (contentType && contentType.includes('application/json')) {
-        const data = await response.json();
-        setNomePsicologo(data.nome);
-      } else {
-        throw new Error('Resposta não é JSON');
-      }
-    } catch (error) {
-      console.error('Erro ao buscar psicólogo:', error);
-    }
-  };
+    const generateDays = () => {
+        const startDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
+        const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
+        const dates = [];
 
-  useEffect(() => {
-    if (psicologoId) {
-      fetchDisponibilidade();
-      fetchPsicologo();
-    }
-  }, [psicologoId]);
+        // Dias vazios antes do início do mês
+        for (let i = 0; i < startDay; i++) {
+            dates.push(<button key={`empty-${i}`} className="date faded" disabled></button>);
+        }
 
-  return (
-    <div>
-      <Container>
-      <h1 className='work'>{nomePsicologo || 'Psicólogo'}</h1>
-      <FullCalendar
-        plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
-        events={eventos}
-        locale={ptBrLocale}
-        dayCellContent={(info) => (
-          <div className={`dia-${info.date.getDate()}`}>
-            {info.dayNumberText}
-          </div>
-        )}
-        eventClassNames="evento-disponivel"
-        eventTimeFormat={{
-          hour: '2-digit',
-          minute: '2-digit',
-          meridiem: false
-        }}
-      />
-      </Container>
-    </div>
-  );
+        // Dias do mês
+        for (let i = 1; i <= daysInMonth; i++) {
+            const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
+            const isToday = i === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear();
+            const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
+            const weekday = date.toLocaleString('pt-BR', { weekday: 'long' }).toLowerCase();
+            const isWorkingDay = workingDays[weekday];
+
+            dates.push(
+                <button
+                    key={`date-${i}`}
+                    className={`date ${isToday ? 'current-day' : (isSelected ? 'selected-day' : '')}`}
+                    style={{ backgroundColor: isWorkingDay ? 'lightgreen' : 'transparent' }}
+                    onClick={() => handleDateClick(i)}
+                >
+                    {i}
+                </button>
+            );
+        }
+
+        // Dias vazios após o fim do mês
+        const totalDays = startDay + daysInMonth;
+        for (let i = totalDays; i < 42; i++) {
+            dates.push(<button key={`empty-end-${i}`} className="date faded" disabled></button>);
+        }
+
+        return dates;
+    };
+
+    return (
+        <div className="datepicker">
+            <div className="datepicker-top">
+                <div className="month-selector">
+                    <button className="arrow" onClick={handlePrevMonth}>
+                        <span className="material-symbols-outlined p-3">chevron_left</span>
+                    </button>
+                    <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
+                    <button className="arrow" onClick={handleNextMonth}>
+                        <span className="material-symbols-outlined p-3">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+            <div className="datepicker-calendar">
+                {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'].map((day, i) => (
+                    <span key={`day-${i}`} className="day">{day}</span>
+                ))}
+                {generateDays()}
+            </div>
+        </div>
+    );
 };
 
-export default DispCalendario;
+export default DatePicker;

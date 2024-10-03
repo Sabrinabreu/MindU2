@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('./db');
+const cors = require('cors');
+
+// Middleware CORS
+router.use(cors());
 
 // Rota para criar um novo psicólogo
 router.post('/', (req, res) => {
@@ -22,6 +26,37 @@ router.post('/', (req, res) => {
         }
     );
 });
+
+// Rota para cards 
+
+router.get('/psicologos', async (req, res) => {
+    console.log('Requisição GET para /psicologos');
+    
+    try {
+        const [results] = await connection.query('SELECT * FROM psicologos');
+        console.log('Dados recuperados:', results);
+        res.json(results);
+    } catch (err) {
+        console.error('Erro ao buscar os registros:', err);
+        res.status(500).json({ error: 'Erro ao buscar os registros' });
+    }
+});
+  
+  // API para buscar um psicólogo por ID
+  router.get('/psicologos/:id', (req, res) => {
+    console.log('Requisição GET para /psicologos/:id');
+    const id = req.params.id;
+    connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [id], (err, results) => {
+      if (err) {
+        console.error('Erro ao buscar o registro:', err);
+        res.status(500).json({ error: 'Erro ao buscar o registro' });
+        return;
+      }
+      console.log('Dados recuperados:', results);
+      res.json(results);
+    });
+  });
+
 
 // Rota para listar todos os psicólogos ou filtrar por nome, especialidade e localização
 router.get('/', (req, res) => {
@@ -131,22 +166,5 @@ router.get('/by-name', (req, res) => {
         res.json(results[0]);
     });
 });
-
-/* testando essa */
-router.get('/psicologo/:id', (req, res) => {
-    const psicologoId = req.params.id;
-
-    connection.query('SELECT * FROM psicologos WHERE id = ?', [psicologoId], (err, results) => {
-        if (err) {
-            console.error('Erro ao buscar psicólogo:', err);
-            return res.status(500).json({ error: 'Erro ao buscar psicólogo' });
-        }
-        if (results.length === 0) {
-            return res.status(404).json({ error: 'Psicólogo não encontrado' });
-        }
-        res.json(results[0]);
-    });
-});
-
 
 module.exports = router;
