@@ -1,15 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@87.5,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
+:root {
+    --white: #fff;
+    --title: #493548;
+    --back-card: #E0DFFD;
+    --name: #6852a5;
+    --profi: #8369ca;
+    --dark: #000;
+    --sessao-valor: #aeace7;
+    --tab: #847284;
+    --back-tab: #8a77df63;
+    --input:#888;
+    --time:#7766C6;
+    --border:#6c56cd;
+    --search: #6852a5;
+
+  }
+  
+  [data-theme='dark'] {
+    --white: #e8def8;
+    --title: #fff;
+    --back-card: #6852a5;
+    --name: #ffffff;
+    --profi: #ffffff;
+    --dark: #fff;
+    --sessao-valor: #fffbfa;
+    --tab: #b9aeb9;
+    --back-tab: #a090e863;
+    --input:#888;
+    --time:#7766C6;
+    --border:#6c56cd;
+    --search: #5e40b0;
+
+  }
+  
 
 .fundoFiltro {
-    background-color: white;
+    background-color: var(--white);
     padding-top: 20px;
     padding: 30px 20px 10px;
     margin-top: 0px;
 }
 
 .tituloAgenda {
-    color: #6852a5;
+    color: var(--title);
     text-align: center;
     margin-bottom: 20px;
 }
@@ -18,7 +52,7 @@
 }
 
 .cardAgenda {
-    background-color: #eee8f4  ;
+    background: var(--back-card);
     padding: 20px;
     position: relative;
     display: flex;
@@ -33,9 +67,6 @@
     border: 0;
 }
 
-[data-theme='dark'] .cardAgenda {
-    background-color: #46467A;
-}
 
 .imgPerfil {
     width: 140px;
@@ -66,7 +97,7 @@
 }
 
 .nomeAgenda {
-    color: #6852a5;
+    color: var(--name);
     font-size: 24px;
     margin-left: 0;
 }
@@ -74,10 +105,7 @@
     color: #fff;
 }
 .profissao {
-    color: #6852a5;
-}
-[data-theme='dark'] .profissao{
-    color: #fff;
+    color: var(--profi);
 }
 .local {
     margin-top: -19px;
@@ -103,23 +131,14 @@
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
-    color: #000;
-    background-color: #7654d349;
-    border: 1.5px solid #816eb5;
+    color: black;
+    background:var(--sessao-valor);
+    border: 1.7px solid #252525;
     border-radius: 25px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
     display: block;
     text-align: center;
-}
-
-[data-theme='dark'] .sessao{
-    background-color: #7b78cfc3;
-    color: #fff;
-}
-
-[data-theme='dark'] .valor {
-    background-color: #7b78cfc3;
-    color: #fff;
 }
 
 .estrelas {
@@ -147,8 +166,12 @@
     transform: translateX(-50%);
     height: 100%;
     width: 1px;
-    background-color: #6852a5;
+    background: var(--name);
     z-index: 0;
+}
+
+.semResultado {
+    font-size: 22px;
 }
 
 .nav-tabs {
@@ -156,15 +179,15 @@
 }
 
 .tabs-container {
-    margin-left: 430px;
+    margin-left: 432px;
     margin-right: -35px;
-    margin-top: -315px;
-    margin-bottom: 200px;
-    width: 100%;
+    margin-top: -310px;
+    margin-bottom: 350px;
+    width: 55%;
 }
 
 .nav-tabs .nav-link {
-    color: #6852a5;
+    color:var(--tab);
     border: none;
     border-bottom: 3px solid transparent;
     transition: border-color 0.5s ease;
@@ -180,14 +203,9 @@
 }
 
 .nav-tabs .nav-link.active {
-    color: #4f3b86;
-    background-color: #7866c64c;
-    border-bottom: 3px solid #6852a5;
-}
-[data-theme='dark'] .nav-tabs .nav-link.active {
-    color: #fff;
-    background-color: #261d4c4c;
-    border-bottom: 3px solid #ffffff;
+    color: var(--dark);
+    background: var(--back-tab);
+    border-bottom: 3px solid var(--profi);
 }
 
 .saibaMais {
@@ -196,7 +214,7 @@
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
-    color: #6852a5;
+    color: var(--dark);
     background-color: transparent;
     border: 1.7px solid #6852a5;
     border-radius: 45px;
@@ -235,7 +253,7 @@
     border-bottom-left-radius: 20px !important;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
-    background-color:  rgba(205, 193, 239, 0.623) !important;
+    background: var(--search)!important;
     color: white;
 }
 
@@ -247,7 +265,7 @@
 
 .dropFilter option:checked {
     background-color: #e0e0e0; 
-    color: #000000;
+    color: white;
 }
 
 .dropFilter,
@@ -284,14 +302,14 @@
 }
 
 .buscaPor::placeholder {
-    color: #888;
+    color: var(--input);
 }
 
 /* Botão de pesquisa */
 .searchA {
     height: 65px;
     border-radius: 20px;
-    background-color: rgba(164, 139, 232, 0.623);
+    background: var(--search);
     color: white;
     border: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -330,9 +348,9 @@
 }
 
 .time-button.selected {
-    background-color: #7766C6;
-    color: white;
-    border-color: #6c56cd;
+    background: var(--time);
+    color: var(--white);
+    border-color: var(--border);
 }
 
 .time-button:hover {
@@ -357,12 +375,9 @@
 .calendar-day-header {
     text-align: center;
     padding: 5px;
-    background-color: #7654d349   !important;
-    font-weight: 600;
-}
-
-[data-theme='dark'] .calendar-day-header {
-    background-color: rgba(164, 139, 232, 0.623) !important;
+    background-color: #aeace7;
+    border: 1px solid #8369ca;
+    font-weight: bold;
 }
 
 .calendar-days {
@@ -384,27 +399,22 @@
 }
 
 .calendar-day.selected {
-    background-color: #ded7e5;
-    border: 1px solid #28101042;
+    background-color: #9b81e3;
+    color: white;
+    border: 1px solid #6852a5;
+ 
 }
-[data-theme='dark'] .calendar-day.selected {
-    background-color: #c7bfd0;
-}
+
 
 .setaCalendario {
     background-color: transparent;
-    color: #7766C6;
+    color: var(--name);
     border: none;
     padding: 10px;
     margin: 0 10px;
     cursor: pointer;
 }
-[data-theme='dark'] .setaCalendario{
-    color: #ffffff;
-}
-.nav-button:hover {
-    background-color: #0056b3;
-}
+
 
 .semhora {
     margin-bottom: 10px;
@@ -412,11 +422,11 @@
     width: 80%;
     padding: 12px;
     align-items: center;
-    background: #fffbfa;
+    background:  #fffbfa;
     border-radius: 8px;
     margin-left: 30px;
-    border: 0;
-    box-shadow: 0px 0px 5px -3px #6852a5;
+    border: 1px solid #8369ca;
+    box-shadow: 0px 0px 5px -3px #111;
 }
 
 .semConsulta{
@@ -430,9 +440,9 @@
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
-    color: #6852a5;
+    color: var(--dark);
     background-color: transparent;
-    border: 1.7px solid #6852a5;
+    border: 1.7px solid var(--dark);
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
@@ -444,7 +454,7 @@
 }
 
 .agendarBot:hover {
-    box-shadow: 0px 15px 20px #6852a55f;
+    box-shadow: 0px 15px 20px rgb(122, 95, 138);
     transform: translateY(-7px);
 }
 
@@ -459,8 +469,8 @@
 
 
 .especialidade {
-    background-color: white;
-    padding: 7px;
+    background-color: #f7f7f7;
+    padding: 5px;
     border-radius: 6px;
     cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -567,14 +577,4 @@
     width: 1.5rem;
     height: 1.5rem;
     border-width: .2em;
-}
-
-
-.setaSelecionar {
-    background: none;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    color: #902743 !important;
-
 }

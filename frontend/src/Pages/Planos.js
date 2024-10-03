@@ -66,14 +66,13 @@ const Planos = () => {
                                 <div className="inner">
                                     <p className="title">Bem-Estar</p>
                                     <p className="info">Ideal para quem busca suporte psicológico básico e orientação contínua.</p>
-                                    <div className="price">R$250,00<span>/ por funcionário</span></div>
+                                    <div className="price">R$250<span>/ funcionário</span></div>
                                     <ul className="featureList">
-
-                                        <li><p>Consultas semanais com psicólogo (1 sessão por semana)</p></li>
+                                        <li><p>Consultas semanais (1 sessão por semana)</p></li>
+                                        <li className="disabled"><p>Sessões de terapia em grupo (2 vezes por mês)</p></li>
                                         <li><p>Acesso a workshops mensais sobre saúde mental</p></li>
-                                        <li><p>Suporte online entre consultas</p></li>
-                                        <li><p>Acesso a material educativo sobre bem-estar psicológico</p></li>
                                         <li className="disabled" ><p>Suporte online 24/7</p></li>
+                                        <li><p>Acesso a material educativo sobre bem-estar psicológico</p></li>
                                         <li className="disabled"><p>Sessões de coaching psicológico personalizadas (1 vez por mês)</p></li>
                                     </ul>
                                     <div class="action">
@@ -96,10 +95,9 @@ const Planos = () => {
                                         </div>
                                     </div>
                                     <p className="info">Para quem deseja um suporte psicológico mais abrangente e contínuo.</p>
-                                    <div className="price">R$310,00<span>/por funcionário</span></div>
+                                    <div className="price">R$310<span>/ funcionário</span></div>
                                     <ul className="featureList">
-
-                                        <li><p>Consultas semanais com psicólogo (1 sessão por semana)</p></li>
+                                        <li><p>Consultas semanais (1 sessão por semana)</p></li>
                                         <li><p>Sessões de terapia em grupo (2 vezes por mês)</p></li>
                                         <li><p>Acesso a workshops semanais sobre saúde mental</p></li>
                                         <li><p>Suporte online 24/7</p></li>
@@ -119,7 +117,7 @@ const Planos = () => {
                                 <div className="inner">
                                     <p className="title">Transformação</p>
                                     <p className="info">Para quem busca um acompanhamento intensivo e personalizado.</p>
-                                    <div className="price">R$600,00<span>/ por funcionário</span></div>
+                                    <div className="price">R$600<span>/ funcionário</span></div>
                                     <ul className="featureList">
                                         <li><p>Consultas semanais (2 sessões por semana)</p></li>
                                         <li><p>Sessões de terapia em grupo (4 vezes por mês)</p></li>
@@ -139,12 +137,14 @@ const Planos = () => {
                     </Row>
                 </Row>
             </Container>
+
+            {/* Passando as informações completas para o modal */}
             <MyVerticallyCenteredModal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 planName={selectedPlan?.name}
                 planPrice={selectedPlan?.price}
-
+                planDescription={selectedPlan?.description}
             />
         </>
     );

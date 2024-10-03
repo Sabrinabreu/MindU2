@@ -18,6 +18,7 @@ import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
 import Dashboard from "./Pages/Dashboard"; //empresa
+import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { token, setToken } = useAuth();
@@ -62,6 +63,7 @@ const Rotas = () => {
           <Route path="/contato" element={<Contato />} />
           <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
           <Route path="/planos" element={<Planos />} />
+          <Route path="/esqueciSenha" element={<EsqueciSenha />} />
 
       {/* Rotas não autenticados */}
       {!token && (
@@ -120,7 +122,7 @@ const Rotas = () => {
             }
           />
           <Route
-            path="/saibaMais"
+            path="/psicologo/:id" 
             element={
               <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>
                 <SaibaMais />
