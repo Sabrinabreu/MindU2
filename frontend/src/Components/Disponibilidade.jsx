@@ -25,6 +25,7 @@ const Disponibilidade = () => {
         sábado: { start: '', end: '' },
         domingo: { start: '', end: '' },
     });
+    const [updated, setUpdated] = useState(false); // Estado para controlar se as configurações foram atualizadas
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
@@ -67,20 +68,29 @@ const Disponibilidade = () => {
                 const endTime = workingHours[day].end;
     
                 if (startTime && endTime) {
+                    // Adicione aqui a lógica para os dias de trabalho
+                    const currentDate = new Date();
+                    const today = new Date(); // Salva a data de hoje
+                    // Verifique se é o dia atual ou os próximos 7 dias
                     for (let d = 0; d < 7; d++) {
-                        const currentDate = new Date();
-                        currentDate.setDate(currentDate.getDate() + d);
-                        if (currentDate.toLocaleString('pt-BR', { weekday: 'long' }).toLowerCase() === day) {
+                        const nextDate = new Date(today);
+                        nextDate.setDate(today.getDate() + d);
+                        const weekday = nextDate.toLocaleString('pt-BR', { weekday: 'long' }).toLowerCase();
+                        
+                        // Verifique se a data do próximo dia é igual ao dia de trabalho
+                        if (weekday === day) {
                             dataDisponibilidade.push({
                                 psicologo_id,
-                                data: currentDate.toISOString().split('T')[0],
-                                horario: startTime
+                                data: nextDate.toISOString().split('T')[0],
+                                horario: startTime // ou use `horario: endTime` se desejar
                             });
                         }
                     }
                 }
             }
         });
+    
+        console.log('Dados a serem enviados:', dataDisponibilidade); // Adicione este log
     
         if (!hasWorkingDays) {
             alert('Por favor, selecione pelo menos um dia de trabalho.');
@@ -101,9 +111,10 @@ const Disponibilidade = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Adicione este log para verificar a resposta
+            console.log('Resposta do servidor:', data); // Verifique a resposta
             if (data.success) {
                 alert('Dias e horários de trabalho atualizados com sucesso!');
+                setUpdated(true); // Marca que a atualização foi feita
             } else {
                 alert('Erro ao atualizar dias e horários de trabalho.');
             }
@@ -113,7 +124,7 @@ const Disponibilidade = () => {
         });
     };
     
-
+    
     const isPastDate = selectedDate && selectedDate < new Date().setHours(0, 0, 0, 0);
     const isWorkingDay = selectedDate && workingDays[selectedDate.toLocaleDateString('pt-BR', { weekday: 'long' }).toLowerCase()];
 
@@ -162,18 +173,17 @@ const Disponibilidade = () => {
                                 </Col>
                             ))}
                         </Row>
-                    </div>
-
-                    <Button className='mt-3 btnAtualizar' onClick={handleUpdate}>
+                        <Button className='mt-3 btnAtualizar' onClick={handleUpdate}>
                         <span className="material-symbols-outlined iconsDisp">restart_alt</span>
                         Atualizar
                     </Button>
+                    </div>
                 </Form>
             </Col>
             <Row className='my-4'>
                 <Col md={5}>
                     <h1 className='mb-4 text-center textroxo'>Calendário</h1>
-                    <DatePicker onDateSelect={handleDateSelect} workingDays={workingDays} />
+                    <DatePicker onDateSelect={handleDateSelect} workingDays={workingDays} updated={updated} />
                 </Col>
                 <Col md={7}>
                     {selectedDate ? (
