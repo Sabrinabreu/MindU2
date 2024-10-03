@@ -83,12 +83,15 @@ const Acessibilidade = ({ toggleTheme }) => {
             'highlight-line',
             'perfil-tdah'
         );
-        adjustFontSize('16px');
+    
+        setFontSizeLevel(100); 
+        alterarTamanhoFonte(-fontSizeLevel + 100);
         setActiveButtons({});
         setIsHighlightActive(false);
         setIsTDHAFriendly(false);
         stopTextToSpeech();
     };
+    
 
     // destacar linha 
     const toggleHighlight = () => {
