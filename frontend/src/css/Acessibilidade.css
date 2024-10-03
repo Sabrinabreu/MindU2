@@ -353,6 +353,34 @@
     transition: outline 0.3s ease;
 }
 
+/* Estilo padrão */
+html.font-normal {
+    font-size: 100%;
+}
+
+/* Aumentar fonte */
+html.font-large-1 {
+    font-size: 110%;
+}
+html.font-large-2 {
+    font-size: 120%;
+}
+html.font-large-3 {
+    font-size: 130%;
+}
+
+/* Diminuir fonte */
+html.font-small-1 {
+    font-size: 90%;
+}
+html.font-small-2 {
+    font-size: 80%;
+}
+html.font-small-3 {
+    font-size: 70%;
+}
+
+
 /* versao mobile  */
 @media (max-width: 600px) {
     .accessibilidade-painel {

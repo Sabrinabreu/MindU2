@@ -11,7 +11,6 @@ const EsqueciSenha = () => {
   const [respostaSeguranca, setRespostaSeguranca] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
-  const [perguntaSeguranca, setPerguntaSeguranca] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   
@@ -21,7 +20,6 @@ const EsqueciSenha = () => {
     try {
       const response = await axios.post('/api/verificar-email', { email });
       if (response.data.success) {
-        setPerguntaSeguranca(response.data.perguntaSeguranca);
         setEmailEnviado(true);
       } else {
         setError("Email não encontrado.");
@@ -37,7 +35,6 @@ const EsqueciSenha = () => {
     try {
       const response = await axios.post('/api/verificar-resposta', { email, respostaSeguranca });
       if (response.data.success) {
-        // Resposta correta, agora pode mostrar os inputs de nova senha
         setSuccess("Resposta correta! Defina uma nova senha.");
       } else {
         setError("Resposta incorreta.");
@@ -98,7 +95,6 @@ const EsqueciSenha = () => {
             <Container className="justify-content-center g-4 p-3">
               <Row>
                 <Col md={6} sm={12}>
-                  <label className="labelForms">{perguntaSeguranca}</label>
                   <input
                     className="inputgeral cadEmp"
                     type="text"

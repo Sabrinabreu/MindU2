@@ -20,6 +20,8 @@ const Acessibilidade = ({ toggleTheme }) => {
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
     const location = useLocation();
 
+    const [fontSizeLevel, setFontSizeLevel] = useState(100);
+
     //tts
     const [speechSynthesisActive, setSpeechSynthesisActive] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -37,13 +39,23 @@ const Acessibilidade = ({ toggleTheme }) => {
 
     const handleTogglePanel = () => setIsPanelOpen(prevState => !prevState);
 
-    const adjustFontSize = (size) => {
-        document.body.style.fontSize = size;
-        setFontSize(parseFloat(size));
+    //ajustar tamanho da fonte
+    const adjustFontSize = (incremento) => {
+        const novosize = fontSizeLevel + incremento;
+        setFontSizeLevel(novosize);
+        alterarTamanhoFonte(incremento);
     };
 
-    const increaseFontSize = () => adjustFontSize(`${Math.min(fontSize + 2, 24)}px`);
-    const decreaseFontSize = () => adjustFontSize(`${Math.max(fontSize - 2, 12)}px`);
+    const alterarTamanhoFonte = (incremento) => {
+        const elementos = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, a, li, span, button');
+        elementos.forEach((elemento) => {
+            const estilo = window.getComputedStyle(elemento);
+            const tamanhoAtual = parseFloat(estilo.fontSize); 
+            const novoTamanho = tamanhoAtual + incremento * (tamanhoAtual / 100);
+            elemento.style.fontSize = `${novoTamanho}px`;
+        });
+    };
+    
 
     const toggleClass = (className, buttonKey) => {
         const bodyClassList = document.body.classList;
@@ -348,9 +360,9 @@ const handleSkipForward = () => {
                             <div className="accessibility-section font-adjustment">
                                 <h5>Ajustar Tamanho da Fonte</h5>
                                 <div className="font-size-controls">
-                                    <div className="font-size-btn" onClick={decreaseFontSize} aria-label="Diminuir tamanho da fonte"><AArrowDown /></div>
-                                    <span className="font-size-display">{(fontSize / 16 * 100).toFixed(0)}%</span>
-                                    <div className="font-size-btn" onClick={increaseFontSize} aria-label="Aumentar tamanho da fonte"><AArrowUp /></div>
+                                    <button onClick={() => adjustFontSize(-10)} aria-label="Diminuir tamanho da fonte"> <AArrowDown /> </button>
+                                    <span>{fontSizeLevel}%</span>
+                                    <button onClick={() => adjustFontSize(10)} aria-label="Aumentar tamanho da fonte"><AArrowUp /></button>
                                 </div>
                             </div>
                             <div className="accessibility-buttons">
