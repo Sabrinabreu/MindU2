@@ -39,36 +39,49 @@ const handleEmailSubmit = async (e) => {
   // Função para verificar a resposta da pergunta de segurança
   const handleRespostaSegurancaSubmit = async (e) => {
     e.preventDefault();
+    console.log("Tentando verificar a resposta de segurança:", respostaSeguranca);
+    setError(""); // Redefine o erro antes da nova verificação
+  
     try {
-      const response = await axios.post('/api/verificar-resposta', { email, respostaSeguranca });
+      const response = await axios.post('http://localhost:3001/api/verificar-resposta', { email, respostaSeguranca });
+      console.log("Resposta do servidor:", response.data);
       if (response.data.success) {
         setSuccess("Resposta correta! Defina uma nova senha.");
       } else {
         setError("Resposta incorreta.");
+        console.log("Resposta incorreta.");
       }
     } catch (error) {
+      console.error("Erro ao verificar resposta:", error.response ? error.response.data : error.message);
       setError("Ocorreu um erro. Tente novamente.");
     }
   };
 
-  // Função para redefinir a senha
-  const handleRedefinirSenha = async (e) => {
-    e.preventDefault();
-    if (novaSenha !== confirmacaoSenha) {
-      setError("As senhas não coincidem.");
-      return;
+// Função para redefinir a senha
+const handleRedefinirSenha = async (e) => {
+  e.preventDefault();
+  setError(""); // Redefine o erro antes da nova verificação
+
+  if (novaSenha !== confirmacaoSenha) {
+    setError("As senhas não coincidem.");
+    return;
+  }
+
+  try {
+    const response = await axios.post('http://localhost:3001/api/redefinir-senha', { email, novaSenha });
+    console.log("Resposta do servidor:", response.data);
+    if (response.data.success) {
+      setSuccess("Senha redefinida com sucesso!");
+      // Você pode redirecionar o usuário ou limpar os campos após o sucesso
+    } else {
+      setError("Ocorreu um erro ao redefinir a senha.");
     }
-    try {
-      const response = await axios.post('/api/redefinir-senha', { email, novaSenha });
-      if (response.data.success) {
-        setSuccess("Senha redefinida com sucesso!");
-      } else {
-        setError("Ocorreu um erro ao redefinir a senha.");
-      }
-    } catch (error) {
-      setError("Ocorreu um erro. Tente novamente.");
-    }
-  };
+  } catch (error) {
+    console.error("Erro ao redefinir senha:", error.response ? error.response.data : error.message);
+    setError("Ocorreu um erro. Tente novamente.");
+  }
+};
+
 
   return (
     <>
