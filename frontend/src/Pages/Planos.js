@@ -5,13 +5,12 @@ import BAPO from "../Components/WidgetBAPO";
 import MyVerticallyCenteredModal from '../Components/ModalPag';
 import "../css/WidgetBAPO.css";
 import { useNavigate } from "react-router-dom";
-import PaymentForm from "../Components/Pagamento";
 import { parseJwt } from "../Components/jwtUtils";
 
 const Planos = () => {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedPlan, setSelectedPlan] = React.useState(null);
-    const [tipoUsuario, setTipoUsuario] = useState('');
+    const [setTipoUsuario] = useState('');
 
     const planos = {
         'Bem-Estar': {

@@ -14,7 +14,7 @@ import bannerIMG from "../img/bannerContato2.jpg";
 import { Row, Col, Card, CardGroup } from "react-bootstrap";
 
 const Contato = () => {
-  const [slides, setslides] = useState([
+  const [slides] = useState([
       {
           foto: clinica1,
           nome: "Manaus - AM",

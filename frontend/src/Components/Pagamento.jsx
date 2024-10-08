@@ -41,7 +41,6 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
 
     // Garante que o cálculo da parcela seja válido
     const amountPerInstallment = installments > 0 ? formatCurrency(totalPrice / installments) : '0,00';
-    const [setSelectedAgencyNumber] = useState('');
     const [formData, setFormData] = useState({
         name: '',
         email: '',

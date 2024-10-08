@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 
 const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice }) => {
     const [nContas, setNContas] = useState(1);
-    const [resultados, setResultados] = useState([]);
+    const [setResultados] = useState([]);
     const [activeTab, setActiveTab] = useState("home"); // Estado para controlar a aba ativa
     const [completedSteps, setCompletedSteps] = useState([false, false, false]); // Estado para controlar quais passos foram completados
     const [totalPrice, setTotalPrice] = useState(planPrice ? planPrice : 0); // Estado para o preço total
@@ -28,11 +28,6 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice }) => {
             maximumFractionDigits: 2,
         });
         return formattedValue;
-    };
-
-    // Converte o valor formatado em string (com vírgulas) para um número parseável
-    const parseCurrency = (value) => {
-        return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
     };
 
     const handleTabSelect = (key) => {
