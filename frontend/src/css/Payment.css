@@ -15,17 +15,20 @@ body {
 }
 
 [data-theme='dark'] .formContainer {
-    background-color: #42328a !important;
+    background-color: #463787 !important;
 }
 
 .forminput {
     border-radius: 10px !important;
+    color: #634ab2 !important;
+
 }
 
 [data-theme='dark'] .forminput {
-    background-color: #28096b96 !important;
+    background-color: #7756bd !important;
     border-color: transparent !important;
     color: white !important;
+    font-weight: 600 !important;
 }
 
 [data-theme='dark'] .formlabel {
@@ -52,7 +55,6 @@ body {
 
 .form-group label {
     display: block;
-    font-weight: bold;
     margin-bottom: 5px;
     color: #555;
 
@@ -60,7 +62,6 @@ body {
 
 [data-theme='dark'] .form-group label {
     display: block;
-    font-weight: bold;
     margin-bottom: 5px;
     color: #ffffff;
 
@@ -72,11 +73,12 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
+
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #0056b3;
+    border-color: #dfe1e4;
     outline: none;
 }
 
@@ -309,7 +311,7 @@ body {
 }
 
 .payment-option.active {
-    background-color: #007bff;
+    background-color: #7c52c6;
     color: white;
 }
 
