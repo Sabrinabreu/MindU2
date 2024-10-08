@@ -87,7 +87,7 @@ const handleRedefinirSenha = async (e) => {
     <>
       <BAPO />
       <Container>
-      <h2 className="textroxo centralizar mt-5">Para recuperar sua conta, siga os passos abaixo.</h2>
+      <h2 className="textroxo textclaro centralizar mt-5">Para recuperar sua conta, siga os passos abaixo.</h2>
         <Row>
           <Col md={5}>     
         {!emailEnviado ? (
