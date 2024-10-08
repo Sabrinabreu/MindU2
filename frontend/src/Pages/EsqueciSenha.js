@@ -14,21 +14,28 @@ const EsqueciSenha = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   
-  // Função para verificar o email
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('/api/verificar-email', { email });
-      if (response.data.success) {
-        setEmailEnviado(true);
-      } else {
-        setError("Email não encontrado.");
-      }
-    } catch (error) {
-      setError("Ocorreu um erro. Tente novamente.");
-    }
-  };
+// Função para verificar o email
+const handleEmailSubmit = async (e) => {
+  e.preventDefault();
+  console.log("Tentando verificar o email:", email);
+  setError("");   // Redefine o erro antes da nova verificação
 
+  try {
+    const response = await axios.post('http://localhost:3001/api/verificar-email', { email });
+    console.log("Resposta do servidor:", response.data);
+    if (response.data.success) {
+      setEmailEnviado(true);
+      console.log("Email encontrado, passando para a próxima etapa.");
+    } else {
+      setError("Email não encontrado.");
+      console.log("Email não encontrado.");
+    }
+  } catch (error) {
+    console.error("Erro ao verificar o email:", error.response ? error.response.data : error.message);
+    setError("Ocorreu um erro. Tente novamente.");
+  }
+};
+  
   // Função para verificar a resposta da pergunta de segurança
   const handleRespostaSegurancaSubmit = async (e) => {
     e.preventDefault();
@@ -89,8 +96,7 @@ const EsqueciSenha = () => {
         ) : (
           <form onSubmit={handleRespostaSegurancaSubmit}>
             <Container className="justify-content-center g-4 p-3">
-              <Row>
-                <Col md={6} sm={12}>
+            <label className="labelForms labelesqueci">Resposta da pergunta de segurança</label>
                   <input
                     className="inputgeral cadEmp"
                     type="text"
@@ -99,8 +105,6 @@ const EsqueciSenha = () => {
                     placeholder="Digite sua resposta..."
                     required
                   />
-                </Col>
-              </Row>
               {error && <p className="text-danger">{error}</p>}
               <button className="botaoBanner roxo botaoBranco" type="submit">Verificar Resposta</button>
             </Container>
@@ -112,7 +116,7 @@ const EsqueciSenha = () => {
             <Container className="justify-content-center g-4 p-3">
               <Row>
                 <Col md={6} sm={12}>
-                  <label className="labelForms">Nova Senha</label>
+                  <label className="labelForms labelesqueci">Nova Senha</label>
                   <input
                     className="inputgeral cadEmp"
                     type="password"
@@ -125,7 +129,7 @@ const EsqueciSenha = () => {
               </Row>
               <Row>
                 <Col md={6} sm={12}>
-                  <label className="labelForms">Confirmação de Senha</label>
+                  <label className="labelForms labelesqueci">Confirmação de Senha</label>
                   <input
                     className="inputgeral cadEmp"
                     type="password"
