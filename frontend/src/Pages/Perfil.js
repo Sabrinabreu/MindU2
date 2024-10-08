@@ -11,7 +11,7 @@ function formatarData(data) {
 }
 
 function Perfil() {
-    const [consultationDetails, setConsultationDetails] = useState([]);
+    const [consultationDetails] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [isEditing, setIsEditing] = useState(false);
     const [perfil, setPerfil] = useState({});
@@ -23,8 +23,7 @@ function Perfil() {
     const navegacao = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
-    const [setPsicologoNome] = useState('');
-    const [isPsicologo, setIsPsicologo] = useState(false);
+    const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
 

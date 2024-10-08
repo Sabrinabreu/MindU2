@@ -17,7 +17,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
     const [issuer, setIssuer] = useState('');
     const [isCVCVisible, setIsCVCVisible] = useState(false);
     const [installments, setInstallments] = useState(1);
-    const [nContas, setNContas] = useState(1);
+    const [nContas] = useState(1);
 
     // Verifica se o preço do plano é um número válido, senão define como 0
     const initialPrice = parseFloat(selectedPlan?.price) || 0;
@@ -39,19 +39,9 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         return formattedValue;
     };
 
-    // Converte o valor formatado em string (com vírgulas) para um número parseável
-    const parseCurrency = (value) => {
-        return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
-    };
-
     // Garante que o cálculo da parcela seja válido
     const amountPerInstallment = installments > 0 ? formatCurrency(totalPrice / installments) : '0,00';
-    const documentNumber = '123.456.789-01'; // Número de documento fictício
-    const today = new Date();
-    const dueDateGenerated = new Date(today.setDate(today.getDate() + 7)).toLocaleDateString('pt-BR'); // Data de vencimento para 7 dias à frente
-    const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000';
-    const [selectedAgencyNumber, setSelectedAgencyNumber] = useState('');
-    const agencyNumber = selectedAgencyNumber || "Agência não informada";
+    const [setSelectedAgencyNumber] = useState('');
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -76,10 +66,6 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
             <Popover.Body>Chave PIX copiada!</Popover.Body>
         </Popover>
     );
-    const handleAgencyNumberChange = (e) => {
-        setSelectedAgencyNumber(e.target.value);
-    };
-
 
 
 
@@ -179,7 +165,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
 
         const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage([595, 400]);
-        const { width, height } = page.getSize();
+        const { height } = page.getSize();
 
         const fontBold = await pdfDoc.embedFont('Helvetica-Bold');
         const fontRegular = await pdfDoc.embedFont('Helvetica');
@@ -191,16 +177,10 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         const todayFormatted = today.toLocaleDateString('pt-BR');
         const dueDate = new Date(today.setDate(today.getDate() + 7));
         const dueDateFormatted = dueDate.toLocaleDateString('pt-BR');
-        const nossoNumero = '123456789012';
         const boletoNumber = '23791.12345 54321.678901 23456.789012 3 87640000050000';
 
         // Cálculo de multa e juros
         const amount = totalPrice.toFixed(2);
-        const interestRate = 0.01;
-        const fineRate = 0.02;
-        const daysOverdue = 0;
-        const fine = (totalPrice * fineRate).toFixed(2);
-        const interest = (totalPrice * interestRate * (daysOverdue / 30)).toFixed(2);
 
         const drawSection = (x, y, width, height, borderWidth = 0.5) => {
             page.drawRectangle({
