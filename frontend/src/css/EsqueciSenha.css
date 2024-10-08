@@ -9,11 +9,18 @@
 }
 
 .iconWarning {
-    margin: 0 20px;
-    width: 50px !important;
-    height: 50px !important;
+    margin: 0 15px;
+    width: 100px !important;
 }
 
 .labelesqueci {
     color: #6852a5;
 }
+  
+  @media (max-width: 600px) {
+    .iconWarning {
+        margin-left: 0px;
+      width: 300px !important; 
+    }
+  }
+  
