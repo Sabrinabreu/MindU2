@@ -25,7 +25,7 @@ const verifyToken = (req, res, next) => {
 
     // Verifica se o `id_referencia` (empresa_id) existe no token
     console.log("Token decodificado:", decoded);
-    
+
     req.empresaId = decoded.id_referencia;  // Setando o `empresa_id` no req
     if (!req.empresaId) {
       return res.status(403).send('Empresa não identificada no token.');
@@ -60,7 +60,7 @@ router.get('/contaFuncionarios', verifyToken, async (req, res) => {
     console.log('Empresa ID recebido na rota:', req.empresaId);
 
     const [results] = await connection.query('SELECT * FROM contaFuncionarios WHERE empresa_id = ?', [req.empresaId]);
-    
+
     if (results.length === 0) {
       return res.status(404).json({ message: 'Nenhum funcionário encontrado para esta empresa.' });
     }
@@ -72,15 +72,15 @@ router.get('/contaFuncionarios', verifyToken, async (req, res) => {
   }
 });
 
-
 // Rota para atualizar um registro existente pelo ID
 router.put('/contaFuncionarios/:id', async (req, res) => {
   const { id } = req.params;
   const { login, senha, cpf, nome, cargo, telefone, email, cadastrado, loginMethod } = req.body;
+
   try {
     await connection.query(
       'UPDATE contaFuncionarios SET login = ?, senha = ?, cpf = ?, nome = ?, cargo = ?, telefone = ?, email = ?, cadastrado = ?, loginMethod = ? WHERE id = ?',
-      [login, senha, cpf, nome, cargo, telefone, email, cadastrado, loginMethod, id]
+      [login, senha, cpfSemMascara, nome, cargo, telefone, email, cadastrado, loginMethod, id] // Use cpfSemMascara aqui
     );
     res.json({ message: 'Registro atualizado com sucesso' });
   } catch (err) {
@@ -88,6 +88,7 @@ router.put('/contaFuncionarios/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro ao atualizar o registro' });
   }
 });
+
 
 // Rota para excluir um registro pelo login
 router.delete('/contaFuncionarios/:login', async (req, res) => {

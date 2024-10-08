@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../css/Acessibilidade.css';
-import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick, Fullscreen, Keyboard, VolumeX, Volume2, Play, Pause, RotateCcw, SkipBack, SkipForward} from 'lucide-react';
+import { PersonStanding, X, AArrowDown, AArrowUp, Pointer, Contrast, RefreshCw, Search, LetterText, Images, Space, ArrowDownAZ, Focus, MousePointerClick, Fullscreen, VolumeX, Volume2, Play, Pause, RotateCcw, SkipBack, SkipForward } from 'lucide-react';
 import Button from 'react-bootstrap/Button';
 import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
 
-// // teclado virtual
-// import Keyboard from 'react-simple-keyboard';
-// import 'react-simple-keyboard/build/css/index.css';
 
 const Acessibilidade = ({ toggleTheme }) => {
+
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
@@ -18,6 +16,8 @@ const Acessibilidade = ({ toggleTheme }) => {
     const highlightOverlayBottomRef = useRef(null);
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
     const location = useLocation();
+    const inputRef = useRef(null); // Referência ao input
+    const [inputValue, setInputValue] = useState("");
 
     const [fontSizeLevel, setFontSizeLevel] = useState(100);
 
@@ -49,12 +49,12 @@ const Acessibilidade = ({ toggleTheme }) => {
         const elementos = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, a, li, span, button');
         elementos.forEach((elemento) => {
             const estilo = window.getComputedStyle(elemento);
-            const tamanhoAtual = parseFloat(estilo.fontSize); 
+            const tamanhoAtual = parseFloat(estilo.fontSize);
             const novoTamanho = tamanhoAtual + incremento * (tamanhoAtual / 100);
             elemento.style.fontSize = `${novoTamanho}px`;
         });
     };
-    
+
 
     const toggleClass = (className, buttonKey) => {
         const bodyClassList = document.body.classList;
@@ -82,15 +82,15 @@ const Acessibilidade = ({ toggleTheme }) => {
             'highlight-line',
             'perfil-tdah'
         );
-    
-        setFontSizeLevel(100); 
+
+        setFontSizeLevel(100);
         alterarTamanhoFonte(-fontSizeLevel + 100);
         setActiveButtons({});
         setIsHighlightActive(false);
         setIsTDHAFriendly(false);
         stopTextToSpeech();
     };
-    
+
 
     // destacar linha 
     const toggleHighlight = () => {
@@ -134,19 +134,19 @@ const Acessibilidade = ({ toggleTheme }) => {
             window.removeEventListener('mousemove', handleMouseMove);
         };
     }, [isHighlightActive]);
-    
+
 
     const updateHighlightPosition = (e) => {
         if (highlightBackground.current && isHighlightActive) {
             const { clientY } = e;
-            
+
             // Calculo pra posicionar o mouse no centro
             const lineHeight = highlightBackground.current.offsetHeight;
             const offset = lineHeight / 2;
             highlightBackground.current.style.top = `${clientY - offset}px`;
         }
     };
-    
+
 
     const toggleTDHAFriendly = () => {
         setIsTDHAFriendly(prevState => !prevState);
@@ -184,21 +184,21 @@ const Acessibilidade = ({ toggleTheme }) => {
         if (target.closest('.accessibility-button')) {
             return;
         }
-    
+
         let textToMagnify = '';
-    
+
         if (target.tagName === 'IMG' && target.alt) {
             textToMagnify = target.alt;
         } else {
             textToMagnify = target.innerText || target.textContent;
         }
-    
+
         if (textToMagnify) {
             setMagnifiedText(textToMagnify);
             setIsMagnifierVisible(true);
         }
     };
-    
+
 
     const handleMouseLeave = () => {
         setIsMagnifierVisible(false);
@@ -206,143 +206,144 @@ const Acessibilidade = ({ toggleTheme }) => {
 
     const handleMouseMove = (e) => {
         if (magnifierRef.current) {
-            magnifierRef.current.style.top = `${e.pageY + 20}px`; 
+            magnifierRef.current.style.top = `${e.pageY + 20}px`;
             magnifierRef.current.style.left = `${e.pageX + 20}px`;
         }
     };
 
 
-   // Atualiza os listeners ao trocar de rota (lupa)
-   useEffect(() => {
-    const allTextAndImages = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, img, a, button, input, label');
+    // Atualiza os listeners ao trocar de rota (lupa)
+    useEffect(() => {
+        const allTextAndImages = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, img, a, button, input, label');
 
-    if (document.body.classList.contains('text-magnifier')) {
-        allTextAndImages.forEach((element) => {
-            element.addEventListener('mouseenter', handleMouseEnter);
-            element.addEventListener('mouseleave', handleMouseLeave);
-            element.addEventListener('mousemove', handleMouseMove);
-        });
-    }
+        if (document.body.classList.contains('text-magnifier')) {
+            allTextAndImages.forEach((element) => {
+                element.addEventListener('mouseenter', handleMouseEnter);
+                element.addEventListener('mouseleave', handleMouseLeave);
+                element.addEventListener('mousemove', handleMouseMove);
+            });
+        }
 
-    return () => {
-        allTextAndImages.forEach((element) => {
-            element.removeEventListener('mouseenter', handleMouseEnter);
-            element.removeEventListener('mouseleave', handleMouseLeave);
-            element.removeEventListener('mousemove', handleMouseMove);
-        });
+        return () => {
+            allTextAndImages.forEach((element) => {
+                element.removeEventListener('mouseenter', handleMouseEnter);
+                element.removeEventListener('mouseleave', handleMouseLeave);
+                element.removeEventListener('mousemove', handleMouseMove);
+            });
+        };
+    }, [location, activeButtons['textMagnifier']]);
+
+
+    // foco dinâmico
+    useEffect(() => {
+        const allElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, button, input');
+
+        const handleMouseEnter = (e) => {
+            e.target.classList.add('highlight-hover');
+        };
+
+        const handleMouseLeave = (e) => {
+            e.target.classList.remove('highlight-hover');
+        };
+
+        if (activeButtons['dynamicFocus']) {
+            allElements.forEach((element) => {
+                element.addEventListener('mouseenter', handleMouseEnter);
+                element.addEventListener('mouseleave', handleMouseLeave);
+            });
+        } else {
+            allElements.forEach((element) => {
+                element.removeEventListener('mouseenter', handleMouseEnter);
+                element.removeEventListener('mouseleave', handleMouseLeave);
+                element.classList.remove('highlight-hover');
+            });
+        }
+
+        return () => {
+            allElements.forEach((element) => {
+                element.removeEventListener('mouseenter', handleMouseEnter);
+                element.removeEventListener('mouseleave', handleMouseLeave);
+            });
+        };
+    }, [activeButtons['dynamicFocus'], location]);
+
+    const handleDynamicFocusToggle = () => {
+        setActiveButtons((prevState) => ({
+            ...prevState,
+            dynamicFocus: !prevState.dynamicFocus,
+        }));
     };
-}, [location, activeButtons['textMagnifier']]);
-    
 
-// foco dinâmico
-useEffect(() => {
-    const allElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, button, input');
-
-    const handleMouseEnter = (e) => {
-        e.target.classList.add('highlight-hover');
-    };
-
-    const handleMouseLeave = (e) => {
-        e.target.classList.remove('highlight-hover');
-    };
-
-    if (activeButtons['dynamicFocus']) {
-        allElements.forEach((element) => {
-            element.addEventListener('mouseenter', handleMouseEnter);
-            element.addEventListener('mouseleave', handleMouseLeave);
-        });
-    } else {
-        allElements.forEach((element) => {
-            element.removeEventListener('mouseenter', handleMouseEnter);
-            element.removeEventListener('mouseleave', handleMouseLeave);
-            element.classList.remove('highlight-hover');
-        });
-    }
-
-    return () => {
-        allElements.forEach((element) => {
-            element.removeEventListener('mouseenter', handleMouseEnter);
-            element.removeEventListener('mouseleave', handleMouseLeave);
-        });
-    };
-}, [activeButtons['dynamicFocus'], location]);
-
-const handleDynamicFocusToggle = () => {
-    setActiveButtons((prevState) => ({
-        ...prevState,
-        dynamicFocus: !prevState.dynamicFocus,
-    }));
-};
-
-// TTS (Texto para Fala)
-const rewindTextToSpeech = () => {
-    stopTextToSpeech();
-    startTextToSpeech();
-};
-
-const stopTextToSpeech = () => {
-    speechSynthesis.cancel();
-    setSpeechSynthesisActive(false);
-    setIsPaused(false);
-    setCurrentCharIndex(0);
-};
-
-const startTextToSpeech = () => {
-    const text = document.body.innerText || document.body.textContent;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.onboundary = (event) => {
-        setCurrentCharIndex(event.charIndex);
-    };
-    speechSynthesis.speak(utterance);
-    utteranceRef.current = utterance;
-    setSpeechSynthesisActive(true);
-    setIsPaused(false);
-};
-
-const pauseTextToSpeech = () => {
-    speechSynthesis.pause();
-    setIsPaused(true);
-};
-
-const resumeTextToSpeech = () => {
-    speechSynthesis.resume();
-    setIsPaused(false);
-};
-
-const handleSkipBack = () => {
-    if (utteranceRef.current) {
+    // TTS (Texto para Fala)
+    const rewindTextToSpeech = () => {
         stopTextToSpeech();
-        const newCharIndex = Math.max(0, currentCharIndex - 100); 
+        startTextToSpeech();
+    };
+
+    const stopTextToSpeech = () => {
+        speechSynthesis.cancel();
+        setSpeechSynthesisActive(false);
+        setIsPaused(false);
+        setCurrentCharIndex(0);
+    };
+
+    const startTextToSpeech = () => {
         const text = document.body.innerText || document.body.textContent;
-        const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
+        const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'pt-BR';
         utterance.onboundary = (event) => {
-            setCurrentCharIndex(newCharIndex + event.charIndex);
+            setCurrentCharIndex(event.charIndex);
         };
         speechSynthesis.speak(utterance);
         utteranceRef.current = utterance;
-    }
-};
+        setSpeechSynthesisActive(true);
+        setIsPaused(false);
+    };
 
-const handleSkipForward = () => {
-    if (utteranceRef.current) {
-        stopTextToSpeech();
-        const text = document.body.innerText || document.body.textContent;
-        const newCharIndex = Math.min(text.length, currentCharIndex + 100); 
-        const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
-        utterance.lang = 'pt-BR';
-        utterance.onboundary = (event) => {
-            setCurrentCharIndex(newCharIndex + event.charIndex); 
-        };
-        speechSynthesis.speak(utterance);
-        utteranceRef.current = utterance;
-    }
-};
+    const pauseTextToSpeech = () => {
+        speechSynthesis.pause();
+        setIsPaused(true);
+    };
+
+    const resumeTextToSpeech = () => {
+        speechSynthesis.resume();
+        setIsPaused(false);
+    };
+
+    const handleSkipBack = () => {
+        if (utteranceRef.current) {
+            stopTextToSpeech();
+            const newCharIndex = Math.max(0, currentCharIndex - 100);
+            const text = document.body.innerText || document.body.textContent;
+            const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
+            utterance.lang = 'pt-BR';
+            utterance.onboundary = (event) => {
+                setCurrentCharIndex(newCharIndex + event.charIndex);
+            };
+            speechSynthesis.speak(utterance);
+            utteranceRef.current = utterance;
+        }
+    };
+
+    const handleSkipForward = () => {
+        if (utteranceRef.current) {
+            stopTextToSpeech();
+            const text = document.body.innerText || document.body.textContent;
+            const newCharIndex = Math.min(text.length, currentCharIndex + 100);
+            const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
+            utterance.lang = 'pt-BR';
+            utterance.onboundary = (event) => {
+                setCurrentCharIndex(newCharIndex + event.charIndex);
+            };
+            speechSynthesis.speak(utterance);
+            utteranceRef.current = utterance;
+        }
+    };
 
 
     return (
         <>
+
             <button className="accessibility-toggle" onClick={handleTogglePanel} aria-label="Abrir painel de acessibilidade">
                 <PersonStanding />
             </button>
@@ -370,17 +371,17 @@ const handleSkipForward = () => {
                             <div className="accessibility-buttons">
                                 {/* Botões de Acessibilidade */}
                                 <Button
-                                        className={classNames('accessibility-button', { 'active': activeButtons['increaseCursor'] })}
-                                        onClick={() => toggleClass('large-cursor', 'increaseCursor')}
-                                        aria-label="Aumentar cursor"
-                                    >
-                                        <Pointer /> Aumentar Cursor
-                                    </Button>
+                                    className={classNames('accessibility-button', { 'active': activeButtons['increaseCursor'] })}
+                                    onClick={() => toggleClass('large-cursor', 'increaseCursor')}
+                                    aria-label="Aumentar cursor"
+                                >
+                                    <Pointer /> Aumentar Cursor
+                                </Button>
                                 <Button
                                     className={classNames('accessibility-button', { 'active': activeButtons['darkMode'] })}
                                     onClick={() => {
-                                    toggleClass('dark-mode', 'darkMode');
-                                    toggleTheme(); // Chamando a função para alternar o tema
+                                        toggleClass('dark-mode', 'darkMode');
+                                        toggleTheme(); // Chamando a função para alternar o tema
                                     }}
                                     aria-label="Modo escuro"
                                 >
@@ -392,7 +393,7 @@ const handleSkipForward = () => {
                                     onClick={() => toggleClass('espacamento', 'letterSpacing')}
                                     aria-label="Espaço entre letras"
                                 >
-                                      <Space /> Espaço Entre Letras
+                                    <Space /> Espaço Entre Letras
                                 </Button>
 
                                 <Button
@@ -400,7 +401,7 @@ const handleSkipForward = () => {
                                     onClick={() => toggleClass('espacoLinhas', 'lineHeight')}
                                     aria-label="Espaço entre linhas"
                                 >
-                                       <ArrowDownAZ /> Espaço Entre Linhas
+                                    <ArrowDownAZ /> Espaço Entre Linhas
                                 </Button>
 
                                 <Button
@@ -408,7 +409,7 @@ const handleSkipForward = () => {
                                     onClick={() => toggleClass('increase-images', 'increaseImages')}
                                     aria-label="Aumentar imagens"
                                 >
-                                     <Images /> Aumentar Imagens
+                                    <Images /> Aumentar Imagens
                                 </Button>
 
                                 <Button
@@ -433,7 +434,7 @@ const handleSkipForward = () => {
                                     onClick={toggleHighlight}
                                     aria-label="Destacar linha"
                                 >
-                                     <Fullscreen /> Destacar Linha
+                                    <Fullscreen /> Destacar Linha
                                 </Button>
 
                                 <Button
@@ -450,13 +451,8 @@ const handleSkipForward = () => {
                                 >
                                     <Focus /> Foco Dinâmico
                                 </Button>
-                                <Button
-                                    className={classNames('accessibility-button', { 'active': activeButtons['virtualKeyboard'] })}
-                                    onClick={toggleTDHAFriendly}
-                                    aria-label="Teclado digital"
-                                >
-                                    <Keyboard /> Teclado digital
-                                </Button>
+
+
                                 {/* Botões de controle de leitura */}
                                 <Button
                                     className={classNames('accessibility-button', { 'active': speechSynthesisActive })}
@@ -465,7 +461,7 @@ const handleSkipForward = () => {
                                 >
                                     {speechSynthesisActive ? <VolumeX /> : <Volume2 />} {speechSynthesisActive ? "Parar Leitura" : "Ler Página"}
                                 </Button>
-                                
+
                                 {speechSynthesisActive && (
                                     <>
                                         <Button className="accessibility-button" onClick={isPaused ? resumeTextToSpeech : pauseTextToSpeech}>
@@ -491,10 +487,10 @@ const handleSkipForward = () => {
             {/* Caixa da lupa de texto */}
             {isMagnifierVisible && (
                 <div ref={magnifierRef} className="magnifier-box">
-                {magnifiedText}
+                    {magnifiedText}
                 </div>
             )}
-            
+
 
             {/* sobreposição de cima  */}
             <div
@@ -531,8 +527,12 @@ const handleSkipForward = () => {
             />
 
 
+
             <div className={classNames('highlight-background', { 'show': isHighlightActive })} ref={highlightBackground}></div>
             <div className={classNames('highlight-overlay', { 'show': isHighlightActive })} ref={highlightOverlay}></div>
+
+
+
         </>
     );
 };
