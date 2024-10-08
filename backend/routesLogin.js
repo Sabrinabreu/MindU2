@@ -11,7 +11,7 @@ router.post('/login', async (req, res) => {
   const { login, senha } = req.body;
 
   try {
-    // Busca o usuário pelo login (sem comparar a senha no SQL)
+    // Busca o usuário pelo login
     const [userResult] = await connection.query('SELECT * FROM usuarios WHERE login = ?', [login]);
 
     if (userResult.length === 0) {
@@ -21,13 +21,13 @@ router.post('/login', async (req, res) => {
     const usuario = userResult[0];
     let userData = {};
 
-    // !!!!!!!!!!!! isso acontece tbm com o funcionário, mas só se ele tiver uma conta atualizada, aí ficaria tipo if loginMethod email ele faz a função tbm
-    if (usuario.tipo_usuario === 'empresa' || usuario.tipo_usuario === 'psicologo') {
     // Comparar a senha fornecida com a senha criptografada
-    const match = await bcrypt.compare(senha, usuario.senha);
-    if (!match) {
-      return res.status(404).json({ error: 'Usuário ou senha incorretos' });
-    }}
+    if (usuario.tipo_usuario === 'empresa' || usuario.tipo_usuario === 'psicologo') {
+      const match = await bcrypt.compare(senha, usuario.senha);
+      if (!match) {
+        return res.status(404).json({ error: 'Usuário ou senha incorretos' });
+      }
+    }
 
     // Verifica o tipo de usuário e busca as informações adicionais
     if (usuario.tipo_usuario === 'empresa') {
@@ -49,6 +49,7 @@ router.post('/login', async (req, res) => {
       perfil: userData  // Informações adicionais do perfil (empresa, funcionário ou psicólogo)
     };
 
+    // Gera um novo token JWT
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 
     // Retorna o token e as informações adicionais para o frontend

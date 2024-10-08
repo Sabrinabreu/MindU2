@@ -58,7 +58,7 @@ const Planos = () => {
         <>
             <BAPO />
             <Container className="caixaPlanos">
-                <h2 className="mb-4 title text-center">Nossos Planos</h2>
+                <h2 className="mb-4 text-center textroxo textclaro">Nossos Planos</h2>
                 <Row className="assinatura">
                     <Row className="assinatura">
                         <Col md={4}>
