@@ -58,24 +58,24 @@ function Perfil() {
         return true;
     };
 
-    const handleSave = async (e) => {
+const handleSave = async (e) => {
         e.preventDefault();
-    
+
         if (!validateForm()) {
             setErrorMessage('Preencha todos os campos obrigatórios.');
             return;
         }
-    
+
         setErrorMessage('');
-    
+
         const updatedPerfil = {
             ...perfil,
             loginMethod: 'email',
+            // senha: perfil.senha
         };
-    
-        console.log("infos perfil: ", perfil);
-        console.log("infos token: ", decodedToken);
-    
+
+        console.log("infos perfil: ", perfil)
+
         try {
             const response = await axios.put('http://localhost:3001/api/atualizarPerfil', updatedPerfil, {
                 headers: {
@@ -83,12 +83,9 @@ function Perfil() {
                     Authorization: `Bearer ${token}`,
                 },
             });
-    
+
             if (response.status >= 200 && response.status < 300) {
-                const novoToken = response.data.novoToken; // Assumindo que o backend retorna um novo token
-                localStorage.setItem('token', novoToken); // Atualiza o token no localStorage
-                setToken(novoToken); // Atualiza o contexto de autenticação
-                setPerfil(response.data.perfilAtualizado); // Atualiza o perfil no frontend
+                setPerfil(response.data.perfilAtualizado);
                 alert('Perfil atualizado com sucesso!');
                 setIsEditing(false);
             } else {
@@ -98,7 +95,7 @@ function Perfil() {
             setErrorMessage('Erro ao atualizar o perfil.');
             console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
         }
-    };   
+    };
 
     const handleCancel = () => {
         setIsEditing(false);
@@ -259,26 +256,26 @@ function Perfil() {
                     <Card className="cardPerfil mt-3">
                         <ListGroup variant="flush">
                             {/* informações gerais */}
-                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Email</h6>
                                 <span className="text-secondary">{perfil.email || "definir"}</span>
                             </ListGroup.Item>
-                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Telefone</h6>
                                 <span className="text-secondary">{perfil.telefone || "definir"}</span>
                             </ListGroup.Item>
-                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">CPF</h6>
                                 <span className="text-secondary">{perfil.cpf || "definir"}</span>
                             </ListGroup.Item>
                             {/* informações exclusivas de funcionário */}
                             {tipoUsuario === 'funcionario' && (
                                 <>
-                                <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 className="mb-0">Empresa</h6>
                                     <span className="text-secondary">{nomeEmpresa}</span>
                                 </ListGroup.Item>
-                                <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 className="mb-0">Cargo</h6>
                                     <span className="text-secondary">{perfil.cargo || "definir"}</span>
                                 </ListGroup.Item>
@@ -287,13 +284,13 @@ function Perfil() {
                             {/* informações exclusivas de psicologo */}
                             {tipoUsuario === 'psicologo' && (
                                 <>
-                                <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 className="mb-0">Data de Nascimento</h6>
                                     <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
                                 </ListGroup.Item>
                                 </>
                             )}
-                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                             <Button className="btnLog" onClick={handleLogout}><LogOut/> Sair da conta</Button>
                             </ListGroup.Item>
                         </ListGroup>
@@ -380,7 +377,7 @@ function Perfil() {
                                     value={perfil.pergunta_seguranca} 
                                     onChange={(e) => setPerfil({ ...perfil, pergunta_seguranca: e.target.value })}
                                 >
-                                    <option value="">Selecione uma pergunta <p className="setaSelecionar">↓</p></option>
+                                    <option value="">Selecione uma pergunta</option>
                                     <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
                                     <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
                                     <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
@@ -514,13 +511,10 @@ function Perfil() {
                                 </div>
                             ))
                         ) : (
-                            <Col md={12}> 
-                            <p className='avisoSemData perfil'>Nenhum agendamento encontrado.</p>
-                            </Col>
-                           
+                            <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
                         )
                     ) : (
-                        <p className='avisoSemData perfil'>Erro ao carregar os detalhes da consulta.</p>
+                        <p className='avisoSemData'>Erro ao carregar os detalhes da consulta.</p>
                     )}
                 </div>
             </div>
