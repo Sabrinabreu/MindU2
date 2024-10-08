@@ -33,7 +33,7 @@
 
 [data-theme='dark'] .accessibilidade-painel {
     background-color: #9486b0 !important;
-  }
+}
 
 .text-content {
     color: #333;
@@ -41,10 +41,11 @@
 
 [data-theme='dark'] .text-content {
     color: #f7f4ff !important;
-  }
+}
 
-  .word {
-    transition: background-color 0.3s; /* Para suavizar a mudança de destaque */
+.word {
+    transition: background-color 0.3s;
+    /* Para suavizar a mudança de destaque */
 }
 
 .accessibility-close {
@@ -67,7 +68,7 @@
 
 [data-theme='dark'] .acessibilidade-title {
     color: #333;
-  }
+}
 
 .accessibility-content {
     display: flex;
@@ -85,7 +86,7 @@
 
 [data-theme='dark'] .fundoPainelA {
     background: #a498be !important;
-  }
+}
 
 
 .accessibility-section {
@@ -99,7 +100,7 @@
 [data-theme='dark'] .accessibility-section {
     background: #756b8d !important;
     color: #fcecf7;
-  }
+}
 
 .divNavCentro {
     width: 1000px;
@@ -120,9 +121,10 @@
     cursor: pointer;
     font-size: 18px;
 }
+
 [data-theme='dark'] .font-size-btn {
     background: #e1839c !important;
-  }
+}
 
 .font-size-display {
     font-size: 1.2rem;
@@ -149,10 +151,10 @@
     text-align: center;
 }
 
-[data-theme='dark'] .accessibility-button  {
+[data-theme='dark'] .accessibility-button {
     background: #756b8d !important;
     color: #fcecf7;
-  }
+}
 
 .accessibility-button svg {
     margin-bottom: 5px;
@@ -163,18 +165,20 @@
     border-color: transparent;
 }
 
-[data-theme='dark'] .accessibility-button.active  {
+[data-theme='dark'] .accessibility-button.active {
     background: #463e58 !important;
     color: #fcecf7;
-  }
-  [data-theme='dark'] .accessibility-button:hover  {
+}
+
+[data-theme='dark'] .accessibility-button:hover {
     background: #463e58 !important;
     color: #fcecf7;
-  }
-  [data-theme='dark'] .accessibility-button.active:hover  {
+}
+
+[data-theme='dark'] .accessibility-button.active:hover {
     background: #463e58 !important;
     color: #fcecf7;
-  }
+}
 
 .accessibility-button:hover {
     background: #d6d6d6;
@@ -247,7 +251,7 @@
 }
 
 /* Faixa de Destaque */
-  .highlight-overlay {
+.highlight-overlay {
     background-color: rgba(0, 0, 0, 0.5);
     pointer-events: none;
     transition: display 0.2s;
@@ -326,13 +330,35 @@
     color: #000 !important;
     background-color: #fff !important;
 
-    a, button, p, h1, h2, h3, h4, h5, h6 {
+    a,
+    button,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         outline: 2px solid #000;
     }
-    p, h1, h2, h3, h4, h5, h6 {
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         outline: 2px solid #c07171;
     }
-    p, h1, h2, h3, h4, h5, h6 {
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         line-height: 1.5;
     }
 }
@@ -351,9 +377,11 @@ html.font-normal {
 html.font-large-1 {
     font-size: 110%;
 }
+
 html.font-large-2 {
     font-size: 120%;
 }
+
 html.font-large-3 {
     font-size: 130%;
 }
@@ -362,11 +390,68 @@ html.font-large-3 {
 html.font-small-1 {
     font-size: 90%;
 }
+
 html.font-small-2 {
     font-size: 80%;
 }
+
 html.font-small-3 {
     font-size: 70%;
+}
+
+.keyboard-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    /* Borda para o teclado */
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    padding: 10px;
+    background-color: #f0f0f0;
+    /* Cor de fundo */
+}
+
+.react-simple-keyboard .hg-button {
+    background-color: #fff;
+    /* Cor das teclas */
+    border: 1px solid #ccc;
+    /* Borda das teclas */
+    border-radius: 3px;
+    /* Bordas arredondadas das teclas */
+    font-size: 16px;
+    /* Tamanho da fonte */
+    margin: 2px;
+    /* Margem entre as teclas */
+    transition: background-color 0.3s;
+    /* Transição suave */
+}
+
+.react-simple-keyboard .hg-button:hover {
+    background-color: #e0e0e0;
+    /* Cor de fundo ao passar o mouse */
+}
+
+.react-simple-keyboard .hg-button.hg-active {
+    background-color: #c0c0c0;
+    /* Cor ao pressionar a tecla */
+}
+
+.react-simple-keyboard .hg-button.hg-shift {
+    background-color: #d3d3d3;
+    /* Cor especial para tecla Shift */
+}
+
+.hg-theme-default .hg-row:not(:last-child) {
+    margin-bottom: 5px;
+    color: black !important;
+}
+
+.keyboard {
+    transform: scale(1.2) !important;
+    /* Aumenta o tamanho do teclado */
+    transition: transform 0.2s !important;
+    /* Adiciona uma transição suave */
 }
 
 
@@ -384,6 +469,4 @@ html.font-small-3 {
 }
 
 /* versao desktop */
-@media (min-width: 601px) {
-    
-}
+@media (min-width: 601px) {}

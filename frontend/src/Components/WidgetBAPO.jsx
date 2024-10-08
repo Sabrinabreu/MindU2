@@ -10,13 +10,13 @@ const ChatWidget = () => {
 
   const styles = {
     iframe: {
-      borderRadius: '8px', 
+      borderRadius: '8px',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
     },
   };
 
 
-  
+
   return (
     <div className="chat-widget">
       <button className="chat-button" onClick={toggleChat}>

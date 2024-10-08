@@ -711,7 +711,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
             <Button
                 onClick={handleProceed}
                 disabled={!paymentType} // Desabilitar se nenhum tipo de pagamento estiver selecionado
-                className="mt-3"
+                className="mt-3 btnCreate"
             >
                 Prosseguir
             </Button>
