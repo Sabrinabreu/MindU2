@@ -256,26 +256,26 @@ function Perfil() {
                     <Card className="cardPerfil mt-3">
                         <ListGroup variant="flush">
                             {/* informações gerais */}
-                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Email</h6>
                                 <span className="text-secondary">{perfil.email || "definir"}</span>
                             </ListGroup.Item>
-                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Telefone</h6>
                                 <span className="text-secondary">{perfil.telefone || "definir"}</span>
                             </ListGroup.Item>
-                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">CPF</h6>
                                 <span className="text-secondary">{perfil.cpf || "definir"}</span>
                             </ListGroup.Item>
                             {/* informações exclusivas de funcionário */}
                             {tipoUsuario === 'funcionario' && (
                                 <>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 className="mb-0">Empresa</h6>
                                     <span className="text-secondary">{nomeEmpresa}</span>
                                 </ListGroup.Item>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 className="mb-0">Cargo</h6>
                                     <span className="text-secondary">{perfil.cargo || "definir"}</span>
                                 </ListGroup.Item>
@@ -284,13 +284,13 @@ function Perfil() {
                             {/* informações exclusivas de psicologo */}
                             {tipoUsuario === 'psicologo' && (
                                 <>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 className="mb-0">Data de Nascimento</h6>
                                     <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
                                 </ListGroup.Item>
                                 </>
                             )}
-                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
                             <Button className="btnLog" onClick={handleLogout}><LogOut/> Sair da conta</Button>
                             </ListGroup.Item>
                         </ListGroup>
@@ -377,7 +377,7 @@ function Perfil() {
                                     value={perfil.pergunta_seguranca} 
                                     onChange={(e) => setPerfil({ ...perfil, pergunta_seguranca: e.target.value })}
                                 >
-                                    <option value="">Selecione uma pergunta</option>
+                                    <option value="">Selecione uma pergunta <p className="setaSelecionar">↓</p></option>
                                     <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
                                     <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
                                     <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
@@ -511,10 +511,13 @@ function Perfil() {
                                 </div>
                             ))
                         ) : (
-                            <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
+                            <Col md={12}> 
+                            <p className='avisoSemData perfil'>Nenhum agendamento encontrado.</p>
+                            </Col>
+                           
                         )
                     ) : (
-                        <p className='avisoSemData'>Erro ao carregar os detalhes da consulta.</p>
+                        <p className='avisoSemData perfil'>Erro ao carregar os detalhes da consulta.</p>
                     )}
                 </div>
             </div>
