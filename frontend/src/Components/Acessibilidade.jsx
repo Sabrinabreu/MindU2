@@ -10,7 +10,6 @@ import { useLocation } from 'react-router-dom';
 // import 'react-simple-keyboard/build/css/index.css';
 
 const Acessibilidade = ({ toggleTheme }) => {
-    const [fontSize, setFontSize] = useState(16);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
@@ -18,30 +17,44 @@ const Acessibilidade = ({ toggleTheme }) => {
     const highlightOverlayTopRef = useRef(null);
     const highlightOverlayBottomRef = useRef(null);
     const [isTDHAFriendly, setIsTDHAFriendly] = useState(false);
+    const location = useLocation();
 
+    const [fontSizeLevel, setFontSizeLevel] = useState(100);
+
+    //tts
     const [speechSynthesisActive, setSpeechSynthesisActive] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [currentCharIndex, setCurrentCharIndex] = useState(0);
     const utteranceRef = useRef(null);
 
+    //lupa
     const [magnifiedText, setMagnifiedText] = useState('');
     const [isMagnifierVisible, setIsMagnifierVisible] = useState(false);
     const magnifierRef = useRef(null);
 
-    const location = useLocation();
-
+    //destacar linha
     const highlightBackground = useRef(null);
     const highlightOverlay = useRef(null);
 
     const handleTogglePanel = () => setIsPanelOpen(prevState => !prevState);
 
-    const adjustFontSize = (size) => {
-        document.body.style.fontSize = size;
-        setFontSize(parseFloat(size));
+    //ajustar tamanho da fonte
+    const adjustFontSize = (incremento) => {
+        const novosize = fontSizeLevel + incremento;
+        setFontSizeLevel(novosize);
+        alterarTamanhoFonte(incremento);
     };
 
-    const increaseFontSize = () => adjustFontSize(`${Math.min(fontSize + 2, 24)}px`);
-    const decreaseFontSize = () => adjustFontSize(`${Math.max(fontSize - 2, 12)}px`);
+    const alterarTamanhoFonte = (incremento) => {
+        const elementos = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, a, li, span, button');
+        elementos.forEach((elemento) => {
+            const estilo = window.getComputedStyle(elemento);
+            const tamanhoAtual = parseFloat(estilo.fontSize); 
+            const novoTamanho = tamanhoAtual + incremento * (tamanhoAtual / 100);
+            elemento.style.fontSize = `${novoTamanho}px`;
+        });
+    };
+    
 
     const toggleClass = (className, buttonKey) => {
         const bodyClassList = document.body.classList;
@@ -69,12 +82,15 @@ const Acessibilidade = ({ toggleTheme }) => {
             'highlight-line',
             'perfil-tdah'
         );
-        adjustFontSize('16px');
+    
+        setFontSizeLevel(100); 
+        alterarTamanhoFonte(-fontSizeLevel + 100);
         setActiveButtons({});
         setIsHighlightActive(false);
         setIsTDHAFriendly(false);
         stopTextToSpeech();
     };
+    
 
     // destacar linha 
     const toggleHighlight = () => {
@@ -249,7 +265,6 @@ useEffect(() => {
             element.removeEventListener('mouseleave', handleMouseLeave);
         });
     };
-    // Atualiza os listeners ao trocar de rota (foco dinamico)
 }, [activeButtons['dynamicFocus'], location]);
 
 const handleDynamicFocusToggle = () => {
@@ -298,12 +313,12 @@ const resumeTextToSpeech = () => {
 const handleSkipBack = () => {
     if (utteranceRef.current) {
         stopTextToSpeech();
-        const newCharIndex = Math.max(0, currentCharIndex - 100); // Retrocede 100 caracteres
+        const newCharIndex = Math.max(0, currentCharIndex - 100); 
         const text = document.body.innerText || document.body.textContent;
         const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
         utterance.lang = 'pt-BR';
         utterance.onboundary = (event) => {
-            setCurrentCharIndex(newCharIndex + event.charIndex); // Atualiza a nova posição
+            setCurrentCharIndex(newCharIndex + event.charIndex);
         };
         speechSynthesis.speak(utterance);
         utteranceRef.current = utterance;
@@ -314,11 +329,11 @@ const handleSkipForward = () => {
     if (utteranceRef.current) {
         stopTextToSpeech();
         const text = document.body.innerText || document.body.textContent;
-        const newCharIndex = Math.min(text.length, currentCharIndex + 100); // Avança 100 caracteres
+        const newCharIndex = Math.min(text.length, currentCharIndex + 100); 
         const utterance = new SpeechSynthesisUtterance(text.slice(newCharIndex));
         utterance.lang = 'pt-BR';
         utterance.onboundary = (event) => {
-            setCurrentCharIndex(newCharIndex + event.charIndex); // Atualiza a nova posição
+            setCurrentCharIndex(newCharIndex + event.charIndex); 
         };
         speechSynthesis.speak(utterance);
         utteranceRef.current = utterance;
@@ -347,9 +362,9 @@ const handleSkipForward = () => {
                             <div className="accessibility-section font-adjustment">
                                 <h5>Ajustar Tamanho da Fonte</h5>
                                 <div className="font-size-controls">
-                                    <div className="font-size-btn" onClick={decreaseFontSize} aria-label="Diminuir tamanho da fonte"><AArrowDown /></div>
-                                    <span className="font-size-display">{(fontSize / 16 * 100).toFixed(0)}%</span>
-                                    <div className="font-size-btn" onClick={increaseFontSize} aria-label="Aumentar tamanho da fonte"><AArrowUp /></div>
+                                    <button className='font-size-btn' onClick={() => adjustFontSize(-10)} aria-label="Diminuir tamanho da fonte"> <AArrowDown /> </button>
+                                    <span>{fontSizeLevel}%</span>
+                                    <button className='font-size-btn' onClick={() => adjustFontSize(10)} aria-label="Aumentar tamanho da fonte"><AArrowUp /></button>
                                 </div>
                             </div>
                             <div className="accessibility-buttons">

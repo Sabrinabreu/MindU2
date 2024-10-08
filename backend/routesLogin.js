@@ -4,7 +4,6 @@ const connection = require('./db');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
-// Chave secreta para assinar o token
 const SECRET_KEY = 'sua_chave_secreta';
 
 // Rota para login
@@ -22,7 +21,7 @@ router.post('/login', async (req, res) => {
     const usuario = userResult[0];
     let userData = {};
 
-    // !!!!!!!!!!!! isso acontece tbm com o funcionário, mas só se ele tiver uma conta atualizada, aí ficaria tipo if cadastrado true ele faz a função tbm
+    // !!!!!!!!!!!! isso acontece tbm com o funcionário, mas só se ele tiver uma conta atualizada, aí ficaria tipo if loginMethod email ele faz a função tbm
     if (usuario.tipo_usuario === 'empresa' || usuario.tipo_usuario === 'psicologo') {
     // Comparar a senha fornecida com a senha criptografada
     const match = await bcrypt.compare(senha, usuario.senha);
@@ -61,104 +60,3 @@ router.post('/login', async (req, res) => {
 });
 
 module.exports = router;
-
-// const express = require('express');
-// const jwt = require('jsonwebtoken');
-// const connection = require('./db');
-// const router = express.Router();
-// const bcrypt = require('bcrypt');
-
-// exports.login = async (req, resp) => {
-//   try {
-//       // fetch data
-//       const { email, password } = req.body
-
-//       // validation for fields required
-//       if (!email || !password) {
-//           return resp.status(200).json({
-//               status: "Failed",
-//               msg: "All fields are required in login !",
-//           })
-//       }
-
-//       // check if email exists in database
-//       // We also populate additionDetails
-//       const user = await User.findOne({ email: email })
-//           .populate("additionalDetails")
-//           .exec()
-
-//       console.log("Data fetched about User from Db:", user)
-//       // If user not found with provided email
-
-//       if (!user) {
-//           return resp.status(200).json({
-//               status: "Failed",
-//               msg: "User with given email dont exists. try again !"
-//           })
-//       }
-
-//       // user exists check password with hashed password
-
-//       const checkHashedPassword = await bcrypt.compare(password, user.password)
-
-
-//       // password is correct generate Token
-//       if (checkHashedPassword) {
-
-//           // In token we send user id, email and accountType
-
-//           const payload = {
-//               id: user._id,
-//               email: user.email,
-//               accountType: user.accountType,
-//           }
-
-//           const tokenOptions = {
-//               expiresIn: "24h"
-//           }
-
-//           //Token Expires in 2 hours
-//           const token = jwtToken.sign(payload, process.env.JWT_SECRET, tokenOptions)
-
-//           // we update the object
-//           // send token and password 
-//           user.password = undefined;
-//           user.token = token;
-//           console.log("User Modified", user)
-
-//           // generate cookie
-
-//           const cookieOptions = {
-//               // expires in 3days
-//               //expiresIn:"3hr, 3days" 
-
-//               expires: new Date(Date.now() + 3 * 24 * 60 * 1000),
-//               httpOnly: true,
-//           }
-
-//           resp.cookie("token", token, cookieOptions).
-//               // Req body
-//               status(200).json({
-//                   success: "Success",
-//                   token,
-//                   user,
-//                   message: 'User Logged in successfully !',
-//               })
-
-//       }
-//       else {
-//           return resp.status(200).json({
-//               status: "Failed",
-//               msg: "Password dont match ! Try Again !"
-//           })
-//       }
-
-//   } catch (error) {
-//       console.log(error);
-//       return resp.status(200).json({
-//           status: "Failed",
-//           message: 'Login Failure, please try again',
-//           errormsg: error
-//       });
-//   }
-// }

@@ -2,15 +2,17 @@ const express = require('express');
 const connection = require('./db'); 
 const router = express.Router(); 
 
-// Rota para obter a disponibilidade de um psicólogo 
+// Rota para obter a disponibilidade de um psicólogo
+router.get('/disponibilidade/psicologo/:id', (req, res) => { 
+    const psicologo_id = req.params.id; 
+    const dataSelecionada = req.query.data;
 
-router.get('/psicologo/:id', (req, res) => { 
+    console.log('Rota chamada com ID:', psicologo_id);
+    console.log('Data recebida:', dataSelecionada); 
 
-    console.log('Rota chamada com ID:', req.params.id); // Adicione esta linha 
-    const psicologo_id = req.params.id;  
-    const sql = 'SELECT data, horario FROM disponibilidadepsico WHERE psicologo_id = ?'; 
+    const sql = 'SELECT data, horario FROM disponibilidadepsico WHERE psicologo_id = ? AND data = ?'; 
 
-    connection.query(sql, [psicologo_id], (err, results) => { 
+    connection.query(sql, [psicologo_id, dataSelecionada], (err, results) => { 
         if (err) { 
             console.error('Erro ao consultar o banco de dados:', err); 
             return res.status(500).json({ error: 'Erro ao consultar o banco de dados' }); 
@@ -26,6 +28,7 @@ router.get('/psicologo/:id', (req, res) => {
         res.json(eventos); 
     });     
 }); 
+
 
 // Rota para inserir a disponibilidade de um psicólogo 
 router.post('/disponibilidade/psicologo', (req, res) => { 

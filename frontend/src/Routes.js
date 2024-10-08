@@ -18,6 +18,7 @@ import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
 import Dashboard from "./Pages/Dashboard"; //empresa
+import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { token, setToken } = useAuth();
@@ -62,10 +63,11 @@ const Rotas = () => {
           <Route path="/contato" element={<Contato />} />
           <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
           <Route path="/planos" element={<Planos />} />
+          <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
 
       {/* Rotas não autenticados */}
       {!token && (
-          <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
       )}
 
       {/* Rotas somente empresa */}
@@ -120,17 +122,16 @@ const Rotas = () => {
             }
           />
           <Route
-            path="/psicologo/:id" 
+            path="/psicologo/:psicologo_id"
             element={
               <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>
                 <SaibaMais />
               </ProtectedRoute>
             }
           />
-          
         </>
       )}
-      
+
       {/* Rotas privadas para todos usuários*/}
 
       {/* Rota de fallback para 404 */}

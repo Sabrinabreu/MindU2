@@ -12,10 +12,11 @@ const CadastroFormPsi = () => {
         email: '',
         CPF: '',
         endereco: '',
-        areasInteresse: '',
+        crp: '',
+        especialidade: '',
         preferenciaHorario: '',
         disponibilidade: '',
-        localidades: '',
+        localizacao: '',
         motivacao: '',
         objetivos: '',
         senha: '',
@@ -96,7 +97,7 @@ const CadastroFormPsi = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/cadastropsicologos', data, {
+            const response = await axios.post('http://localhost:3001/psicologos', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -112,10 +113,11 @@ const CadastroFormPsi = () => {
                     email: '',
                     CPF: '',
                     endereco: '',
-                    areasInteresse: '',
+                    crp: '',
+                    especialidade: '',
                     preferenciaHorario: '',
                     disponibilidade: '',
-                    localidades: '',
+                    localizacao: '',
                     motivacao: '',
                     objetivos: '',
                     senha: '',
@@ -198,7 +200,7 @@ const CadastroFormPsi = () => {
                         <input className='inputform cadPsi' type="text" name="CPF" placeholder="Digite seu CPF aqui..." value={formData.CPF} onChange={handleChange} />
 
                     </Col>
-                    <Col md="12" sm="10">
+                    <Col md="6" sm="10">
                         <label className='labelForms'>Endereço Completo (opcional)</label>
                         <input className='inputform cadPsi' type="text" name="endereco" placeholder="Digite seu endereço aqui..." value={formData.endereco} onChange={handleChange} />
 
