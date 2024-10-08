@@ -58,24 +58,24 @@ function Perfil() {
         return true;
     };
 
-const handleSave = async (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
-
+    
         if (!validateForm()) {
             setErrorMessage('Preencha todos os campos obrigatórios.');
             return;
         }
-
+    
         setErrorMessage('');
-
+    
         const updatedPerfil = {
             ...perfil,
             loginMethod: 'email',
-            // senha: perfil.senha
         };
 
-        console.log("infos perfil: ", perfil)
-
+        console.log("infos perfil: ", perfil);
+        console.log("infos token: ", decodedToken);
+    
         try {
             const response = await axios.put('http://localhost:3001/api/atualizarPerfil', updatedPerfil, {
                 headers: {
@@ -83,9 +83,11 @@ const handleSave = async (e) => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
+    
             if (response.status >= 200 && response.status < 300) {
                 setPerfil(response.data.perfilAtualizado);
+                localStorage.setItem('token', response.data.token); // Atualiza o token no localStorage
+                setToken(response.data.token); // Atualiza o token no contexto de autenticação
                 alert('Perfil atualizado com sucesso!');
                 setIsEditing(false);
             } else {
@@ -95,7 +97,7 @@ const handleSave = async (e) => {
             setErrorMessage('Erro ao atualizar o perfil.');
             console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
         }
-    };
+    };    
 
     const handleCancel = () => {
         setIsEditing(false);
