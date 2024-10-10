@@ -236,6 +236,32 @@
     border-color: #ad28ad;
 }
 
+.dataSelecionada{
+    margin-right: 8px;
+}
+
+.horarioBotao {
+    background-color: #f8f9fa; 
+    border: 1px solid #9582cb; 
+    border-radius: 4px;
+    padding: 10px;
+    margin: 5px 0;
+    margin-left: -5%;
+    cursor: pointer;
+    width: 40%;
+    text-align: left; 
+}
+
+.horarioBotao:hover {
+    background-color: #9582cb;
+    color: white; 
+}
+
+.horarioBotao.active {
+    background-color: #5a429b;
+    color: white; 
+}
+
 /* CALENDARIO */
 *,
 *:after,

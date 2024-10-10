@@ -28,21 +28,21 @@ function Perfil() {
     const [setPsicologoNome] = useState('');
     const [isPsicologo, setIsPsicologo] = useState(false);
     const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token); 
-    // console.log ("token decodadokk: ", decodedToken)
+    const decodedToken = parseJwt(token);
+    console.log("token decodadokk: ", decodedToken)
 
     useEffect(() => {
-        if (token) {
-            setPerfil(decodedToken.perfil); 
-            setTipoUsuario(decodedToken.tipo_usuario); 
-            setSelectedQuestion(decodedToken.perfil.perguntaSeguranca || '');
-            setSecurityAnswer(decodedToken.perfil.respostaSeguranca || '');
 
+        if (token) {
+            setPerfil(decodedToken.perfil);
+            setTipoUsuario(decodedToken.tipo_usuario);
+
+            // Se for um funcionário, buscar o nome da empresa pelo `empresa_id`
             if (decodedToken.tipo_usuario === 'funcionario') {
-                buscarNomeEmpresa(decodedToken.perfil.empresa_id); 
+                buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
-    }, [token, decodedToken]); 
+    }, []);
 
     useEffect(() => {
         // Carrega os detalhes da consulta do localStorage
@@ -50,7 +50,7 @@ function Perfil() {
         if (savedConsultationDetails) {
             setConsultationDetails([JSON.parse(savedConsultationDetails)]);
         } else {
-            setConsultationDetails([]); 
+            setConsultationDetails([]);
         }
 
         // Fetch para obter o nome do psicólogo
@@ -64,11 +64,11 @@ function Perfil() {
             });
     }, [setPsicologoNome]);
 
-  
+
     const handleLogout = () => {
-      localStorage.removeItem('token');
-      setToken(null);
-      navegacao("/", { replace: true });
+        localStorage.removeItem('token');
+        setToken(null);
+        navegacao("/", { replace: true });
     };
 
     const handleEditClick = () => {
@@ -76,72 +76,42 @@ function Perfil() {
         setPerfil(prevData => ({ ...prevData, senha: '' }));
     };
 
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setPerfil(prevData => ({ ...prevData, [name]: value }));
-    // };
-
-    const validateForm = () => {
-        if (!perfil.nome || !perfil.email || !perfil.cpf || !perfil.telefone || !perfil.senha || !selectedQuestion || !securityAnswer) {
-            setErrorMessage('Todos os campos são obrigatórios.');
-            return false;
-        }
-        return true;
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setPerfil(prevData => ({ ...prevData, [name]: value }));
     };
 
-    const handleSave = async (e) => {
+    const handleSave = (e) => {
         e.preventDefault();
-    
-        // Verifica se a pergunta de segurança e a resposta estão preenchidas
-        if (!selectedQuestion || !securityAnswer.trim()) {
-            setErrorMessage('Selecione uma pergunta de segurança e forneça uma resposta.');
+
+        // Verifica se a pergunta foi selecionada e se a resposta foi fornecida
+        if (!selectedQuestion) {
+            setErrorMessage('Por favor, selecione uma pergunta de segurança.');
             return;
         }
-    
-        console.log("Nome atualizado:", perfil);
-        console.log("Pergunta de segurança selecionada:", selectedQuestion);
-        console.log("Resposta de segurança:", securityAnswer);
 
-
-        // Verifica se o formulário está válido antes de prosseguir
-        if (!validateForm()) {
-            setErrorMessage('Preencha todos os campos obrigatórios.');
+        if (!securityAnswer || securityAnswer.trim() === '') {
+            setErrorMessage('Por favor, forneça uma resposta para a pergunta de segurança.');
             return;
         }
-    
-        // Limpa mensagens de erro antes de continuar
+
+        // Limpa a mensagem de erro se tudo estiver certo
         setErrorMessage('');
-    
+
         const updatedPerfil = {
             ...perfil,
             perguntaSeguranca: selectedQuestion,
             respostaSeguranca: securityAnswer,
-            loginMethod: 'email',
         };
-    
-        try {
-            const response = await axios.put('http://localhost:3001/api/atualizarPerfil', updatedPerfil, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-        
-            console.log('Resposta do backend:', response);
-        
-            if (response.status >= 200 && response.status < 300) {
-                setPerfil(response.data.perfilAtualizado); // Atualiza o estado do perfil com os dados do backend
-                alert('Perfil atualizado com sucesso!');
-                setIsEditing(false);
-            } else {
-                setErrorMessage('Erro ao atualizar o perfil.');
-            }
-        } catch (error) {
-            setErrorMessage('Erro ao atualizar o perfil.');
-            console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
-        }
-             
-    };    
+
+        setPerfil(updatedPerfil);
+        localStorage.setItem('perfil', JSON.stringify(updatedPerfil));
+        atualizarPerfilNoBackend(updatedPerfil);
+        setIsEditing(false);
+    };
+
+
+
 
     const handleQuestionChange = (e) => {
         setSelectedQuestion(e.target.value);
@@ -149,41 +119,50 @@ function Perfil() {
 
     const handleCancel = () => {
         setIsEditing(false);
-        setPerfil(decodedToken.perfil); // Restaura o estado original do perfil
-    }; 
+    };
 
     const togglePasswordVisibility = () => {
         setShowPassword(prevState => !prevState);
     };
 
-    // Função para buscar o nome da empresa baseado no `empresa_id`
-    const buscarNomeEmpresa = async (empresaId) => {
-      try {
-        const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
-        setNomeEmpresa(response.data.nome); 
-      } catch (error) {
-        console.error('Erro ao buscar o nome da empresa:', error);
-      }
+    const atualizarPerfilNoBackend = async (updatedPerfil) => {
+        try {
+            const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedPerfil),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar o perfil');
+            }
+
+            const responseData = await response.json();
+            alert('Perfil atualizado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao atualizar perfil:', error);
+            alert('Erro ao atualizar o perfil.');
+        }
     };
 
-    useEffect(() => {
-        const fetchEmpresa = async () => {
-            if (token) {
-                setPerfil(decodedToken.perfil); 
-                setTipoUsuario(decodedToken.tipo_usuario);
-    
-                if (decodedToken.tipo_usuario === 'funcionario') {
-                    await buscarNomeEmpresa(decodedToken.perfil.empresa_id);
-                }
-            }
-        };
-        fetchEmpresa();
-    }, [token]);
-    
+
 
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
     };
+
+    // Função para buscar o nome da empresa baseado no `empresa_id`
+    const buscarNomeEmpresa = async (empresaId) => {
+        try {
+            const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
+            setNomeEmpresa(response.data.nome);
+        } catch (error) {
+            console.error('Erro ao buscar o nome da empresa:', error);
+        }
+    };
+
 
     const generateCalendar = () => {
         const month = currentMonth.getMonth();
@@ -270,10 +249,10 @@ function Perfil() {
     const textColor = getContrastingColor(backgroundColor);
 
     useEffect(() => {
-        if (decodedToken.perfil && decodedToken.perfil.loginMethod === 'login_temporario') {
-            setShowAlert(true);
+        if (decodedToken.perfil.cadastrado === 0 || decodedToken.cadastrado === false) {
+            setShowAlert(true); // Define o estado do alerta para ser exibido
         }
-    }, [decodedToken]); 
+    }, [decodedToken]); // Executa o useEffect quando o decodedToken for alterado
 
     return (
         <Container className='mt-4'>
@@ -281,7 +260,7 @@ function Perfil() {
                 <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
                     <Alert.Heading>Atualização de dados cadastrais necessária!</Alert.Heading>
                     <p>
-                        É necessário atualizar seus dados para usar as funções do sistema.
+                        É necessário atualizar seus dados para usar as funções do site.
                     </p>
                 </Alert>
             )}
@@ -322,27 +301,27 @@ function Perfil() {
                             {/* informações exclusivas de funcionário */}
                             {tipoUsuario === 'funcionario' && (
                                 <>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Empresa</h6>
-                                    <span className="text-secondary">{nomeEmpresa}</span>
-                                </ListGroup.Item>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Cargo</h6>
-                                    <span className="text-secondary">{perfil.cargo || "definir"}</span>
-                                </ListGroup.Item>
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 className="mb-0">Empresa</h6>
+                                        <span className="text-secondary">{nomeEmpresa}</span>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 className="mb-0">Cargo</h6>
+                                        <span className="text-secondary">{perfil.cargo || "definir"}</span>
+                                    </ListGroup.Item>
                                 </>
                             )}
                             {/* informações exclusivas de psicologo */}
                             {tipoUsuario === 'psicologo' && (
                                 <>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Data de Nascimento</h6>
-                                    <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
-                                </ListGroup.Item>
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 className="mb-0">Data de Nascimento</h6>
+                                        <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
+                                    </ListGroup.Item>
                                 </>
                             )}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                            <Button className="btnLog" onClick={handleLogout}><LogOut/> Sair da conta</Button>
+                                <Button className="btnLog" onClick={handleLogout}><LogOut /> Sair da conta</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
@@ -351,221 +330,183 @@ function Perfil() {
                     <Card className="cardPerfil mb-3">
                         {perfil && (
                             <Card.Body>
-                            {isEditing ? (
-                                <Form onSubmit={handleSave}>
-                                    <Form.Group controlId="formFullName">
-                                        <Form.Label>Nome</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="nome"
-                                            value={perfil.nome}
-                                            onChange={(e) => setPerfil({ ...perfil, nome: e.target.value })}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formEmail">
-                                        <Form.Label>Email</Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            name="login"
-                                            value={perfil.email}
-                                            onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group 
-                                    // controlId="formEmail"
-                                    >
-                                        <Form.Label>CPF</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="cpf"
-                                            value={perfil.cpf}
-                                            onChange={(e) => setPerfil({ ...perfil, cpf: e.target.value })}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formEmail">
-                                        {/* //mudar esses ids depois */}
-                                        <Form.Label>Cargo</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="cargo"
-                                            value={perfil.cargo}
-                                            onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formEmail">
-                                        <Form.Label>Telefone</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="telefone"
-                                            value={perfil.telefone}
-                                            onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formPassword">
-                                    <Form.Label>Senha</Form.Label>
-                                    <div className="password-container">
-                                    <Form.Control
-                                        type={showPassword ? "text" : "password"}
-                                        name="senha"
-                                        value={perfil.senha || ''}
-                                        onChange={(e) => setPerfil({ ...perfil, senha: e.target.value })}
-                                        placeholder="Digite uma nova senha"
-                                    />
-                                        {isEditing && (
-                                            <div
-                                                className='olho'
-                                                onClick={togglePasswordVisibility}
-                                            >
-                                                {showPassword ? <EyeOff /> : <Eye />}
+                                {isEditing ? (
+                                    <Form onSubmit={handleSave}>
+                                        <Form.Group controlId="formFullName">
+                                            <Form.Label>Nome</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="nome"
+                                                value={perfil.nome}
+                                                onChange={handleChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formEmail">
+                                            <Form.Label>Login</Form.Label>
+                                            <Form.Control
+                                                type="email"
+                                                name="login"
+                                                value={perfil.email}
+                                                onChange={handleChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formPassword">
+                                            <Form.Label>Senha</Form.Label>
+                                            <div className="password-container">
+                                                <Form.Control
+                                                    type={showPassword ? "text" : "password"}
+                                                    name="senha"
+                                                    value={perfil.senha || ''}
+                                                    onChange={handleChange}
+                                                    placeholder="Digite uma nova senha"
+                                                />
+                                                {isEditing && (
+                                                    <div
+                                                        className='olho'
+                                                        onClick={togglePasswordVisibility}
+                                                    >
+                                                        {showPassword ? <EyeOff /> : <Eye />}
+                                                    </div>
+                                                )}
                                             </div>
-                                        )}
-                                    </div>
-                                </Form.Group>
-                                    <Form.Group controlId="formSecurityQuestion">
-                                            <Form.Label>Pergunta de Segurança</Form.Label>
-                                            <Form.Control as="select" value={selectedQuestion} onChange={handleQuestionChange}>
+                                        </Form.Group>
+                                        <Form.Group controlId="formPergunta">
+                                            <Form.Label>Pergunta de segurança</Form.Label>
+                                            <Form.Control
+                                                as="select"
+                                                name="pergunta"
+                                                value={selectedQuestion}
+                                                onChange={(e) => setSelectedQuestion(e.target.value)}
+                                            >
                                                 <option value="">Selecione uma pergunta</option>
-                                                <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
-                                                <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
-                                                <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
+                                                <option value="animal">Qual era o nome do seu primeiro animal de estimação?</option>
+                                                <option value="comida">Qual é a sua comida favorita?</option>
+                                                <option value="trabalho">Qual o emprego dos seus sonhos?</option>
                                             </Form.Control>
                                         </Form.Group>
-                                        <Form.Group controlId="formSecurityAnswer">
-                                            <Form.Label>Resposta de Segurança</Form.Label>
+
+                                        <Form.Group controlId="formResposta">
+                                            <Form.Label>Resposta da pergunta de segurança</Form.Label>
                                             <Form.Control
-                                                type={showPassword ? "text" : "password"}
+                                                type="text"
+                                                name="resposta"
                                                 value={securityAnswer}
                                                 onChange={(e) => setSecurityAnswer(e.target.value)}
+                                                disabled={!selectedQuestion}
                                             />
-                                            <span onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff /> : <Eye />}</span>
+                                            {errorMessage && <div className="error-message">{errorMessage}</div>}
                                         </Form.Group>
-                                        <Button variant="primary" type="submit">Salvar</Button>
-                                        <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
-                                        {errorMessage && <p className="text-danger">{errorMessage}</p>}
+
+                                        <Button className='salvarBot mt-3' type="submit">Salvar</Button>
+                                        <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
                                     </Form>
-                                
-                            ) : (
-                                <>
-                                    <Row>
-                                        <Col sm={3}><h6 className="mb-0">Nome </h6></Col>
-                                        <Col sm={9} className="text-secondary">{perfil.nome}</Col>
-                                    </Row>
-                                    <hr />
-                                    <Row>
-                                        <Col sm={3}><h6 className="mb-0">Email</h6></Col>
-                                        <Col sm={9} className="text-secondary">{perfil.email}</Col>
-                                    </Row>
-                                    <hr />
-                                    <Row>
-                                        <Col sm={3}><h6 className="mb-0">CPF</h6></Col>
-                                        <Col sm={9} className="text-secondary">{perfil.cpf}</Col>
-                                    </Row>
-                                    <hr />
-                                    <Row>
-                                        <Col sm={3}><h6 className="mb-0">Cargo</h6></Col>
-                                        <Col sm={9} className="text-secondary">{perfil.cargo}</Col>
-                                    </Row>
-                                    <hr />
-                                    <Row>
-                                        <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
-                                        <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
-                                    </Row>
-                                    <hr />
-                                    <Row>
-                                        <Col sm={3}><h6 className="mb-0">Senha</h6></Col>
-                                        <Col sm={9} className="text-secondary">
-                                            {isEditing ? perfil.senha : '*****'}
-                                        </Col>
-                                    </Row>
-                                    <hr />
-                                    <Row>
-                                        <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
-                                        <Col sm={9} className="text-secondary">{perfil.perguntaSeguranca}</Col>
-                                    </Row>
-                                    <hr />
-                                    {isPsicologo && (
-                                        <>
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Biografia</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.biografia}</Col>
-                                            </Row>
-                                            <hr />
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
-                                            </Row>
-                                            <hr />
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
-                                            </Row>
-                                            <hr />
-                                        </>
-                                    )}
-                                    <Row>
-                                        <Col sm={12}>
-                                            <Button className='editarBot' onClick={handleEditClick}><Pencil/> Editar</Button>
-                                        </Col>
-                                    </Row>
-                                </>
-                            )}
-                        </Card.Body>
+                                ) : (
+                                    <>
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Nome </h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.nome}</Col>
+                                        </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Login</h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.email}</Col>
+                                        </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Senha</h6></Col>
+                                            <Col sm={9} className="text-secondary">
+                                                {isEditing ? perfil.senha : '*****'}
+                                            </Col>
+                                        </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.perguntaSeguranca}</Col>
+                                        </Row>
+                                        <hr />
+                                        {isPsicologo && (
+                                            <>
+                                                <Row>
+                                                    <Col sm={3}><h6 className="mb-0">Biografia</h6></Col>
+                                                    <Col sm={9} className="text-secondary">{perfil.biografia}</Col>
+                                                </Row>
+                                                <hr />
+                                                <Row>
+                                                    <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
+                                                    <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
+                                                </Row>
+                                                <hr />
+                                                <Row>
+                                                    <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                                    <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
+                                                </Row>
+                                                <hr />
+                                            </>
+                                        )}
+                                        <Row>
+                                            <Col sm={12}>
+                                                <Button className='editarBot' onClick={handleEditClick}><Pencil /> Editar</Button>
+                                            </Col>
+                                        </Row>
+                                    </>
+                                )}
+                            </Card.Body>
                         )}
-                        
+
                     </Card>
 
-             {tipoUsuario === 'funcionario' && (
-                    <Row>
-                        <Col>
-                            <div className="calendarioPerfil p-4 text-center">
-                                <div className="calendario-topo">
-                                    <button className="calendario-mes" onClick={handlePrevMonth}>◀</button>
-                                    <h5 className="calendar-title">
-                                        {currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}
-                                    </h5>
-                                    <button className="calendario-mes" onClick={handleNextMonth}>▶</button>
+                    {tipoUsuario === 'funcionario' && (
+                        <Row>
+                            <Col>
+                                <div className="calendarioPerfil p-4 text-center">
+                                    <div className="calendario-topo">
+                                        <button className="calendario-mes" onClick={handlePrevMonth}>◀</button>
+                                        <h5 className="calendar-title">
+                                            {currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}
+                                        </h5>
+                                        <button className="calendario-mes" onClick={handleNextMonth}>▶</button>
+                                    </div>
+                                    <br />
+                                    <div className="calendar-dias">
+                                        <div className="calendario-dia">Dom</div>
+                                        <div className="calendario-dia">Seg</div>
+                                        <div className="calendario-dia">Ter</div>
+                                        <div className="calendario-dia">Qua</div>
+                                        <div className="calendario-dia">Qui</div>
+                                        <div className="calendario-dia">Sex</div>
+                                        <div className="calendario-dia">Sab</div>
+                                        {generateCalendar()}
+                                    </div>
                                 </div>
-                                <br />
-                                <div className="calendar-dias">
-                                    <div className="calendario-dia">Dom</div>
-                                    <div className="calendario-dia">Seg</div>
-                                    <div className="calendario-dia">Ter</div>
-                                    <div className="calendario-dia">Qua</div>
-                                    <div className="calendario-dia">Qui</div>
-                                    <div className="calendario-dia">Sex</div>
-                                    <div className="calendario-dia">Sab</div>
-                                    {generateCalendar()}
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
+                            </Col>
+                        </Row>
                     )}
                 </Col>
             </Row>
 
             {tipoUsuario === 'funcionario' && (
-            <div className="calendar-container">
-                <div className="calendar">
-                    <h5>Detalhes da Consulta</h5>
-                    {Array.isArray(consultationDetails) ? (
-                        consultationDetails.length > 0 ? (
-                            consultationDetails.map((detail, index) => (
-                                <div key={index}>
-                                    <p><strong>Data:</strong> {detail.date}</p>
-                                    <p><strong>Horário:</strong> {detail.time}</p>
-                                    <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>
-                                    <p><strong>Assuntos:</strong> {detail.assunto}</p>
-                                    <hr />
-                                </div>
-                            ))
+                <div className="calendar-container">
+                    <div className="calendar">
+                        <h5>Detalhes da Consulta</h5>
+                        {Array.isArray(consultationDetails) ? (
+                            consultationDetails.length > 0 ? (
+                                consultationDetails.map((detail, index) => (
+                                    <div key={index}>
+                                        <p><strong>Data:</strong> {detail.date}</p>
+                                        <p><strong>Horário:</strong> {detail.time}</p>
+                                        <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>
+                                        <p><strong>Assuntos:</strong> {detail.assunto}</p>
+                                        <hr />
+                                    </div>
+                                ))
+                            ) : (
+                                <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
+                            )
                         ) : (
-                            <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
-                        )
-                    ) : (
-                        <p className='avisoSemData'>Erro ao carregar os detalhes da consulta.</p>
-                    )}
+                            <p className='avisoSemData'>Erro ao carregar os detalhes da consulta.</p>
+                        )}
+                    </div>
                 </div>
-            </div>
             )}
         </Container>
     );

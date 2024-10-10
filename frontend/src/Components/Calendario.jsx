@@ -2,7 +2,7 @@ import { useState } from 'react';
 import "../css/AgendarConsulta.css";
 import '../css/Calendario.css';
 
-const DatePicker = ({ onDateSelect }) => {
+const DatePicker = ({ onDateSelect, diasDisponiveis }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -33,14 +33,16 @@ const DatePicker = ({ onDateSelect }) => {
         // Dias do mês
         for (let i = 1; i <= daysInMonth; i++) {
             const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
-            const isToday = i === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear();
+            const isToday = date.toDateString() === new Date().toDateString();
             const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
+            const isDisabled = date < new Date() || !diasDisponiveis.has(date.toDateString());
 
             dates.push(
                 <button
                     key={`date-${i}`}
                     className={`date ${isToday ? 'current-day' : (isSelected ? 'selected-day' : '')}`}
-                    onClick={() => handleDateClick(i)} // Todos os dias agora são clicáveis
+                    onClick={() => !isDisabled && handleDateClick(i)} // Somente dias habilitados são clicáveis
+                    disabled={isDisabled}
                 >
                     {i}
                 </button>
