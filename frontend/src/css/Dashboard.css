@@ -428,7 +428,6 @@ body {
 .dashboard {
   display: grid;
   width: 100.6%;
-  height: 100%;
   grid-template-columns: 300px auto;
   grid-template-rows: 80px auto;
   grid-template-areas: 'menu search' 'menu content';
@@ -545,7 +544,7 @@ body {
   grid-area: content;
   padding: 3em;
   overflow: auto;
-  max-height: 74.2vh;
+  max-height: 76.9vh;
   box-sizing: border-box;
   margin-bottom: 10px;
   display: flex;
@@ -563,6 +562,7 @@ body {
 
 .person-boxes {
   padding: 0px;
+  display: flex;
 }
 
 .person-box {
