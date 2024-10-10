@@ -76,7 +76,7 @@ router.get('/psicologos/:id', async (req, res) => {
 // Rota para atualizar um registro existente pelo ID
 router.put('/psicologos/:id', async (req, res) => {
   const { id } = req.params;
-  const { nome, dataNascimento, genero, telefone, email, CPF, crp, endereco, certificados, especialidade, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
+  const { nome, dataNascimento, genero, telefone, email, CPF, crp, endereco, certificados, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, senha } = req.body;
 
   // Validação dos dados
   if (!nome || !email) {
@@ -84,8 +84,8 @@ router.put('/psicologos/:id', async (req, res) => {
   }
 
   try {
-    const updateFields = ['nome', 'dataNascimento', 'genero', 'telefone', 'email', 'CPF', 'crp', 'endereco', 'certificados', 'especialidade', 'preferenciaHorario', 'disponibilidade', 'localidades', 'motivacao', 'objetivos'];
-    const values = [nome, dataNascimento, genero, telefone, email, CPF, crp, endereco, certificados, especialidade, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, id];
+    const updateFields = ['nome', 'dataNascimento', 'genero', 'telefone', 'email', 'CPF', 'crp', 'endereco', 'certificados', 'especialidade', 'preferenciaHorario', 'disponibilidade', 'localizacao', 'motivacao', 'objetivos'];
+    const values = [nome, dataNascimento, genero, telefone, email, CPF, crp, endereco, certificados, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, id];
 
     if (senha) {
       // Criptografa a senha se fornecida
@@ -132,11 +132,11 @@ router.delete('/psicologos/:id', async (req, res) => {
 
 // Rota para criar um novo registro
 router.post('/psicologos', upload.single('certificados'), async (req, res) => {
-  const { nome, dataNascimento, genero, telefone, email, CPF, crp, endereco, especialidade, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
+  const { nome, dataNascimento, genero, telefone, email, CPF, crp, endereco, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, senha } = req.body;
   const certificados = req.file ? req.file.filename : null; // Pega o nome do arquivo enviado
 
   // Validação dos dados
-  if (!nome || !dataNascimento || !genero || !telefone || !email || !CPF || !crp || !especialidade || !preferenciaHorario || !disponibilidade || !localidades || !motivacao || !objetivos || !senha) {
+  if (!nome || !dataNascimento || !genero || !telefone || !email || !CPF || !crp || !especialidade || !preferenciaHorario || !disponibilidade || !localizacao || !motivacao || !objetivos || !senha) {
     return res.status(400).json({ error: 'Todos os campos obrigatórios devem ser preenchidos.' });
   }
 
@@ -145,8 +145,8 @@ router.post('/psicologos', upload.single('certificados'), async (req, res) => {
     const hashedPassword = await bcrypt.hash(senha, saltRounds);
 
     const [result] = await connection.query(
-      'INSERT INTO psicologos (nome, dataNascimento, genero, telefone, email, CPF, endereco, especialidade, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, certificados) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [nome, dataNascimento, genero, telefone, email, CPF, endereco, especialidade, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, hashedPassword, certificados]
+      'INSERT INTO psicologos (nome, dataNascimento, genero, telefone, email, CPF, endereco, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, senha, certificados) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [nome, dataNascimento, genero, telefone, email, CPF, endereco, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, hashedPassword, certificados]
     );
 
     res.status(201).json({ message: 'Registro criado com sucesso', id: result.insertId });
