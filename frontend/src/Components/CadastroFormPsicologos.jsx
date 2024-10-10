@@ -218,7 +218,7 @@ const CadastroFormPsi = () => {
 
                     <Col md="6" sm="10">
                         <label className='labelForms'>Regiões ou Localidades Preferidas para Atendimento</label>
-                        <input className='inputform cadPsi' type="text" name="localidades" placeholder="Digite suas regiões ou localidades preferidas aqui..." value={formData.localidades} onChange={handleChange} />
+                        <input className='inputform cadPsi' type="text" name="localizacao" placeholder="Digite suas regiões ou localidades preferidas aqui..." value={formData.localizacao} onChange={handleChange} />
 
                     </Col>
                     <Col md="6" sm="10">
