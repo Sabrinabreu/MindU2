@@ -155,7 +155,7 @@ const Dashboard = () => {
                 <main class="content-wrap">
                     <div class="content">
                         <section class="person-boxes">
-                        <Container className="cards">
+                        <Container className="cardsDashboard">
                                 <Row>
                                     {filteredCards.length > 0 ? (
                                         filteredCards.map((card) => (

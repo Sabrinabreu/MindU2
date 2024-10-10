@@ -107,7 +107,6 @@ body {
     top: 4% !important;
     bottom: 20% !important;
     left: 6% !important;
-    width: 600px !important;
     text-align: left !important;
     padding: 1.3em 3em;
     font-size: 16px;
@@ -156,14 +155,18 @@ body {
     margin-top: 30px !important;
 }
 
-.cards {
+.cardsQualidades {
     display: flex !important;
     justify-content: center !important;
     gap: 14px !important;
     margin-left: 10px;
 }
 
-
+.textporque {
+    text-align: center !important;
+    font-size: 3em !important;
+    color: #6852a5 !important;
+}
 
 .cardQualidades {
     flex: auto !important;
@@ -227,7 +230,7 @@ body {
 }
 
 [data-theme='dark'] .transformacaoimg {
-    fill: #fff; 
+    fill: #fff;
 }
 
 
@@ -580,7 +583,7 @@ body {
 
     .botaoSobre {
         width: 300px !important;
-        margin-left: 20px !important;
+        margin-left: 34px !important;
     }
 
 
@@ -596,8 +599,13 @@ body {
         width: 0 !important;
     }
 
+    .textporque {
+        text-align: center !important;
+        font-size: 1.4em !important;
+        color: #6852a5 !important;
+    }
 
-    .cards {
+    .cardsQualidades {
         flex-wrap: wrap !important;
     }
 
@@ -658,8 +666,7 @@ body {
 
     .textresultados {
         text-align: center !important;
-        font-size: 1.4em !important;
-        padding-left: -20px !important;
+        font-size: 2em !important;
     }
 
     .textresults {
@@ -735,8 +742,14 @@ body {
         width: 0 !important;
     }
 
+    .textporque {
+        text-align: center !important;
+        font-size: 1.4em !important;
+        color: #6852a5 !important;
+    }
 
-    .cards {
+
+    .cardsQualidades {
         flex-wrap: wrap !important;
     }
 
@@ -895,8 +908,13 @@ body {
         margin-left: 2px !important;
     }
 
+    .textporque {
+        text-align: center !important;
+        font-size: 1.4em !important;
+        color: #6852a5 !important;
+    }
 
-    .cards {
+    .cardsQualidades {
         flex-wrap: wrap !important;
         margin: 20px !important;
         column-gap: 130px !important;

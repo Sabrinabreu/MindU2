@@ -10,8 +10,8 @@ function QualidadesMindU() {
         <Container>
             <Row >
                 <div className='qualidadesMindU'>
-                    <h1 className='mb-5 text-center textresultados'>Porque escolher a MindU?</h1>
-                    <div className='d-flex cards'>
+                    <h1 className='mb-5 text-center textporque'>Porque escolher a MindU?</h1>
+                    <div className='d-flex cardsQualidades'>
                         <Col md='4' sm='12'>
                             <Card className="text-center cardQualidades">
                                 <Card.Body>

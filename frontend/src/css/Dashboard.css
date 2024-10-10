@@ -33,7 +33,7 @@ body {
   color: var(--color-dark);
 }
 
-.cards {
+.cardsDashboard {
   margin-left: 20px;
 }
 
@@ -60,14 +60,14 @@ body {
     transition: margin-left 0.3s ease;
   }
 
-  .cards {
+  .cardsDashboard {
     width: 100%;
   }
 
   .person-box {
     max-width: 200px;
-   margin-left: -30px;
-   margin-right: 350px  !important;
+    margin-left: -30px;
+    margin-right: 350px !important;
   }
 
 }
@@ -83,14 +83,14 @@ body {
     transition: margin-left 0.3s ease;
   }
 
-  .cards {
+  .cardsDashboard {
     width: 100%;
   }
 
   .person-box {
     max-width: 210px;
-   margin-left: -30px;
-   margin-right: 350px  !important;
+    margin-left: -30px;
+    margin-right: 350px !important;
   }
 
   .notFound {
@@ -116,8 +116,8 @@ body {
     width: 100% !important;
   }
 
-  .cards {
-    
+  .cardsDashboard {
+
     width: 490px !important;
   }
 
@@ -170,7 +170,7 @@ body {
     width: 337px !important;
   }
 
-  .cards {
+  .cardsDashboard {
     margin-left: -57px;
     max-width: 290px;
   }
@@ -206,7 +206,7 @@ body {
     width: 450px !important;
   }
 
-  .cards {
+  .cardsDashboard {
     margin-left: -10px;
   }
 
@@ -241,7 +241,7 @@ body {
     width: 337px !important;
   }
 
-  .cards {
+  .cardsDashboard {
     margin-left: -57px;
     max-width: 290px;
   }
@@ -278,7 +278,7 @@ body {
     width: 325px !important;
   }
 
-  .cards {
+  .cardsDashboard {
     margin-left: -80px;
   }
 
@@ -314,7 +314,7 @@ body {
     width: 290px !important;
   }
 
-  .cards {
+  .cardsDashboard {
     margin-left: -105px;
     max-width: 290px;
   }
@@ -365,7 +365,7 @@ body {
   }
 
   .search {
-    width:  10px;
+    width: 10px;
     margin-left: -20px;
   }
 
@@ -405,7 +405,7 @@ body {
   }
 
   .search {
-    width:  10px;
+    width: 10px;
     margin-left: -20px;
   }
 
