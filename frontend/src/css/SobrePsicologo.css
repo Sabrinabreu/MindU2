@@ -236,6 +236,32 @@
     border-color: #ad28ad;
 }
 
+.dataSelecionada{
+    margin-right: 8px;
+}
+
+.horarioBotao {
+    background-color: #f8f9fa; 
+    border: 1px solid #9582cb; 
+    border-radius: 4px;
+    padding: 10px;
+    margin: 5px 0;
+    margin-left: -5%;
+    cursor: pointer;
+    width: 40%;
+    text-align: left; 
+}
+
+.horarioBotao:hover {
+    background-color: #9582cb;
+    color: white; 
+}
+
+.horarioBotao.active {
+    background-color: #5a429b;
+    color: white; 
+}
+
 /* CALENDARIO */
 *,
 *:after,
@@ -339,7 +365,6 @@
     background-color: transparent;
     cursor: pointer;
 }
-
 
 .current-day {
     color: #FFF;
@@ -464,10 +489,6 @@
 }
 
 
-
-
-
-
 .increase-font-button {
     padding: 10px;
     background-color: #007bff;
@@ -493,63 +514,3 @@
   'GRAD' 0,
   'opsz' 24
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Estilo para eventos de consulta */
-.evento-consulta {
-    background-color: #ff9999; /* Cor rosa claro */
-    border: 1px solid #cc6666; /* Borda rosa escuro */
-    color: #fff; /* Cor do texto */
-  }
-  
-  /* Estilo para eventos de reunião */
-  .evento-reuniao {
-    background-color: #99ccff; /* Cor azul claro */
-    border: 1px solid #6699ff; /* Borda azul escuro */
-    color: #fff; /* Cor do texto */
-  }
-  
-  /* Estilo para eventos de disponibilidade */
-  .evento-disponivel {
-    background-color: #800080; /* Cor roxa */
-    border: 1px solid #400040; /* Borda roxa escura */
-    color: #fff; /* Cor do texto */
-  }
-  
-  /* Estilo geral para outros eventos */
-  .evento-geral {
-    background-color: #e0e0e0; /* Cor cinza claro */
-    border: 1px solid #b0b0b0; /* Borda cinza escuro */
-    color: #000; /* Cor do texto */
-  }
-  
-  /* Outras possíveis personalizações */
-  .fc-daygrid-day {
-    border: 1px solid #ccc; /* Borda das células do calendário */
-  }
-  
-  .work{
-    color: #800080;
-  }

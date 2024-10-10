@@ -56,7 +56,7 @@ const handleEmailSubmit = async (e) => {
 // Função para redefinir a senha
 const handleRedefinirSenha = async (e) => {
   e.preventDefault();
-  setError(""); // Redefine o erro antes da nova verificação
+  setError(""); 
 
   if (novaSenha !== confirmacaoSenha) {
     setError("As senhas não coincidem.");

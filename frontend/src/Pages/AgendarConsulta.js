@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
 import Tab from 'react-bootstrap/Tab';
@@ -12,6 +12,7 @@ import perfilPsicanalista from '../img/perfilPsicanalista.jpeg';
 import perfilEscolar from '../img/perfilEscolar.avif';
 import perfilOrganizacional from '../img/perfilOrganizacional.avif';
 import perfilclinico from '../img/perfilClinico.jpg';
+import padraoPerfil from '../img/padraoPerfil.png'
 import { Link } from 'react-router-dom';
 
 function AgendarConsulta() {
@@ -19,18 +20,39 @@ function AgendarConsulta() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('');
   const [selectedProfession, setSelectedProfession] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [data, setData] = useState([]);
+  const [modoEdicao, setModoEdicao] = useState({});
+  const [editedText, setEditedText] = useState({});
 
-  useEffect(() => {
-    console.log('Dados:', data);
-  }, [data]);
+  const handleClickEditar = (psicologoId) => {
+    setModoEdicao((prev) => ({ ...prev, [psicologoId]: !prev[psicologoId] }));
+
+    if (!modoEdicao[psicologoId]) {
+      // Carrega o texto existente para edição
+      setEditedText(prev => ({
+        ...prev,
+        [psicologoId]: getConteudoSobreMim({ psicologo: { psicologo_id: psicologoId } })
+      }));
+    }
+  };
+
+  const handleSalvar = (psicologoId) => {
+    // Aqui você atualiza o estado dos dados com o texto editado
+    setData(prevData =>
+      prevData.map(psicologo =>
+        psicologo.psicologo_id === psicologoId
+          ? { ...psicologo, info: editedText[psicologoId] } // Supondo que `info` seja o campo que você deseja atualizar
+          : psicologo
+      )
+    );
+    setModoEdicao((prev) => ({ ...prev, [psicologoId]: false }));
+  };
 
   useEffect(() => {
     axios.get('http://localhost:3001/psicologos')
       .then(response => {
-        console.log('Dados recebidos:', response.data);
         setData(response.data);
       })
       .catch(error => {
@@ -38,27 +60,40 @@ function AgendarConsulta() {
       });
   }, []);
 
+  const defaultTabs = [
+    {
+      eventKey: "sobre",
+      title: "Sobre Mim",
+      content: "Informações não disponíveis.",
+    },
+    {
+      eventKey: "especialidades",
+      title: "Especialidades",
+      content: <p>Nenhuma especialidade listada.</p>,
+    },
+    {
+      eventKey: "agenda",
+      title: "Agenda",
+      content: "Nenhuma agenda disponível.",
+    },
+  ];
+
   const tabs = [
     {
       id: 1,
       foto: perfilPsicologa,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Sou Psicóloga pela Universidade Paulista, atuo com a abordagem Psicanalítica. Tenho experiência com atendimento psicológico de pessoas que estão passando pela depressão, transtorno de ansiedade, conflitos amorosos, conflitos familiares e problemas de autoestima." },
         {
-          eventKey: "espeialidades",
+          eventKey: "sobre",
+          title: "Sobre Mim",
+          content: "Sou Psicóloga pela Universidade Paulista, atuo com a abordagem Psicanalítica. Tenho experiência com atendimento psicológico de pessoas que estão passando pela depressão, transtorno de ansiedade, conflitos amorosos, conflitos familiares e problemas de autoestima."
+        },
+        {
+          eventKey: "especialidades",
           title: "Especialidades",
           content: (
             <div className="especialidades">
-              {[
-                { description: "Identidade" },
-                { description: "Dinâmica familiar" },
-                { description: "Comunicação" },
-                { description: "Resolução de conflitos" },
-                { description: "Autoestima e confiança" },
-                { description: "Depressão" },
-                { description: "Ansiedade" },
-                { description: "transtorno obsessivo-compulsivo" },
-              ].map((servico, index) => (
+              {[{ description: "Identidade" }, { description: "Dinâmica familiar" }, { description: "Comunicação" }, { description: "Resolução de conflitos" }, { description: "Autoestima e confiança" }, { description: "Depressão" }, { description: "Ansiedade" }, { description: "Transtorno obsessivo-compulsivo" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
                 </div>
@@ -73,21 +108,17 @@ function AgendarConsulta() {
       id: 2,
       foto: perfilPsicologo,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Sou formado na Pontifícia Universidade Católica (PUC), atuo com a abordagem Humanista. Experiência com atendimento psicológico de pessoas que estão passando por perdas, luto, estresse, ansiedade e problemas de autoconfiança." },
         {
-          eventKey: "espeialidades",
+          eventKey: "sobre",
+          title: "Sobre Mim",
+          content: "Sou formado na Pontifícia Universidade Católica (PUC), atuo com a abordagem Humanista. Experiência com atendimento psicológico de pessoas que estão passando por perdas, luto, estresse, ansiedade e problemas de autoconfiança."
+        },
+        {
+          eventKey: "especialidades",
           title: "Especialidades",
           content: (
             <div className="especialidades">
-              {[
-                { description: "Transtornos mentais" },
-                { description: "Atenção" },
-                { description: "Insônia" },
-                { description: "Pensamento negativos e distorcidos" },
-                { description: "Autoestima e confiança" },
-                { description: "Memória" },
-                { description: "Luto" },
-              ].map((servico, index) => (
+              {[{ description: "Transtornos mentais" }, { description: "Atenção" }, { description: "Insônia" }, { description: "Pensamentos negativos e distorcidos" }, { description: "Autoestima e confiança" }, { description: "Memória" }, { description: "Luto" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
                 </div>
@@ -102,21 +133,17 @@ function AgendarConsulta() {
       id: 3,
       foto: perfilPsicologaclinica,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Sou Psicólogo pela Universidade Federal do Rio de Janeiro e atuo com a abordagem Sistêmica. Minha experiência inclui atendimento a famílias e indivíduos que enfrentam conflitos familiares, problemas de relacionamento, estresse e ansiedade. Meu objetivo é ajudar meus pacientes a encontrar soluções duradouras e melhorar sua qualidade de vida." },
         {
-          eventKey: "espeialidades",
+          eventKey: "sobre",
+          title: "Sobre Mim",
+          content: "Sou Psicólogo pela Universidade Federal do Rio de Janeiro e atuo com a abordagem Sistêmica. Minha experiência inclui atendimento a famílias e indivíduos que enfrentam conflitos familiares, problemas de relacionamento, estresse e ansiedade. Meu objetivo é ajudar meus pacientes a encontrar soluções duradouras e melhorar sua qualidade de vida."
+        },
+        {
+          eventKey: "especialidades",
           title: "Especialidades",
           content: (
             <div className="especialidades">
-              {[
-                { description: "Ansiedade" },
-                { description: "Apoio a doenças crônicas" },
-                { description: "Saúde mental de crianças e adolescentes" },
-                { description: "Luto e perda" },
-                { description: "Coping e resiliência" },
-                { description: "Resolução de conflitos" },
-                { description: "Trabalho" },
-              ].map((servico, index) => (
+              {[{ description: "Ansiedade" }, { description: "Apoio a doenças crônicas" }, { description: "Saúde mental de crianças e adolescentes" }, { description: "Luto e perda" }, { description: "Coping e resiliência" }, { description: "Resolução de conflitos" }, { description: "Trabalho" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
                 </div>
@@ -131,22 +158,17 @@ function AgendarConsulta() {
       id: 4,
       foto: perfilPsicanalista,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Com formação pela Universidade Estadual de Campinas e abordagem Psicodinâmica, meu foco é ajudar meus pacientes a entender e superar seus padrões de pensamento e comportamento negativos. Tenho experiência em atendimento a pessoas que enfrentam depressão, ansiedade, conflitos amorosos e problemas de autoestima." },
         {
-          eventKey: "espeialidades",
+          eventKey: "sobre",
+          title: "Sobre Mim",
+          content: "Com formação pela Universidade Estadual de Campinas e abordagem Psicodinâmica, meu foco é ajudar meus pacientes a entender e superar seus padrões de pensamento e comportamento negativos. Tenho experiência em atendimento a pessoas que enfrentam depressão, ansiedade, conflitos amorosos e problemas de autoestima."
+        },
+        {
+          eventKey: "especialidades",
           title: "Especialidades",
           content: (
             <div className="especialidades">
-              {[
-                { description: "Transtornos de personalidade" },
-                { description: "Identidade" },
-                { description: "Sexualidade" },
-                { description: "Autoestima e confiança" },
-                { description: "Carreira" },
-                { description: "Análise da dinâmica familiar" },
-                { description: "Resolução de conflitos" },
-                { description: "Trabalho" },
-              ].map((servico, index) => (
+              {[{ description: "Transtornos de personalidade" }, { description: "Identidade" }, { description: "Sexualidade" }, { description: "Autoestima e confiança" }, { description: "Carreira" }, { description: "Análise da dinâmica familiar" }, { description: "Resolução de conflitos" }, { description: "Trabalho" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
                 </div>
@@ -161,20 +183,17 @@ function AgendarConsulta() {
       id: 5,
       foto: perfilEscolar,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: "Como Psicóloga pela Universidade de Brasília, minha abordagem é baseada na Behaviorista. Meu objetivo é ajudar meus pacientes a identificar e mudar padrões de comportamento negativos, superando problemas de ansiedade, fobias, estresse e problemas de relacionamento." },
         {
-          eventKey: "espeialidades",
+          eventKey: "sobre",
+          title: "Sobre Mim",
+          content: "Como Psicóloga pela Universidade de Brasília, minha abordagem é baseada na Behaviorista. Meu objetivo é ajudar meus pacientes a identificar e mudar padrões de comportamento negativos, superando problemas de ansiedade, fobias, estresse e problemas de relacionamento."
+        },
+        {
+          eventKey: "especialidades",
           title: "Especialidades",
           content: (
             <div className="especialidades">
-              {[
-                { description: "Dificuldades de aprendizagem" },
-                { description: "Habilidades  e emocionais" },
-                { description: "Técnicas de estudo" },
-                { description: "Intervenção em bullying" },
-                { description: "Adaptação escolar" },
-                { description: "Análise de clima organizacional" },
-              ].map((servico, index) => (
+              {[{ description: "Dificuldades de aprendizagem" }, { description: "Habilidades emocionais" }, { description: "Técnicas de estudo" }, { description: "Intervenção em bullying" }, { description: "Adaptação escolar" }, { description: "Análise de clima organizacional" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
                 </div>
@@ -189,20 +208,17 @@ function AgendarConsulta() {
       id: 6,
       foto: perfilOrganizacional,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: " Sou Psicóloga pela Universidade Federal do ABC e atuo com a abordagem Existencial. Meu trabalho é ajudar meus pacientes a encontrar significado e propósito na vida, superando crises existenciais, estresse, ansiedade, depressão e problemas de autoconhecimento. Meu objetivo é ajudar meus pacientes a viver uma vida mais autêntica e plena." },
         {
-          eventKey: "espeialidades",
+          eventKey: "sobre",
+          title: "Sobre Mim",
+          content: "Sou Psicóloga pela Universidade Federal do ABC e atuo com a abordagem Existencial. Meu trabalho é ajudar meus pacientes a encontrar significado e propósito na vida, superando crises existenciais, estresse, ansiedade, depressão e problemas de autoconhecimento. Meu objetivo é ajudar meus pacientes a viver uma vida mais autêntica e plena."
+        },
+        {
+          eventKey: "especialidades",
           title: "Especialidades",
           content: (
             <div className="especialidades">
-              {[
-                { description: "Aconselhamento individual" },
-                { description: "Ansiedade" },
-                { description: "Habilidades para liderança" },
-                { description: "Estresse" },
-                { description: "Treinamento em comunicação eficaz" },
-                { description: "Análise de clima organizacional" },
-              ].map((servico, index) => (
+              {[{ description: "Aconselhamento individual" }, { description: "Ansiedade" }, { description: "Habilidades para liderança" }, { description: "Estresse" }, { description: "Treinamento em comunicação eficaz" }, { description: "Análise de clima organizacional" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
                 </div>
@@ -217,18 +233,17 @@ function AgendarConsulta() {
       id: 7,
       foto: perfilclinico,
       tabs: [
-        { eventKey: "sobre", title: "Sobre Mim", content: " Sou Psicóloga pela Universidade Federal do ABC e atuo com a abordagem Existencial. Meu trabalho é ajudar meus pacientes a encontrar significado e propósito na vida, superando crises existenciais, estresse, ansiedade, depressão e problemas de autoconhecimento. Meu objetivo é ajudar meus pacientes a viver uma vida mais autêntica e plena." },
         {
-          eventKey: "espeialidades",
+          eventKey: "sobre",
+          title: "Sobre Mim",
+          content: "Sou Psicóloga pela Universidade Federal do ABC e atuo com a abordagem Existencial. Meu trabalho é ajudar meus pacientes a encontrar significado e propósito na vida, superando crises existenciais, estresse, ansiedade, depressão e problemas de autoconhecimento. Meu objetivo é ajudar meus pacientes a viver uma vida mais autêntica e plena."
+        },
+        {
+          eventKey: "especialidades",
           title: "Especialidades",
           content: (
             <div className="especialidades">
-              {[
-                { description: "Aconselhamento individual e em grupo" },
-                { description: "Desenvolvimento de autoestima" },
-                { description: "Coaching" },
-                { description: "Habilidades para lidar com estresse e ansiedade" },
-              ].map((servico, index) => (
+              {[{ description: "Aconselhamento individual e em grupo" }, { description: "Desenvolvimento de autoestima" }, { description: "Coaching" }, { description: "Habilidades para lidar com estresse e ansiedade" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
                 </div>
@@ -237,10 +252,14 @@ function AgendarConsulta() {
           ),
         },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para ele." }
-      ],
+      ]
     }
-
   ];
+
+  const getTabsForPsicologo = (psicologo) => {
+    const psicologoTabs = tabs.find(tab => tab.id === psicologo.psicologo_id);
+    return psicologoTabs ? psicologoTabs.tabs : defaultTabs;
+  };
 
   const professionOptions = [
     "Psicólogo Psicanalista",
@@ -251,6 +270,16 @@ function AgendarConsulta() {
     "Psicóloga Organizacional",
   ];
 
+  const getConteudoSobreMim = (psicologo) => {
+    const psicologoTabs = tabs.find(tab => tab.id === psicologo.psicologo_id);
+    const sobreMim = psicologoTabs ? psicologoTabs.tabs.find(tab => tab.eventKey === 'sobre').content : null;
+
+    if (!sobreMim) {
+      return "Informações não disponíveis.";
+    }
+    return sobreMim;
+  };
+
   const filteredCards = data.filter(psicologo => {
     const term = searchTerm.toLowerCase();
     const isMatchingProfession = selectedProfession === '' || psicologo.especialidade.toLowerCase().includes(selectedProfession.toLowerCase());
@@ -260,7 +289,6 @@ function AgendarConsulta() {
 
     return isMatchingProfession && isMatchingSearchTerm;
   });
-
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -323,54 +351,71 @@ function AgendarConsulta() {
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
         <Col md={12}>
           {filteredCards.length > 0 ? (
-            filteredCards.map(psicologo => (
-              <div key={psicologo.psicologo_id} className="cardAgenda">
-                <div className="content-container">
-                  <img className='imgPerfil' src={psicologo.foto} alt="Foto de Perfil" />
-                  <div className="primeiro">
-                    <h3 className='nomeAgenda'>{psicologo.nome}</h3>
-                    <p className='profissao'>{psicologo.crp}</p>
-                    <p className='profissao'>{psicologo.especialidade}</p>
-                    <p className='local'>{psicologo.localizacao}</p>
-                    <div className="estrelas">
-                      {[...Array(5)].map((_, i) => (
-                        <span key={i} className={`star ${i < psicologo.rating ? 'filled' : ''}`}></span>
-                      ))}
+            filteredCards.map(psicologo => {
+              const tabsData = getTabsForPsicologo(psicologo);
+              return (
+                <div key={psicologo.psicologo_id} className="cardAgenda">
+                  <div className="content-container">
+                    <img className='imgPerfil' src={tabs.find(tab => tab.id === psicologo.psicologo_id)?.foto || padraoPerfil} alt="Foto de Perfil" />
+                    <div className="primeiro">
+                      <h3 className='nomeAgenda'>{psicologo.nome}</h3>
+                      <p className='profissao'>{psicologo.crp}</p>
+                      <p className='profissao'>{psicologo.especialidade}</p>
+                      <p className='local'>{psicologo.localizacao}</p>
+                      <div className="estrelas">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className={`star ${i < psicologo.rating ? 'filled' : ''}`}></span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className='segundo'>
+                      <Col className='p-2'>
+                        <div className='sessao'>Duração da Sessão<br /><b className='hora'>1 Hora</b></div>
+                      </Col>
+                    </div>
+                    <div className="tabs-container">
+                      <Tabs
+                        defaultActiveKey="agenda"
+                        id={`tabs-${psicologo.psicologo_id}`}
+                        fill
+                        activeKey={activeTabs[psicologo.psicologo_id] || 'agenda'}
+                        onSelect={(k) => setActiveTabs(prev => ({ ...prev, [psicologo.psicologo_id]: k }))}>
+                        {tabsData.map((tab, i) => (
+                          <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
+                            {tab.eventKey === 'agenda' ? (
+                              <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+                                Agendar
+                              </Link>
+                            ) : (
+                              <p>{tab.content}</p>
+                            )}
+                            {tab.eventKey === 'sobre' && activeTabs[psicologo.psicologo_id] === 'sobre' && (
+                              <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+                                Saiba mais
+                              </Link>
+                            )}
+                            {tab.eventKey === 'sobre' && getConteudoSobreMim(psicologo).includes("Informações não disponíveis.") && !modoEdicao[psicologo.psicologo_id] ? (
+                              <button onClick={() => handleClickEditar(psicologo.psicologo_id)}>Editar</button>
+                            ) : null}
+                            {tab.eventKey === 'sobre' && modoEdicao[psicologo.psicologo_id] ? (
+                              <div className='p-4'>
+                                <textarea
+                                  value={editedText[psicologo.psicologo_id] || "Informações não disponíveis."}
+                                  onChange={(e) => setEditedText(prev => ({ ...prev, [psicologo.psicologo_id]: e.target.value }))}
+                                  className="sobre-textarea"
+                                />
+                                <button onClick={() => handleSalvar(psicologo.psicologo_id)}>Salvar</button>
+                              </div>
+                            ) : null}
+                              <p>{getConteudoSobreMim(psicologo)}</p>
+                          </Tab>
+                        ))}
+                      </Tabs>
                     </div>
                   </div>
-                  <div className='segundo'>
-                    <Col className='p-2'>
-                      <div className='sessao'>Duração da Sessão<br /><b className='hora'>1 Hora</b></div>
-                    </Col>
-                  </div>
-                  <div className="tabs-container">
-                    <Tabs
-                      defaultActiveKey="agenda"
-                      id={`tabs-${psicologo.psicologo_id}`}
-                      fill
-                      activeKey={activeTabs[psicologo.psicologo_id] || 'agenda'}
-                      onSelect={(k) => setActiveTabs(prev => ({ ...prev, [psicologo.psicologo_id]: k }))}>
-                      {tabs.find(t => t.id === psicologo.psicologo_id)?.tabs.map((tab, i) => (
-                        <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
-                          {tab.eventKey === 'agenda' ? (
-                            <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-                              Agendar
-                            </Link>
-                          ) : (
-                            <p>{tab.content}</p>
-                          )}
-                          {tab.eventKey === 'sobre' && activeTabs[psicologo.psicologo_id] === 'sobre' && (
-                            <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-                              Saiba mais
-                            </Link>
-                          )}
-                        </Tab>
-                      ))}
-                    </Tabs>
-                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <div className='semResultado'>Nenhum resultado encontrado.</div>
           )}

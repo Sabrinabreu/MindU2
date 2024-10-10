@@ -1,8 +1,7 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import '../css/HomeMindU.css'
-import { CalendarCog } from 'lucide-react';
+import { CalendarCog, LockKeyhole } from 'lucide-react';
 import { GiDiploma } from "react-icons/gi";
-import { LockKeyhole } from 'lucide-react';
 
 function QualidadesMindU() {
 

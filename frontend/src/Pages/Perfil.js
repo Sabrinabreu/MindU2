@@ -11,7 +11,7 @@ function formatarData(data) {
 }
 
 function Perfil() {
-    const [consultationDetails, setConsultationDetails] = useState([]);
+    const [consultationDetails] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [isEditing, setIsEditing] = useState(false);
     const [perfil, setPerfil] = useState({});
@@ -23,21 +23,23 @@ function Perfil() {
     const navegacao = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
-    const [setPsicologoNome] = useState('');
-    const [isPsicologo, setIsPsicologo] = useState(false);
+    const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
 
     useEffect(() => {
+
         if (token) {
+            const decodedToken = parseJwt(token);
             setPerfil(decodedToken.perfil);
             setTipoUsuario(decodedToken.tipo_usuario);
 
+            // Se for um funcionário, buscar o nome da empresa pelo `empresa_id`
             if (decodedToken.tipo_usuario === 'funcionario') {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
-    }, [token]);
+    }, [token]); // adiciona [token] para monitorar mudanças no token    
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -77,28 +79,40 @@ function Perfil() {
         console.log("infos token: ", decodedToken);
 
         try {
+            console.log('Iniciando a requisição...');
+            
             const response = await axios.put('http://localhost:3001/api/atualizarPerfil', updatedPerfil, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
             });
-
+            
+            console.log('Status da resposta:', response.status);
+        
             if (response.status >= 200 && response.status < 300) {
-                const novoToken = response.data.novoToken; // Assumindo que o backend retorna um novo token
-                localStorage.setItem('token', novoToken); // Atualiza o token no localStorage
-                setToken(novoToken); // Atualiza o contexto de autenticação
-                setPerfil(response.data.perfilAtualizado); // Atualiza o perfil no frontend
+                const novoToken = response.data.token;
+                console.log('Novo token recebido:', novoToken);
+        
+                setToken(novoToken);
+                localStorage.setItem('token', novoToken);
+        
+                const decodedNovoToken = parseJwt(novoToken);
+                setPerfil(decodedNovoToken.perfil);
                 alert('Perfil atualizado com sucesso!');
                 setIsEditing(false);
+        
+                const decodedToken = parseJwt(novoToken);
+                console.log('Novo token decodificado:', decodedToken);
             } else {
                 setErrorMessage('Erro ao atualizar o perfil.');
             }
         } catch (error) {
             setErrorMessage('Erro ao atualizar o perfil.');
             console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
+            console.log('Status do erro:', error.response?.status);
         }
-    };
+    };  
 
     const handleCancel = () => {
         setIsEditing(false);
@@ -118,8 +132,6 @@ function Perfil() {
         }
 
     };
-
-
 
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
@@ -226,7 +238,7 @@ function Perfil() {
                 <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
                     <Alert.Heading>Atualização de dados cadastrais necessária!</Alert.Heading>
                     <p>
-                        É necessário atualizar seus dados para usar as funções do sistema.
+                        É necessário atualizar seus dados para usar as funções do site.
                     </p>
                 </Alert>
             )}
@@ -252,26 +264,26 @@ function Perfil() {
                     <Card className="cardPerfil mt-3">
                         <ListGroup variant="flush">
                             {/* informações gerais */}
-                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Email</h6>
                                 <span className="text-secondary">{perfil.email || "definir"}</span>
                             </ListGroup.Item>
-                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">Telefone</h6>
                                 <span className="text-secondary">{perfil.telefone || "definir"}</span>
                             </ListGroup.Item>
-                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">CPF</h6>
                                 <span className="text-secondary">{perfil.cpf || "definir"}</span>
                             </ListGroup.Item>
                             {/* informações exclusivas de funcionário */}
                             {tipoUsuario === 'funcionario' && (
                                 <>
-                                    <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 className="mb-0">Empresa</h6>
                                         <span className="text-secondary">{nomeEmpresa}</span>
                                     </ListGroup.Item>
-                                    <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 className="mb-0">Cargo</h6>
                                         <span className="text-secondary">{perfil.cargo || "definir"}</span>
                                     </ListGroup.Item>
@@ -280,13 +292,13 @@ function Perfil() {
                             {/* informações exclusivas de psicologo */}
                             {tipoUsuario === 'psicologo' && (
                                 <>
-                                    <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 className="mb-0">Data de Nascimento</h6>
                                         <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
                                     </ListGroup.Item>
                                 </>
                             )}
-                            <ListGroup.Item className="listPerfil d-flex justify-content-between align-items-center flex-wrap">
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <Button className="btnLog" onClick={handleLogout}><LogOut /> Sair da conta</Button>
                             </ListGroup.Item>
                         </ListGroup>
@@ -296,123 +308,97 @@ function Perfil() {
                     <Card className="cardPerfil mb-3">
                         {perfil && (
                             <Card.Body>
-                                {isEditing ? (
-                                    <Form onSubmit={handleSave}>
-                                        <Form.Group controlId="formFullName">
-                                            <Form.Label>Nome</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="nome"
-                                                value={perfil.nome}
-                                                onChange={(e) => setPerfil({ ...perfil, nome: e.target.value })}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formEmail">
-                                            <Form.Label>Email</Form.Label>
-                                            <Form.Control
-                                                type="email"
-                                                name="login"
-                                                value={perfil.email}
-                                                onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group
-                                        // controlId="formEmail"
-                                        >
-                                            <Form.Label>CPF</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="cpf"
-                                                value={perfil.cpf}
-                                                onChange={(e) => {
-                                                    let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
-                                                    if (input.length > 11) input = input.slice(0, 11);
-
-                                                    // Formata o CPF
-                                                    if (input.length > 9) {
-                                                        input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}-${input.slice(9, 11)}`;
-                                                    } else if (input.length > 6) {
-                                                        input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}`;
-                                                    } else if (input.length > 3) {
-                                                        input = `${input.slice(0, 3)}.${input.slice(3, 6)}`;
-                                                    }
-
-                                                    setPerfil({ ...perfil, cpf: input });
-                                                }}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formEmail">
-                                            {/* //mudar esses ids depois */}
-                                            <Form.Label>Cargo</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="cargo"
-                                                value={perfil.cargo}
-                                                onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formEmail">
-                                            <Form.Label>Telefone</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="telefone"
-                                                value={perfil.telefone}
-                                                onChange={(e) => {
-                                                    let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
-                                                    if (input.length > 11) input = input.slice(0, 11);
-
-                                                    // Formata o telefone
-                                                    if (input.length > 6) {
-                                                        input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}-${input.slice(7, 11)}`;
-                                                    } else if (input.length > 2) {
-                                                        input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}`;
-                                                    }
-
-                                                    setPerfil({ ...perfil, telefone: input });
-                                                }}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formPassword">
-                                            <Form.Label>Senha</Form.Label>
-                                            <div className="password-container">
-                                                <Form.Control
-                                                    type={showPassword ? "text" : "password"}
-                                                    name="senha"
-                                                    value={perfil.senha || ''}
-                                                    onChange={(e) => setPerfil({ ...perfil, senha: e.target.value })}
-                                                    placeholder="Digite uma nova senha"
-                                                />
-                                                {isEditing && (
-                                                    <div
-                                                        className='olho'
-                                                        onClick={togglePasswordVisibility}
-                                                    >
-                                                        {showPassword ? <EyeOff /> : <Eye />}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </Form.Group>
-                                        <Form.Group controlId="formSecurityQuestion">
-                                            <Form.Label>Pergunta de Segurança</Form.Label>
-                                            <Form.Control
-                                                as="select"
-                                                value={perfil.pergunta_seguranca}
-                                                onChange={(e) => setPerfil({ ...perfil, pergunta_seguranca: e.target.value })}
+                            {isEditing ? (
+                                <Form onSubmit={handleSave}>
+                                    <Form.Group controlId="formFullName">
+                                        <Form.Label>Nome</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="nome"
+                                            value={perfil.nome}
+                                            onChange={(e) => setPerfil({ ...perfil, nome: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Email</Form.Label>
+                                        <Form.Control
+                                            type="email"
+                                            name="login"
+                                            value={perfil.email}
+                                            onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group 
+                                    // controlId="formEmail"
+                                    >
+                                        <Form.Label>CPF</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="cpf"
+                                            value={perfil.cpf}
+                                            onChange={(e) => setPerfil({ ...perfil, cpf: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        {/* //mudar esses ids depois */}
+                                        <Form.Label>Cargo</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="cargo"
+                                            value={perfil.cargo}
+                                            onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Telefone</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="telefone"
+                                            value={perfil.telefone}
+                                            onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formPassword">
+                                    <Form.Label>Senha</Form.Label>
+                                    <div className="password-container">
+                                    <Form.Control
+                                        type={showPassword ? "text" : "password"}
+                                        name="senha"
+                                        value={perfil.senha || ''}
+                                        onChange={(e) => setPerfil({ ...perfil, senha: e.target.value })}
+                                        placeholder="Digite uma nova senha"
+                                    />
+                                        {isEditing && (
+                                            <div
+                                                className='olho'
+                                                onClick={togglePasswordVisibility}
                                             >
-                                                <option value="">Selecione uma pergunta <p className="setaSelecionar">↓</p></option>
-                                                <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
-                                                <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
-                                                <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
-                                            </Form.Control>
-                                        </Form.Group>
-                                        <Form.Group controlId="formSecurityAnswer">
-                                            <Form.Label>Resposta de Segurança</Form.Label>
-                                            <Form.Control
-                                                type={showPassword ? "text" : "password"}
-                                                value={perfil.resposta_seguranca}
-                                                onChange={(e) => setPerfil({ ...perfil, resposta_seguranca: e.target.value })}
-                                            />
-                                        </Form.Group>
+                                                {showPassword ? <EyeOff /> : <Eye />}
+                                            </div>
+                                        )}
+                                    </div>
+                                </Form.Group>                                        
+                                <Form.Group controlId="formSecurityQuestion">
+                                <Form.Label>Pergunta de Segurança</Form.Label>
+                                <Form.Control 
+                                    as="select" 
+                                    value={perfil.pergunta_seguranca} 
+                                    onChange={(e) => setPerfil({ ...perfil, pergunta_seguranca: e.target.value })}
+                                >
+                                    <option value="">Selecione uma pergunta</option>
+                                    <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
+                                    <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
+                                    <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
+                                </Form.Control>
+                                </Form.Group>
+                                <Form.Group controlId="formSecurityAnswer">
+                                    <Form.Label>Resposta de Segurança</Form.Label>
+                                    <Form.Control
+                                        type={showPassword ? "text" : "password"}
+                                        value={perfil.resposta_seguranca}
+                                        onChange={(e) => setPerfil({ ...perfil, resposta_seguranca: e.target.value })}
+                                    />
+                                </Form.Group>
                                         <Button variant="primary" type="submit">Salvar</Button>
                                         <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
                                         {errorMessage && <p className="text-danger">{errorMessage}</p>}
@@ -533,13 +519,10 @@ function Perfil() {
                                     </div>
                                 ))
                             ) : (
-                                <Col md={12}>
-                                    <p className='avisoSemData perfil'>Nenhum agendamento encontrado.</p>
-                                </Col>
-
+                                <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
                             )
                         ) : (
-                            <p className='avisoSemData perfil'>Erro ao carregar os detalhes da consulta.</p>
+                            <p className='avisoSemData'>Erro ao carregar os detalhes da consulta.</p>
                         )}
                     </div>
                 </div>

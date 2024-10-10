@@ -5,7 +5,6 @@ import BAPO from "../Components/WidgetBAPO";
 import MyVerticallyCenteredModal from '../Components/ModalPag';
 import "../css/WidgetBAPO.css";
 import { useNavigate } from "react-router-dom";
-import PaymentForm from "../Components/Pagamento";
 import { parseJwt } from "../Components/jwtUtils";
 
 const Planos = () => {
