@@ -10,7 +10,7 @@ import { parseJwt } from "../Components/jwtUtils";
 const Planos = () => {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedPlan, setSelectedPlan] = React.useState(null);
-    const [setTipoUsuario] = useState('');
+    const [tipoUsuario, setTipoUsuario] = useState('');
 
     const planos = {
         'Bem-Estar': {

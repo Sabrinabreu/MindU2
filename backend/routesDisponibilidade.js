@@ -31,30 +31,30 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
 
 
 // Rota para inserir a disponibilidade de um psicólogo 
-router.post('/disponibilidade/psicologo', (req, res) => { 
-    const dataDisponibilidade = req.body; 
+router.post('/disponibilidade/psicologo', (req, res) => {
+    const dataDisponibilidade = req.body;
 
-    console.log('Dados recebidos para inserção:', dataDisponibilidade); 
+    console.log('Dados recebidos para inserção:', dataDisponibilidade);
 
-    // Verifique se os dados necessários foram enviados 
-    if (!Array.isArray(dataDisponibilidade) || dataDisponibilidade.length === 0) { 
-        console.log('Dados inválidos:', dataDisponibilidade); 
-        return res.status(400).json({ error: 'Dados incompletos ou inválidos' }); 
-    } 
+    // Verifique se os dados necessários foram enviados
+    if (!Array.isArray(dataDisponibilidade) || dataDisponibilidade.length === 0) {
+        console.log('Dados inválidos:', dataDisponibilidade);
+        return res.status(400).json({ error: 'Dados incompletos ou inválidos' });
+    }
 
-    // Cria uma query para inserir múltiplos registros 
-    const query = 'INSERT INTO disponibilidadepsico (psicologo_id, data, horario) VALUES ?'; 
-    const values = dataDisponibilidade.map(item => [item.psicologo_id, item.data, item.horario]); 
- 
-    connection.query(query, [values], (error, results) => { 
-        if (error) { 
-            console.error('Erro ao inserir dados:', error); 
-            return res.status(500).json({ error: 'Erro ao inserir dados' }); 
-        } 
-        console.log('Disponibilidades inseridas com sucesso!'); 
-        res.status(201).json({ message: 'Disponibilidades inseridas com sucesso!', insertedCount: results.affectedRows }); 
-    }); 
-}); 
+    // Cria uma query para inserir múltiplos registros
+    const query = 'INSERT INTO disponibilidadepsico (psicologo_id, data, horario) VALUES ?';
+    const values = dataDisponibilidade.map(item => [item.psicologo_id, item.data, item.horario]);
+
+    connection.query(query, [values], (error, results) => {
+        if (error) {
+            console.error('Erro ao inserir dados:', error);
+            return res.status(500).json({ error: 'Erro ao inserir dados' });
+        }
+        console.log('Disponibilidades inseridas com sucesso!');
+        res.status(201).json({ message: 'Disponibilidades inseridas com sucesso!', insertedCount: results.affectedRows });
+    });
+});
 
 // Rota para listar todas as disponibilidades (opcional) 
 router.get('/disponibilidade', (req, res) => { 

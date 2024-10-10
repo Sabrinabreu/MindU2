@@ -25,7 +25,7 @@ const Disponibilidade = () => {
         sábado: { start: '', end: '' },
         domingo: { start: '', end: '' },
     });
-    const [updated, setUpdated] = useState(false); // Estado para controlar se as configurações foram atualizadas
+    const [updated, setUpdated] = useState(false);
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
@@ -37,7 +37,7 @@ const Disponibilidade = () => {
             time: '10:00',
             details: ''
         }]);
-    };
+    }
 
     const handleDayChange = (day) => {
         setWorkingDays(prevDays => ({
@@ -57,74 +57,82 @@ const Disponibilidade = () => {
     };
 
     const handleUpdate = () => {
-        const psicologo_id = 1;
+        const psicologo_id = 4; // Exemplo, deve ser dinâmico conforme seu sistema
         const dataDisponibilidade = [];
         let hasWorkingDays = false;
+    
+        // Log para ver o estado de workingHours
+        console.log('Estado de workingHours:', workingHours);
     
         Object.keys(workingDays).forEach(day => {
             if (workingDays[day]) {
                 hasWorkingDays = true;
-                const startTime = workingHours[day].start;
-                const endTime = workingHours[day].end;
+                const { start, end } = workingHours[day];
     
-                if (startTime && endTime) {
-                    // Adicione aqui a lógica para os dias de trabalho
-                    const currentDate = new Date();
-                    const today = new Date(); // Salva a data de hoje
-                    // Verifique se é o dia atual ou os próximos 7 dias
+                // Log dos horários
+                console.log(`Horários para ${day}: Início: ${start}, Fim: ${end}`);
+    
+                // Verifique se ambos os horários estão preenchidos
+                if (start && end) {
+                    const today = new Date();
+    
+                    // Loop para os próximos 7 dias
                     for (let d = 0; d < 7; d++) {
-                        const nextDate = new Date(today);
+                        const nextDate = new Date();
                         nextDate.setDate(today.getDate() + d);
                         const weekday = nextDate.toLocaleString('pt-BR', { weekday: 'long' }).toLowerCase();
-                        
-                        // Verifique se a data do próximo dia é igual ao dia de trabalho
+    
+                        console.log(`Dia processado: ${weekday}, dia selecionado: ${day}`); // Log de depuração
+    
+                        // Verifique se o dia da semana corresponde ao dia de trabalho
                         if (weekday === day) {
                             dataDisponibilidade.push({
                                 psicologo_id,
                                 data: nextDate.toISOString().split('T')[0],
-                                horario: startTime // ou use `horario: endTime` se desejar
+                                horario: start // ou use `horario: end` se necessário
                             });
                         }
                     }
+                } else {
+                    console.log(`Horários não preenchidos para ${day}`); // Adicionando log para horários não preenchidos
                 }
             }
         });
     
-        console.log('Dados a serem enviados:', dataDisponibilidade); // Adicione este log
-    
+        // Validações finais
         if (!hasWorkingDays) {
             alert('Por favor, selecione pelo menos um dia de trabalho.');
             return;
         }
     
+        // Verifique se dataDisponibilidade tem elementos
         if (dataDisponibilidade.length === 0) {
             alert('Por favor, preencha os horários de trabalho antes de atualizar.');
             return;
         }
     
-        fetch('http://localhost:3001/disponibilidade/psicologo', {
+        console.log('Dados a serem enviados:', dataDisponibilidade); // Adicione este log
+    
+        fetch('http://localhost:3001/api/disponibilidade/psicologo', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dataDisponibilidade),
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Resposta do servidor:', data); // Verifique a resposta
-            if (data.success) {
-                alert('Dias e horários de trabalho atualizados com sucesso!');
-                setUpdated(true); // Marca que a atualização foi feita
-            } else {
-                alert('Erro ao atualizar dias e horários de trabalho.');
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar dias e horários de trabalho.');
             }
+            return response.json();
+        })
+        .then(data => {
+            alert('Dias e horários de trabalho atualizados com sucesso!');
         })
         .catch(err => {
             alert('Erro ao enviar dados: ' + err.message);
         });
     };
-    
-    
+        
+
     const isPastDate = selectedDate && selectedDate < new Date().setHours(0, 0, 0, 0);
     const isWorkingDay = selectedDate && workingDays[selectedDate.toLocaleDateString('pt-BR', { weekday: 'long' }).toLowerCase()];
 
@@ -174,9 +182,9 @@ const Disponibilidade = () => {
                             ))}
                         </Row>
                         <Button className='mt-3 btnAtualizar' onClick={handleUpdate}>
-                        <span className="material-symbols-outlined iconsDisp">restart_alt</span>
-                        Atualizar
-                    </Button>
+                            <span className="material-symbols-outlined iconsDisp">restart_alt</span>
+                            Atualizar
+                        </Button>
                     </div>
                 </Form>
             </Col>
