@@ -13,13 +13,8 @@ import clinica5 from "../img/clinica5.jpg";
 import bannerIMG from "../img/bannerContato2.jpg";
 import { Row, Col, Card, CardGroup } from "react-bootstrap";
 
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../provider/AuthProvider";
-
 const Contato = () => {
-  const { setToken } = useAuth();
-    const navegacao = useNavigate();
-  const [slides, setslides] = useState([
+  const [slides] = useState([
       {
           foto: clinica1,
           nome: "Manaus - AM",
@@ -96,7 +91,6 @@ const handleLogout = () => {
   return (
     <>
     <BAPO/>
-    <button className="btnLog" onClick={handleLogout}>Sair da conta</button>
       <div>
       
         <div className="bannerContato">

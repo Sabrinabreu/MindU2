@@ -11,7 +11,7 @@ import { parseJwt } from './jwtUtils';
 
 const Navegacao = ({ isDarkMode, toggleTheme }) => {
   const location = useLocation();
-  const { token, setToken } = useAuth();
+  const { token } = useAuth();
   const decodedToken = token ? parseJwt(token) : null;
   const tipoUsuario = decodedToken?.tipo_usuario;
 

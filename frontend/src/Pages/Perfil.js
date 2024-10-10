@@ -11,7 +11,7 @@ function formatarData(data) {
 }
 
 function Perfil() {
-    const [consultationDetails, setConsultationDetails] = useState([]);
+    const [consultationDetails] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [isEditing, setIsEditing] = useState(false);
     const [perfil, setPerfil] = useState({});
@@ -23,17 +23,18 @@ function Perfil() {
     const navegacao = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
-    const [setPsicologoNome] = useState('');
-    const [isPsicologo, setIsPsicologo] = useState(false);
+    const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
 
     useEffect(() => {
+
         if (token) {
             const decodedToken = parseJwt(token);
             setPerfil(decodedToken.perfil);
             setTipoUsuario(decodedToken.tipo_usuario);
-    
+
+            // Se for um funcionário, buscar o nome da empresa pelo `empresa_id`
             if (decodedToken.tipo_usuario === 'funcionario') {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
@@ -68,7 +69,7 @@ function Perfil() {
         }
     
         setErrorMessage('');
-    
+
         const updatedPerfil = {
             ...perfil,
             loginMethod: 'email',
@@ -237,7 +238,7 @@ function Perfil() {
                 <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
                     <Alert.Heading>Atualização de dados cadastrais necessária!</Alert.Heading>
                     <p>
-                        É necessário atualizar seus dados para usar as funções do sistema.
+                        É necessário atualizar seus dados para usar as funções do site.
                     </p>
                 </Alert>
             )}
@@ -278,27 +279,27 @@ function Perfil() {
                             {/* informações exclusivas de funcionário */}
                             {tipoUsuario === 'funcionario' && (
                                 <>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Empresa</h6>
-                                    <span className="text-secondary">{nomeEmpresa}</span>
-                                </ListGroup.Item>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Cargo</h6>
-                                    <span className="text-secondary">{perfil.cargo || "definir"}</span>
-                                </ListGroup.Item>
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 className="mb-0">Empresa</h6>
+                                        <span className="text-secondary">{nomeEmpresa}</span>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 className="mb-0">Cargo</h6>
+                                        <span className="text-secondary">{perfil.cargo || "definir"}</span>
+                                    </ListGroup.Item>
                                 </>
                             )}
                             {/* informações exclusivas de psicologo */}
                             {tipoUsuario === 'psicologo' && (
                                 <>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Data de Nascimento</h6>
-                                    <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
-                                </ListGroup.Item>
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 className="mb-0">Data de Nascimento</h6>
+                                        <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
+                                    </ListGroup.Item>
                                 </>
                             )}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                            <Button className="btnLog" onClick={handleLogout}><LogOut/> Sair da conta</Button>
+                                <Button className="btnLog" onClick={handleLogout}><LogOut /> Sair da conta</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
@@ -503,28 +504,28 @@ function Perfil() {
             </Row>
 
             {tipoUsuario === 'funcionario' && (
-            <div className="calendar-container">
-                <div className="calendar">
-                    <h5>Detalhes da Consulta</h5>
-                    {Array.isArray(consultationDetails) ? (
-                        consultationDetails.length > 0 ? (
-                            consultationDetails.map((detail, index) => (
-                                <div key={index}>
-                                    <p><strong>Data:</strong> {detail.date}</p>
-                                    <p><strong>Horário:</strong> {detail.time}</p>
-                                    <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>
-                                    <p><strong>Assuntos:</strong> {detail.assunto}</p>
-                                    <hr />
-                                </div>
-                            ))
+                <div className="calendar-container">
+                    <div className="calendar">
+                        <h5>Detalhes da Consulta</h5>
+                        {Array.isArray(consultationDetails) ? (
+                            consultationDetails.length > 0 ? (
+                                consultationDetails.map((detail, index) => (
+                                    <div key={index}>
+                                        <p><strong>Data:</strong> {detail.date}</p>
+                                        <p><strong>Horário:</strong> {detail.time}</p>
+                                        <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>
+                                        <p><strong>Assuntos:</strong> {detail.assunto}</p>
+                                        <hr />
+                                    </div>
+                                ))
+                            ) : (
+                                <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
+                            )
                         ) : (
-                            <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
-                        )
-                    ) : (
-                        <p className='avisoSemData'>Erro ao carregar os detalhes da consulta.</p>
-                    )}
+                            <p className='avisoSemData'>Erro ao carregar os detalhes da consulta.</p>
+                        )}
+                    </div>
                 </div>
-            </div>
             )}
         </Container>
     );

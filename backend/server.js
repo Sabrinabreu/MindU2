@@ -30,9 +30,9 @@ app.use('/', rotaCadastropsi);
 app.use('/', rotaempresa);
 app.use('/', rotaFuncionario);
 app.use('/', rotaPsicologos);
-app.use('/api/agendamento', agendamentoRoutes);
+app.use('/api', agendamentoRoutes);
 app.use('/api/atualizarPerfil', rotaPerfilsuario);
-app.use('/api/psicologo', disponibilidadesRoutes);
+app.use('/api', disponibilidadesRoutes);
 app.use('/api', rotaEsqueciSenha);
 
 // Remove rotas não definidas (ajustar ou remover se não houver)

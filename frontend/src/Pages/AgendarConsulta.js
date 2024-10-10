@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
 import Tab from 'react-bootstrap/Tab';
@@ -19,7 +19,7 @@ function AgendarConsulta() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('');
   const [selectedProfession, setSelectedProfession] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [data, setData] = useState([]);
 

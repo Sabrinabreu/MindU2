@@ -14,39 +14,38 @@ const Dashboard = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [perfil, setPerfil] = useState({});
     const [selectedCategory, setSelectedCategory] = useState("all");
-    const [cards, setCards] = useState([]);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        console.log('Dados:', data);
+    }, [data]);
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/contafuncionarios')
+            .then(response => {
+                console.log('Dados recebidos:', response.data);
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error("Erro ao buscar os dados:", error);
+            });
+    }, []);
+
 
     const { setToken } = useAuth();
     const navegacao = useNavigate();
     const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token); 
-  
+    const decodedToken = parseJwt(token);
+
     useEffect(() => {
         setPerfil(decodedToken.perfil);
     }, [decodedToken.perfil]);
 
-    
+
     const handleLogout = () => {
-      localStorage.removeItem('token');
-      setToken(null);
-      navegacao("/", { replace: true });
-    };
-
-    useEffect(() => {
-        fetchCards();
-    }, []);
-
-    const fetchCards = async () => {
-        try {
-            const response = await axios.get('http://localhost:3001/contaFuncionarios', {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-            setCards(response.data);
-        } catch (error) {
-            console.error('Erro ao buscar os dados dos funcionários:', error);
-        }
+        localStorage.removeItem('token');
+        setToken(null);
+        navegacao("/", { replace: true });
     };
 
     const toggleSidebar = () => {
@@ -57,13 +56,13 @@ const Dashboard = () => {
         setSearchTerm(event.target.value);
     };
 
-    const filteredCards = cards.filter(card => {
-        const nomeFunc = card.nomeFunc ? card.nomeFunc.toLowerCase() : "";  // Verifique se card.nomeFunc existe
-        const matchesSearch = nomeFunc.includes(searchTerm.toLowerCase());
-        const matchesCategory = selectedCategory === "all" || card.categoria === selectedCategory;
+    const filteredCards = data.filter(contafuncionarios => {
+        const nome = contafuncionarios.nome ? contafuncionarios.nome.toLowerCase() : "";
+        const matchesSearch = nome.includes(searchTerm.toLowerCase());
+        const matchesCategory = selectedCategory === "all" || contafuncionarios.cargo === selectedCategory;
         return matchesSearch && matchesCategory;
     });
-    
+
 
     const resetFilter = () => {
         setSelectedCategory("all");
@@ -140,39 +139,40 @@ const Dashboard = () => {
                     </div>
                     <div className="search">
                         <label for="search">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" /></svg>
 
                             <input type="text" id="busca"
                                 placeholder="Procurar funcionário..."
                                 value={searchTerm}
-                                onChange={handleSearchChange}  />
+                                onChange={handleSearchChange} />
                         </label>
                     </div>
                 </aside>
 
                 {/* Cards */}
 
-                <main class="content-wrap">
-                    <div class="content">
-                        <section class="person-boxes">
-                        <Container className="cards">
+                <main className="content-wrap">
+                    <div className="content">
+                        <section className="person-boxes">
+                            <Container className="cards">
                                 <Row>
                                     {filteredCards.length > 0 ? (
-                                        filteredCards.map((card) => (
-                                            <Col lg={4} md={6} sm={6} xs={12} key={card.id}>
-                                                <div className="person-box">
+                                        filteredCards.map(contafuncionarios => (
+                                            <Col lg={4} md={6} sm={6} xs={12}>
+                                                <div key={contafuncionarios.id} className="person-box">
                                                     <div className="box-avatar">
-                                                        <img src={card.foto} alt={card.nomeFunc} />
+                                                        <img src={contafuncionarios.foto} />
                                                     </div>
                                                     <div className="box-bio">
-                                                        <h2 className="bio-name">{card.nomeFunc}</h2>
-                                                        <p className="bio-position">{card.categoria}</p>
+                                                        <h2 className="bio-name">{contafuncionarios.nome}</h2>
+                                                        <p className="bio-position">{contafuncionarios.cargo}</p>
                                                     </div>
                                                     <div className="box-actions">
                                                         <button>
-                                    
+
                                                         </button>
                                                     </div>
+
                                                 </div>
                                             </Col>
                                         ))
@@ -181,6 +181,7 @@ const Dashboard = () => {
                                             <p>Nenhum Funcionário Encontrado :(</p>
                                         </Col>
                                     )}
+
                                 </Row>
                             </Container>
                         </section>
