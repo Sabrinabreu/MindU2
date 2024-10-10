@@ -20,7 +20,7 @@ function AgendarConsulta() {
   const [filterType, setFilterType] = useState('');
   const [selectedProfession, setSelectedProfession] = useState('');
   const [isLoading] = useState(false);
-  const [setDebouncedSearchTerm] = useState(searchTerm);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [data, setData] = useState([]);
 
   useEffect(() => {
