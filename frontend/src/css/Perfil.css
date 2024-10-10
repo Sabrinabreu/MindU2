@@ -20,7 +20,34 @@
 }
 
 [data-theme='dark'] .cardPerfil {
-    background-color: rgb(144, 143, 143);
+    background-color: #7e64a8;
+    color: #fae2ff;
+}
+[data-theme='dark'] .cardPerfil .text-secondary {
+    color: #fae2ff !important;
+}
+
+[data-theme='dark'] .cardPerfil .listPerfil{
+    background-color: #7e64a8;
+    color: #fae2ff !important;
+}
+
+/* calendario dark mode */
+[data-theme='dark'] .calendarioPerfil{
+    background-color: #b084d7;
+    color: #1e1221 !important;
+}
+[data-theme='dark'] .calendario-dia{
+    background-color: #8360ab;
+    color: #fae2ff !important;
+}
+[data-theme='dark'] .calendar-cell{
+    background-color: #dcbaff;
+    color: #000 !important;
+    border:#564091;
+}
+[data-theme='dark'] .calendario-mes{
+    color: #6f4394 !important;
 }
 
 .meuPerfil {
@@ -322,18 +349,6 @@
     cursor: pointer;
 }
 
-
-.material-symbols-outlined.iconPerfil {
-    vertical-align: top;
-    margin-right: 3px;
-    font-size: 23px;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 350,
-  'GRAD' 0,
-  'opsz' 24
-}
-
 .btnLog {
     background-color: #6852a5 !important;
     border: 1px solid #564091;
@@ -345,4 +360,9 @@
 .error-message {
     color: red;
     margin-top: 5px;
+}
+
+[data-theme='dark'] .avisoSemData.perfil {
+    background-color: #573c81;
+    color: #fcf1ff;
 }

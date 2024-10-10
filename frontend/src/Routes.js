@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "./provider/AuthProvider";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { parseJwt } from './Components/jwtUtils';
@@ -57,6 +57,12 @@ const Rotas = () => {
   return (
     <Routes>
       {/* Rotas públicas */}
+          <Route path="/" element={<Home />} />
+          <Route path="/cadastroEmpresa" element={<Cadastroempresa />} />
+          <Route path="/contato" element={<Contato />} />
+          <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
+          <Route path="/planos" element={<Planos />} />
+          <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
       <Route path="/" element={<Home />} />
       <Route path="/cadastroEmpresa" element={<Cadastroempresa />} />
       <Route path="/contato" element={<Contato />} />

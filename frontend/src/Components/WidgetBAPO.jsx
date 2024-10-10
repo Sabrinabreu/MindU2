@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import "../css/WidgetBAPO.css";
 
 const ChatWidget = () => {
@@ -10,10 +10,11 @@ const ChatWidget = () => {
 
   const styles = {
     iframe: {
-      borderRadius: '8px', 
+      borderRadius: '8px',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
     },
   };
+
 
 
   return (

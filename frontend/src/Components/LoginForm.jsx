@@ -55,7 +55,7 @@ const LoginForm = () => {
           <form onSubmit={handleLogin} className='formLogin'>
             <input type="text" className='inputLogin' placeholder="Login" value={login} onChange={(e) => setLogin(e.target.value)} />
             <input type="password" className='inputLogin' placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
-            <Link className='esqueceuSenha'>Esqueceu a senha?</Link>
+            <Link to="/esquecisenha" className='esqueceuSenha'>Esqueceu a senha?</Link>
             <button type="submit" className='inputLogin inputLoginbtn'>Entrar</button>
           </form>
             <div className='semContadiv'>

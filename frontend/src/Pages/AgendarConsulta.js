@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
 import Tab from 'react-bootstrap/Tab';
@@ -19,8 +19,8 @@ function AgendarConsulta() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('');
   const [selectedProfession, setSelectedProfession] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+  const [isLoading] = useState(false);
+  const [setDebouncedSearchTerm] = useState(searchTerm);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -283,7 +283,7 @@ function AgendarConsulta() {
             onChange={(e) => setFilterType(e.target.value)}
             className="dropFilter mr-2"
           >
-            <option value="">Selecionar <p className="setaSelecionar">→</p></option>
+            <option value="">Selecionar <p className="setaSelecionar">↓</p></option>
             <option value="nome" className={filterType === 'nome' ? 'selected-option' : ''}>Nome</option>
             <option value="profissao" className={filterType === 'profissao' ? 'selected-option' : ''}>Profissão</option>
             <option value="local" className={filterType === 'local' ? 'selected-option' : ''}>Localização</option>
@@ -320,7 +320,7 @@ function AgendarConsulta() {
       </div>
 
       <Container>
-        <h2 className='tituloAgenda p-4'>Agendar Consulta</h2>
+        <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
         <Col md={12}>
           {filteredCards.length > 0 ? (
             filteredCards.map(psicologo => (

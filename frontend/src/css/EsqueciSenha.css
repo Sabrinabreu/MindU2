@@ -1,0 +1,36 @@
+.bloco-aviso {
+    background-color: #ffd5d5;
+    padding: 20px 15px;
+    margin: 30px;
+    border-radius: 10px;
+    color: #b13737;
+    border: 1px solid #6852a546; 
+    display: flex;
+}
+        [data-theme='dark'] .bloco-aviso {
+            background-color: rgba(246, 82, 82, 0.518);
+            color:#fddede;
+        }
+        .iconWarning {
+            margin: 0 15px;
+            width: 100px !important;
+        }
+
+.labelesqueci {
+    color: #6852a5;
+}
+        [data-theme='dark'] .labelesqueci {
+            color:#f1defd;
+        }
+
+        [data-theme='dark'] .textroxo.textclaro {
+            color:#f1defd;
+        }
+  
+  @media (max-width: 600px) {
+    .iconWarning {
+        margin-left: 0px;
+      width: 300px !important; 
+    }
+  }
+  

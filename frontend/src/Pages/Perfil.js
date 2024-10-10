@@ -11,25 +11,21 @@ function formatarData(data) {
 }
 
 function Perfil() {
-    const [consultationDetails, setConsultationDetails] = useState([]);
+    const [consultationDetails] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [isEditing, setIsEditing] = useState(false);
     const [perfil, setPerfil] = useState({});
     const [tipoUsuario, setTipoUsuario] = useState('');
     const [nomeEmpresa, setNomeEmpresa] = useState('');
-    const [selectedQuestion, setSelectedQuestion] = useState('');
-    const [securityAnswer, setSecurityAnswer] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const { setToken } = useAuth();
     const navegacao = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
-    const [setPsicologoNome] = useState('');
-    const [isPsicologo, setIsPsicologo] = useState(false);
+    const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
-    console.log("token decodadokk: ", decodedToken)
 
     useEffect(() => {
 
@@ -42,28 +38,7 @@ function Perfil() {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
-    }, []);
-
-    useEffect(() => {
-        // Carrega os detalhes da consulta do localStorage
-        const savedConsultationDetails = localStorage.getItem('consultationDetails');
-        if (savedConsultationDetails) {
-            setConsultationDetails([JSON.parse(savedConsultationDetails)]);
-        } else {
-            setConsultationDetails([]);
-        }
-
-        // Fetch para obter o nome do psicólogo
-        fetch('http://localhost:3001/api/psicologo')
-            .then(response => response.json())
-            .then(data => {
-                setPsicologoNome(data.nomePsico);
-            })
-            .catch(error => {
-                console.error('Erro ao obter nome do psicólogo:', error);
-            });
-    }, [setPsicologoNome]);
-
+    }, [token]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -76,84 +51,64 @@ function Perfil() {
         setPerfil(prevData => ({ ...prevData, senha: '' }));
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setPerfil(prevData => ({ ...prevData, [name]: value }));
+    const validateForm = () => {
+        if (!perfil.nome || !perfil.email || !perfil.cpf || !perfil.telefone || !perfil.senha || !perfil.pergunta_seguranca || !perfil.resposta_seguranca) {
+            setErrorMessage('Todos os campos são obrigatórios.');
+            return false;
+        }
+        return true;
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
-
-        // Verifica se a pergunta foi selecionada e se a resposta foi fornecida
-        if (!selectedQuestion) {
-            setErrorMessage('Por favor, selecione uma pergunta de segurança.');
+    
+        if (!validateForm()) {
+            setErrorMessage('Preencha todos os campos obrigatórios.');
             return;
         }
-
-        if (!securityAnswer || securityAnswer.trim() === '') {
-            setErrorMessage('Por favor, forneça uma resposta para a pergunta de segurança.');
-            return;
-        }
-
-        // Limpa a mensagem de erro se tudo estiver certo
+    
         setErrorMessage('');
 
         const updatedPerfil = {
             ...perfil,
-            perguntaSeguranca: selectedQuestion,
-            respostaSeguranca: securityAnswer,
+            loginMethod: 'email',
         };
 
-        setPerfil(updatedPerfil);
-        localStorage.setItem('perfil', JSON.stringify(updatedPerfil));
-        atualizarPerfilNoBackend(updatedPerfil);
-        setIsEditing(false);
-    };
-
-
-
-
-    const handleQuestionChange = (e) => {
-        setSelectedQuestion(e.target.value);
-    };
+        console.log("infos perfil: ", perfil);
+        console.log("infos token: ", decodedToken);
+    
+        try {
+            const response = await axios.put('http://localhost:3001/api/atualizarPerfil', updatedPerfil, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            if (response.status >= 200 && response.status < 300) {
+                setPerfil(response.data.perfilAtualizado);
+                localStorage.setItem('token', response.data.token); // Atualiza o token no localStorage
+                setToken(response.data.token); // Atualiza o token no contexto de autenticação
+                alert('Perfil atualizado com sucesso!');
+                setIsEditing(false);
+            } else {
+                setErrorMessage('Erro ao atualizar o perfil.');
+            }
+        } catch (error) {
+            setErrorMessage('Erro ao atualizar o perfil.');
+            console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
+        }
+    };    
 
     const handleCancel = () => {
         setIsEditing(false);
+        setPerfil(decodedToken.perfil);
     };
 
     const togglePasswordVisibility = () => {
         setShowPassword(prevState => !prevState);
     };
 
-    const atualizarPerfilNoBackend = async (updatedPerfil) => {
-        try {
-            const response = await fetch('http://localhost:3001/api/atualizarPerfil', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedPerfil),
-            });
-
-            if (!response.ok) {
-                throw new Error('Erro ao atualizar o perfil');
-            }
-
-            const responseData = await response.json();
-            alert('Perfil atualizado com sucesso!');
-        } catch (error) {
-            console.error('Erro ao atualizar perfil:', error);
-            alert('Erro ao atualizar o perfil.');
-        }
-    };
-
-
-
-    const daysInMonth = (month, year) => {
-        return new Date(year, month + 1, 0).getDate();
-    };
-
-    // Função para buscar o nome da empresa baseado no `empresa_id`
     const buscarNomeEmpresa = async (empresaId) => {
         try {
             const response = await axios.get(`http://localhost:3001/empresa/${empresaId}`);
@@ -161,8 +116,14 @@ function Perfil() {
         } catch (error) {
             console.error('Erro ao buscar o nome da empresa:', error);
         }
+
     };
 
+
+
+    const daysInMonth = (month, year) => {
+        return new Date(year, month + 1, 0).getDate();
+    };
 
     const generateCalendar = () => {
         const month = currentMonth.getMonth();
@@ -249,11 +210,16 @@ function Perfil() {
     const textColor = getContrastingColor(backgroundColor);
 
     useEffect(() => {
-        if (decodedToken.perfil.cadastrado === 0 || decodedToken.cadastrado === false) {
-            setShowAlert(true); // Define o estado do alerta para ser exibido
-        }
-    }, [decodedToken]); // Executa o useEffect quando o decodedToken for alterado
+        if (token) {
+            const decodedToken = parseJwt(token);
+            setPerfil(decodedToken.perfil);
+            setTipoUsuario(decodedToken.tipo_usuario);
 
+            if (decodedToken.tipo_usuario === 'funcionario') {
+                buscarNomeEmpresa(decodedToken.perfil.empresa_id);
+            }
+        }
+    }, [token]);
     return (
         <Container className='mt-4'>
             {showAlert && (
@@ -296,7 +262,7 @@ function Perfil() {
                             </ListGroup.Item>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">CPF</h6>
-                                <span className="text-secondary">{perfil.CPF || "definir"}</span>
+                                <span className="text-secondary">{perfil.cpf || "definir"}</span>
                             </ListGroup.Item>
                             {/* informações exclusivas de funcionário */}
                             {tipoUsuario === 'funcionario' && (
@@ -330,76 +296,102 @@ function Perfil() {
                     <Card className="cardPerfil mb-3">
                         {perfil && (
                             <Card.Body>
-                                {isEditing ? (
-                                    <Form onSubmit={handleSave}>
-                                        <Form.Group controlId="formFullName">
-                                            <Form.Label>Nome</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="nome"
-                                                value={perfil.nome}
-                                                onChange={handleChange}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formEmail">
-                                            <Form.Label>Login</Form.Label>
-                                            <Form.Control
-                                                type="email"
-                                                name="login"
-                                                value={perfil.email}
-                                                onChange={handleChange}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formPassword">
-                                            <Form.Label>Senha</Form.Label>
-                                            <div className="password-container">
-                                                <Form.Control
-                                                    type={showPassword ? "text" : "password"}
-                                                    name="senha"
-                                                    value={perfil.senha || ''}
-                                                    onChange={handleChange}
-                                                    placeholder="Digite uma nova senha"
-                                                />
-                                                {isEditing && (
-                                                    <div
-                                                        className='olho'
-                                                        onClick={togglePasswordVisibility}
-                                                    >
-                                                        {showPassword ? <EyeOff /> : <Eye />}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </Form.Group>
-                                        <Form.Group controlId="formPergunta">
-                                            <Form.Label>Pergunta de segurança</Form.Label>
-                                            <Form.Control
-                                                as="select"
-                                                name="pergunta"
-                                                value={selectedQuestion}
-                                                onChange={(e) => setSelectedQuestion(e.target.value)}
+                            {isEditing ? (
+                                <Form onSubmit={handleSave}>
+                                    <Form.Group controlId="formFullName">
+                                        <Form.Label>Nome</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="nome"
+                                            value={perfil.nome}
+                                            onChange={(e) => setPerfil({ ...perfil, nome: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Email</Form.Label>
+                                        <Form.Control
+                                            type="email"
+                                            name="login"
+                                            value={perfil.email}
+                                            onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group 
+                                    // controlId="formEmail"
+                                    >
+                                        <Form.Label>CPF</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="cpf"
+                                            value={perfil.cpf}
+                                            onChange={(e) => setPerfil({ ...perfil, cpf: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        {/* //mudar esses ids depois */}
+                                        <Form.Label>Cargo</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="cargo"
+                                            value={perfil.cargo}
+                                            onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Telefone</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="telefone"
+                                            value={perfil.telefone}
+                                            onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formPassword">
+                                    <Form.Label>Senha</Form.Label>
+                                    <div className="password-container">
+                                    <Form.Control
+                                        type={showPassword ? "text" : "password"}
+                                        name="senha"
+                                        value={perfil.senha || ''}
+                                        onChange={(e) => setPerfil({ ...perfil, senha: e.target.value })}
+                                        placeholder="Digite uma nova senha"
+                                    />
+                                        {isEditing && (
+                                            <div
+                                                className='olho'
+                                                onClick={togglePasswordVisibility}
                                             >
-                                                <option value="">Selecione uma pergunta</option>
-                                                <option value="animal">Qual era o nome do seu primeiro animal de estimação?</option>
-                                                <option value="comida">Qual é a sua comida favorita?</option>
-                                                <option value="trabalho">Qual o emprego dos seus sonhos?</option>
-                                            </Form.Control>
-                                        </Form.Group>
-
-                                        <Form.Group controlId="formResposta">
-                                            <Form.Label>Resposta da pergunta de segurança</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="resposta"
-                                                value={securityAnswer}
-                                                onChange={(e) => setSecurityAnswer(e.target.value)}
-                                                disabled={!selectedQuestion}
-                                            />
-                                            {errorMessage && <div className="error-message">{errorMessage}</div>}
-                                        </Form.Group>
-
-                                        <Button className='salvarBot mt-3' type="submit">Salvar</Button>
-                                        <Button className="cancelarBot  mt-3" onClick={handleCancel}>Cancelar</Button>
+                                                {showPassword ? <EyeOff /> : <Eye />}
+                                            </div>
+                                        )}
+                                    </div>
+                                </Form.Group>                                        
+                                <Form.Group controlId="formSecurityQuestion">
+                                <Form.Label>Pergunta de Segurança</Form.Label>
+                                <Form.Control 
+                                    as="select" 
+                                    value={perfil.pergunta_seguranca} 
+                                    onChange={(e) => setPerfil({ ...perfil, pergunta_seguranca: e.target.value })}
+                                >
+                                    <option value="">Selecione uma pergunta</option>
+                                    <option value="Nome da sua primeira escola">Nome da sua primeira escola</option>
+                                    <option value="Nome do seu primeiro animal de estimação">Nome do seu primeiro animal de estimação</option>
+                                    <option value="Nome da sua comida favorita">Nome da sua comida favorita</option>
+                                </Form.Control>
+                                </Form.Group>
+                                <Form.Group controlId="formSecurityAnswer">
+                                    <Form.Label>Resposta de Segurança</Form.Label>
+                                    <Form.Control
+                                        type={showPassword ? "text" : "password"}
+                                        value={perfil.resposta_seguranca}
+                                        onChange={(e) => setPerfil({ ...perfil, resposta_seguranca: e.target.value })}
+                                    />
+                                </Form.Group>
+                                        <Button variant="primary" type="submit">Salvar</Button>
+                                        <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
+                                        {errorMessage && <p className="text-danger">{errorMessage}</p>}
                                     </Form>
+
                                 ) : (
                                     <>
                                         <Row>
@@ -408,8 +400,23 @@ function Perfil() {
                                         </Row>
                                         <hr />
                                         <Row>
-                                            <Col sm={3}><h6 className="mb-0">Login</h6></Col>
+                                            <Col sm={3}><h6 className="mb-0">Email</h6></Col>
                                             <Col sm={9} className="text-secondary">{perfil.email}</Col>
+                                        </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">CPF</h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.cpf}</Col>
+                                        </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Cargo</h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.cargo}</Col>
+                                        </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
                                         </Row>
                                         <hr />
                                         <Row>
@@ -421,7 +428,7 @@ function Perfil() {
                                         <hr />
                                         <Row>
                                             <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
-                                            <Col sm={9} className="text-secondary">{perfil.perguntaSeguranca}</Col>
+                                            <Col sm={9} className="text-secondary">{perfil.pergunta_seguranca}</Col>
                                         </Row>
                                         <hr />
                                         {isPsicologo && (

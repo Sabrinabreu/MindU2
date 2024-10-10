@@ -14,7 +14,7 @@ import bannerIMG from "../img/bannerContato2.jpg";
 import { Row, Col, Card, CardGroup } from "react-bootstrap";
 
 const Contato = () => {
-  const [slides, setslides] = useState([
+  const [slides] = useState([
       {
           foto: clinica1,
           nome: "Manaus - AM",
@@ -126,9 +126,9 @@ const Contato = () => {
             <img className="Icon-card-contato mb-3" src={ajudaIcon} alt="icone de mensagem amarelo." />
           <h5 className="tit-Cont card-title h5">Suporte por mensagem</h5>
           <Card.Text>
-          Envie uma mensagem! Nosso assistente virtual no WhatsApp está disponível para responder suas dúvidas instantaneamente.
+          Envie uma mensagem! Nosso assistente virtual está disponível para responder suas dúvidas instantaneamente.
           </Card.Text>
-          <Card.Link href="#">Link para Whatsapp</Card.Link>
+          <Card.Text > É só clicar no icone de interrogação no canto da tela!</Card.Text>
         </Card.Body>
         </Card>
         </div>

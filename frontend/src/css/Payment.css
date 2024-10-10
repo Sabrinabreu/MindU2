@@ -15,17 +15,20 @@ body {
 }
 
 [data-theme='dark'] .formContainer {
-    background-color: #42328a !important;
+    background-color: #463787 !important;
 }
 
 .forminput {
     border-radius: 10px !important;
+    color: #634ab2 !important;
+
 }
 
 [data-theme='dark'] .forminput {
-    background-color: #28096b96 !important;
+    background-color: #7756bd !important;
     border-color: transparent !important;
     color: white !important;
+    font-weight: 600 !important;
 }
 
 [data-theme='dark'] .formlabel {
@@ -52,7 +55,6 @@ body {
 
 .form-group label {
     display: block;
-    font-weight: bold;
     margin-bottom: 5px;
     color: #555;
 
@@ -60,7 +62,6 @@ body {
 
 [data-theme='dark'] .form-group label {
     display: block;
-    font-weight: bold;
     margin-bottom: 5px;
     color: #ffffff;
 
@@ -72,11 +73,12 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
+
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #0056b3;
+    border-color: #dfe1e4;
     outline: none;
 }
 
@@ -309,7 +311,7 @@ body {
 }
 
 .payment-option.active {
-    background-color: #007bff;
+    background-color: #7c52c6;
     color: white;
 }
 
@@ -422,6 +424,40 @@ body {
 
 [data-theme='dark'] .rccs__card--unknown>div {
     background: linear-gradient(25deg, #ca5794, #7866c6);
+}
+
+.btnCreate {
+    height: 40px;
+    color: #46467a !important;
+    background-color: #adade0 !important;
+    border-radius: 10px 10px 10px 12px;
+    border-style: solid solid solid none;
+    border-width: 1.4px;
+    border-color: #46467a89;
+    padding: 0 15px;
+    margin: 0;
+}
+
+[data-theme='dark'] .btnCreate {
+    height: 40px;
+    color: #ffffff !important;
+    background-color: #6565ba !important;
+    border-radius: 10px 10px 10px 12px;
+    border-style: solid solid solid none;
+    border-width: 1.4px;
+    border-color: #46467a89;
+    padding: 0 15px;
+    margin: 0;
+}
+
+.btn.disabled,
+.btn:disabled,
+fieldset:disabled .btn {
+    color: var(--bs-btn-disabled-color);
+    pointer-events: none;
+    /* background-color: var(--bs-btn-disabled-bg); */
+    /* border-color: var(--bs-btn-disabled-border-color); */
+    opacity: var(--bs-btn-disabled-opacity);
 }
 
 @media (max-width: 991px) {

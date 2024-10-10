@@ -5,13 +5,12 @@ import BAPO from "../Components/WidgetBAPO";
 import MyVerticallyCenteredModal from '../Components/ModalPag';
 import "../css/WidgetBAPO.css";
 import { useNavigate } from "react-router-dom";
-import PaymentForm from "../Components/Pagamento";
 import { parseJwt } from "../Components/jwtUtils";
 
 const Planos = () => {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedPlan, setSelectedPlan] = React.useState(null);
-    const [tipoUsuario, setTipoUsuario] = useState('');
+    const [setTipoUsuario] = useState('');
 
     const planos = {
         'Bem-Estar': {
@@ -58,7 +57,7 @@ const Planos = () => {
         <>
             <BAPO />
             <Container className="caixaPlanos">
-                <h2 className="mb-4 title text-center">Nossos Planos</h2>
+                <h2 className="mb-4 text-center textroxo textclaro">Nossos Planos</h2>
                 <Row className="assinatura">
                     <Row className="assinatura">
                         <Col md={4}>

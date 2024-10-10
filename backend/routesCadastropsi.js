@@ -4,6 +4,7 @@ const path = require('path');
 const connection = require('./db'); // Ajuste o caminho conforme necessário
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const { error } = require('console');
 
 const saltRounds = 10;
 
@@ -33,7 +34,7 @@ const upload = multer({
 });
 
 // Rota para upload de arquivos
-router.post('/psicologos/upload', upload.single('certificados'), (req, res) => {
+router.post('/cadastropsicologos/upload', upload.single('certificados'), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'Nenhum arquivo enviado' });
@@ -46,9 +47,9 @@ router.post('/psicologos/upload', upload.single('certificados'), (req, res) => {
 });
 
 // Rota para listar todos os registros
-router.get('/psicologos', async (req, res) => {
+router.get('/cadastropsicologos', async (req, res) => {
   try {
-    const [results] = await connection.query('SELECT * FROM psicologos');
+    const [results] = await connection.query('SELECT * FROM cadastropsicologos');
     res.json(results);
   } catch (err) {
     console.error('Erro ao buscar os registros:', err);
@@ -57,10 +58,10 @@ router.get('/psicologos', async (req, res) => {
 });
 
 // Rota para buscar um registro específico pelo ID
-router.get('/psicologos/:id', async (req, res) => {
+router.get('/cadastropsicologos/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [results] = await connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [id]);
+    const [results] = await connection.query('SELECT * FROM cadastropsicologos WHERE id = ?', [id]);
     if (results.length === 0) {
       res.status(404).json({ error: 'Registro não encontrado' });
     } else {
@@ -73,18 +74,18 @@ router.get('/psicologos/:id', async (req, res) => {
 });
 
 // Rota para atualizar um registro existente pelo ID
-router.put('/psicologos/:id', async (req, res) => {
+router.put('/cadastropsicologos/:id', async (req, res) => {
   const { id } = req.params;
-  const { nome, dataNascimento, genero, telefone, email, CPF, endereco, crp, certificados, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, senha } = req.body;
+  const { nome, dataNascimento, genero, telefone, email, CPF, endereco, certificados, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
 
   // Validação dos dados
-  if (!nome || !email || !senha) {
-    return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
+  if (!nome || !email) {
+    return res.status(400).json({ error: 'Nome e email são obrigatórios' });
   }
 
   try {
-    const updateFields = ['nome', 'dataNascimento', 'genero', 'telefone', 'email', 'CPF', 'endereco', 'crp', 'especialidade', 'preferenciaHorario', 'disponibilidade', 'localizacao', 'motivacao', 'objetivos'];
-    const values = [nome, dataNascimento, genero, telefone, email, CPF, endereco, crp, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, id];
+    const updateFields = ['nome', 'dataNascimento', 'genero', 'telefone', 'email', 'CPF', 'endereco', 'certificados', 'areasInteresse', 'preferenciaHorario', 'disponibilidade', 'localidades', 'motivacao', 'objetivos'];
+    const values = [nome, dataNascimento, genero, telefone, email, CPF, endereco, certificados, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, id];
 
     if (senha) {
       // Criptografa a senha se fornecida
@@ -96,7 +97,7 @@ router.put('/psicologos/:id', async (req, res) => {
     const setClause = updateFields.map(field => `${field} = ?`).join(', ');
 
     const [result] = await connection.query(
-      `UPDATE psicologos SET ${setClause} WHERE psicologo_id = ?`,
+      `UPDATE cadastropsicologos SET ${setClause} WHERE id = ?`,
       values
     );
 
@@ -112,10 +113,10 @@ router.put('/psicologos/:id', async (req, res) => {
 });
 
 // Rota para excluir um registro pelo ID
-router.delete('/psicologos/:id', async (req, res) => {
+router.delete('/cadastropsicologos/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [result] = await connection.query('DELETE FROM psicologos WHERE psicologo_id = ?', [id]);
+    const [result] = await connection.query('DELETE FROM cadastropsicologos WHERE id = ?', [id]);
     if (result.affectedRows === 0) {
       res.status(404).json({ error: 'Registro não encontrado' });
     } else {
@@ -128,12 +129,12 @@ router.delete('/psicologos/:id', async (req, res) => {
 });
 
 // Rota para criar um novo registro
-router.post('/psicologos', upload.single('certificados'), async (req, res) => {
-  const { nome, dataNascimento, genero, telefone, email, CPF, endereco, crp, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, senha } = req.body;
+router.post('/cadastropsicologos', upload.single('certificados'), async (req, res) => {
+  const { nome, dataNascimento, genero, telefone, email, CPF, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha } = req.body;
   const certificados = req.file ? req.file.filename : null; // Pega o nome do arquivo enviado
 
   // Validação dos dados
-  if (!nome || !dataNascimento || !genero || !telefone || !email || !CPF || !especialidade || !preferenciaHorario || !disponibilidade || !localizacao || !motivacao || !objetivos || !senha) {
+  if (!nome || !dataNascimento || !genero || !telefone || !email || !CPF || !areasInteresse || !preferenciaHorario || !disponibilidade || !localidades || !motivacao || !objetivos || !senha) {
     return res.status(400).json({ error: 'Todos os campos obrigatórios devem ser preenchidos.' });
   }
 
@@ -142,15 +143,26 @@ router.post('/psicologos', upload.single('certificados'), async (req, res) => {
     const hashedPassword = await bcrypt.hash(senha, saltRounds);
 
     const [result] = await connection.query(
-      'INSERT INTO psicologos (nome, dataNascimento, genero, telefone, email, CPF, endereco, crp, certificados, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [nome, dataNascimento, genero, telefone, email, CPF, endereco, crp, certificados, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, hashedPassword]
+      'INSERT INTO cadastropsicologos (nome, dataNascimento, genero, telefone, email, CPF, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, senha, certificados) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [nome, dataNascimento, genero, telefone, email, CPF, endereco, areasInteresse, preferenciaHorario, disponibilidade, localidades, motivacao, objetivos, hashedPassword, certificados]
     );
 
-    res.status(201).json({ message: 'Registro criado com sucesso', psicologo_id: result.insertId });
+    res.status(201).json({ message: 'Registro criado com sucesso', id: result.insertId });
   } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+      // Verifica qual campo causou a duplicidade
+      if (err.message.includes('CPF')) {
+        return res.status(400).json({ error: 'CPF já cadastrado.' });
+
+      }
+    }
+
     console.error('Erro ao criar o registro:', err);
     res.status(500).json({ error: 'Erro ao criar o registro' });
   }
+
 });
+
+
 
 module.exports = router;
