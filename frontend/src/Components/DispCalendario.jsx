@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import "../css/AgendarConsulta.css";
-import '../css/Calendario.css';
+import React, { useState } from 'react';
+import "../css/Calendario.css";
 
 const DatePicker = ({ onDateSelect, workingDays }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -63,13 +62,9 @@ const DatePicker = ({ onDateSelect, workingDays }) => {
         <div className="datepicker">
             <div className="datepicker-top">
                 <div className="month-selector">
-                    <button className="arrow" onClick={handlePrevMonth}>
-                        <span className="material-symbols-outlined p-3">chevron_left</span>
-                    </button>
+                    <button className="arrow" onClick={handlePrevMonth}>←</button>
                     <span className="month-name">{currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}</span>
-                    <button className="arrow" onClick={handleNextMonth}>
-                        <span className="material-symbols-outlined p-3">chevron_right</span>
-                    </button>
+                    <button className="arrow" onClick={handleNextMonth}>→</button>
                 </div>
             </div>
             <div className="datepicker-calendar">

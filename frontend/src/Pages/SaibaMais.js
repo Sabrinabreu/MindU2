@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import "../css/AgendarConsulta.css";
 import "../css/SobrePsicologo.css";
@@ -93,7 +93,7 @@ const Agendar = () => {
     };
 
     return (
-        <Container className='-4'>
+        <Container className='mb-4'>
             <h6>Horários disponíveis:</h6>
             {availableTimes.length > 0 ? (
                 <ul>
