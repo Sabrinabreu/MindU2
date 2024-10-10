@@ -30,14 +30,15 @@ function Perfil() {
 
     useEffect(() => {
         if (token) {
+            const decodedToken = parseJwt(token);
             setPerfil(decodedToken.perfil);
             setTipoUsuario(decodedToken.tipo_usuario);
-
+    
             if (decodedToken.tipo_usuario === 'funcionario') {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
-    }, [token]);
+    }, [token]); // adiciona [token] para monitorar mudanças no token    
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -72,32 +73,45 @@ function Perfil() {
             ...perfil,
             loginMethod: 'email',
         };
-
+    
         console.log("infos perfil: ", perfil);
         console.log("infos token: ", decodedToken);
-    
+
         try {
+            console.log('Iniciando a requisição...');
+            
             const response = await axios.put('http://localhost:3001/api/atualizarPerfil', updatedPerfil, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
             });
-    
+            
+            console.log('Status da resposta:', response.status);
+        
             if (response.status >= 200 && response.status < 300) {
-                setPerfil(response.data.perfilAtualizado);
-                localStorage.setItem('token', response.data.token); // Atualiza o token no localStorage
-                setToken(response.data.token); // Atualiza o token no contexto de autenticação
+                const novoToken = response.data.token;
+                console.log('Novo token recebido:', novoToken);
+        
+                setToken(novoToken);
+                localStorage.setItem('token', novoToken);
+        
+                const decodedNovoToken = parseJwt(novoToken);
+                setPerfil(decodedNovoToken.perfil);
                 alert('Perfil atualizado com sucesso!');
                 setIsEditing(false);
+        
+                const decodedToken = parseJwt(novoToken);
+                console.log('Novo token decodificado:', decodedToken);
             } else {
                 setErrorMessage('Erro ao atualizar o perfil.');
             }
         } catch (error) {
             setErrorMessage('Erro ao atualizar o perfil.');
             console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
+            console.log('Status do erro:', error.response?.status);
         }
-    };    
+    };  
 
     const handleCancel = () => {
         setIsEditing(false);
@@ -117,8 +131,6 @@ function Perfil() {
         }
 
     };
-
-
 
     const daysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();

@@ -13,7 +13,12 @@ import clinica5 from "../img/clinica5.jpg";
 import bannerIMG from "../img/bannerContato2.jpg";
 import { Row, Col, Card, CardGroup } from "react-bootstrap";
 
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../provider/AuthProvider";
+
 const Contato = () => {
+  const { setToken } = useAuth();
+    const navegacao = useNavigate();
   const [slides, setslides] = useState([
       {
           foto: clinica1,
@@ -56,6 +61,12 @@ const Contato = () => {
     { id: 'section5', delay: '0.2s' },
   ];
 
+const handleLogout = () => {
+      localStorage.removeItem('token');
+      setToken(null);
+      navegacao("/", { replace: true });
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       sectionsConfig.forEach(({ id, delay }) => {
@@ -76,6 +87,8 @@ const Contato = () => {
     window.addEventListener('scroll', handleScroll);
     handleScroll();
 
+    
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -83,6 +96,7 @@ const Contato = () => {
   return (
     <>
     <BAPO/>
+    <button className="btnLog" onClick={handleLogout}>Sair da conta</button>
       <div>
       
         <div className="bannerContato">
