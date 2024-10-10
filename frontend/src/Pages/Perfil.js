@@ -62,19 +62,19 @@ function Perfil() {
 
     const handleSave = async (e) => {
         e.preventDefault();
-    
+
         if (!validateForm()) {
             setErrorMessage('Preencha todos os campos obrigatórios.');
             return;
         }
-    
+
         setErrorMessage('');
 
         const updatedPerfil = {
             ...perfil,
             loginMethod: 'email',
         };
-    
+
         console.log("infos perfil: ", perfil);
         console.log("infos token: ", decodedToken);
 
