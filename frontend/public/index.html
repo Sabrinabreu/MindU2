@@ -27,6 +27,62 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+  <div vw class="enabled">
+    <div vw-access-button class="active libras"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+  <style>
+    [vp] .vpw-controls.vpw-selectText {
+      background-color: #7766c6 !important
+    }
+
+    [vp] [vp-change-avatar] .vp-button-change-avatar.vp-selected {
+      display: flex !important;
+      background-color: #7766c6 !important;
+      outline-color: #7766c6 !important;
+      border-color: #e0e0e0;
+      position: absolute;
+      left: 2px;
+      z-index: 1;
+      visibility: visible;
+    }
+
+    [data-theme='dark'] #gameContainer canvas {
+      min-height: calc(0.7* 450px);
+      min-width: calc(0.9* 300px);
+      height: 100%;
+      width: 100%;
+      -webkit-filter: blur(0px);
+      -moz-filter: blur(0px);
+      -ms-filter: blur(0px);
+      -o-filter: blur(0px);
+      filter: blur(0px);
+      background-color: slategrey;
+    }
+
+    [vw] [vw-access-button].active {
+      display: flex;
+      border-radius: 60% !important;
+
+    }
+
+    [vw] [wv-access] {
+      background-color: #7766c6 !important;
+
+    }
+  </style>
+
+
+
+
+
+
 
 </body>
 

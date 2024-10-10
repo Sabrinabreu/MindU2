@@ -152,7 +152,6 @@ const CadastroFormPsi = () => {
                     <Col md="6" sm="10">
                         <label className='labelForms'>Nome Completo</label>
                         <input className='inputform cadPsi' type="text" name="nome" placeholder="Digite seu nome aqui..." value={formData.nome} onChange={handleChange} />
-                        {error && error.field === 'nome' && <p className="text-danger">{error.message}</p>}
                     </Col>
                     <Col md="6" sm="10">
                         <div>
@@ -206,12 +205,24 @@ const CadastroFormPsi = () => {
 
                     </Col>
                     <Col md="6" sm="10">
-                        <label className='labelForms'>Áreas de Interesse e Especialização</label>
-                        <input className='inputform cadPsi' type="text" name="areasInteresse" placeholder="Digite suas áreas de interesse e especialização aqui..." value={formData.areasInteresse} onChange={handleChange} />
+                        <label className='labelForms'>CRP</label>
+                        <input className='inputform cadPsi' type="text" name="crp" placeholder="Digite seu crp aqui..." value={formData.crp} onChange={handleChange} />
 
                     </Col>
                     <Col md="6" sm="10">
-                        <label className='labelForms'>Preferência de Horário de Trabalho</label>
+                        <label className='labelForms'>Especialidade</label>
+                        <input className='inputform cadPsi' type="text" name="especialidade" placeholder="Digite suas área de especialização aqui..." value={formData.especialidade} onChange={handleChange} />
+
+                    </Col>
+
+
+                    <Col md="6" sm="10">
+                        <label className='labelForms'>Regiões ou Localidades Preferidas para Atendimento</label>
+                        <input className='inputform cadPsi' type="text" name="localidades" placeholder="Digite suas regiões ou localidades preferidas aqui..." value={formData.localidades} onChange={handleChange} />
+
+                    </Col>
+                    <Col md="6" sm="10">
+                        <label className='labelForms'>Preferência de Horário de <br /> Trabalho</label>
                         <input className='inputform cadPsi' type="text" name="preferenciaHorario" placeholder="Digite sua preferência de horário aqui..." value={formData.preferenciaHorario} onChange={handleChange} />
 
                     </Col>
@@ -223,11 +234,6 @@ const CadastroFormPsi = () => {
                             <option value="Presencial">Presencial</option>
                             <option value="Híbrido">Híbrido</option>
                         </select>
-
-                    </Col>
-                    <Col md="6" sm="10">
-                        <label className='labelForms'>Regiões ou Localidades Preferidas para Atendimento</label>
-                        <input className='inputform cadPsi' type="text" name="localidades" placeholder="Digite suas regiões ou localidades preferidas aqui..." value={formData.localidades} onChange={handleChange} />
 
                     </Col>
                     <Col md="6" sm="10">
