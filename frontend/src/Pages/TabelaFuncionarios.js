@@ -4,6 +4,7 @@ import { Trash } from 'lucide-react';
 import DataTable from "react-data-table-component";
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
+import "../css/AcessoFuncionarios.css";
 
 
 const TabelaFuncionarios = ({ contas }) => {

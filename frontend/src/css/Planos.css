@@ -351,15 +351,19 @@ body {
 
 }
 
-
-
+/* versao celular */
+@media (max-width: 500px) {
+  .col-md-4 {
+    width: 100% !important;
+ }
+}
+/* versao ipad */
 @media (max-width: 900px) {
   .col-md-4 {
     width: 50%;
     justify-content: center;
 }
-.row{
-  place-content: center;
-}
-
+  .row{
+    place-content: center;
+  }
 }
