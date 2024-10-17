@@ -6,6 +6,8 @@ import { Eye, EyeOff, LogOut, Pencil } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
 function formatarData(data) {
     return new Date(data).toLocaleDateString('pt-BR'); // Formato dd/mm/yyyy
 }
@@ -244,6 +246,8 @@ function Perfil() {
         }
     }, [token]);
     return (
+        <>
+        <BAPO/>
         <Container className='mt-4'>
             {showAlert && (
                 <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
@@ -310,7 +314,7 @@ function Perfil() {
                                 </>
                             )}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                <Button className="btnLog" onClick={handleLogout}><LogOut /> Sair da conta</Button>
+                                <Button className="editarBot" onClick={handleLogout}><LogOut /> Sair da conta</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
@@ -324,6 +328,7 @@ function Perfil() {
                                     <Form.Group controlId="formFullName">
                                         <Form.Label>Nome</Form.Label>
                                         <Form.Control
+                                            className='mb-2'
                                             type="text"
                                             name="nome"
                                             value={perfil.nome}
@@ -333,6 +338,7 @@ function Perfil() {
                                     <Form.Group controlId="formEmail">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control
+                                        className='mb-2'
                                             type="email"
                                             name="login"
                                             value={perfil.email}
@@ -344,6 +350,7 @@ function Perfil() {
                                     >
                                         <Form.Label>CPF</Form.Label>
                                         <Form.Control
+                                        className='mb-2'
                                             type="text"
                                             name="cpf"
                                             value={perfil.cpf}
@@ -365,6 +372,7 @@ function Perfil() {
                                         {/* //mudar esses ids depois */}
                                         <Form.Label>Cargo</Form.Label>
                                         <Form.Control
+                                        className='mb-2'
                                             type="text"
                                             name="cargo"
                                             value={perfil.cargo}
@@ -378,6 +386,7 @@ function Perfil() {
                                         <Form.Group controlId="formEmail">
                                         <Form.Label>Gênero</Form.Label>
                                         <Form.Control
+                                        className='mb-2'
                                             type="text"
                                             name="genero"
                                             value={perfil.genero}
@@ -453,6 +462,7 @@ function Perfil() {
                                     <Form.Label>Senha</Form.Label>
                                     <div className="password-container">
                                     <Form.Control
+                                    className='mb-2'
                                         type={showPassword ? "text" : "password"}
                                         name="senha"
                                         value={perfil.senha || ''}
@@ -472,6 +482,7 @@ function Perfil() {
                                 <Form.Group controlId="formSecurityQuestion">
                                 <Form.Label>Pergunta de Segurança</Form.Label>
                                 <Form.Control 
+                                className='mb-2'
                                     as="select" 
                                     value={perfil.pergunta_seguranca} 
                                     onChange={(e) => setPerfil({ ...perfil, pergunta_seguranca: e.target.value })}
@@ -485,13 +496,14 @@ function Perfil() {
                                 <Form.Group controlId="formSecurityAnswer">
                                     <Form.Label>Resposta de Segurança</Form.Label>
                                     <Form.Control
+                                    className='mb-2'
                                         type={showPassword ? "text" : "password"}
                                         value={perfil.resposta_seguranca}
                                         onChange={(e) => setPerfil({ ...perfil, resposta_seguranca: e.target.value })}
                                     />
                                 </Form.Group>
-                                        <Button variant="primary" type="submit">Salvar</Button>
-                                        <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
+                                        <Button className="editarBot mt-2" variant="primary" type="submit">Salvar</Button>
+                                        <Button className="cancelarBot mt-2" variant="secondary" onClick={handleCancel}>Cancelar</Button>
                                         {errorMessage && <p className="text-danger">{errorMessage}</p>}
                                     </Form>
 
@@ -646,12 +658,12 @@ function Perfil() {
 
             {tipoUsuario === 'funcionario' && (
                 <div className="calendar-container">
-                    <div className="calendar">
-                        <h5>Detalhes da Consulta</h5>
+                    <div className='containeraviso' >
+                        <h5 className='mt-4'>Detalhes da Consulta</h5>
                         {Array.isArray(consultationDetails) ? (
                             consultationDetails.length > 0 ? (
                                 consultationDetails.map((detail, index) => (
-                                    <div key={index}>
+                                    <div className='avisoSemData' key={index}>
                                         <p><strong>Data:</strong> {detail.date}</p>
                                         <p><strong>Horário:</strong> {detail.time}</p>
                                         <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>
@@ -668,7 +680,7 @@ function Perfil() {
                     </div>
                 </div>
             )}
-        </Container>
+        </Container></>
     );
 }
 

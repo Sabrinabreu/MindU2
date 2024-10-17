@@ -13,11 +13,11 @@
 }
 
 [data-theme='dark'] {
-  --white: #7766C6;
-  --color-dark: #f0f0f0;
-  --color-light: #c0c0c0;
+  --white: #7e64a8;
+  --color-dark: #c6b4f6;
+  --color-light: #c6b4f6;
   --red: #fa5b67;
-  --bg: #7766C6;
+  --bg: #7e64a8;
   --bg-dark: #c0c0c0;
   --svg-icon: #ffffff;
   --input-color: white;
@@ -195,6 +195,10 @@ body {
 @media (max-width: 540px) {
   .dashboard {
     margin-left: -215px !important;
+  }
+
+  .content-wrap {
+    padding: 20px 0 0 0  !important;
   }
 
   .dashboard.collapsed {
@@ -585,13 +589,6 @@ body {
   overflow: hidden;
 }
 
-.box-avatar img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .no-name {
   display: flex;
   align-items: center;
@@ -657,4 +654,19 @@ body {
 .box-actions button:hover svg path,
 .box-actions button:hover svg circle {
   fill: #2d3543;
+}
+
+.profile-initials {
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#nav-footer {
+  border-radius: 0 0 16px 0 !important;
 }

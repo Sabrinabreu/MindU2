@@ -1,56 +1,17 @@
-.divGeralAcesso {
-    text-align: center;
-}
-
-.divGeralAcesso label {
-    margin: 3% 0;
-    font-size: calc(14px + 1vw);
-}
-
-[data-theme='dark'] .result-Func {
-    background: #46467a !important;
-    color: aliceblue !important;
-}
-
 [data-theme='dark'] .rdt_TableHeader {
-    background: #46467a !important;
-    color: aliceblue !important;
+    background: #7c6f8b !important;
+    color: aliceblue;
 }
 
-[data-theme='dark'] .sc-gLXSEc {
-    background: #46467a !important;
-    color: aliceblue !important;
+[data-theme='dark'] .rdt_TableHeadRow{
+    background: #7c6f8b !important;
+    color: aliceblue;
 }
 
-.opcaoNumero {
-    width: 180px;
-    height: 40px;
-    border: 1.4px solid #46467a89;
-    border-radius: 10px 0 0 10px;
+[data-theme='dark'] .rdt_TableRow{
+    background: #e3d9f2 !important;
 }
-
-[data-theme='dark'] .opcaoNumero {
-    background: #eee8f4 !important;
-    color: rgb(0, 0, 0);
-}
-
-.opcaoNumero:focus {
-    border: 1.8px solid;
-    border-radius: 10px 0 0 10px !important;
-}
-
-.btnCriar {
-    height: 40px;
-    color: #46467a;
-    border-radius: 0 10px 10px 0;
-    border-style: solid solid solid none;
-    border-width: 1.4px;
-    border-color: #46467a89;
-    padding: 0 15px;
-    margin: 0;
-}
-
-[data-theme='dark'] .btnCriar {
-    background: #46467a !important;
+[data-theme='dark'] .rdt_Pagination{
+    background: #7c6f8b !important;
     color: aliceblue;
 }
