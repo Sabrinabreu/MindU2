@@ -21,14 +21,16 @@ const Dashboard = () => {
     }, [data]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/contafuncionarios')
+        axios.get('http://localhost:3001/contafuncionarios', {
+            params: {loginMethod: 'email' }
+        })
             .then(response => {
                 console.log('Dados recebidos:', response.data);
                 setData(response.data);
             })
             .catch(error => {
                 console.error("Erro ao buscar os dados:", error);
-            });
+            });              
     }, []);
 
 

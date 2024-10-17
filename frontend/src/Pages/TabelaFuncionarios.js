@@ -8,17 +8,20 @@ const TabelaFuncionarios = ({ contas }) => {
   const [toggleCleared, setToggleCleared] = useState(false);
 
   // Função para buscar os funcionários
-  const fetchFuncionarios = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/contaFuncionarios');
-      setContasFuncionarios(response.data);
-    } catch (error) {
-      console.error('Erro ao buscar os funcionários:', error);
-    }
-  };
+  const fetchFuncionariosNaoCadastrados = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/contaFuncionarios', {
+      params: { loginMethod: 'login_temporario' }
+    });
+    setContasFuncionarios(response.data);
+  } catch (error) {
+    console.error('Erro ao buscar funcionários não cadastrados:', error);
+  }
+};
+
   // Chama a função de busca ao carregar a página ou quando "contas" mudar
   useEffect(() => {
-    fetchFuncionarios();
+    fetchFuncionariosNaoCadastrados();
   }, [contas]);
   const handleRowSelected = React.useCallback(state => {
     setSelectedRows(state.selectedRows);
