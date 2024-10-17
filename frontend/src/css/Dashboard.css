@@ -13,11 +13,11 @@
 }
 
 [data-theme='dark'] {
-  --white: #7766C6;
-  --color-dark: #f0f0f0;
-  --color-light: #c0c0c0;
+  --white: #7e64a8;
+  --color-dark: #c6b4f6;
+  --color-light: #c6b4f6;
   --red: #fa5b67;
-  --bg: #7766C6;
+  --bg: #7e64a8;
   --bg-dark: #c0c0c0;
   --svg-icon: #ffffff;
   --input-color: white;

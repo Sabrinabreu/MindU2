@@ -53,13 +53,25 @@ router.post('/contaFuncionarios', verifyToken, async (req, res) => {
   }
 });
 
-// Rota para listar todos os registros de funcionários da empresa logada
+// Rota para listar registros de funcionários da empresa logada com filtro opcional por loginMethod
 router.get('/contaFuncionarios', verifyToken, async (req, res) => {
   try {
-    // Usa o `empresaId` extraído do token JWT para listar apenas os funcionários dessa empresa
-    console.log('Empresa ID recebido na rota:', req.empresaId);
+    const { loginMethod } = req.query; // Extrai o filtro opcional
+    const { empresaId } = req; // Obtém o ID da empresa a partir do token
 
-    const [results] = await connection.query('SELECT * FROM contaFuncionarios WHERE empresa_id = ?', [req.empresaId]);
+    console.log('Empresa ID recebido na rota:', empresaId);
+    console.log('Filtro loginMethod:', loginMethod);
+
+    let query = 'SELECT * FROM contaFuncionarios WHERE empresa_id = ?';
+    const params = [empresaId];
+
+    // Se o loginMethod for fornecido, adiciona à query
+    if (loginMethod) {
+      query += ' AND loginMethod = ?';
+      params.push(loginMethod);
+    }
+
+    const [results] = await connection.query(query, params);
 
     if (results.length === 0) {
       return res.status(404).json({ message: 'Nenhum funcionário encontrado para esta empresa.' });

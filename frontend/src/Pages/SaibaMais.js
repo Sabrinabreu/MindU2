@@ -94,18 +94,6 @@ const Agendar = () => {
 
     return (
         <Container className='p-4'>
-            <h6>Horários disponíveis:</h6>
-            {availableTimes.length > 0 ? (
-                <ul>
-                    {availableTimes.map(({ data, horario }) => (
-                        <li key={`${data}-${horario}`}>
-                            {`${data} - ${horario}`}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>Sem horários disponíveis.</p>
-            )}
             <Row>
                 <Col md={6}>
                     <div className='perfilPsico'>
