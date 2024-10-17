@@ -73,6 +73,7 @@ function Perfil() {
         const updatedPerfil = {
             ...perfil,
             loginMethod: 'email',
+            senha: perfil.senha || undefined,
         };
     
         console.log("infos perfil: ", perfil);

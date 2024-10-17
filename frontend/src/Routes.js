@@ -142,6 +142,5 @@ const Rotas = () => {
     </Routes>
   );
 };
- 
- 
+
 export default Rotas;

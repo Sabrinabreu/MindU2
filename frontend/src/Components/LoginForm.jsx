@@ -44,7 +44,9 @@ const LoginForm = () => {
     <Container>
       <Row className='rowLogin'>
         <Col className='colEsqLogin' md={6} sm={12}>
-          <video className='loginVideo' width="100%" height='100%' autoPlay muted playsInline preload="auto" loop  >
+          <video className='loginVideo'
+          // width="100%" height='100%'
+           autoPlay muted playsInline preload="auto" loop  >
             <source src={MentalBalanceVid} type='video/mp4' alt="imagem de mulher boiando na água para ilustrar login" />
             Seu navegador não suporta a tag de vídeo.
           </video>  
