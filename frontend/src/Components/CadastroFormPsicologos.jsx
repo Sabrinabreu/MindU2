@@ -76,7 +76,9 @@ const CadastroFormPsi = () => {
                 ...formData,
                 [name]: input
             });
-        } else {
+        }
+
+        else {
             setFormData({
                 ...formData,
                 [name]: value
@@ -84,7 +86,24 @@ const CadastroFormPsi = () => {
         }
     };
 
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
 
+        if (name === "dataNascimento") {
+            const selectedDate = new Date(value);
+            const selectedYear = selectedDate.getFullYear();
+            const maxYear = 2024;
+
+            // Verifica se o ano é maior que 2024
+            if (selectedYear > maxYear) {
+                // Se for maior que 2024, corrige para a data máxima permitida
+                setFormData((prev) => ({
+                    ...prev,
+                    [name]: "2024-12-31" // Corrige para a data máxima
+                }));
+            }
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -156,8 +175,8 @@ const CadastroFormPsi = () => {
                     <Col md="6" sm="10">
                         <div>
                             <label className='labelForms'>Data de Nascimento</label>
-                            <span class="datepicker-toggle">
-                                <span class="datepicker-toggle-button"></span>
+                            <span className="datepicker-toggle">
+                                <span className="datepicker-toggle-button"></span>
                                 <input
                                     className='inputform cadPsi'
                                     aria-labelledby="date2"
@@ -165,15 +184,15 @@ const CadastroFormPsi = () => {
                                     id="dataNascimento"
                                     name="dataNascimento"
                                     value={formData.dataNascimento}
-                                    onChange={handleChange}
+                                    onChange={handleChange} // Permite que o usuário digite normalmente
+                                    onBlur={handleBlur} // Valida quando o campo perde o foco
+                                    max="2024-12-31"  // Ainda mantemos o limite máximo
                                     dateFormat="dd/mm/yy"
                                 />
-
                             </span>
-
                         </div>
-
                     </Col>
+
                     <Col md="6" sm="10">
                         <label className='labelForms'>Gênero</label>
                         <select className='inputform cadPsi' name="genero" value={formData.genero} onChange={handleChange}>

@@ -15,6 +15,7 @@ import perfilOrganizacional from '../img/perfilOrganizacional.avif';
 import perfilclinico from '../img/perfilClinico.jpg';
 import padraoPerfil from '../img/padraoPerfil.png'
 import { Pencil } from 'lucide-react';
+import FiltroBusca from '../Components/FiltroAgendarConsulta';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -24,31 +25,22 @@ function AgendarConsulta() {
   const [isLoading] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [data, setData] = useState([]);
-  const [modoEdicao, setModoEdicao] = useState({});
+  const [editableInfo, setEditableInfo] = useState({});
   const [editedText, setEditedText] = useState({});
 
-  const handleClickEditar = (psicologoId) => {
-    setModoEdicao((prev) => ({ ...prev, [psicologoId]: !prev[psicologoId] }));
-  
-    if (!modoEdicao[psicologoId]) {
-      // Carrega o texto existente para edição
-      setEditedText(prev => ({
-        ...prev,
-        [psicologoId]: getConteudoSobreMim({ psicologo: { psicologo_id: psicologoId } })
-      }));
-    }
+  const handleEditToggle = (psicologoId) => {
+    setEditableInfo(prev => ({
+      ...prev,
+      [psicologoId]: !prev[psicologoId]
+    }));
   };
 
-  const handleSalvar = (psicologoId) => {
-    // Atualiza o estado dos dados com o texto editado
-    setData(prevData =>
-      prevData.map(psicologo =>
-        psicologo.psicologo_id === psicologoId
-          ? { ...psicologo, info: editedText[psicologoId] } // Supondo que `info` seja o campo que você deseja atualizar
-          : psicologo
-      )
-    );
-    setModoEdicao((prev) => ({ ...prev, [psicologoId]: false }));
+  // Function to handle text change
+  const handleTextChange = (psicologoId, value) => {
+    setEditedText(prev => ({
+      ...prev,
+      [psicologoId]: value
+    }));
   };
 
   useEffect(() => {
@@ -271,16 +263,6 @@ function AgendarConsulta() {
     "Psicóloga Organizacional",
   ];
 
-  const getConteudoSobreMim = (psicologo) => {
-    const psicologoTabs = tabs.find(tab => tab.id === psicologo.psicologo_id);
-    const sobreMim = psicologoTabs ? psicologoTabs.tabs.find(tab => tab.eventKey === 'sobre').content : null;
-
-    if (!sobreMim) {
-      return "Informações não disponíveis.";
-    }
-    return sobreMim;
-  };
-
   const filteredCards = data.filter(psicologo => {
     const term = searchTerm.toLowerCase();
     const isMatchingProfession = selectedProfession === '' || psicologo.especialidade.toLowerCase().includes(selectedProfession.toLowerCase());
@@ -304,49 +286,15 @@ function AgendarConsulta() {
   return (
     <>
       <BAPO />
-      <div className='fundoFiltro'>
-        <div className="d-flex mb-4 align-items-center ">
-          <Form.Control
-            as="select"
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-            className="dropFilter mr-2"
-          >
-            <option value="">Selecionar <p className="setaSelecionar">↓</p></option>
-            <option value="nome" className={filterType === 'nome' ? 'selected-option' : ''}>Nome</option>
-            <option value="profissao" className={filterType === 'profissao' ? 'selected-option' : ''}>Profissão</option>
-            <option value="local" className={filterType === 'local' ? 'selected-option' : ''}>Localização</option>
-          </Form.Control>
-
-          {filterType === 'profissao' && (
-            <Form.Control
-              as="select"
-              value={selectedProfession}
-              onChange={(e) => setSelectedProfession(e.target.value)}
-              className="buscaPor mr-2"
-            >
-              <option value="" className={selectedProfession === '' ? 'selected-option' : ''}>Todas as profissões...</option>
-              {professionOptions.map((profession, index) => (
-                <option key={index} value={profession} className={selectedProfession === profession ? 'selected-option' : ''}>{profession}</option>
-              ))}
-            </Form.Control>
-          )}
-
-          {filterType !== 'profissao' && (
-            <Form.Control
-              type="text"
-              placeholder={`Buscar por ${filterType || '...'}`}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="buscaPor mr-2"
-            />
-          )}
-
-          <div className="searchA">
-            {isLoading ? 'Buscando...' : 'Buscar'}
-          </div>
-        </div>
-      </div>
+      <FiltroBusca
+        filterType={filterType}
+        setFilterType={setFilterType}
+        selectedProfession={selectedProfession}
+        setSelectedProfession={setSelectedProfession}
+        professionOptions={professionOptions}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
 
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
@@ -383,35 +331,30 @@ function AgendarConsulta() {
                         onSelect={(k) => setActiveTabs(prev => ({ ...prev, [psicologo.psicologo_id]: k }))}>
                         {tabsData.map((tab, i) => (
                           <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
-                            {tab.eventKey === 'agenda' ? (
-                              <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-                                Agendar
-                              </Link>
+                            {tab.eventKey === 'sobre' ? (
+                              editableInfo[psicologo.psicologo_id] ? (
+                                <>
+                                  <input
+                                    type="text"
+                                    value={editedText[psicologo.psicologo_id] || ""}
+                                    onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
+                                  />
+                                  <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Salvar</button>
+                                </>
+                              ) : (
+                                <>
+                                  <p>{editedText[psicologo.psicologo_id] || (psicologo.sobre ? psicologo.sobre : "Informações não disponíveis.")}</p>
+                                  <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Editar</button>
+                                </>
+                              )
                             ) : (
                               <p>{tab.content}</p>
                             )}
-                            {tab.eventKey === 'sobre' && activeTabs[psicologo.psicologo_id] === 'sobre' && (
+                            {tab.eventKey === 'agenda' && (
                               <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-                                Saiba mais
+                                Agendar
                               </Link>
                             )}
-                            {tab.eventKey === 'sobre' && getConteudoSobreMim(psicologo).includes("Informações não disponíveis.") && !modoEdicao[psicologo.psicologo_id] ? (
-                              <button className='editarTabs' onClick={() => handleClickEditar(psicologo.psicologo_id)}>  
-                                <Pencil className='pencilEditar' />
-                              </button>
-                            ) : null}
-                            {tab.eventKey === 'sobre' && modoEdicao[psicologo.psicologo_id] ? (
-                              <div>
-                                <textarea
-                                  value={editedText[psicologo.psicologo_id] || ""} 
-                                  onChange={(e) => setEditedText(prev => ({ ...prev,
-                                    [psicologo.psicologo_id]: e.target.value
-                                  }))} 
-                                  className="sobre-textarea"
-                                />
-                                  <button className='salvarEdicoes' onClick={() => handleSalvar(psicologo.psicologo_id)}>Salvar</button>
-                              </div>
-                            ) : null}
                           </Tab>
                         ))}
                       </Tabs>
