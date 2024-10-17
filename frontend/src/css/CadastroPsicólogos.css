@@ -44,10 +44,9 @@ body {
 }
 
 [data-theme='dark'] .blocoFormsPsi {
-    border: 2px #e0dffd solid;
-    background-color: #46467ac1 !important;
+    border: 2px #ab8fc4 solid;
+    background-color: #7543abc1 !important;
     color: #fff !important;
-
 }
 
 .inputform {
@@ -108,22 +107,8 @@ body {
 }
 
 [data-theme='dark'] .cardcadastropsi {
-    text-align: center !important;
-    padding: 18px 18px 2px 18px !important;
-    flex: auto !important;
-    width: auto !important;
-    margin: 6% !important;
-    padding: 1em 3em;
-    font-size: 16px;
-    letter-spacing: 1px;
-    font-weight: 500;
     color: #ffffff;
-    border-radius: 20px;
-    box-shadow: 6px 8px 16px #46467a !important;
-    transition: all 0.4s ease 0s;
-    cursor: pointer;
-    outline: none;
-    height: auto !important;
+    box-shadow: 6px 8px 16px #8f5ec8 !important;
 }
 
 .conteinerporque {
@@ -154,12 +139,8 @@ body {
 
 [data-theme='dark'] .cardporque {
     color: #fff !important;
-    background-color: #46467a9f !important;
-    border-radius: 20px;
-    border: 4px solid #46467a;
-    transition: all 0.4s ease 0s;
-    cursor: pointer;
-    outline: none;
+    background-color: #5a36939f !important;
+    border: 4px solid #61008b;
 }
 
 .cardporque:hover {

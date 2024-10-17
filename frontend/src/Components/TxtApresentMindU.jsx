@@ -17,7 +17,7 @@ function TxtSobreMindU() {
                             <br /> Conheça nossos planos e garanta uma boa saúde mental para você!!</p>
                         <br />
                     </div>
-                    <div>
+                    <div className="botaoContainer">
                         <Link to="/planos">
                             <Button className='botaoSobre'>
                                 Veja os nossos planos aqui.
