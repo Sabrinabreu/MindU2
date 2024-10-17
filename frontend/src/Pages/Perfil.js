@@ -594,12 +594,12 @@ function Perfil() {
 
             {tipoUsuario === 'funcionario' && (
                 <div className="calendar-container">
-                    <div className="calendar">
-                        <h5>Detalhes da Consulta</h5>
+                    <div className='containeraviso' >
+                        <h5 className='mt-4'>Detalhes da Consulta</h5>
                         {Array.isArray(consultationDetails) ? (
                             consultationDetails.length > 0 ? (
                                 consultationDetails.map((detail, index) => (
-                                    <div key={index}>
+                                    <div className='avisoSemData' key={index}>
                                         <p><strong>Data:</strong> {detail.date}</p>
                                         <p><strong>Horário:</strong> {detail.time}</p>
                                         <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>

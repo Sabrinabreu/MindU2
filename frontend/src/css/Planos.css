@@ -192,7 +192,6 @@ body {
   box-shadow: 0 30px 30px -25px rgba(0, 38, 255, 0.205);
   color: #ffffff;
   border: solid 3px #6852a5;
-
 }
 
 .plan strong {
@@ -349,5 +348,18 @@ body {
 
   }
 
+
+}
+
+
+
+@media (max-width: 900px) {
+  .col-md-4 {
+    width: 50%;
+    justify-content: center;
+}
+.row{
+  place-content: center;
+}
 
 }

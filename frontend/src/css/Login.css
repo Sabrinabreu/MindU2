@@ -132,3 +132,9 @@
     position: relative;
     z-index: 2;
   }
+
+  @media (max-width: 900px) {
+    .rowLogin {
+        margin: 40px 0px;}
+  
+  }

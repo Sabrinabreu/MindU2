@@ -61,7 +61,7 @@ const Planos = () => {
                 <Row className="assinatura">
                     <Row className="assinatura">
                         <Col md={4}>
-                            <div className="plan">
+                            <div className="plan mt-2">
                                 <div className="inner">
                                     <p className="title">Bem-Estar</p>
                                     <p className="info">Ideal para quem busca suporte psicológico básico e orientação contínua.</p>
@@ -83,7 +83,7 @@ const Planos = () => {
                             </div>
                         </Col>
                         <Col md={4}>
-                            <div className="plan">
+                            <div className="plan mt-2">
                                 <div className="inner">
                                     <div className="pop">
                                         <div>
@@ -112,7 +112,7 @@ const Planos = () => {
                             </div>
                         </Col>
                         <Col md={4}>
-                            <div className="plan">
+                            <div className="plan mt-2">
                                 <div className="inner">
                                     <p className="title">Transformação</p>
                                     <p className="info">Para quem busca um acompanhamento intensivo e personalizado.</p>
