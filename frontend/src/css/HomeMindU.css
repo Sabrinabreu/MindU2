@@ -43,8 +43,8 @@ body {
 }
 
 [data-theme='dark'] .cardBannerMaior {
-    border-color: #46467a !important;
-    background-color: #46467a !important;
+    border-color: #6a4e93 !important;
+    background-color: #6a4e93 !important;
 }
 
 .cardBannerMaior {
@@ -116,7 +116,7 @@ body {
 
 [data-theme='dark'] .botaoSobre {
     color: #000000;
-    background-color: #c1bffdaf !important;
+    background-color: #cfa3f9af !important;
     border: 1.7px solid #e0dffd !important;
 }
 
@@ -168,6 +168,12 @@ body {
     color: #6852a5 !important;
 }
 
+[data-theme="dark"] .textporque {
+    text-align: center !important;
+    font-size: 3em !important;
+    color: #e0d7fa !important;
+}
+
 .cardQualidades {
     flex: auto !important;
     max-width: 300px !important;
@@ -189,25 +195,10 @@ body {
 }
 
 [data-theme='dark'] .cardQualidades {
-    flex: auto !important;
-    max-width: 300px !important;
-    margin: 16px !important;
-    padding: 1em 3em;
-    font-size: 10.5px;
-    letter-spacing: 1px;
-    font-weight: 500;
     color: #fff;
     border: 3px solid #7866c689;
-    background-color: #46467a;
-    border-radius: 20px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s ease 0s;
-    cursor: pointer;
-    outline: none;
-    width: 250px !important;
-    height: 300px !important;
+    background-color: #6f4893;
 }
-
 
 .cardQualidades:hover {
     box-shadow: 0px 8px 8px 0px #e0dffdbb;
@@ -427,17 +418,11 @@ body {
 [data-theme='dark'] .faqaccordion {
     --bs-border-color: var(--bs-accordion-bg);
     --bs-border-radius: 16px !important;
-    --bs-accordion-inner-border-radius: calc(var(16px) -(var(1px)));
     --bs-accordion-border-radius: 16px !important;
-    --bs-accordion-bg: #46467acf !important;
+    --bs-accordion-bg: #795a9bcf !important;
     --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
     --bs-accordion-btn-focus-box-shadow: #46467a !important;
     --bs-accordion-btn-color: var(--bs-white) !important;
-    position: relative !important;
-    top: 20% !important;
-    margin-bottom: 18% !important;
-    font-size: 16px !important;
-    letter-spacing: 2px !important;
 }
 
 [data-theme='dark'] .accordion-body {
@@ -447,9 +432,8 @@ body {
 
 [data-theme='dark'] .accordion-button:not(.collapsed) {
     color: #e0dffd !important;
-    background-color: #46467a !important;
+    background-color: #7645a6 !important;
 }
-
 
 .results-container {
     margin-top: 10% !important;
@@ -479,7 +463,7 @@ body {
 
 [data-theme='dark'] .results {
     color: #fff;
-    background-color: #28096b84;
+    background-color: #8b37b684;
     border: 3px solid #7866c689;
 }
 
@@ -583,9 +567,16 @@ body {
 
     .botaoSobre {
         width: 300px !important;
-        margin-left: 34px !important;
     }
 
+    .botaoContainer {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        height: 10%;
+        width: 76%;
+    }
 
     .cardBannerMaior,
     .cardProfsMenor {
@@ -726,9 +717,17 @@ body {
 
     .botaoSobre {
         width: 300px !important;
-        margin-left: 30px !important;
+
     }
 
+    .botaoContainer {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        height: 10%;
+        width: 76%;
+    }
 
     .cardBannerMaior,
     .cardProfsMenor {
@@ -744,7 +743,7 @@ body {
 
     .textporque {
         text-align: center !important;
-        font-size: 1.4em !important;
+        font-size: 3em !important;
         color: #6852a5 !important;
     }
 
@@ -879,7 +878,6 @@ body {
         margin-left: 30px !important;
     }
 
-
     .cardBannerMaior {
         margin-top: 30px !important;
         width: auto !important;
@@ -910,7 +908,8 @@ body {
 
     .textporque {
         text-align: center !important;
-        font-size: 1.4em !important;
+        font-size: 2.8em !important;
+        margin-right: -140px !important;
         color: #6852a5 !important;
     }
 
@@ -999,6 +998,7 @@ body {
     .resultados {
         display: flex !important;
         flex-wrap: wrap !important;
+        margin: 8px !important;
     }
 
     .trending {
@@ -1007,5 +1007,23 @@ body {
 
     .faqaccordion {
         margin-bottom: 40% !important;
+    }
+}
+
+@media screen and (width: 1024px) {
+    .results-container {
+        margin-top: 10% !important;
+        margin-left: 80px !important;
+    }
+
+    .cardmaior {
+        height: auto !important;
+        padding: 30px !important;
+    }
+
+    .cardmenor {
+        width: 330px !important;
+        height: 318px !important;
+        padding: 18px !important;
     }
 }
