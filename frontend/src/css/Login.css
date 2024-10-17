@@ -29,12 +29,14 @@
 
 @media (max-width: 767px) {
     .colEsqLogin {
-        height: 140px;
+        height: 150px;
         border-radius: 0;
     }
+
     .loginVideo {
         width: 100%;
-        height: auto;
+        height: 100%;
+        object-fit: cover;
     }
 }
 
@@ -130,11 +132,21 @@
     margin-left: -25px;
     margin-top: -25px;
     position: relative;
-    z-index: 2;
-  }
+}
 
-  @media (max-width: 900px) {
-    .rowLogin {
-        margin: 40px 0px;}
-  
-  }
+@media (max-width: 768px) {
+
+    /* Para telas menores */
+    .colDirLogin {
+        padding: 12% 0 30%;
+        text-align: center;
+        color: #492f6d;
+    }
+
+    .semContadiv {
+        margin: 0 auto 10%;
+        position: relative;
+        bottom: -15%;
+        width: 90%;
+    }
+}

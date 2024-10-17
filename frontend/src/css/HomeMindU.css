@@ -103,14 +103,6 @@ body {
 }
 
 [data-theme='dark'] .txtSobre {
-    position: relative !important;
-    top: 4% !important;
-    bottom: 20% !important;
-    left: 6% !important;
-    text-align: left !important;
-    padding: 1.3em 3em;
-    font-size: 16px;
-    letter-spacing: 2px;
     color: #ffffff;
 }
 
@@ -169,8 +161,6 @@ body {
 }
 
 [data-theme="dark"] .textporque {
-    text-align: center !important;
-    font-size: 3em !important;
     color: #e0d7fa !important;
 }
 
@@ -197,7 +187,8 @@ body {
 [data-theme='dark'] .cardQualidades {
     color: #fff;
     border: 3px solid #7866c689;
-    background-color: #6f4893;
+    background-color: #492f6d;
+    box-shadow: #492f6d !important;
 }
 
 .cardQualidades:hover {
@@ -234,7 +225,7 @@ body {
 }
 
 .colab {
-    margin-top: -60px !important;
+    margin-top: 80px !important;
     margin-right: auto !important;
     margin-left: 54px !important;
 }
@@ -246,10 +237,27 @@ body {
 
 [data-theme='dark'] .slide {
     justify-content: center !important;
-    border: 2px solid #e0dffd !important;
+    border: 2px solid #f3dffd !important;
     box-shadow: 0 4px 6px #e0dffd91;
 }
 
+[data-theme="dark"] .slide h3 {
+    top: 8% !important;
+    position: relative !important;
+    color: #eedffd !important;
+}
+
+[data-theme="dark"] .slide p {
+    color: #efdffd !important;
+}
+
+.Avaliacao-TXT {
+    color: #6a4e93;
+}
+
+[data-theme="dark"] .Avaliacao-TXT {
+    color: #d7cff0;
+}
 
 .slide {
     justify-content: center !important;
@@ -257,7 +265,7 @@ body {
     border: 2px solid #6852a5 !important;
     color: #6852a5;
     border-width: 20% !important;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 28px;
     text-align: center;
     opacity: 30%;
@@ -477,10 +485,7 @@ body {
 }
 
 [data-theme='dark'] .textresultados {
-    text-align: center !important;
-    font-size: 3em !important;
-    padding-left: -20px !important;
-    color: #ffff;
+    color: #e0d7fa;
 }
 
 .cardmaior {
@@ -869,7 +874,7 @@ body {
     }
 }
 
-@media (min-width: 600px) and (max-width: 1100px) {
+@media (min-width: 600px) and (max-width: 1180px) {
 
     .txtSobre {
         top: 4% !important;
@@ -931,26 +936,27 @@ body {
 
     .qualidadesMindU {
         text-align: center;
-        margin-left: -60px !important;
+        margin-left: -70px !important;
     }
 
     .slide {
         width: 300px !important;
         height: 500px !important;
-        margin-left: -150px !important;
+        margin-left: -30px !important;
     }
 
     .carousel-container {
-        width: 100% !important;
+        width: 107% !important;
         position: relative !important;
     }
+
 
     .slick-prev {
         left: 4px !important;
     }
 
     .slick-next {
-        right: 8px !important;
+        right: 4px !important;
     }
 
     .slick-dots li button {
@@ -1034,5 +1040,35 @@ body {
         width: 330px !important;
         height: 318px !important;
         padding: 18px !important;
+    }
+
+    .slide {
+        width: 400px !important;
+        height: 500px !important;
+        margin-left: -30px !important;
+    }
+}
+
+@media screen and (width:820px) {
+    .carousel-container {
+        width: 107% !important;
+        position: relative !important;
+    }
+
+    .slide {
+        width: 300px !important;
+        height: 500px !important;
+        margin-left: -3px !important;
+    }
+
+    .slick-next {
+        padding-left: 60px !important;
+    }
+}
+
+@media (min-width:1024px) and (max-width: 1368px) {
+    .qualidadesMindU {
+        text-align: center;
+        margin-left: -10px !important;
     }
 }

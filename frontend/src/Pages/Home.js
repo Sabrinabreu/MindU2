@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import TxtSobreMindU from "../Components/TxtApresentMindU";
 import CardSobreMindU from "../Components/CardSobreMindU";
 import QualidadesMindU from "../Components/QualidadesEmpresa";
+import Avaliacoes from '../Components/SliderAvaliacoes';
 import FAQ from "../Components/faq";
 import Resultados from "../Components/ResultadosTratamento";
 import BAPO from "../Components/WidgetBAPO";
-import "../css/WidgetBAPO.css"; 
+import "../css/WidgetBAPO.css";
 
 const sectionsConfig = [
   { id: 'section1', delay: '0.2s' },
@@ -55,7 +56,7 @@ function Home() {
         <QualidadesMindU />
       </div>
       <div className="scroll-section" id="section3">
-        {/* <Avaliacoes /> */}
+        <Avaliacoes />
       </div>
       <div className="scroll-section" id="section4">
         <Resultados />
