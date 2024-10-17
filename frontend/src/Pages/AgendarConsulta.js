@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
-import { Container, Col, Form } from 'react-bootstrap';
+import { Container, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
@@ -14,7 +14,6 @@ import perfilEscolar from '../img/perfilEscolar.avif';
 import perfilOrganizacional from '../img/perfilOrganizacional.avif';
 import perfilclinico from '../img/perfilClinico.jpg';
 import padraoPerfil from '../img/padraoPerfil.png'
-import { Pencil } from 'lucide-react';
 import FiltroBusca from '../Components/FiltroAgendarConsulta';
 
 function AgendarConsulta() {

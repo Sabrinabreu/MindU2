@@ -6,6 +6,8 @@ import { Eye, EyeOff, LogOut, Pencil } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
 function formatarData(data) {
     return new Date(data).toLocaleDateString('pt-BR'); // Formato dd/mm/yyyy
 }
@@ -234,6 +236,8 @@ function Perfil() {
         }
     }, [token]);
     return (
+        <>
+        <BAPO/>
         <Container className='mt-4'>
             {showAlert && (
                 <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
@@ -594,12 +598,12 @@ function Perfil() {
 
             {tipoUsuario === 'funcionario' && (
                 <div className="calendar-container">
-                    <div className="calendar">
-                        <h5>Detalhes da Consulta</h5>
+                    <div className='containeraviso' >
+                        <h5 className='mt-4'>Detalhes da Consulta</h5>
                         {Array.isArray(consultationDetails) ? (
                             consultationDetails.length > 0 ? (
                                 consultationDetails.map((detail, index) => (
-                                    <div key={index}>
+                                    <div className='avisoSemData' key={index}>
                                         <p><strong>Data:</strong> {detail.date}</p>
                                         <p><strong>Horário:</strong> {detail.time}</p>
                                         <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>
@@ -616,7 +620,7 @@ function Perfil() {
                     </div>
                 </div>
             )}
-        </Container>
+        </Container></>
     );
 }
 

@@ -29,9 +29,6 @@ const CadastroFormPsi = () => {
         inputFileRef.current.click(); // Aciona o input de arquivo ao clicar no botão
     };
 
-    const [date, setDate] = useState(null);
-
-
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
 

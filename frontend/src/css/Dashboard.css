@@ -197,6 +197,10 @@ body {
     margin-left: -215px !important;
   }
 
+  .content-wrap {
+    padding: 20px 0 0 0  !important;
+  }
+
   .dashboard.collapsed {
     width: 245px !important;
     transition: margin-left 0.3s ease;

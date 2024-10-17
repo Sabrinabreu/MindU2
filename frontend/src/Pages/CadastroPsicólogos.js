@@ -124,7 +124,7 @@ function CadastroPsicólogos() {
 
                 <div className="scroll-section" id="section8" >
                     <div className='container align-self-center d-flex justify-content-center'>
-                        <Col md={9} sm={10} className="blocoFormsPsi centralizar">
+                        <Col md={9} sm={12} className="blocoFormsPsi centralizar">
                             <h2 className="m-4 centralizar">Cadastre-se no nosso convênio!</h2>
                             <div>
                                 <CadastroFormPsicologos />
