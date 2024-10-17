@@ -122,7 +122,7 @@ const Planos = () => {
                                         <li><p>Sessões de terapia em grupo (4 vezes por mês)</p></li>
                                         <li><p>Acesso ilimitado a workshops e webinars sobre saúde mental</p></li>
                                         <li><p>Suporte online 24/7 e acompanhamento personalizado</p></li>
-                                        <li><p>Acesso completo a materiais educativos e ferramentas de autoajuda</p></li>
+                                        <li><p>Acesso a materiais educativos e ferramentas de autoajuda</p></li>
                                         <li><p>Sessões de coaching psicológico personalizadas (1 vez por mês)</p></li>
                                     </ul>
                                     <div className="action">
