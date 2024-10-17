@@ -22,7 +22,6 @@ function AgendarConsulta() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('');
   const [selectedProfession, setSelectedProfession] = useState('');
-  const [isLoading] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [data, setData] = useState([]);
   const [editableInfo, setEditableInfo] = useState({});
@@ -35,7 +34,7 @@ function AgendarConsulta() {
     }));
   };
 
-  // Function to handle text change
+  // editar o sobre mim
   const handleTextChange = (psicologoId, value) => {
     setEditedText(prev => ({
       ...prev,
@@ -67,7 +66,7 @@ function AgendarConsulta() {
     {
       eventKey: "agenda",
       title: "Agenda",
-      content: "Nenhuma agenda disponível.",
+      content: "Clique aqui para ver mais sobre o psicólogo e agendar sua consulta.",
     },
   ];
 
@@ -268,7 +267,7 @@ function AgendarConsulta() {
     const isMatchingProfession = selectedProfession === '' || psicologo.especialidade.toLowerCase().includes(selectedProfession.toLowerCase());
     const isMatchingSearchTerm = filterType === 'nome' ? psicologo.nome.toLowerCase().includes(term) :
       filterType === 'local' ? psicologo.localizacao.toLowerCase().includes(term) :
-        true; // Se nenhum filtro específico, não filtra
+        true; // se nenhum filtro específico, não filtra
 
     return isMatchingProfession && isMatchingSearchTerm;
   });
@@ -302,6 +301,7 @@ function AgendarConsulta() {
           {filteredCards.length > 0 ? (
             filteredCards.map(psicologo => {
               const tabsData = getTabsForPsicologo(psicologo);
+
               return (
                 <div key={psicologo.psicologo_id} className="cardAgenda">
                   <div className="content-container">
@@ -322,6 +322,7 @@ function AgendarConsulta() {
                         <div className='sessao'>Duração da Sessão<br /><b className='hora'>1 Hora</b></div>
                       </Col>
                     </div>
+
                     <div className="tabs-container">
                       <Tabs
                         defaultActiveKey="agenda"
@@ -332,20 +333,40 @@ function AgendarConsulta() {
                         {tabsData.map((tab, i) => (
                           <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
                             {tab.eventKey === 'sobre' ? (
-                              editableInfo[psicologo.psicologo_id] ? (
+                              psicologo.psicologo_id >= 8 ? ( // Para IDs 8 ou superiores
                                 <>
-                                  <input
-                                    type="text"
-                                    value={editedText[psicologo.psicologo_id] || ""}
-                                    onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
-                                  />
-                                  <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Salvar</button>
+                                  {editableInfo[psicologo.psicologo_id] ? (
+                                    <>
+                                      <input
+                                        type="text"
+                                        value={editedText[psicologo.psicologo_id] || ""}
+                                        onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
+                                      />
+                                      <button className='salvarEdicoes' onClick={() => handleEditToggle(psicologo.psicologo_id)}>Salvar</button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <p style={{ marginRight: '10px'}}>{editedText[psicologo.psicologo_id] || "Informações não disponíveis."}</p>
+                                        <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
+                                          <Pencil />
+                                        </button>
+                                      </div>
+                                      <Link to={`/psicologo/${psicologo.psicologo_id}`} className="saibaMaisBot mt-3">
+                                        Saiba Mais
+                                      </Link>
+                                    </>
+                                  )}
                                 </>
                               ) : (
-                                <>
-                                  <p>{editedText[psicologo.psicologo_id] || (psicologo.sobre ? psicologo.sobre : "Informações não disponíveis.")}</p>
-                                  <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Editar</button>
-                                </>
+                                <div>
+                                  <p>{tabs.find(tab => tab.id === psicologo.psicologo_id)?.tabs[0].content}</p>
+                                  {editableInfo[psicologo.psicologo_id] && ( // Para IDs 1 a 7
+                                    <>
+                                      <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Editar</button>
+                                    </>
+                                  )}
+                                </div>
                               )
                             ) : (
                               <p>{tab.content}</p>
@@ -357,6 +378,7 @@ function AgendarConsulta() {
                             )}
                           </Tab>
                         ))}
+
                       </Tabs>
                     </div>
                   </div>
