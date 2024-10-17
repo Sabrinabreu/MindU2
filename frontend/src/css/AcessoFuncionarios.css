@@ -1,17 +1,17 @@
 [data-theme='dark'] .rdt_TableHeader {
-    background: #5a447d !important;
-    color: aliceblue !important;
+    background: #7c6f8b !important;
+    color: aliceblue;
 }
 
 [data-theme='dark'] .rdt_TableHeadRow{
-    background: #5a447d !important;
-    color: aliceblue !important;
+    background: #7c6f8b !important;
+    color: aliceblue;
 }
 
 [data-theme='dark'] .rdt_TableRow{
     background: #e3d9f2 !important;
 }
 [data-theme='dark'] .rdt_Pagination{
-    background: #6a5290 !important;
-    color: aliceblue !important;
+    background: #7c6f8b !important;
+    color: aliceblue;
 }
