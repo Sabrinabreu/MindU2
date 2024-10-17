@@ -6,6 +6,8 @@ import { Eye, EyeOff, LogOut, Pencil } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
 function formatarData(data) {
     return new Date(data).toLocaleDateString('pt-BR'); // Formato dd/mm/yyyy
 }
@@ -234,6 +236,8 @@ function Perfil() {
         }
     }, [token]);
     return (
+        <>
+        <BAPO/>
         <Container className='mt-4'>
             {showAlert && (
                 <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
@@ -300,7 +304,7 @@ function Perfil() {
                                 </>
                             )}
                             <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                <Button className="btnLog" onClick={handleLogout}><LogOut /> Sair da conta</Button>
+                                <Button className="editarBot" onClick={handleLogout}><LogOut /> Sair da conta</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
@@ -314,6 +318,7 @@ function Perfil() {
                                     <Form.Group controlId="formFullName">
                                         <Form.Label>Nome</Form.Label>
                                         <Form.Control
+                                            className='mb-2'
                                             type="text"
                                             name="nome"
                                             value={perfil.nome}
@@ -323,6 +328,7 @@ function Perfil() {
                                     <Form.Group controlId="formEmail">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control
+                                        className='mb-2'
                                             type="email"
                                             name="login"
                                             value={perfil.email}
@@ -334,20 +340,11 @@ function Perfil() {
                                     >
                                         <Form.Label>CPF</Form.Label>
                                         <Form.Control
+                                        className='mb-2'
                                             type="text"
                                             name="cpf"
                                             value={perfil.cpf}
                                             onChange={(e) => setPerfil({ ...perfil, cpf: e.target.value })}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formEmail">
-                                        {/* //mudar esses ids depois */}
-                                        <Form.Label>Cargo</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="cargo"
-                                            value={perfil.cargo}
-                                            onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formEmail">
@@ -359,10 +356,103 @@ function Perfil() {
                                             onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
                                         />
                                     </Form.Group>
+                                    {/* informações exclusivas de funcionario */}
+                                    {tipoUsuario === 'funcionario' && (
+                                    <Form.Group controlId="formEmail">
+                                        {/* //mudar esses ids depois */}
+                                        <Form.Label>Cargo</Form.Label>
+                                        <Form.Control
+                                        className='mb-2'
+                                            type="text"
+                                            name="cargo"
+                                            value={perfil.cargo}
+                                            onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    )}
+                                    {/* informações exclusivas de psicologo */}
+                                    {tipoUsuario === 'psicologo' && (
+                                        <>
+                                        <Form.Group controlId="formEmail">
+                                        <Form.Label>Gênero</Form.Label>
+                                        <Form.Control
+                                        className='mb-2'
+                                            type="text"
+                                            name="genero"
+                                            value={perfil.genero}
+                                            onChange={(e) => setPerfil({ ...perfil, genero: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Endereço</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="endereco"
+                                            value={perfil.endereco}
+                                            onChange={(e) => setPerfil({ ...perfil, endereco: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>CRP</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="crp"
+                                            value={perfil.crp}
+                                            onChange={(e) => setPerfil({ ...perfil, crp: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Preferência de Horário</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="preferenciaHorario"
+                                            value={perfil.preferenciaHorario}
+                                            onChange={(e) => setPerfil({ ...perfil, preferenciaHorario: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Disponibilidade</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="disponibilidade"
+                                            value={perfil.disponibilidade}
+                                            onChange={(e) => setPerfil({ ...perfil, disponibilidade: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Localização</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="localizacao"
+                                            value={perfil.localizacao}
+                                            onChange={(e) => setPerfil({ ...perfil, localizacao: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Motivação</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="motivacao"
+                                            value={perfil.motivacao}
+                                            onChange={(e) => setPerfil({ ...perfil, motivacao: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Objetivos</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="objetivos"
+                                            value={perfil.objetivos}
+                                            onChange={(e) => setPerfil({ ...perfil, objetivos: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    </>
+                                    )}
                                     <Form.Group controlId="formPassword">
                                     <Form.Label>Senha</Form.Label>
                                     <div className="password-container">
                                     <Form.Control
+                                    className='mb-2'
                                         type={showPassword ? "text" : "password"}
                                         name="senha"
                                         value={perfil.senha || ''}
@@ -382,6 +472,7 @@ function Perfil() {
                                 <Form.Group controlId="formSecurityQuestion">
                                 <Form.Label>Pergunta de Segurança</Form.Label>
                                 <Form.Control 
+                                className='mb-2'
                                     as="select" 
                                     value={perfil.pergunta_seguranca} 
                                     onChange={(e) => setPerfil({ ...perfil, pergunta_seguranca: e.target.value })}
@@ -395,13 +486,14 @@ function Perfil() {
                                 <Form.Group controlId="formSecurityAnswer">
                                     <Form.Label>Resposta de Segurança</Form.Label>
                                     <Form.Control
+                                    className='mb-2'
                                         type={showPassword ? "text" : "password"}
                                         value={perfil.resposta_seguranca}
                                         onChange={(e) => setPerfil({ ...perfil, resposta_seguranca: e.target.value })}
                                     />
                                 </Form.Group>
-                                        <Button variant="primary" type="submit">Salvar</Button>
-                                        <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
+                                        <Button className="editarBot mt-2" variant="primary" type="submit">Salvar</Button>
+                                        <Button className="cancelarBot mt-2" variant="secondary" onClick={handleCancel}>Cancelar</Button>
                                         {errorMessage && <p className="text-danger">{errorMessage}</p>}
                                     </Form>
 
@@ -506,12 +598,12 @@ function Perfil() {
 
             {tipoUsuario === 'funcionario' && (
                 <div className="calendar-container">
-                    <div className="calendar">
-                        <h5>Detalhes da Consulta</h5>
+                    <div className='containeraviso' >
+                        <h5 className='mt-4'>Detalhes da Consulta</h5>
                         {Array.isArray(consultationDetails) ? (
                             consultationDetails.length > 0 ? (
                                 consultationDetails.map((detail, index) => (
-                                    <div key={index}>
+                                    <div className='avisoSemData' key={index}>
                                         <p><strong>Data:</strong> {detail.date}</p>
                                         <p><strong>Horário:</strong> {detail.time}</p>
                                         <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>
@@ -528,7 +620,7 @@ function Perfil() {
                     </div>
                 </div>
             )}
-        </Container>
+        </Container></>
     );
 }
 

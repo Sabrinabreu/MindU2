@@ -129,6 +129,11 @@
     margin-right: 15px;
 }
 
+
+[data-theme='dark'] .sessao {
+    background-color: #c6b4f6;
+}
+
 .sessao,
 .valor {
     padding: 1em;
@@ -267,8 +272,14 @@
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     background: var(--search) !important;
-    color: white;
+    color: #fff;
 }
+
+[data-theme='dark'] .dropFilter {
+    background: #c6b4f6 !important;
+    color: #200d28;
+}
+
 
 .dropFilter option {
     background-color: #ffffff;
@@ -305,8 +316,7 @@
     margin-right: 2%;
     padding: 0 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-radius: 0 20px 20px 0 ;
 }
 
 .buscaPor:focus {
@@ -337,9 +347,9 @@
     background-color: #8a74c1;
 }
 
-[data-theme='dark'] .searchA,
-.dropFilter {
-    background-color: #816eb5 !important;
+[data-theme='dark'] .searchA{
+    background-color: #c6b4f6 !important;
+    color: #200d28;
 }
 
 /*calendario*/
@@ -478,7 +488,7 @@
 }
 
 .agendarBot:hover {
-    box-shadow: 0px 15px 20px rgb(122, 95, 138);
+    box-shadow: 0px 15px 20px #a89cdca0;
     transform: translateY(-7px);
 }
 
@@ -491,6 +501,10 @@
     border: 1.7px solid #ffffff;
 }
 
+[data-theme='dark'] .agendarBot:hover {
+    box-shadow: 0px 15px 20px #3f3568d3;
+}
+
 
 .especialidade {
     background-color: #f7f7f7;
@@ -498,6 +512,7 @@
     border-radius: 6px;
     cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border: #e9e7e7 solid 2px;
 }
 
 .especialidades {
@@ -509,6 +524,13 @@
 .especialidade {
     flex-basis: 30%;
     margin: 7px;
+}
+
+
+[data-theme='dark'] .especialidade {
+    background-color: #c6b4f6;
+    color: #000;
+    border: #a48edf solid 2px;
 }
 
 .editarTabs {

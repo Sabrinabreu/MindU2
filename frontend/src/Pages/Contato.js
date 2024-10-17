@@ -150,7 +150,7 @@ const handleLogout = () => {
         </Col>
         </CardGroup>
 
-        <h1 className="centralizar textroxo my-5">Conecte-se com um de nossos escritórios globais</h1>
+        <h1 className="centralizar textroxo textclaro my-5">Conecte-se com um de nossos escritórios globais</h1>
         <div className="scroll-section" id="section5">
         <Col className="mapa">
         <Card className="centralizar card-mapa my-2">
@@ -162,14 +162,14 @@ const handleLogout = () => {
               </div>
               <div className="cardMapa-direito">
 
-                <Col sm={12} className="mb-4 textroxo">
+                <Col sm={12} className="mb-4 textroxo textclaro">
                 <h4>Clinica MindU</h4>
                 <p>Rua Santo André, 680<br/>
                 Boa Vista<br/>
                 São Caetano do Sul/SP</p>
                 </Col>
 
-                <Col sm={12} className="mt-4 textroxo">
+                <Col sm={12} className="mt-4 textroxo textclaro">
                 <h4>Telefone / Fax</h4>
                 <p>+55 11 1000-0000<br/>
                   +55 21 1100-0000<br/></p>

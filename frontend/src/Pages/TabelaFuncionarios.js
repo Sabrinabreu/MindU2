@@ -2,23 +2,31 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Trash } from 'lucide-react';
 import DataTable from "react-data-table-component";
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
+import "../css/AcessoFuncionarios.css";
+
+
 const TabelaFuncionarios = ({ contas }) => {
   const [contasFuncionarios, setContasFuncionarios] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggleCleared, setToggleCleared] = useState(false);
 
   // Função para buscar os funcionários
-  const fetchFuncionarios = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/contaFuncionarios');
-      setContasFuncionarios(response.data);
-    } catch (error) {
-      console.error('Erro ao buscar os funcionários:', error);
-    }
-  };
+  const fetchFuncionariosNaoCadastrados = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/contaFuncionarios', {
+      params: { loginMethod: 'login_temporario' }
+    });
+    setContasFuncionarios(response.data);
+  } catch (error) {
+    console.error('Erro ao buscar funcionários não cadastrados:', error);
+  }
+};
+
   // Chama a função de busca ao carregar a página ou quando "contas" mudar
   useEffect(() => {
-    fetchFuncionarios();
+    fetchFuncionariosNaoCadastrados();
   }, [contas]);
   const handleRowSelected = React.useCallback(state => {
     setSelectedRows(state.selectedRows);
@@ -80,6 +88,8 @@ const TabelaFuncionarios = ({ contas }) => {
   }, [selectedRows]);
   
   return (
+    <>
+    <BAPO/>
     <div className="container my-5">
       <DataTable
         title="Tabela conta de funcionários criadas"
@@ -93,7 +103,7 @@ const TabelaFuncionarios = ({ contas }) => {
         noDataComponent="Não há registros para exibir"
         clearSelectedRows={toggleCleared} // Passa o estado para resetar a seleção
       />
-    </div>
+    </div></>
   );
 };
 

@@ -17,7 +17,7 @@
 }
 
 [data-theme='dark'] .perfilPsico {
-    background-color: #4e4e7f !important;
+    background-color: #6852a5 !important;
 }
 
 .fundoPsico {
@@ -62,7 +62,7 @@
 }
 
 [data-theme='dark'] .valores {
-    background-color: #2a2a5b !important;
+    background-color: #9e7ed6 !important;
 }
 
   .crp{
@@ -88,7 +88,7 @@
 }
 
 [data-theme='dark'] .agenda{
-    background-color: #4e4e7f;
+    background-color: #6852a5;
 }
 
 .agendaConsulta {
@@ -156,16 +156,16 @@
 }
 
 [data-theme='dark'] .biografia{
-    background-color: #4e4e7f;
+    background-color: #6852a5;
     color: rgb(255, 255, 255);
 }
 [data-theme='dark'] .localizacao{
-    background-color: #4e4e7f;
+    background-color: #6852a5;
     color: rgb(255, 255, 255);
 }
 
 [data-theme='dark'] .contato{
-    background-color: #4e4e7f;
+    background-color: #6852a5;
     color: rgb(255, 255, 255);
 }
 .cardMapa-psicologo {
