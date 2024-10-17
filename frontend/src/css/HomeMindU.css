@@ -879,7 +879,7 @@ body {
     .txtSobre {
         top: 4% !important;
         bottom: 20% !important;
-        left: 1% !important;
+        left: -5% !important;
         width: 70% !important;
         text-align: left !important;
         padding: 1.3em 3em;
@@ -889,7 +889,7 @@ body {
 
     .botaoSobre {
         width: auto !important;
-        margin-left: 30px !important;
+        margin-left: 0px !important;
     }
 
     .cardBannerMaior {
@@ -923,20 +923,21 @@ body {
     .textporque {
         text-align: center !important;
         font-size: 2.8em !important;
-        margin-right: -140px !important;
         color: #6852a5 !important;
     }
 
     .cardsQualidades {
-        flex-wrap: wrap !important;
-        margin: 20px !important;
-        column-gap: 130px !important;
+        flex-wrap:nowrap;
+        margin: 0px !important;
+        column-gap: 50px !important;
         position: relative !important;
+        overflow-x: hidden;
     }
 
     .qualidadesMindU {
         text-align: center;
-        margin-left: -70px !important;
+        margin-left: 0px !important;
+        margin: 0 !important;
     }
 
     .slide {
