@@ -12,10 +12,10 @@ const Acessibilidade = ({ toggleTheme }) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [activeButtons, setActiveButtons] = useState({});
     const [isHighlightActive, setIsHighlightActive] = useState(false);
-    const [setIsLineVisible] = useState(false);
+    const [IsLineVisible, setIsLineVisible] = useState(false);
     const highlightOverlayTopRef = useRef(null);
     const highlightOverlayBottomRef = useRef(null);
-    const [ setIsTDHAFriendly] = useState(false);
+    const [IsTDHAFriendly, setIsTDHAFriendly] = useState(false);
     const location = useLocation();
     const inputRef = useRef(null); // Referência ao input
     const [inputValue, setInputValue] = useState("");
