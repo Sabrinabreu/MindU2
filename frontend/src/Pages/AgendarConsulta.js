@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
 import { Container, Col, Form } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
 import Tab from 'react-bootstrap/Tab';
@@ -13,7 +14,7 @@ import perfilEscolar from '../img/perfilEscolar.avif';
 import perfilOrganizacional from '../img/perfilOrganizacional.avif';
 import perfilclinico from '../img/perfilClinico.jpg';
 import padraoPerfil from '../img/padraoPerfil.png'
-import { Link } from 'react-router-dom';
+import { Pencil } from 'lucide-react';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -28,7 +29,7 @@ function AgendarConsulta() {
 
   const handleClickEditar = (psicologoId) => {
     setModoEdicao((prev) => ({ ...prev, [psicologoId]: !prev[psicologoId] }));
-
+  
     if (!modoEdicao[psicologoId]) {
       // Carrega o texto existente para edição
       setEditedText(prev => ({
@@ -39,7 +40,7 @@ function AgendarConsulta() {
   };
 
   const handleSalvar = (psicologoId) => {
-    // Aqui você atualiza o estado dos dados com o texto editado
+    // Atualiza o estado dos dados com o texto editado
     setData(prevData =>
       prevData.map(psicologo =>
         psicologo.psicologo_id === psicologoId
@@ -395,19 +396,22 @@ function AgendarConsulta() {
                               </Link>
                             )}
                             {tab.eventKey === 'sobre' && getConteudoSobreMim(psicologo).includes("Informações não disponíveis.") && !modoEdicao[psicologo.psicologo_id] ? (
-                              <button onClick={() => handleClickEditar(psicologo.psicologo_id)}>Editar</button>
+                              <button className='editarTabs' onClick={() => handleClickEditar(psicologo.psicologo_id)}>  
+                                <Pencil className='pencilEditar' />
+                              </button>
                             ) : null}
                             {tab.eventKey === 'sobre' && modoEdicao[psicologo.psicologo_id] ? (
-                              <div className='p-4'>
+                              <div>
                                 <textarea
-                                  value={editedText[psicologo.psicologo_id] || "Informações não disponíveis."}
-                                  onChange={(e) => setEditedText(prev => ({ ...prev, [psicologo.psicologo_id]: e.target.value }))}
+                                  value={editedText[psicologo.psicologo_id] || ""} 
+                                  onChange={(e) => setEditedText(prev => ({ ...prev,
+                                    [psicologo.psicologo_id]: e.target.value
+                                  }))} 
                                   className="sobre-textarea"
                                 />
-                                <button onClick={() => handleSalvar(psicologo.psicologo_id)}>Salvar</button>
+                                  <button className='salvarEdicoes' onClick={() => handleSalvar(psicologo.psicologo_id)}>Salvar</button>
                               </div>
                             ) : null}
-                              <p>{getConteudoSobreMim(psicologo)}</p>
                           </Tab>
                         ))}
                       </Tabs>

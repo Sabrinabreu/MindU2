@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
 
 
+
 const Acessibilidade = ({ toggleTheme }) => {
 
     const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -16,6 +17,9 @@ const Acessibilidade = ({ toggleTheme }) => {
     const highlightOverlayBottomRef = useRef(null);
     const [ setIsTDHAFriendly] = useState(false);
     const location = useLocation();
+    const inputRef = useRef(null); // Referência ao input
+    const [inputValue, setInputValue] = useState("");
+    const handleVlibrasTogglePanel = () => setIsPanelOpen(prevState => !prevState);
 
     const [fontSizeLevel, setFontSizeLevel] = useState(100);
 
@@ -338,6 +342,7 @@ const Acessibilidade = ({ toggleTheme }) => {
         }
     };
 
+   
 
     return (
         <>
@@ -476,18 +481,25 @@ const Acessibilidade = ({ toggleTheme }) => {
                                         </Button>
                                     </>
                                 )}
+                              
+
+
+
                             </div>
+
                         </div>
                     </div>
-                </div>
+                </div >
             )}
 
             {/* Caixa da lupa de texto */}
-            {isMagnifierVisible && (
-                <div ref={magnifierRef} className="magnifier-box">
-                    {magnifiedText}
-                </div>
-            )}
+            {
+                isMagnifierVisible && (
+                    <div ref={magnifierRef} className="magnifier-box">
+                        {magnifiedText}
+                    </div>
+                )
+            }
 
 
             {/* sobreposição de cima  */}
@@ -528,8 +540,6 @@ const Acessibilidade = ({ toggleTheme }) => {
 
             <div className={classNames('highlight-background', { 'show': isHighlightActive })} ref={highlightBackground}></div>
             <div className={classNames('highlight-overlay', { 'show': isHighlightActive })} ref={highlightOverlay}></div>
-
-
 
         </>
     );

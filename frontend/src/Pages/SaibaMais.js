@@ -93,7 +93,7 @@ const Agendar = () => {
     };
 
     return (
-        <Container className='mb-4'>
+        <Container className='p-4'>
             <h6>Horários disponíveis:</h6>
             {availableTimes.length > 0 ? (
                 <ul>

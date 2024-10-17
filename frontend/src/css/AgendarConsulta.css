@@ -10,14 +10,14 @@
     --sessao-valor: #aeace7;
     --tab: #847284;
     --back-tab: #8a77df63;
-    --input:#888;
-    --time:#7766C6;
-    --border:#6c56cd;
+    --input: #888;
+    --time: #7766C6;
+    --border: #6c56cd;
     --search: #6852a5;
 
-  }
-  
-  [data-theme='dark'] {
+}
+
+[data-theme='dark'] {
     --white: #e8def8;
     --title: #fff;
     --back-card: #6852a5;
@@ -27,13 +27,12 @@
     --sessao-valor: #fffbfa;
     --tab: #b9aeb9;
     --back-tab: #a090e863;
-    --input:#888;
-    --time:#7766C6;
-    --border:#6c56cd;
+    --input: #888;
+    --time: #7766C6;
+    --border: #6c56cd;
     --search: #5e40b0;
 
-  }
-  
+}
 
 .fundoFiltro {
     background-color: var(--white);
@@ -47,7 +46,8 @@
     text-align: center;
     margin-bottom: 20px;
 }
-[data-theme='dark'] .tituloAgenda{
+
+[data-theme='dark'] .tituloAgenda {
     color: #fff;
 }
 
@@ -101,19 +101,24 @@
     font-size: 24px;
     margin-left: 0;
 }
-[data-theme='dark'] .nomeAgenda{
+
+[data-theme='dark'] .nomeAgenda {
     color: #fff;
 }
+
 .profissao {
     color: var(--profi);
 }
+
 .local {
     margin-top: -19px;
     color: #6852a5;
 }
-[data-theme='dark'] .local{
+
+[data-theme='dark'] .local {
     color: #fff;
 }
+
 .valor {
     width: 320px;
     margin-right: 40px;
@@ -132,7 +137,7 @@
     letter-spacing: 2.5px;
     font-weight: 500;
     color: black;
-    background:var(--sessao-valor);
+    background: var(--sessao-valor);
     border: 1.7px solid #252525;
     border-radius: 25px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -155,9 +160,10 @@
     display: inline-block;
 }
 
-[data-theme='dark'] .star{
+[data-theme='dark'] .star {
     background-color: #fff;
 }
+
 .cardAgenda::before {
     content: "";
     position: absolute;
@@ -187,7 +193,7 @@
 }
 
 .nav-tabs .nav-link {
-    color:var(--tab);
+    color: var(--tab);
     border: none;
     border-bottom: 3px solid transparent;
     transition: border-color 0.5s ease;
@@ -253,18 +259,18 @@
     border-bottom-left-radius: 20px !important;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
-    background: var(--search)!important;
+    background: var(--search) !important;
     color: white;
 }
 
 .dropFilter option {
-    background-color: #ffffff; 
-    color: #000000; 
-   border-radius: 10px;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 10px;
 }
 
 .dropFilter option:checked {
-    background-color: #e0e0e0; 
+    background-color: #e0e0e0;
     color: white;
 }
 
@@ -324,7 +330,8 @@
     background-color: #8a74c1;
 }
 
-[data-theme='dark'] .searchA, .dropFilter {
+[data-theme='dark'] .searchA,
+.dropFilter {
     background-color: #816eb5 !important;
 }
 
@@ -394,6 +401,7 @@
     border: 1px solid #281010;
     box-sizing: border-box;
 }
+
 [data-theme='dark'] .calendar-day {
     color: #000 !important;
 }
@@ -402,7 +410,7 @@
     background-color: #9b81e3;
     color: white;
     border: 1px solid #6852a5;
- 
+
 }
 
 
@@ -422,14 +430,14 @@
     width: 80%;
     padding: 12px;
     align-items: center;
-    background:  #fffbfa;
+    background: #fffbfa;
     border-radius: 8px;
     margin-left: 30px;
     border: 1px solid #8369ca;
     box-shadow: 0px 0px 5px -3px #111;
 }
 
-.semConsulta{
+.semConsulta {
     margin-right: 15px;
     margin-bottom: 3px;
 }
@@ -448,9 +456,11 @@
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
-    margin-left: 13%;
+    margin-left: 25%;
     text-decoration: none;
-    position: absolute;
+    /*
+    position: absolute;   ativar depois
+    */
 }
 
 .agendarBot:hover {
@@ -474,17 +484,38 @@
     border-radius: 6px;
     cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .especialidades {
+}
+
+.especialidades {
     display: flex;
     flex-wrap: wrap;
-  }
-  
-  .especialidades, .especialidade {
+}
+
+.especialidades,
+.especialidade {
     flex-basis: 30%;
     margin: 7px;
-  }
+}
+
+.editarTabs {
+    background-color: transparent;
+    border: none;
+}
+
+.pencilEditar {
+    color: #6c56cd;
+}
+
+.pencilEditar:hover {
+    color: #a89cdc;
+}
+
+.salvarEdicoes {
+    background-color: #604c9c;
+    border: 2px #604c9c;
+    border-radius: 20px;
+    color: white;
+}
 
 @media (max-width: 601px) {
     .imgPerfil {
