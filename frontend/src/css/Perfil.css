@@ -24,7 +24,7 @@
     color: #fae2ff;
 }
 [data-theme='dark'] .cardPerfil .text-secondary {
-    color: #fae2ff !important;
+    color: #fae2ffa8 !important;
 }
 
 [data-theme='dark'] .cardPerfil .listPerfil{
@@ -32,13 +32,25 @@
     color: #fae2ff !important;
 }
 
+
+[data-theme='dark'] .list-group.list-group-flush {
+    --bs-list-group-color: #fae2ff;
+    --bs-list-group-bg: #7e64a8;
+    color: #fae2ff !important;
+}
+
+[data-theme='dark'] .list-group-item {
+border-bottom: .8px solid #a0a0a0;
+}
+
+
 /* calendario dark mode */
 [data-theme='dark'] .calendarioPerfil{
-    background-color: #b084d7;
+    background-color: #7e64a8;
     color: #1e1221 !important;
 }
 [data-theme='dark'] .calendario-dia{
-    background-color: #8360ab;
+    background-color: #664a88;
     color: #fae2ff !important;
 }
 [data-theme='dark'] .calendar-cell{
@@ -46,8 +58,12 @@
     color: #000 !important;
     border:#564091;
 }
-[data-theme='dark'] .calendario-mes{
-    color: #6f4394 !important;
+[data-theme='dark'] .calendario-mes{ /*setinhas*/
+    color: #dcbaff !important;
+}
+
+[data-theme='dark'] .calendar-title{
+    color: #fae2ff !important;
 }
 
 .meuPerfil {
@@ -266,35 +282,39 @@
 }
 
 /* EDITAR */
-.editarBot{
-    background-color: #6852a5 !important;
+.editarBot {
+    background-color: #6852a5;
     border: none;
 }
 
 .editarBot:hover{
-    background-color: #4b3783 !important;
+    background-color: #4b3783;
 }
 
-.salvarBot{
-    background-color: #6852a5 !important;
-    border: none;
+[data-theme='dark'] .editarBot{
+    background-color: #4c397e;
 }
-
-.salvarBot:hover{
-    background-color: #4b3783 !important;
-    border: none;
+[data-theme='dark'] .editarBot:hover{
+    background-color: #3d2c67;
 }
 
 .cancelarBot{
-    background-color: #6852a5ae !important;
+    background-color: #6852a5ae;
     border: none;
     margin-left: 3px;
 }
 
 .cancelarBot:hover{
-    background-color: #5b439cbb !important;
+    background-color: #5b439cbb;
     border: none;
     margin-left: 3px;
+}
+
+[data-theme='dark'] .cancelarBot{
+    background-color: #8a898d;
+}
+[data-theme='dark'] .cancelarBot:hover{
+    background-color: #828282;
 }
 
 /*consulta na agenda*/
@@ -347,14 +367,6 @@
     font-size: 2rem;
     color: #333;
     cursor: pointer;
-}
-
-.btnLog {
-    background-color: #6852a5 !important;
-    border: 1px solid #564091;
-}
-.btnLog:hover {
-    background-color: #564091 !important;
 }
 
 .error-message {
