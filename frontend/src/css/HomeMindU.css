@@ -569,6 +569,15 @@ body {
         width: 300px !important;
     }
 
+    .qualidadesMindU {
+        text-align: center;
+        margin: 0 auto;
+        padding: 10px 0 !important;}
+
+        .cifrao {
+            margin-top: 12% !important;
+        }
+
     .botaoContainer {
         display: flex !important;
         flex-direction: column !important;
