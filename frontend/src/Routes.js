@@ -82,9 +82,9 @@ const Rotas = () => {
       <Route
         path="/dashboard"
         element={
-          // <ProtectedRoute allowedRoles={['empresa']}>
+          <ProtectedRoute allowedRoles={['empresa']}>
             <Dashboard />
-          // </ProtectedRoute>
+          </ProtectedRoute>
         }
       />
  

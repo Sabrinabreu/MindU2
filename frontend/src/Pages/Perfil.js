@@ -344,6 +344,17 @@ function Perfil() {
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formEmail">
+                                        <Form.Label>Telefone</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="telefone"
+                                            value={perfil.telefone}
+                                            onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    {/* informações exclusivas de funcionario */}
+                                    {tipoUsuario === 'funcionario' && (
+                                    <Form.Group controlId="formEmail">
                                         {/* //mudar esses ids depois */}
                                         <Form.Label>Cargo</Form.Label>
                                         <Form.Control
@@ -354,16 +365,85 @@ function Perfil() {
                                             onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
                                         />
                                     </Form.Group>
-                                    <Form.Group controlId="formEmail">
-                                        <Form.Label>Telefone</Form.Label>
+                                    )}
+                                    {/* informações exclusivas de psicologo */}
+                                    {tipoUsuario === 'psicologo' && (
+                                        <>
+                                        <Form.Group controlId="formEmail">
+                                        <Form.Label>Gênero</Form.Label>
                                         <Form.Control
                                         className='mb-2'
                                             type="text"
-                                            name="telefone"
-                                            value={perfil.telefone}
-                                            onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
+                                            name="genero"
+                                            value={perfil.genero}
+                                            onChange={(e) => setPerfil({ ...perfil, genero: e.target.value })}
                                         />
                                     </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Endereço</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="endereco"
+                                            value={perfil.endereco}
+                                            onChange={(e) => setPerfil({ ...perfil, endereco: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>CRP</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="crp"
+                                            value={perfil.crp}
+                                            onChange={(e) => setPerfil({ ...perfil, crp: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Preferência de Horário</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="preferenciaHorario"
+                                            value={perfil.preferenciaHorario}
+                                            onChange={(e) => setPerfil({ ...perfil, preferenciaHorario: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Disponibilidade</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="disponibilidade"
+                                            value={perfil.disponibilidade}
+                                            onChange={(e) => setPerfil({ ...perfil, disponibilidade: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Localização</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="localizacao"
+                                            value={perfil.localizacao}
+                                            onChange={(e) => setPerfil({ ...perfil, localizacao: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Motivação</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="motivacao"
+                                            value={perfil.motivacao}
+                                            onChange={(e) => setPerfil({ ...perfil, motivacao: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Objetivos</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="objetivos"
+                                            value={perfil.objetivos}
+                                            onChange={(e) => setPerfil({ ...perfil, objetivos: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    </>
+                                    )}
                                     <Form.Group controlId="formPassword">
                                     <Form.Label>Senha</Form.Label>
                                     <div className="password-container">
