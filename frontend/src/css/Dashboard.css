@@ -666,3 +666,7 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+#nav-footer {
+  border-radius: 0 0 16px 0 !important;
+}
