@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Trash } from 'lucide-react';
 import DataTable from "react-data-table-component";
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
+
+
 const TabelaFuncionarios = ({ contas }) => {
   const [contasFuncionarios, setContasFuncionarios] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -83,6 +87,8 @@ const TabelaFuncionarios = ({ contas }) => {
   }, [selectedRows]);
   
   return (
+    <>
+    <BAPO/>
     <div className="container my-5">
       <DataTable
         title="Tabela conta de funcionários criadas"
@@ -96,7 +102,7 @@ const TabelaFuncionarios = ({ contas }) => {
         noDataComponent="Não há registros para exibir"
         clearSelectedRows={toggleCleared} // Passa o estado para resetar a seleção
       />
-    </div>
+    </div></>
   );
 };
 

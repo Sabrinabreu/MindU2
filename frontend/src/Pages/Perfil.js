@@ -6,6 +6,8 @@ import { Eye, EyeOff, LogOut, Pencil } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
 function formatarData(data) {
     return new Date(data).toLocaleDateString('pt-BR'); // Formato dd/mm/yyyy
 }
@@ -234,6 +236,8 @@ function Perfil() {
         }
     }, [token]);
     return (
+        <>
+        <BAPO/>
         <Container className='mt-4'>
             {showAlert && (
                 <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
@@ -616,7 +620,7 @@ function Perfil() {
                     </div>
                 </div>
             )}
-        </Container>
+        </Container></>
     );
 }
 
