@@ -8,8 +8,6 @@ import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 import DatePicker from "../Components/Calendario";
 import axios from 'axios';
 
-const nomePsico = 'Flávio Monteiro Lobato';
-
 const Agendar = () => {
     const { psicologo_id } = useParams();
     const [show, setShow] = useState(false);
@@ -19,12 +17,35 @@ const Agendar = () => {
     const [assunto, setAssunto] = useState('');
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
+    const [nomePsico, setNomePsico] = useState('');
+
 
     useEffect(() => {
         if (psicologo_id) {
+            fetchNomePsicologo(psicologo_id);
             fetchDisponibilidades(psicologo_id);
         }
     }, [psicologo_id]);
+
+    const fetchNomePsicologo = async (psicologo_id) => {
+        try {
+            const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`);
+            console.log('Dados recebidos:', response.data);
+
+            if (response.data && response.data.nome) {
+                setNomePsico(response.data.nome);
+            } else {
+                console.error('Nome do psicólogo não encontrado na resposta da API');
+            }
+        } catch (error) {
+            console.error('Erro ao buscar nome do psicólogo:', error);
+            if (error.response) {
+                console.error('Resposta do servidor:', error.response.data);
+            }
+        }
+    };
+
+    console.log('Nome do psicólogo:', nomePsico);
 
     const fetchDisponibilidades = async (psicologo_id) => {
         try {
@@ -100,7 +121,7 @@ const Agendar = () => {
                         <img className="fundoPsico" src={fundoPsico} alt="Imagem de fundo" />
                         <img className="psicologo" src={perfilPsicologo} alt="Perfil do psicólogo" />
                         <button className='valores'>Duração da sessão <br /><b>1 hora</b></button>
-                        <h4 className='nomePsico container p-4'>{nomePsico}</h4>
+                        <h4 className='nomePsico container p-4'>{nomePsico || 'Nome aqui'}</h4>
                         <b className='infoPsico'>Psicólogo Cognitivo</b>
                         <h6 className='infoPsico'>Cornélio Procópio - PR</h6>
                         <h6 className='crp'>214579 / CRP - 4ª Região</h6>
@@ -140,15 +161,14 @@ const Agendar = () => {
                                         {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).length > 0 ? (
                                             <ul>
                                                 {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario }) => (
-                                                    <button 
-                                                        key={horario} 
-                                                        className={`horarioBotao ${selectedTime === horario ? 'active' : ''}`} 
+                                                    <button
+                                                        key={horario}
+                                                        className={`horarioBotao ${selectedTime === horario ? 'active' : ''}`}
                                                         onClick={() => handleTimeClick(horario)}
                                                     >
                                                         {horario}
                                                     </button>
                                                 ))}
-
                                             </ul>
                                         ) : (
                                             <p>Sem horários disponíveis.</p>
