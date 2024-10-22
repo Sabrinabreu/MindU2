@@ -196,6 +196,7 @@ body {
     color: #fff !important;
 }
 
+
 @media (max-width: 576px) {
     .imgpsi {
         width: 100% !important;
@@ -237,5 +238,234 @@ body {
 
     .blocoFormsPsi {
         font-size: 12px;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 1180px) {
+    .imgpsi {
+        width: 90% !important;
+        height: auto !important;
+        margin: 0 auto !important;
+    }
+
+    .blococadastropsi {
+        padding: 20px !important;
+    }
+
+    .fundoFormsPsi {
+        flex-wrap: wrap !important;
+        margin: 5% 10% !important;
+        padding: 20px 0px !important;
+    }
+
+    .imgporque {
+        width: 90% !important;
+        height: auto !important;
+        margin: 0 auto !important;
+    }
+
+    .conteinerporque {
+        flex-wrap: wrap !important;
+        margin: 0 5% !important;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .cardporque {
+        width: 80% !important;
+        height: 200px !important;
+        margin-left: 10% !important;
+        margin-bottom: 3% !important;
+        font-size: 14px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px !important;
+    }
+
+    .botaoCadastro {
+        padding: 1em 1.5em !important;
+        font-size: 14px !important;
+    }
+
+    .questioncadastro {
+        width: 530px !important;
+        font-size: 1.5em;
+        margin: 2% !important;
+        padding-bottom: 20px !important;
+    }
+
+    .cardcadastropsi {
+        width: 500px !important;
+        height: auto !important;
+        font-size: 1.3em !important;
+    }
+}
+
+@media (width: 1024px) {
+
+    .imgpsi {
+        width: 100% !important;
+    }
+
+    .imgporque {
+        width: 100% !important;
+    }
+
+    .conteinerporque {
+        flex-wrap: wrap !important;
+        display: flex !important;
+        margin-right: 89px !important;
+    }
+
+    .cardporque {
+        width: 100% !important;
+        height: 330px !important;
+        font-size: 1.2em !important;
+    }
+
+    .botaoCadastro {
+        padding: 1em 1.5em !important;
+        font-size: 14px !important;
+    }
+
+    .questioncadastro {
+        width: 732px !important;
+        font-size: 1.8em;
+        margin: 2% !important;
+        padding-bottom: 20px !important;
+    }
+
+    .cardcadastropsi {
+        width: 700px !important;
+        height: auto !important;
+        font-size: 1.6em !important;
+    }
+
+    .titleporque {
+        font-size: 3em !important;
+    }
+
+    .centralizar {
+        display: block;
+        text-align: -webkit-center;
+    }
+
+    .txtporque {
+        font-size: 1.5em !important;
+    }
+
+    .cardporque h6 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (width: 540px) {
+
+    .cardporque {
+        width: 80% !important;
+        height: 300px !important;
+        font-size: 1em !important;
+    }
+
+    .questioncadastro {
+        width: 450px !important;
+        font-size: 1.4em;
+        margin: 2% !important;
+        padding-bottom: 20px !important;
+    }
+
+    .cardcadastropsi {
+        width: 440px !important;
+        height: auto !important;
+        font-size: 1.2em !important;
+    }
+
+    .blococadastropsi {
+        margin: 0 !important;
+    }
+
+    .titleporque {
+        font-size: 2em !important;
+    }
+
+    .centralizar {
+        display: block;
+        text-align: -webkit-center;
+    }
+
+    .txtporque {
+        font-size: 1em !important;
+    }
+
+    .cardporque h6 {
+        font-size: 0.8rem;
+    }
+
+    .cardporque {
+        width: 90% !important;
+        height: 240px !important;
+        font-size: 0.8em !important;
+        margin: 14px !important;
+    }
+}
+
+@media (width: 912px) {
+
+    .imgpsi {
+        width: 100% !important;
+    }
+
+    .imgporque {
+        width: 100% !important;
+    }
+
+    .conteinerporque {
+        flex-wrap: wrap !important;
+        display: flex !important;
+        margin-right: 89px !important;
+    }
+
+
+    .cardporque {
+        width: 120% !important;
+        height: 300px !important;
+        font-size: 1em !important;
+    }
+
+    .botaoCadastro {
+        padding: 1em 1.5em !important;
+        font-size: 14px !important;
+    }
+
+    .questioncadastro {
+        width: 540px !important;
+        font-size: 1.8em;
+        margin: 2% !important;
+        padding-bottom: 20px !important;
+    }
+
+    .cardcadastropsi {
+        width: 500px !important;
+        height: auto !important;
+        font-size: 1.6em !important;
+    }
+
+    .titleporque {
+        font-size: 3em !important;
+    }
+
+    .centralizar {
+        display: block;
+        text-align: -webkit-center;
+    }
+
+    .txtporque {
+        font-size: 1.5em !important;
+    }
+
+    .cardporque h6 {
+        font-size: 1.5rem;
     }
 }

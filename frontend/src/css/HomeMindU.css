@@ -597,7 +597,7 @@ body {
 
     .textporque {
         text-align: center !important;
-        font-size: 1.4em !important;
+        font-size: 1.8em !important;
         color: #6852a5 !important;
     }
 
@@ -770,6 +770,13 @@ body {
         margin: auto !important;
     }
 
+    .qualidadesMindU {
+        text-align: center;
+        margin-left: 0px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
     .slide {
         width: 300px !important;
         height: 500px !important;
@@ -925,45 +932,38 @@ body {
     }
 
     .cardsQualidades {
-        flex-wrap:nowrap;
-        margin: 0px !important;
-        column-gap: 50px !important;
-        position: relative !important;
-        overflow-x: hidden;
+        flex-wrap: wrap !important;
+        display: flex !important;
+        justify-content: center !important;
+        column-gap: 0px !important;
+        row-gap: 30px !important;
     }
 
     .qualidadesMindU {
         text-align: center;
-        margin-left: 0px !important;
-        margin: 0 !important;
+        margin: 0 auto;
+        padding: 80px !important;
+        margin-top: 30px !important;
     }
 
     .slide {
+        justify-content: center !important;
+        align-items: stretch !important;
         width: 300px !important;
-        height: 500px !important;
-        margin-left: -30px !important;
+        /* Tamanho uniforme para todos os slides */
+        height: 400px !important;
+        /* Altura uniforme */
+        margin-left: -20px !important;
+    }
+
+    .slick-prev,
+    .slick-next {
+        top: 42%;
     }
 
     .carousel-container {
-        width: 107% !important;
-        position: relative !important;
-    }
-
-
-    .slick-prev {
-        left: 4px !important;
-    }
-
-    .slick-next {
-        right: 4px !important;
-    }
-
-    .slick-dots li button {
-        visibility: hidden !important;
-    }
-
-    .colab {
-        margin-left: 0 !important;
+        width: 100%;
+        position: relative;
     }
 
     .results-container {
@@ -976,7 +976,22 @@ body {
         height: auto !important;
     }
 
+    .colab {
+        margin-top: 0 !important;
+        margin-right: auto !important;
+        margin-left: 0 !important;
+    }
 
+    .slide {
+        margin-left: -20px !important;
+        width: 300px !important;
+        height: auto !important;
+    }
+
+    .slick-prev,
+    .slick-next {
+        top: 42%;
+    }
 
     .textresultados {
         text-align: center !important;
@@ -1025,6 +1040,19 @@ body {
 }
 
 @media screen and (width: 1024px) {
+
+    .slide {
+        width: 100% !important;
+        /* Ajusta a largura do slide para 80% */
+        height: auto !important;
+        margin: 0 auto !important;
+    }
+
+    .slick-prev,
+    .slick-next {
+        top: 50%;
+    }
+
     .results-container {
         margin-top: 10% !important;
         margin-left: 80px !important;
@@ -1041,16 +1069,12 @@ body {
         padding: 18px !important;
     }
 
-    .slide {
-        width: 400px !important;
-        height: 500px !important;
-        margin-left: -30px !important;
-    }
 }
 
 @media screen and (width:820px) {
+
     .carousel-container {
-        width: 107% !important;
+        width: 110% !important;
         position: relative !important;
     }
 
@@ -1062,5 +1086,24 @@ body {
 
     .slick-next {
         padding-left: 20px !important;
+    }
+
+}
+
+@media screen and (width:912px) {
+
+    .qualidadesMindU {
+        text-align: center;
+        margin: 0 auto;
+        padding: 80px !important;
+        margin-top: 30px !important;
+    }
+
+    .cardsQualidades {
+        flex-wrap: wrap !important;
+        display: flex !important;
+        justify-content: center !important;
+        column-gap: 0px !important;
+        row-gap: 30px !important;
     }
 }

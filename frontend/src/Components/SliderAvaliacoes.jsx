@@ -21,32 +21,41 @@ function Avaliacoes() {
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 3,
-        centerMode: true, 
-        centerPadding: '20px', 
-        focusOnSelect: true, 
-        arrows: true, 
+        centerMode: true,
+        centerPadding: '20px',
+        focusOnSelect: true,
+        arrows: true,
         responsive: [
             {
-                breakpoint: 768, 
+                breakpoint: 768,
                 settings: {
-                    slidesToShow: 2, 
-                    slidesToScroll: 2, 
-                    centerPadding: '80px', 
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    centerPadding: '80px',
                 },
             },
             {
-                breakpoint: 480, 
+                breakpoint: 480,
                 settings: {
-                    slidesToShow: 1, 
-                    slidesToScroll: 1, 
-                    centerPadding: '60px', 
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    centerPadding: '60px',
                 },
             },
-            
+
         ],
     };
 
-
+    // Função para detectar teclas de seta e acionar os botões de navegação
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'ArrowLeft') {
+            // Simula um clique no botão "Anterior" do slide
+            document.querySelector('.slick-prev').click();
+        } else if (event.key === 'ArrowRight') {
+            // Simula um clique no botão "Próximo" do slide
+            document.querySelector('.slick-next').click();
+        }
+    });
     return (
         <Container className='colab'><Row> <Col md='12'>
             <h1 className='text-center Avaliacao-TXT'>O que os colaboradores falam de nós: </h1>
