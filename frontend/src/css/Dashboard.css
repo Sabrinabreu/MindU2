@@ -13,8 +13,8 @@
 }
 
 [data-theme='dark'] {
-  --white: #7e64a8;
-  --color-dark: #c6b4f6;
+  --white: #7556a7;
+  --color-dark: hsl(0, 0%, 100%);
   --color-light: #c6b4f6;
   --red: #fa5b67;
   --bg: #7e64a8;
@@ -549,6 +549,7 @@ body {
   padding: 3em;
   overflow: auto;
   max-height: 76.9vh;
+  height: 78vh;
   box-sizing: border-box;
   margin-bottom: 10px;
   display: flex;
