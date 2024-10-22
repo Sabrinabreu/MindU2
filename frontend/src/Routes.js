@@ -46,7 +46,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
  
   // Verifica se o tipo de usuário está permitido para acessar a rota
   if (!allowedRoles.includes(tipoUsuario)) {
-    return <Navigate to="/" replace />; // Redireciona para home ou outra página caso o usuário não tenha permissão
+    return <Navigate to="/" replace />;
   }
  
   return children;
@@ -58,12 +58,17 @@ const Rotas = () => {
   return (
     <Routes>
       {/* Rotas públicas */}
-          <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/contato" element={<Contato />} />
+      <Route path="/planos" element={<Planos />} />
+      <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
+      {!token && (
+        <>
           <Route path="/cadastroEmpresa" element={<Cadastroempresa />} />
-          <Route path="/contato" element={<Contato />} />
           <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
-          <Route path="/planos" element={<Planos />} />
-          <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
+          <Route path="/login" element={<Login />} />
+        </>
+      )}
 
       {/* Rotas não autenticados */}
       {!token && (

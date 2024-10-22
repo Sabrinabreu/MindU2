@@ -19,18 +19,21 @@ function gerarNovoToken(usuario, tipoUsuario) {
 }
 
 router.put('/', async (req, res) => {
-    const { nome, senha, email, telefone, tipoUsuario, ...restoDados } = req.body;
+    const {
+        id, nome, senha, email, telefone, pergunta_seguranca, resposta_seguranca,
+        cpf, cargo, endereco, crp, preferenciaHorario, disponibilidade,
+        localizacao, motivacao, objetivos, tipoUsuario, psicologo_id
+    } = req.body;
 
     console.log('Dados recebidos:', req.body);
 
     try {
         let query;
         let params = [];
-        let hashedPassword;
         const tabela = tipoUsuario === 'psicologo' ? 'psicologos' : 'contaFuncionarios';
         const identificadorCampo = tipoUsuario === 'psicologo' ? 'email' : 'id';
 
-        // Atualizando dados comuns
+        // Lógica para psicólogo
         if (tipoUsuario === 'psicologo') {
             query = `
                 UPDATE psicologos SET
@@ -47,61 +50,73 @@ router.put('/', async (req, res) => {
                     localizacao = ?,
                     motivacao = ?,
                     objetivos = ?
-                WHERE psicologo_id = ?;
             `;
-            params.push(
-                nome, email, telefone, restoDados.pergunta_seguranca, 
-                restoDados.resposta_seguranca, restoDados.cpf, restoDados.endereco,
-                restoDados.crp, restoDados.preferenciaHorario, restoDados.disponibilidade,
-                restoDados.localizacao, restoDados.motivacao, restoDados.objetivos, 
-                restoDados.psicologo_id
-            );
 
-        } else if (tipoUsuario === 'funcionario') {
+            params = [
+                nome, email, telefone, pergunta_seguranca, resposta_seguranca,
+                cpf, endereco, crp, preferenciaHorario, disponibilidade,
+                localizacao, motivacao, objetivos
+            ];
+
+            // Verifica se uma nova senha foi fornecida
+            if (senha) {
+                const saltRounds = 10;
+                const hashedPassword = await bcrypt.hash(senha, saltRounds);
+                console.log('Senha criptografada:', hashedPassword);
+
+                query += `, senha = ?`; // Adiciona campo 'senha'
+                params.push(hashedPassword);
+            }
+
+            query += ` WHERE psicologo_id = ?`; // Finaliza a query
+            params.push(psicologo_id);
+        } 
+        // Lógica para funcionário
+        else if (tipoUsuario === 'funcionario') {
             query = `
                 UPDATE contaFuncionarios SET
-                    login = ?,
+                    nome = ?,
                     email = ?,
+                    cpf = ?,
                     telefone = ?,
-                    cargo = ?
-                WHERE id = ?;
+                    cargo = ?,
+                    pergunta_seguranca = ?,
+                    resposta_seguranca = ?,
+                    loginMethod = 'email'
             `;
-            params.push(
-                restoDados.login, email, telefone, 
-                restoDados.cargo, restoDados.id
-            );
-        }
 
-        // Verificando se a senha deve ser atualizada
-        if (senha) {
-            const saltRounds = 10;
-            hashedPassword = await bcrypt.hash(senha, saltRounds);
-            console.log('Senha criptografada:', hashedPassword);
+            params = [
+                nome, email, cpf, telefone, cargo, pergunta_seguranca,
+                resposta_seguranca
+            ];
 
-            query = query.replace('WHERE', 'senha = ?, WHERE');
-            params.unshift(hashedPassword);
+            if (senha) {
+                const saltRounds = 10;
+                const hashedPassword = await bcrypt.hash(senha, saltRounds);
+                console.log('Senha criptografada:', hashedPassword);
+
+                query += `, senha = ?`; // Adiciona campo 'senha'
+                params.push(hashedPassword);
+            }
+
+            query += ` WHERE id = ?`; // Finaliza a query
+            params.push(id);
         }
 
         console.log('Query:', query);
         console.log('Valores:', params);
 
         const [results] = await connection.query(query, params);
-        console.log('Resultados da atualização:', results);
 
         if (results.affectedRows === 0) {
             return res.status(404).json({ message: 'Perfil não encontrado para o identificador fornecido' });
         }
 
-        const identificadorValor = tipoUsuario === 'psicologo' ? email : restoDados.id;
+        const identificadorValor = tipoUsuario === 'psicologo' ? email : id;
         const [userResults] = await connection.query(
             `SELECT * FROM ${tabela} WHERE ${identificadorCampo} = ?`,
             [identificadorValor]
         );
-
-        console.log('Tabela:', tabela);
-        console.log('IdentificadorCampo:', identificadorCampo);
-        console.log('IdentificadorValor:', identificadorValor);
-
 
         if (userResults.length === 0) {
             return res.status(404).json({ message: 'Usuário não encontrado' });
@@ -117,6 +132,7 @@ router.put('/', async (req, res) => {
             perfilAtualizado: updatedUser,
             token: novoToken,
         });
+
     } catch (error) {
         console.error('Erro ao processar a atualização:', error);
         res.status(500).json({ message: 'Erro ao atualizar o perfil' });

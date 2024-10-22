@@ -574,7 +574,7 @@ function Perfil() {
                                             <hr />
                                             <Row>
                                                 <Col sm={3}><h6 className="mb-0">Motivação</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.motivavao}</Col>
+                                                <Col sm={9} className="text-secondary">{perfil.motivacao}</Col>
                                             </Row>
                                             <hr />
                                             <Row>
