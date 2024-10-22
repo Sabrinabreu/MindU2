@@ -236,7 +236,7 @@ function Perfil() {
                                 <div className="d-flex flex-column align-items-center text-center">
                                     <div
                                         className="profile-initials"
-                                        style={{ backgroundColor: backgroundColor, color: textColor }}
+                                        style={{ backgroundColor: backgroundColor, color: textColor, width: '150px', height: '150px' }}
                                     >
                                         {getInitials(perfil.nome || '')}
                                     </div>
