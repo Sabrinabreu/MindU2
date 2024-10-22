@@ -41,6 +41,10 @@
     margin-top: 0px;
 }
 
+.containerfiltro {
+    justify-content: center;
+}
+
 .tituloAgenda {
     color: var(--title);
     text-align: center;
@@ -191,12 +195,11 @@
 }
 
 .nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link {
-    width: 111%;
+    width: 108%;
 }
 
 .tabs-container {
     margin-left: 432px;
-    margin-right: -35px;
     margin-top: -310px;
     margin-bottom: 350px;
     width: 53%;
@@ -266,7 +269,6 @@
     box-shadow: 0 0 0 0;
     height: 65px;
     border: 0 none;
-    margin-left: 26%;
     border-top-left-radius: 20px !important;
     border-bottom-left-radius: 20px !important;
     border-top-right-radius: 0px;
