@@ -58,75 +58,77 @@ function Perfil() {
     };
 
     const validateForm = () => {
-        if (!perfil.nome || !perfil.email || !perfil.cpf || !perfil.telefone ||
-            !perfil.pergunta_seguranca || !perfil.resposta_seguranca) {
-            setErrorMessage('Todos os campos são obrigatórios.');
-            return false;
-        }
-
-        if (tipoUsuario === 'psicologo' &&
-            (!perfil.genero || !perfil.endereco || !perfil.crp ||
-                !perfil.preferenciaHorario || !perfil.disponibilidade || !perfil.localizacao)) {
-            setErrorMessage('Todos os campos do psicólogo são obrigatórios.');
+        const camposComuns = [
+            'nome', 'telefone', 'pergunta_seguranca', 
+            'resposta_seguranca', 'cpf'
+        ];
+    
+        const camposPsicologo = [
+            ...camposComuns, 'email', 'endereco', 'crp', 'preferenciaHorario', 
+            'disponibilidade', 'localizacao', 'motivacao', 'objetivos'
+        ];
+    
+        const camposFuncionario = [
+            ...camposComuns, 'login', 'cargo'
+        ];
+    
+        const camposObrigatorios = 
+            tipoUsuario === 'psicologo' ? camposPsicologo : camposFuncionario;
+    
+        const algumCampoVazio = camposObrigatorios.some(campo => !perfil[campo]);
+    
+        if (algumCampoVazio) {
+            setErrorMessage('Preencha todos os campos obrigatórios.');
             return false;
         }
 
         return true;
     };
-
+    
     const handleSave = async (e) => {
         e.preventDefault();
-
-        if (!validateForm()) {
-            setErrorMessage('Preencha todos os campos obrigatórios.');
-            return;
-        }
-
+    
+        if (!validateForm()) return;
+    
         setErrorMessage('');
-
-        // Define o payload com base no tipo de usuário
+    
         const updatedPerfil = {
             ...perfil,
             loginMethod: 'email',
-            senha: perfil.senha || undefined,
-            tipoUsuario // Inclui o tipo de usuário no payload
+            tipoUsuario,
         };
-
-        console.log("infos perfil: ", perfil);
-        console.log("infos token: ", decodedToken);
-
+    
+        // Remove senha do payload se não fornecida
+        if (!perfil.senha) delete updatedPerfil.senha;
+    
         try {
-            console.log('Iniciando a requisição...');
-
-            const response = await axios.put('http://localhost:3001/api/atualizarPerfil', updatedPerfil, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            console.log('Status da resposta:', response.status);
-
+            const response = await axios.put(
+                'http://localhost:3001/api/atualizarPerfil', 
+                updatedPerfil, 
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
             if (response.status >= 200 && response.status < 300) {
                 const novoToken = response.data.token;
-                console.log('Novo token recebido:', novoToken);
-
+    
                 setToken(novoToken);
                 localStorage.setItem('token', novoToken);
 
                 const decodedNovoToken = parseJwt(novoToken);
                 setPerfil(decodedNovoToken.perfil);
-                alert('Perfil atualizado com sucesso!');
                 setIsEditing(false);
-
-                console.log('Novo token decodificado:', decodedNovoToken);
+                alert('Perfil atualizado com sucesso!');
             } else {
                 setErrorMessage('Erro ao atualizar o perfil.');
             }
         } catch (error) {
             setErrorMessage('Erro ao atualizar o perfil.');
             console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
-            console.log('Status do erro:', error.response?.status);
         }
     };
 
@@ -217,10 +219,6 @@ function Perfil() {
                             <ListGroup variant="flush">
                                 {/* informações gerais */}
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Email</h6>
-                                    <span className="text-secondary">{perfil.email || "definir"}</span>
-                                </ListGroup.Item>
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 className="mb-0">Telefone</h6>
                                     <span className="text-secondary">{perfil.telefone || "definir"}</span>
                                 </ListGroup.Item>
@@ -231,6 +229,10 @@ function Perfil() {
                                 {/* informações exclusivas de funcionário */}
                                 {tipoUsuario === 'funcionario' && (
                                     <>
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 className="mb-0">Login</h6>
+                                            <span className="text-secondary">{perfil.login || "definir"}</span>
+                                        </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 className="mb-0">Empresa</h6>
                                             <span className="text-secondary">{nomeEmpresa}</span>
@@ -244,6 +246,10 @@ function Perfil() {
                                 {/* informações exclusivas de psicologo */}
                                 {tipoUsuario === 'psicologo' && (
                                     <>
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 className="mb-0">Email</h6>
+                                            <span className="text-secondary">{perfil.email || "definir"}</span>
+                                        </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 className="mb-0">Data de Nascimento</h6>
                                             <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
@@ -272,18 +278,7 @@ function Perfil() {
                                                     onChange={(e) => setPerfil({ ...perfil, nome: e.target.value })}
                                                 />
                                             </Form.Group>
-                                            <Form.Group controlId="formEmail">
-                                                <Form.Label>Email</Form.Label>
-                                                <Form.Control
-                                                    className='mb-2'
-                                                    type="email"
-                                                    name="login"
-                                                    value={perfil.email}
-                                                    onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
-                                                />
-                                            </Form.Group>
                                             <Form.Group
-                                            // controlId="formEmail"
                                             >
                                                 <Form.Label>CPF</Form.Label>
                                                 <Form.Control
@@ -294,7 +289,7 @@ function Perfil() {
                                                     onChange={(e) => setPerfil({ ...perfil, cpf: e.target.value })}
                                                 />
                                             </Form.Group>
-                                            <Form.Group controlId="formEmail">
+                                            <Form.Group>
                                                 <Form.Label>Telefone</Form.Label>
                                                 <Form.Control
                                                     type="text"
@@ -305,22 +300,44 @@ function Perfil() {
                                             </Form.Group>
                                             {/* informações exclusivas de funcionario */}
                                             {tipoUsuario === 'funcionario' && (
-                                                <Form.Group controlId="formEmail">
-                                                    {/* //mudar esses ids depois */}
-                                                    <Form.Label>Cargo</Form.Label>
-                                                    <Form.Control
-                                                        className='mb-2'
-                                                        type="text"
-                                                        name="cargo"
-                                                        value={perfil.cargo}
-                                                        onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
-                                                    />
-                                                </Form.Group>
+                                                <>
+                                                    <Form.Group controlId="formEmail">
+                                                        <Form.Label>Email</Form.Label>
+                                                        <Form.Control
+                                                            className='mb-2'
+                                                            type="email"
+                                                            name="login"
+                                                            value={perfil.login}
+                                                            onChange={(e) => setPerfil({ ...perfil, login: e.target.value })}
+                                                        />
+                                                    </Form.Group>
+                                                    <Form.Group>
+                                                        {/* //mudar esses ids depois */}
+                                                        <Form.Label>Cargo</Form.Label>
+                                                        <Form.Control
+                                                            className='mb-2'
+                                                            type="text"
+                                                            name="cargo"
+                                                            value={perfil.cargo}
+                                                            onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
+                                                        />
+                                                    </Form.Group>
+                                                </>
                                             )}
                                             {/* informações exclusivas de psicologo */}
                                             {tipoUsuario === 'psicologo' && (
-                                                <>
+                                                <> 
                                                     <Form.Group controlId="formEmail">
+                                                        <Form.Label>Email</Form.Label>
+                                                        <Form.Control
+                                                            className='mb-2'
+                                                            type="email"
+                                                            name="login"
+                                                            value={perfil.email}
+                                                            onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
+                                                        />
+                                                    </Form.Group>
+                                                    <Form.Group>
                                                         <Form.Label>Gênero</Form.Label>
                                                         <Form.Control
                                                             className='mb-2'
@@ -330,7 +347,7 @@ function Perfil() {
                                                             onChange={(e) => setPerfil({ ...perfil, genero: e.target.value })}
                                                         />
                                                     </Form.Group>
-                                                    <Form.Group controlId="formEmail">
+                                                    <Form.Group>
                                                         <Form.Label>Endereço</Form.Label>
                                                         <Form.Control
                                                             type="text"
@@ -339,7 +356,7 @@ function Perfil() {
                                                             onChange={(e) => setPerfil({ ...perfil, endereco: e.target.value })}
                                                         />
                                                     </Form.Group>
-                                                    <Form.Group controlId="formEmail">
+                                                    <Form.Group>
                                                         <Form.Label>CRP</Form.Label>
                                                         <Form.Control
                                                             type="text"
@@ -348,7 +365,7 @@ function Perfil() {
                                                             onChange={(e) => setPerfil({ ...perfil, crp: e.target.value })}
                                                         />
                                                     </Form.Group>
-                                                    <Form.Group controlId="formEmail">
+                                                    <Form.Group>
                                                         <Form.Label>Preferência de Horário</Form.Label>
                                                         <Form.Control
                                                             type="text"
@@ -357,7 +374,7 @@ function Perfil() {
                                                             onChange={(e) => setPerfil({ ...perfil, preferenciaHorario: e.target.value })}
                                                         />
                                                     </Form.Group>
-                                                    <Form.Group controlId="formEmail">
+                                                    <Form.Group>
                                                         <Form.Label>Disponibilidade</Form.Label>
                                                         <Form.Control
                                                             type="text"
@@ -366,7 +383,7 @@ function Perfil() {
                                                             onChange={(e) => setPerfil({ ...perfil, disponibilidade: e.target.value })}
                                                         />
                                                     </Form.Group>
-                                                    <Form.Group controlId="formEmail">
+                                                    <Form.Group>
                                                         <Form.Label>Localização</Form.Label>
                                                         <Form.Control
                                                             type="text"
@@ -375,7 +392,7 @@ function Perfil() {
                                                             onChange={(e) => setPerfil({ ...perfil, localizacao: e.target.value })}
                                                         />
                                                     </Form.Group>
-                                                    <Form.Group controlId="formEmail">
+                                                    <Form.Group>
                                                         <Form.Label>Motivação</Form.Label>
                                                         <Form.Control
                                                             type="text"
@@ -384,7 +401,7 @@ function Perfil() {
                                                             onChange={(e) => setPerfil({ ...perfil, motivacao: e.target.value })}
                                                         />
                                                     </Form.Group>
-                                                    <Form.Group controlId="formEmail">
+                                                    <Form.Group>
                                                         <Form.Label>Objetivos</Form.Label>
                                                         <Form.Control
                                                             type="text"
@@ -444,123 +461,124 @@ function Perfil() {
                                             {errorMessage && <p className="text-danger">{errorMessage}</p>}
                                         </Form>
 
-                                    ) : (
+                                ) : (
+                                    <>
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Nome </h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.nome}</Col>
+                                        </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">CPF</h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.cpf}</Col>
+                                        </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
+                                        </Row>
+                                        {/* informações exclusivas de funcionario */}
+                                        {tipoUsuario === 'funcionario' && (
                                         <>
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Nome </h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.nome}</Col>
-                                            </Row>
                                             <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Cargo</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.cargo}</Col>
+                                            </Row>
+                                        </>
+                                        )}
+                                        <hr />
+                                        {/* informações exclusivas de psicologo */}
+                                        {tipoUsuario === 'psicologo' && (
+                                        <>
                                             <Row>
                                                 <Col sm={3}><h6 className="mb-0">Email</h6></Col>
                                                 <Col sm={9} className="text-secondary">{perfil.email}</Col>
                                             </Row>
                                             <hr />
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">CPF</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.cpf}</Col>
+                                                <Col sm={3}><h6 className="mb-0">Gênero</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.genero}</Col>
                                             </Row>
                                             <hr />
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
-                                            </Row>
-                                            {/* informações exclusivas de funcionario */}
-                                            {tipoUsuario === 'funcionario' && (
-                                                <>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Cargo</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.cargo}</Col>
-                                                    </Row>
-                                                </>
-                                            )}
-                                            <hr />
-                                            {/* informações exclusivas de psicologo */}
-                                            {tipoUsuario === 'psicologo' && (
-                                                <>
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Gênero</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.genero}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Endereço</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.endereco}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">CRP</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.crp}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Preferência de Horário</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.preferenciaHorario}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Disponibilidade</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.disponibilidade}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Motivação</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.motivavao}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Objetivos</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.objetivos}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                </>
-                                            )}
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Senha</h6></Col>
-                                                <Col sm={9} className="text-secondary">
-                                                    {isEditing ? perfil.senha : '*****'}
-                                                </Col>
+                                                <Col sm={3}><h6 className="mb-0">Endereço</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.endereco}</Col>
                                             </Row>
                                             <hr />
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.pergunta_seguranca}</Col>
+                                                <Col sm={3}><h6 className="mb-0">CRP</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.crp}</Col>
                                             </Row>
                                             <hr />
-                                            {isPsicologo && (
-                                                <>
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Biografia</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.biografia}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                    <Row>
-                                                        <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
-                                                        <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
-                                                    </Row>
-                                                    <hr />
-                                                </>
-                                            )}
                                             <Row>
-                                                <Col sm={12}>
-                                                    <Button className='editarBot' onClick={handleEditClick}><Pencil /> Editar</Button>
-                                                </Col>
+                                                <Col sm={3}><h6 className="mb-0">Preferência de Horário</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.preferenciaHorario}</Col>
                                             </Row>
+                                            <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Disponibilidade</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.disponibilidade}</Col>
+                                            </Row>
+                                            <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
+                                            </Row>
+                                            <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Motivação</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.motivacao}</Col>
+                                            </Row>
+                                            <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Objetivos</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.objetivos}</Col>
+                                            </Row>
+                                            <hr />
                                         </>
-                                    )}
-                                </Card.Body>
-                            )}
+                                        )}
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Senha</h6></Col>
+                                            <Col sm={9} className="text-secondary">
+                                                {isEditing ? perfil.senha : '*****'}
+                                            </Col>
+                                        </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
+                                            <Col sm={9} className="text-secondary">{perfil.pergunta_seguranca}</Col>
+                                        </Row>
+                                        <hr />
+                                        {isPsicologo && (
+                                            <>
+                                                <Row>
+                                                    <Col sm={3}><h6 className="mb-0">Biografia</h6></Col>
+                                                    <Col sm={9} className="text-secondary">{perfil.biografia}</Col>
+                                                </Row>
+                                                <hr />
+                                                <Row>
+                                                    <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
+                                                    <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
+                                                </Row>
+                                                <hr />
+                                                <Row>
+                                                    <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                                    <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
+                                                </Row>
+                                                <hr />
+                                            </>
+                                        )}
+                                        <Row>
+                                            <Col sm={12}>
+                                                <Button className='editarBot' onClick={handleEditClick}><Pencil /> Editar</Button>
+                                            </Col>
+                                        </Row>
+                                    </>
+                                )}
+                            </Card.Body>
+                        )}
+
                         </Card>
 
                         {tipoUsuario === 'funcionario' && (

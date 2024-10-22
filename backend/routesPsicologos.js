@@ -72,6 +72,27 @@ router.get('/psicologos/:psicologo_id', (req, res) => {
     });
 });
 
+// // Rota para atualizar um psicólogo existente pelo ID
+// router.put('/:id', (req, res) => {
+//     const { id } = req.params;
+//     const { nome, especialidade, localizacao } = req.body;
+
+//     connection.query(
+//         'UPDATE psicologos SET nome = ?, especialidade = ?, localizacao = ? WHERE psicologo_id = ?',
+//         [nome, especialidade, localizacao, id],
+//         (err, result) => {
+//             if (err) {
+//                 console.error('Erro ao atualizar o psicólogo:', err);
+//                 return res.status(500).json({ error: 'Erro ao atualizar o psicólogo' });
+//             }
+//             if (result.affectedRows === 0) {
+//                 return res.status(404).json({ error: 'Psicólogo não encontrado' });
+//             }
+//             res.json({ message: 'Psicólogo atualizado com sucesso' });
+//         }
+//     );
+// });
+
 // Rota para excluir um psicólogo pelo ID
 router.delete('/:id', (req, res) => {
     const { id } = req.params;

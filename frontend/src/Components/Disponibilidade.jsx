@@ -143,43 +143,54 @@ const Disponibilidade = () => {
                 <Form>
                     <div className="dias-container p-3 mb-4" style={{ backgroundColor: '#fff', borderRadius: '10px' }}>
                         <Row className="mb-3 g-3">
-                            {Object.keys(workingDays).map(day => (
-                                <Col key={day} md={3}>
-                                    <div className="day-checkbox">
-                                        <label>
-                                            <input
-                                                className="inputSemana"
-                                                type="checkbox"
-                                                checked={workingDays[day]}
-                                                onChange={() => handleDayChange(day)}
-                                            />
-                                            <span className="custom-checkbox"></span>
-                                            {day.charAt(0).toUpperCase() + day.slice(1)}
-                                        </label>
-                                    </div>
-                                    {workingDays[day] && (
-                                        <div className="mb-2 time-inputs d-flex">
-                                            <Form.Group className="mr-2">
-                                                <Form.Label>Início:</Form.Label>
-                                                <Form.Control
-                                                    type="time"
-                                                    value={workingHours[day]?.start || ''}
-                                                    onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
-                                                />
-                                            </Form.Group>
+                        {Object.keys(workingDays).map(day => (
+                            <Col key={day} md={3}>
+                                <div className="day-checkbox">
+                                    <input
+                                        className="inputSemana"
+                                        type="checkbox"
+                                        id={`checkbox-${day}`}
+                                        checked={workingDays[day]}
+                                        onChange={() => handleDayChange(day)}
+                                    />
+                                    <span
+                                        className="custom-checkbox"
+                                        role="checkbox"
+                                        tabIndex="0"
+                                        aria-checked={workingDays[day]}
+                                        onClick={() => handleDayChange(day)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === ' ' || e.key === 'Enter') {
+                                                handleDayChange(day);
+                                            }
+                                        }}
+                                    ></span>
+                                    {day.charAt(0).toUpperCase() + day.slice(1)}
+                                </div>
 
-                                            <Form.Group>
-                                                <Form.Label>Fim:</Form.Label>
-                                                <Form.Control
-                                                    type="time"
-                                                    value={workingHours[day]?.end || ''}
-                                                    onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
-                                                />
-                                            </Form.Group>
-                                        </div>
-                                    )}
-                                </Col>
-                            ))}
+                                {workingDays[day] && (
+                                    <div className="mb-2 time-inputs d-flex">
+                                        <Form.Group className="mr-2">
+                                            <Form.Label>Início:</Form.Label>
+                                            <Form.Control
+                                                type="time"
+                                                value={workingHours[day]?.start || ''}
+                                                onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
+                                            />
+                                        </Form.Group>
+
+                                        <Form.Group>
+                                            <Form.Label>Fim:</Form.Label>
+                                            <Form.Control
+                                                type="time"
+                                                value={workingHours[day]?.end || ''}
+                                                onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
+                                            />
+                                        </Form.Group>
+                                    </div>
+                                )}
+                            </Col>
+                        ))}
                         </Row>
                         <Button className='mt-3 btnAtualizar' onClick={handleUpdate}>
                             <span className="material-symbols-outlined iconsDisp">restart_alt</span>
