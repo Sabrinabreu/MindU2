@@ -191,12 +191,11 @@
 }
 
 .nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link {
-    width: 111%;
+    width: 108%;
 }
 
 .tabs-container {
     margin-left: 432px;
-    margin-right: -35px;
     margin-top: -310px;
     margin-bottom: 350px;
     width: 53%;
