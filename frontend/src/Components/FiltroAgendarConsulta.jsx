@@ -5,7 +5,7 @@ import "../css/AgendarConsulta.css";
 const FiltroBusca = ({ filterType, setFilterType, selectedProfession, setSelectedProfession, professionOptions, searchTerm, setSearchTerm }) => {
     return (
         <div className='fundoFiltro'>
-            <div className="d-flex mb-4 align-items-center">
+            <div className="d-flex mb-4 containerfiltro">
                 <Form.Control
                     as="select"
                     value={filterType}
