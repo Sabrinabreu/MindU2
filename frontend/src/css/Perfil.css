@@ -174,12 +174,11 @@ border-bottom: .8px solid #a0a0a0;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 150px;
+    width: 15px;
     height: 150px;
-    background-color: #ddd;
     border-radius: 50%;
     font-size: 2rem;
-    color: #333;
+    color: #ffffff;
     cursor: pointer;
 }
 

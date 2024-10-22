@@ -1,18 +1,45 @@
 import React from 'react';
-import "../css/CalendarioPerfil.css"
+import "../css/CalendarioPerfil.css";
 
-const CalendarioEDetalhes = ({ 
-    currentMonth, 
-    handlePrevMonth, 
-    handleNextMonth, 
-    generateCalendar, 
-    consultationDetails, 
-    tipoUsuario 
+const CalendarioEDetalhes = ({
+    currentMonth,
+    handlePrevMonth,
+    handleNextMonth,
+    consultationDetails,
+    tipoUsuario
 }) => {
+    const generateCalendar = () => {
+        const startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+        const endDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+        const days = [];
+
+        // Adiciona os dias do mês ao array
+        for (let i = startDate.getDate(); i <= endDate.getDate(); i++) {
+            const currentDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
+            const consultasDoDia = consultationDetails.filter(detail =>
+                detail.date === currentDay.toISOString().split('T')[0]
+            );
+
+            days.push(
+                <div key={i} className="calendario-dia">
+                    <div>{currentDay.getDate()}</div>
+                    {consultasDoDia.length > 0 && (
+                        <div>
+                            {consultasDoDia.map((consulta, index) => (
+                                <div key={index}>
+                                    <p>{consulta.time} - {consulta.assunto}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+        return days;
+    };
 
     return (
         <div className="calendarioEDetalhes">
-            {/* Calendário */}
             <div className="calendarioPerfil p-4 text-center">
                 <div className="calendario-topo">
                     <button className="calendario-mes" onClick={handlePrevMonth}>◀</button>
@@ -34,27 +61,22 @@ const CalendarioEDetalhes = ({
                 </div>
             </div>
 
-            {/* Detalhes da consulta */}
             {tipoUsuario === 'funcionario' && (
                 <div className="calendar-container">
                     <div className='containeraviso'>
                         <h5 className='mt-4'>Detalhes da Consulta</h5>
-                        {Array.isArray(consultationDetails) ? (
-                            consultationDetails.length > 0 ? (
-                                consultationDetails.map((detail, index) => (
-                                    <div className='avisoSemData' key={index}>
-                                        <p><strong>Data:</strong> {detail.date}</p>
-                                        <p><strong>Horário:</strong> {detail.time}</p>
-                                        <p><strong>Tipo de consulta:</strong> {detail.tipo}</p>
-                                        <p><strong>Assuntos:</strong> {detail.assunto}</p>
-                                        <hr />
-                                    </div>
-                                ))
-                            ) : (
-                                <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
-                            )
+                        {Array.isArray(consultationDetails) && consultationDetails.length > 0 ? (
+                            consultationDetails.map((detail, index) => (
+                                <div className='avisoSemData' key={index}>
+                                    <p><strong>Data:</strong> {detail.date || 'Data não disponível'}</p>
+                                    <p><strong>Horário:</strong> {detail.time || 'Horário não disponível'}</p>
+                                    <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p>
+                                    <p><strong>Assuntos:</strong> {detail.assunto || 'Assunto não disponível'}</p>
+                                    <hr />
+                                </div>
+                            ))
                         ) : (
-                            <p className='avisoSemData'>Erro ao carregar os detalhes da consulta.</p>
+                            <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
                         )}
                     </div>
                 </div>

@@ -432,7 +432,6 @@
 
 }
 
-
 .setaCalendario {
     background-color: transparent;
     color: var(--name);
@@ -626,8 +625,8 @@
     }
 
     .tabs-container {
-        margin-left: -370px;
-        margin-top: 300px;
+        margin-left: -10px;
+        margin-top: 15px;
     }
 
     .busca {

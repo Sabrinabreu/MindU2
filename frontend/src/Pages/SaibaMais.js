@@ -7,6 +7,7 @@ import fundoPsico from '../img/fundoPsico.webp';
 import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 import DatePicker from "../Components/Calendario";
 import axios from 'axios';
+import Calendario from "../Components/CalendarioPerfil";
 
 const Agendar = () => {
     const { psicologo_id } = useParams();
@@ -18,7 +19,11 @@ const Agendar = () => {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
     const [nomePsico, setNomePsico] = useState('');
+    const [tipoUsuario, setTipoUsuario] = useState('funcionario');
+    const [consultasAgendadas, setConsultasAgendadas] = useState([]); // Estado para armazenar consultas agendadas
 
+    // Estado para o calendário
+    const [currentMonth, setCurrentMonth] = useState(new Date());
 
     useEffect(() => {
         if (psicologo_id) {
@@ -27,11 +32,31 @@ const Agendar = () => {
         }
     }, [psicologo_id]);
 
+    // Funções para navegar entre meses
+    const handlePrevMonth = () => {
+        setCurrentMonth(prev => {
+            const date = new Date(prev);
+            date.setMonth(date.getMonth() - 1);
+            return date;
+        });
+    };
+
+    const handleNextMonth = () => {
+        setCurrentMonth(prev => {
+            const date = new Date(prev);
+            date.setMonth(date.getMonth() + 1);
+            return date;
+        });
+    };
+
+    const generateCalendar = () => {
+        // Lógica para gerar o calendário baseado em currentMonth
+        // Você pode implementar isso conforme suas necessidades
+    };
+
     const fetchNomePsicologo = async (psicologo_id) => {
         try {
             const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`);
-            console.log('Dados recebidos:', response.data);
-
             if (response.data && response.data.nome) {
                 setNomePsico(response.data.nome);
             } else {
@@ -39,13 +64,8 @@ const Agendar = () => {
             }
         } catch (error) {
             console.error('Erro ao buscar nome do psicólogo:', error);
-            if (error.response) {
-                console.error('Resposta do servidor:', error.response.data);
-            }
         }
     };
-
-    console.log('Nome do psicólogo:', nomePsico);
 
     const fetchDisponibilidades = async (psicologo_id) => {
         try {
@@ -102,6 +122,18 @@ const Agendar = () => {
         try {
             const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData);
             alert(response.data.message);
+            
+            // Atualiza o estado das consultas agendadas
+            setConsultasAgendadas(prev => [
+                ...prev,
+                {
+                    date: agendamentoData.data,
+                    time: agendamentoData.horario,
+                    tipo: agendamentoData.tipo,
+                    assunto: agendamentoData.assunto,
+                },
+            ]);
+            
             handleClose();
         } catch (error) {
             console.error('Erro ao agendar consulta:', error);
@@ -109,7 +141,7 @@ const Agendar = () => {
                 alert(`Erro: ${error.response.data.error}`);
             } else {
                 alert('Erro ao agendar consulta. Tente novamente.');
-            }
+ }
         }
     };
 
@@ -200,6 +232,15 @@ const Agendar = () => {
                     </div>
                 </Col>
             </Row>
+            <br></br>
+            <Calendario 
+                currentMonth={currentMonth} 
+                handlePrevMonth={handlePrevMonth} 
+                handleNextMonth={handleNextMonth} 
+                generateCalendar={generateCalendar} 
+                consultationDetails={consultasAgendadas} 
+                tipoUsuario={tipoUsuario} 
+            />
         </Container>
     );
 };

@@ -14,8 +14,6 @@ function formatarData(data) {
 }
 
 function Perfil() {
-    const [consultationDetails] = useState([]);
-    const [currentMonth, setCurrentMonth] = useState(new Date());
     const [isEditing, setIsEditing] = useState(false);
     const [perfil, setPerfil] = useState({});
     const [tipoUsuario, setTipoUsuario] = useState('');
@@ -24,6 +22,10 @@ function Perfil() {
     const [showAlert, setShowAlert] = useState(false);
     const { setToken } = useAuth();
     const navegacao = useNavigate();
+
+    const [consultasAgendadas, setConsultasAgendadas] = useState([]);
+    const [currentMonth] = useState(new Date());
+
 
     const [showPassword, setShowPassword] = useState(false);
     const [isPsicologo] = useState(false);
@@ -79,7 +81,7 @@ function Perfil() {
             setErrorMessage('Preencha todos os campos obrigatórios.');
             return false;
         }
-    
+
         return true;
     };
     
@@ -116,7 +118,7 @@ function Perfil() {
     
                 setToken(novoToken);
                 localStorage.setItem('token', novoToken);
-    
+
                 const decodedNovoToken = parseJwt(novoToken);
                 setPerfil(decodedNovoToken.perfil);
                 setIsEditing(false);
@@ -128,7 +130,7 @@ function Perfil() {
             setErrorMessage('Erro ao atualizar o perfil.');
             console.error('Erro ao atualizar perfil:', error.response ? error.response.data : error.message);
         }
-    };    
+    };
 
     const handleCancel = () => {
         setIsEditing(false);
@@ -148,64 +150,6 @@ function Perfil() {
         }
 
     };
-
-    const daysInMonth = (month, year) => {
-        return new Date(year, month + 1, 0).getDate();
-    };
-
-    const generateCalendar = () => {
-        const month = currentMonth.getMonth();
-        const year = currentMonth.getFullYear();
-        const days = daysInMonth(month, year);
-        const startDay = new Date(year, month, 1).getDay();
-        const calendarDays = [];
-
-        const consultationDates = consultationDetails.map(detail => {
-            const date = new Date(detail.date.split('/').reverse().join('-'));
-            return date.getDate();
-        });
-
-        for (let i = 0; i < startDay; i++) {
-            calendarDays.push(<div className="calendar-cell" key={`empty-${i}`}></div>);
-        }
-
-        for (let i = 1; i <= days; i++) {
-            const isConsultationDate = consultationDates.includes(i);
-            const consultationDetail = consultationDetails.find(detail => {
-                const date = new Date(detail.date.split('/').reverse().join('-'));
-                return date.getDate() === i;
-            });
-
-            calendarDays.push(
-                <div
-                    className={`calendar-cell ${isConsultationDate ? 'has-consultation' : ''}`}
-                    key={i}
-                >
-                    {i}
-                    {isConsultationDate && consultationDetail && (
-                        <div className="dot">
-                            <div className="consultation-details">
-                                <p><strong>Nome:</strong> {consultationDetail.psicologo}</p>
-                                <p><strong>Horário:</strong> {consultationDetail.time}</p>
-                                <p><strong>Tipo:</strong> {consultationDetail.tipo}</p>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
-        }
-
-        return calendarDays;
-    };
-
-    const handlePrevMonth = () => {
-        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
-    };
-
-    const handleNextMonth = () => {
-        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
-    };
-
 
     const getInitials = (name) => {
         if (!name) return '';
@@ -246,8 +190,35 @@ function Perfil() {
             if (decodedToken.tipo_usuario === 'funcionario') {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
+
+            fetchConsultasAgendadas(decodedToken.perfil.id);/*pega os agendamentos*/
         }
     }, [token]);
+
+    useEffect(() => {
+        // Carregar consultas agendadas do localStorage ao montar o componente
+        const storedConsultas = localStorage.getItem('consultasAgendadas');
+        if (storedConsultas) {
+            setConsultasAgendadas(JSON.parse(storedConsultas));
+        }
+    }, []);
+
+    useEffect(() => {
+        // Armazenar consultas agendadas no localStorage sempre que mudarem
+        localStorage.setItem('consultasAgendadas', JSON.stringify(consultasAgendadas));
+    }, [consultasAgendadas]);
+
+    const fetchConsultasAgendadas = async (usuarioId) => {
+        try {
+            const response = await axios.get(`http://localhost:3001/api/agendamentos`);
+            console.log("Consultas Agendadas:", response.data); // Verifique os dados aqui
+            setConsultasAgendadas(response.data);
+            localStorage.setItem('consultasAgendadas', JSON.stringify(response.data)); // Armazena no localStorage
+        } catch (error) {
+            console.error('Erro ao buscar consultas agendadas:', error);
+        }
+    };
+
     return (
         <>
             <BAPO />
@@ -267,7 +238,7 @@ function Perfil() {
                                 <div className="d-flex flex-column align-items-center text-center">
                                     <div
                                         className="profile-initials"
-                                        style={{ backgroundColor: backgroundColor, color: textColor }}
+                                        style={{ backgroundColor: backgroundColor, color: textColor, width: '150px', height: '150px' }}
                                     >
                                         {getInitials(perfil.nome || '')}
                                     </div>
@@ -650,10 +621,7 @@ function Perfil() {
                                 <Col>
                                     <Calendario
                                         currentMonth={currentMonth}
-                                        handlePrevMonth={handlePrevMonth}
-                                        handleNextMonth={handleNextMonth}
-                                        generateCalendar={generateCalendar}
-                                        consultationDetails={consultationDetails}
+                                        consultationDetails={consultasAgendadas}
                                         tipoUsuario={tipoUsuario}
                                     />
                                 </Col>
