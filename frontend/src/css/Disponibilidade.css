@@ -70,7 +70,8 @@
 
 /* INPUT personalizado */
 .inputSemana[type="checkbox"] {
-    display: none;
+    opacity: 0;
+    position: absolute;
 }
 
 /* checkbox */

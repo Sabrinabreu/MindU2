@@ -97,7 +97,6 @@ const handleLogout = () => {
   return (
     <>
     <BAPO/>
-    <button className="btnLog" onClick={handleLogout}>Sair da conta</button>
       <div>
       
         <div className="bannerContato">
