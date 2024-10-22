@@ -21,8 +21,13 @@ router.post('/login', async (req, res) => {
     const usuario = userResult[0];
     let userData = {};
 
-    // Comparar a senha fornecida com a senha criptografada
-    if (usuario.tipo_usuario === 'empresa' || usuario.tipo_usuario === 'psicologo') {
+    if (usuario.tipo_usuario === 'funcionario') {
+      // Comparação simples de senha para funcionários
+      if (senha !== usuario.senha) {
+        return res.status(404).json({ error: 'Usuário ou senha incorretos' });
+      }
+    } else {
+      // Validação com bcrypt para outros usuários
       const match = await bcrypt.compare(senha, usuario.senha);
       if (!match) {
         return res.status(404).json({ error: 'Usuário ou senha incorretos' });
