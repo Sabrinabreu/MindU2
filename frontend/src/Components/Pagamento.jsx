@@ -306,43 +306,46 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                         <label className="formlabel">Escolha o Tipo de Pagamento:</label>
                         <div className="payment-options">
                             <div className="payment-option-container">
-                                <label className={`payment-option ${paymentType === 'boleto' ? 'active' : ''}`}>
-                                    <input
-                                        className='formradio'
-                                        type="radio"
-                                        name="paymentType"
-                                        value="boleto"
-                                        checked={paymentType === 'boleto'}
-                                        onChange={handlePaymentTypeChange}
-                                    />
-                                    Boleto
-                                </label>
+                            <label
+                                className={`payment-option ${paymentType === 'boleto' ? 'active' : ''}`}
+                                htmlFor="boleto"
+                                tabIndex={0} // Torna a label focável com o teclado
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        handlePaymentTypeChange({ target: { value: 'boleto' } }); // Chama a mudança de pagamento
+                                    }
+                                }}
+                            >
+                                Boleto
+                            </label>
                             </div>
                             <div className="payment-option-container">
-                                <label className={`payment-option ${paymentType === 'pix' ? 'active' : ''}`}>
-                                    <input
-                                        className='formradio'
-                                        type="radio"
-                                        name="paymentType"
-                                        value="pix"
-                                        checked={paymentType === 'pix'}
-                                        onChange={handlePaymentTypeChange}
-                                    />
-                                    PIX
-                                </label>
+                            <label
+                                className={`payment-option ${paymentType === 'pix' ? 'active' : ''}`}
+                                htmlFor="pix"
+                                tabIndex={0} // Torna a label focável com o teclado
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        handlePaymentTypeChange({ target: { value: 'pix' } }); // Chama a mudança de pagamento
+                                    }
+                                }}
+                            >
+                                PIX
+                            </label>
                             </div>
                             <div className="payment-option-container">
-                                <label className={`payment-option ${paymentType === 'cartao' ? 'active' : ''}`}>
-                                    <input
-                                        className='formradio'
-                                        type="radio"
-                                        name="paymentType"
-                                        value="cartao"
-                                        checked={paymentType === 'cartao'}
-                                        onChange={handlePaymentTypeChange}
-                                    />
-                                    Cartão
-                                </label>
+                            <label
+                                className={`payment-option ${paymentType === 'cartao' ? 'active' : ''}`}
+                                htmlFor="cartao"
+                                tabIndex={0} // Torna a label focável com o teclado
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        handlePaymentTypeChange({ target: { value: 'cartao' } }); // Chama a mudança de pagamento
+                                    }
+                                }}
+                            >
+                                Cartão
+                            </label>
                             </div>
                         </div>
                     </div>
