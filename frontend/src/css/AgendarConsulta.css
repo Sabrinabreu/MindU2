@@ -41,6 +41,10 @@
     margin-top: 0px;
 }
 
+.containerfiltro {
+    justify-content: center;
+}
+
 .tituloAgenda {
     color: var(--title);
     text-align: center;
@@ -265,7 +269,6 @@
     box-shadow: 0 0 0 0;
     height: 65px;
     border: 0 none;
-    margin-left: 26%;
     border-top-left-radius: 20px !important;
     border-bottom-left-radius: 20px !important;
     border-top-right-radius: 0px;
