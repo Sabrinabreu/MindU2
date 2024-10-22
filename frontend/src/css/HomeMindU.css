@@ -574,15 +574,6 @@ body {
         width: 300px !important;
     }
 
-    .qualidadesMindU {
-        text-align: center;
-        margin: 0 auto;
-        padding: 10px 0 !important;}
-
-        .cifrao {
-            margin-top: 12% !important;
-        }
-
     .botaoContainer {
         display: flex !important;
         flex-direction: column !important;
@@ -618,6 +609,13 @@ body {
         width: 260px !important;
         height: auto !important;
         margin: auto !important;
+    }
+
+    .qualidadesMindU {
+        text-align: center;
+        margin: 0 auto;
+        padding: 0 !important;
+        margin-top: 30px !important;
     }
 
     .slide {
@@ -1062,13 +1060,6 @@ body {
     }
 
     .slick-next {
-        padding-left: 60px !important;
-    }
-}
-
-@media (min-width:1024px) and (max-width: 1368px) {
-    .qualidadesMindU {
-        text-align: center;
-        margin-left: -10px !important;
+        padding-left: 20px !important;
     }
 }
