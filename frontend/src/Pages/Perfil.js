@@ -9,6 +9,7 @@ import { useAuth } from "../provider/AuthProvider";
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
 import Calendario from "../Components/CalendarioPerfil";
+import FotoPerfil from "../Components/FotoPerfil";
 function formatarData(data) {
     return new Date(data).toLocaleDateString('pt-BR'); // Formato dd/mm/yyyy
 }
@@ -25,7 +26,6 @@ function Perfil() {
 
     const [consultasAgendadas, setConsultasAgendadas] = useState([]);
     const [currentMonth] = useState(new Date());
-
 
     const [showPassword, setShowPassword] = useState(false);
     const [isPsicologo] = useState(false);
@@ -149,36 +149,6 @@ function Perfil() {
 
     };
 
-    const getInitials = (name) => {
-        if (!name) return '';
-
-        const names = name.trim().split(' ').filter(Boolean);
-        if (names.length === 0) return '';
-
-        const initials = names.slice(0, 2).map(n => n[0].toUpperCase()).join('');
-        return initials;
-    };
-
-    const getColorFromInitials = (initials) => {
-        let hash = 0;
-        for (let i = 0; i < initials.length; i++) {
-            hash = initials.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const color = `#${((hash & 0x00FFFFFF) >> 0).toString(16).padStart(6, '0').toUpperCase()}`;
-        return color;
-    };
-
-    const getContrastingColor = (backgroundColor) => {
-        const r = parseInt(backgroundColor.substring(1, 3), 16);
-        const g = parseInt(backgroundColor.substring(3, 5), 16);
-        const b = parseInt(backgroundColor.substring(5, 7), 16);
-        const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        return luminosity > 128 ? '#000000' : '#FFFFFF';
-    };
-
-    const backgroundColor = getColorFromInitials(getInitials(perfil.nome || ''));
-    const textColor = getContrastingColor(backgroundColor);
-
     useEffect(() => {
         if (token) {
             const decodedToken = parseJwt(token);
@@ -194,7 +164,6 @@ function Perfil() {
     }, [token]);
 
     useEffect(() => {
-        // Carregar consultas agendadas do localStorage ao montar o componente
         const storedConsultas = localStorage.getItem('consultasAgendadas');
         if (storedConsultas) {
             setConsultasAgendadas(JSON.parse(storedConsultas));
@@ -202,19 +171,20 @@ function Perfil() {
     }, []);
 
     useEffect(() => {
-        // Armazenar consultas agendadas no localStorage sempre que mudarem
         localStorage.setItem('consultasAgendadas', JSON.stringify(consultasAgendadas));
     }, [consultasAgendadas]);
 
     const fetchConsultasAgendadas = async (usuarioId) => {
         try {
             const response = await axios.get(`http://localhost:3001/api/agendamentos`);
-            console.log("Consultas Agendadas:", response.data); // Verifique os dados aqui
+            console.log("Consultas Agendadas:", response.data); 
             setConsultasAgendadas(response.data);
-            localStorage.setItem('consultasAgendadas', JSON.stringify(response.data)); // Armazena no localStorage
+            localStorage.setItem('consultasAgendadas', JSON.stringify(response.data)); 
         } catch (error) {
             console.error('Erro ao buscar consultas agendadas:', error);
         }
+
+        
     };
 
     return (
@@ -234,12 +204,7 @@ function Perfil() {
                         <Card className='cardPerfil'>
                             <Card.Body>
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    <div
-                                        className="profile-initials"
-                                        style={{ backgroundColor: backgroundColor, color: textColor, width: '150px', height: '150px' }}
-                                    >
-                                        {getInitials(perfil.nome || '')}
-                                    </div>
+                                <FotoPerfil name={perfil.nome || ''} />
                                     <div className="mt-3">
                                         <h4>{perfil.nome}</h4>
                                         <p>{perfil.login}</p>
