@@ -15,6 +15,7 @@ import perfilOrganizacional from '../img/perfilOrganizacional.avif';
 import perfilclinico from '../img/perfilClinico.jpg';
 import padraoPerfil from '../img/padraoPerfil.png'
 import FiltroBusca from '../Components/FiltroAgendarConsulta';
+import { Pencil } from 'lucide-react';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
