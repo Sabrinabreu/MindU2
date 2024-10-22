@@ -70,6 +70,33 @@ const Dashboard = () => {
         setSelectedCategory("all");
     };
 
+    // iniciais na foto de perfil
+    const getInitials = (name) => {
+        if (!name) return '';
+        const names = name.trim().split(' ').filter(Boolean);
+        if (names.length === 0) return '';
+        const initials = names.slice(0, 2).map(n => n[0].toUpperCase()).join('');
+        return initials;
+    };
+    
+    const getColorFromInitials = (initials) => {
+        let hash = 0;
+        for (let i = 0; i < initials.length; i++) {
+            hash = initials.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const color = `#${((hash & 0x00FFFFFF) >> 0).toString(16).padStart(6, '0').toUpperCase()}`;
+        return color;
+    };
+    
+    const getContrastingColor = (backgroundColor) => {
+        const r = parseInt(backgroundColor.substring(1, 3), 16);
+        const g = parseInt(backgroundColor.substring(3, 5), 16);
+        const b = parseInt(backgroundColor.substring(5, 7), 16);
+        const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        return luminosity > 128 ? '#000000' : '#FFFFFF';
+    };
+    
+
     return (
         <>
             <BAPO />
@@ -99,9 +126,17 @@ const Dashboard = () => {
                 <input id="nav-footer-toggle" type="checkbox" />
                 <div id="nav-footer">
                     <div id="nav-footer-heading">
-                        <div id="nav-footer-avatar">
-                            <img src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547" alt="Avatar" />
+                    <div id="nav-footer-avatar">
+                        <div
+                            className="profile-initials"
+                            style={{
+                                backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
+                                color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || '')))
+                            }}
+                        >
+                            {getInitials(perfil.empresa || '')}
                         </div>
+                    </div>
                         <div id="nav-footer-titlebox">
                             <a id="nav-footer-title"
                                 target="_blank" rel="noopener noreferrer">{perfil.empresa}</a>
