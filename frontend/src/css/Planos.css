@@ -47,7 +47,7 @@ body {
     &:last-child {
       margin-top: 20px;
     }
-}
+  }
 }
 
 @media (max-width: 920px) {
@@ -98,7 +98,7 @@ body {
     &:last-child {
       margin-top: 40px;
     }
-}
+  }
 }
 
 @media (max-width: 600px) {
@@ -356,15 +356,150 @@ body {
 @media (max-width: 500px) {
   .col-md-4 {
     width: 100% !important;
- }
+  }
 }
+
 /* versao ipad */
 @media (max-width: 900px) {
   .col-md-4 {
     width: 50%;
     justify-content: center;
-}
-  .row{
+  }
+
+  .row {
     place-content: center;
   }
+}
+
+.titleseuplano {
+  text-align: center !important;
+  margin: 30px !important;
+  color: #46467A !important;
+}
+
+.cardseuplano {
+  background-color: #ac95e7b3 !important;
+  color: #000000;
+  text-align: center !important;
+  height: 100% !important;
+}
+
+.seuplanobody {
+  margin-top: 20px !important;
+}
+
+.cancelbtn {
+  border: 1px solid #9d71ca !important;
+  border-radius: 6px !important;
+  padding: 7px !important;
+  margin-bottom: 40px !important;
+  background-color: white;
+}
+
+.cancelbtn:active {
+  background-color: #9571ca !important;
+  transition: all 0.2s !important;
+}
+
+.cancelbtn:hover {
+  background-color: #9671ca !important;
+  transition: all 0.2s !important;
+}
+
+.cancelicon {
+  padding-left: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+.cardaddplano {
+  background-color: #7756cbe1 !important;
+  color: #000000;
+  text-align: center !important;
+  height: 100% !important;
+}
+
+.addplanbtn {
+  border: 1px solid #6852a5 !important;
+  border-radius: 6px !important;
+  padding: 7px !important;
+  margin-top: 2px !important;
+  margin-bottom: 24px !important;
+  background-color: rgb(200, 168, 255);
+}
+
+.addplanbtn:active {
+  background-color: #f8f7fc !important;
+  transition: all 0.2s !important;
+}
+
+.addplanbtn:hover {
+  background-color: #f2eefb !important;
+  transition: all 0.2s !important;
+}
+
+.cancelicon {
+  padding-left: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+/* DARK MODE */
+
+[data-theme="dark"] .titleseuplano {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .cardseuplano {
+  background-color: #d7c7ffe0 !important;
+  color: #000000;
+}
+
+[data-theme="dark"] .cancelbtn {
+  border: 1px solid #c4aeff !important;
+  background-color: white;
+}
+
+[data-theme="dark"] .cancelbtn:active {
+  background-color: #ffd3ef !important;
+  transition: all 0.2s !important;
+}
+
+[data-theme="dark"] .cancelbtn:hover {
+  background-color: #ffb1e3 !important;
+  transition: all 0.2s !important;
+}
+
+[data-theme="dark"] .cardaddplano {
+  background-color: #4f3396e1 !important;
+  color: #ffffff;
+  text-align: center !important;
+  height: 100% !important;
+}
+
+[data-theme="dark"] .addplanbtn {
+  border: 1px solid #ebc1ff !important;
+  border-radius: 6px !important;
+  padding: 7px !important;
+  margin-top: 2px !important;
+  margin-bottom: 24px !important;
+  background-color: rgb(220, 200, 255);
+}
+
+[data-theme="dark"] .addplanbtn:active {
+  background-color: #c0b0ff !important;
+  transition: all 0.2s !important;
+}
+
+[data-theme="dark"] .addplanbtn:hover {
+  background-color: #c0a5ff !important;
+  transition: all 0.2s !important;
+}
+
+.cancelicon {
+  padding-left: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+.plusicon {
+  padding-right: 6px !important;
+  padding-bottom: 2px !important;
 }
