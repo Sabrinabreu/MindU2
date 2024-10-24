@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import '../css/Dashboard.css';
 import '../css/SideBar.css';
 import axios from "axios";
-import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX } from 'lucide-react';
+import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX } from 'lucide-react';
 import BAPO from "../Components/WidgetBAPO";
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,8 @@ const Dashboard = () => {
     const [perfil, setPerfil] = useState({});
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [data, setData] = useState([]);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState(null);
 
     useEffect(() => {
         console.log('Dados:', data);
@@ -49,6 +51,28 @@ const Dashboard = () => {
         setToken(null);
         navegacao("/", { replace: true });
     };
+
+    const handleDeleteAccount = () => {
+        setShowConfirmation(true);
+    };
+    
+    const confirmDelete = async () => {
+        console.log("ID da empresa:", perfil.ID);
+        try {
+            await axios.delete(`http://localhost:3001/empresa/${perfil.ID}`); // Substitua 'perfil.id' pelo ID correto da empresa
+            console.log("conta excluída com sucesso!");
+        } catch (error) {
+            console.error("Erro ao excluir conta:", error);
+        } finally {
+            setShowConfirmation(false); // Fechar modal de confirmação
+        }
+    };
+       
+    
+    
+      const cancelDelete = () => {
+        setShowConfirmation(false);
+      };
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
@@ -148,9 +172,22 @@ const Dashboard = () => {
                     </div>
                     <div id="nav-footer-content">
                         <button onClick={handleLogout} className="logout">Sair<LogOut className="logsvg" /></button>
+                         <button onClick={handleDeleteAccount} className="logout"> Deletar conta <CircleX className="logsvg" /> </button>
+
+                        {showConfirmation && (
+                            <>
+                            <div className="overlay"></div> 
+                            <div className="confirmation-modal">
+                            <p>Tem certeza de que deseja deletar sua conta? Todos os funcionários associados a esta empresa também serão deletados.</p>
+                            <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
+                            <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
+                            </div>
+                            </>
+                        )}
+                        </div>
                     </div>
                 </div>
-            </div>
+          
 
             {/* Filtro */}
 
