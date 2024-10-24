@@ -60,10 +60,18 @@ function Perfil() {
     };
     
     const confirmDelete = async () => {
-        // console.log("ID:", perfil.psicologo_id);
-        // console.log("Token:", decodedToken);
         try {
-            await axios.delete(`http://localhost:3001/psicologos/delete/${perfil.psicologo_id}`);
+            let deleteUrl = '';
+            
+            // Verifica se é psicólogo ou funcionário
+            if (perfil.psicologo_id) {
+                deleteUrl = `http://localhost:3001/psicologos/delete/${perfil.psicologo_id}`;
+            } else if (perfil.id) {
+                deleteUrl = `http://localhost:3001/funcionarios/delete/${perfil.id}`;
+            }
+    
+            await axios.delete(deleteUrl);
+            
             setError(false);
             navegacao('/');
             localStorage.removeItem('token');
@@ -73,11 +81,12 @@ function Perfil() {
         } catch (error) {
             setError(true);
             console.error("Erro ao excluir conta:", error);
-            setFeedbackMessage("Erro ao excluir conta."); 
+            setFeedbackMessage("Erro ao excluir conta.");
         } finally {
             setShowConfirmation(false); 
         }
     };
+    
     // A mensagem desaparece após 3 segundos
     useEffect(() => {
         if (feedbackMessage) {
