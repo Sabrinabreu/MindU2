@@ -17,10 +17,11 @@ const Agendar = () => {
     const [assunto, setAssunto] = useState('');
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
+    
+    // Estados para armazenar os dados do psicólogo
     const [nomePsico, setNomePsico] = useState('');
-    const [consultasAgendadas, setConsultasAgendadas] = useState([]);
-    const [currentMonth, setCurrentMonth] = useState(new Date());
-    const [telefone, setTelefone] = useState(''); 
+    const [telefone, setTelefone] = useState('');
+    const [email, setEmail] = useState('');
 
     useEffect(() => {
         if (psicologo_id) {
@@ -31,12 +32,16 @@ const Agendar = () => {
 
     const fetchPsicologoData = async (psicologo_id) => {
         try {
-            console.log(`Buscando psicólogo com ID: ${psicologo_id}`);
-            const response = await axios.get(`http://localhost:3001/psicologos/${psicologo_id}`);
-            console.log('Resposta da API:', response.data);
+            const token = localStorage.getItem('token'); // Obtendo o token do localStorage
+            const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}` // Adicionando o token no cabeçalho
+                }
+            });
             if (response.data) {
                 setNomePsico(response.data.nome);
                 setTelefone(response.data.telefone);
+                setEmail(response.data.email); // Supondo que a API retorne o email
             }
         } catch (error) {
             console.error('Erro ao buscar dados do psicólogo:', error);
@@ -46,22 +51,14 @@ const Agendar = () => {
         }
     };
 
-    const fetchNomePsicologo = async (psicologo_id) => {
-        try {
-            const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`);
-            if (response.data && response.data.nome) {
-                setNomePsico(response.data.nome);
-            } else {
-                console.error('Nome do psicólogo não encontrado na resposta da API');
-            }
-        } catch (error) {
-            console.error('Erro ao buscar nome do psicólogo:', error);
-        }
-    };
-
     const fetchDisponibilidades = async (psicologo_id) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/disponibilidades/${psicologo_id}`);
+            const token = localStorage.getItem('token'); // Obtendo o token do localStorage
+            const response = await axios.get(`http://localhost:3001/api/disponibilidades/${psicologo_id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}` // Adicionando o token no cabeçalho
+                }
+            });
             setAvailableTimes(response.data);
             const dias = new Set(response.data.map(item => new Date(item.data).toDateString()));
             setDiasDisponiveis(dias);
@@ -99,33 +96,26 @@ const Agendar = () => {
 
     const handleSave = async () => {
         if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
-            alert('Por favor, preencha todos os campos antes de salvar.');
+ alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
 
         const agendamentoData = {
             psicologo_id,
             data: selectedDate.toISOString().split('T')[0],
-            horario_inicio: selectedTime, // Alterado para horario_inicio
+            horario_inicio: selectedTime,
             tipo: selectedTipo,
             assunto,
         };
 
         try {
-            const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData);
+            const token = localStorage.getItem('token'); // Obtendo o token do localStorage
+            const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
+                headers: {
+                    Authorization: `Bearer ${token}` // Adicionando o token no cabeçalho
+                }
+            });
             alert(response.data.message);
-
-            // Atualiza o estado das consultas agendadas
-            setConsultasAgendadas(prev => [
-                ...prev,
-                {
-                    date: agendamentoData.data,
-                    time: agendamentoData.horario_inicio,
-                    tipo: agendamentoData.tipo,
-                    assunto: agendamentoData.assunto,
-                },
-            ]);
-
             handleClose();
         } catch (error) {
             console.error('Erro ao agendar consulta:', error);
@@ -140,11 +130,11 @@ const Agendar = () => {
     return (
         <Container className='p-4'>
             <Row>
-            <Col md={6}>
+                <Col md={6}>
                     <div className='perfilPsico'>
                         <img className="fundoPsico" src={fundoPsico} alt="Imagem de fundo" />
                         <img className="psicologo" src={perfilPsicologo} alt="Perfil do psicólogo" />
-                        <h4 className='nomePsico container p-4'>{nomePsico || 'Nome aqui'}</h4>
+                        <h4 className='nomePsico container p-4'>{nomePsico}</h4>
                         <div className='infoPsico'>
                             <b>Psicólogo Cognitivo</b>
                             <h6>Cornélio Procópio - PR</h6>
@@ -221,8 +211,8 @@ const Agendar = () => {
                         <h5 className='titulosSobre py-3'>
                             <span className="material-symbols-outlined iconsSaibaMais">send</span> Contato
                         </h5>
-                        <p>Telefone: {telefone || 'Telefone aqui'}</p> {/* Exibindo telefone */}
-                        <p>Telefone: (43) 1234-5678 <br /> Email: contato@psicologo.com.br</p>
+                        <p>Telefone: {telefone}</p>
+                        <p>Email: {email}</p>
                     </div>
                 </Col>
             </Row>

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
 import "../css/Disponibilidade.css";
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import DatePicker from './DispCalendario';
+import { parseJwt } from '../Components/jwtUtils'; // Certifique-se de importar a função
 
 const Disponibilidade = () => {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -17,18 +18,30 @@ const Disponibilidade = () => {
         Domingo: { start: '', end: '' },
     });
     const [selectedDays, setSelectedDays] = useState({});
-    const [updatedDays, setUpdatedDays] = useState({}); // Novo estado para dias atualizados
+    const [updatedDays, setUpdatedDays] = useState({});
+    const [psicologoId, setPsicologoId] = useState(null); // Estado para armazenar o ID do psicólogo
 
     const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 
     const handleDateSelect = (date) => {
         if (date) {
             setSelectedDate(date);
-            console.log("Data selecionada:", date);
         } else {
             alert("Por favor, selecione uma data válida.");
         }
     };
+
+    // Pega o ID do psicólogo
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken = parseJwt(token);
+            const id = decodedToken.psicologo_id || decodedToken.id;
+            setPsicologoId(id); // Armazenar o ID no estado
+        } else {
+            console.log('Token não encontrado.');
+        }
+    }, []);
 
     const handleTimeChange = (day, type, value) => {
         setWorkingHours(prevHours => ({
@@ -48,49 +61,65 @@ const Disponibilidade = () => {
     };
 
     const handleUpdate = () => {
-        const psicologo_id = 4; 
+        if (!psicologoId) {
+            alert('ID do psicólogo não encontrado.');
+            return;
+        }
+
         const dataDisponibilidade = [];
-        
+
         for (const day of daysOfWeek) {
             if (selectedDays[day] && (!workingHours[day].start || !workingHours[day].end)) {
                 alert(`Por favor, preencha os horários de trabalho para ${day} antes de atualizar.`);
                 return;
             }
-    
+
             if (selectedDays[day]) {
-                const data = '2023-01-01'; // Exemplo de data padrão, ajuste conforme necessário
-                dataDisponibilidade.push({
-                    psicologo_id,
-                    data: data,
-                    horario_inicio: workingHours[day].start, 
-                    horario_fim: workingHours[day].end 
-                });
+                // Aqui, você pode gerar as datas para todos os dias correspondentes no mês atual
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = today.getMonth();
+
+                for (let i = 1; i <= 31; i++) {
+                    const date = new Date(year, month, i);
+                    if (date.getMonth() !== month) break; // Se o mês mudou, saia do loop
+
+                    if (date.getDay() === daysOfWeek.indexOf(day)) { // Verifica se é o dia correspondente
+                        const data = date.toISOString().split('T')[0]; // Formata a data para 'YYYY-MM-DD'
+                        dataDisponibilidade.push({
+                            psicologo_id: psicologoId, // Usar o ID do psicólogo aqui
+                            data: data,
+                            horario_inicio: workingHours[day].start,
+                            horario_fim: workingHours[day].end
+                        });
+                    }
+                }
                 setUpdatedDays(prev => ({
                     ...prev,
                     [day]: true
                 }));
             }
         }
-    
+
         console.log('Dados a serem enviados:', dataDisponibilidade);
-        
+
         fetch('http://localhost:3001/api/disponibilidade/psicologo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dataDisponibilidade),
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao atualizar dias e horários de trabalho.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert('Dias e horários de trabalho atualizados com sucesso!');
-        })
-        .catch(err => {
-            alert('Erro ao enviar dados: ' + err.message);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao atualizar dias e horários de trabalho.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Dias e horários de trabalho atualizados com sucesso!');
+            })
+            .catch(err => {
+                alert('Erro ao enviar dados: ' + err.message);
+            });
     };
 
     return (
@@ -103,10 +132,10 @@ const Disponibilidade = () => {
                             {daysOfWeek.map((day, index) => (
                                 <Col key={index} md={2}>
                                     <label className="cl-checkbox">
-                                        <input 
-                                            type="checkbox" 
-                                            checked={selectedDays[day] || false} 
-                                            onChange={() => handleDayChange(day)} 
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedDays[day] || false}
+                                            onChange={() => handleDayChange(day)}
                                         />
                                         <span></span>
                                         {day}
@@ -117,7 +146,7 @@ const Disponibilidade = () => {
                                                 <Form.Label>Hora de Início</Form.Label>
                                                 <Form.Control
                                                     type="time"
-                                                    value ={workingHours[day].start}
+                                                    value={workingHours[day].start}
                                                     onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
                                                 />
                                             </Form.Group>
@@ -145,8 +174,7 @@ const Disponibilidade = () => {
                 <Col md={6}>
                     <h1 className='mb-4 text-center textroxo'>Calendário</h1>
                     <DatePicker onDateSelect={handleDateSelect} updatedDays={updatedDays} />
-                </Col>
-                <Col md={6}>
+                </Col><Col md={6}>
                     {selectedDate ? (
                         <>
                             <h4 className='mt-4 text-center textroxo'>Eventos marcados para {selectedDate.toLocaleDateString()}</h4>

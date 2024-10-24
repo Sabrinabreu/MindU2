@@ -198,7 +198,7 @@ body {
   }
 
   .content-wrap {
-    padding: 20px 0 0 0  !important;
+    padding: 20px 0 0 0 !important;
   }
 
   .dashboard.collapsed {
@@ -474,7 +474,7 @@ body {
 
 .search-wrap {
   grid-area: search;
-  background: var(--white);
+  background: transparent !important;
   border-bottom: 1px solid var(--bg-dark);
   display: flex;
   align-items: center;
@@ -500,35 +500,22 @@ body {
       }
     }
 
-    input {
-      display: block;
-      padding-left: 1em;
-      height: 100%;
-      margin: 0;
-      border: 0;
-      background: var(--white);
-      color: var(--input-color);
-
-      &::placeholder {
-        color: var(--placeholder-color);
-        opacity: 1;
-      }
-
-      &:focus {
-        background: var(--white);
-      }
-    }
-
-    &:hover {
-      svg {
-
-        path,
-        circle {
-          fill: #2d3543;
-        }
-      }
-    }
   }
+}
+
+[data-theme="dark"] .searchdashboard {
+  border-color: #b9acf3 !important;
+  background-color: #0000003f !important;
+}
+
+.searchdashboard {
+  display: block;
+  padding-left: 1em;
+  height: 100%;
+  margin: 0;
+  background: transparent !important;
+  border-radius: 40px;
+  border-color: #7866c6 !important;
 }
 
 .nav-title button {
@@ -671,3 +658,54 @@ body {
 #nav-footer {
   border-radius: 0 0 16px 0 !important;
 }
+
+
+.confirmation-modal {
+  position: fixed;
+  font-size: 16px;
+  top: 50%;
+  left: 50%;
+  color: #1b253d;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+  box-sizing: border-box;
+  z-index: 20;
+}
+
+.confirm-button {
+  margin-right: 10px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.feedback-message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.feedback-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+@media (min-width: 800px) and (max-width: 900px) {
+  .confirmation-modal {
+    font-size: 18px;
+    width: 100%;
+  }
+  .confirmation-modal p {
+    margin-bottom: 23px;
+  }}

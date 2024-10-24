@@ -116,16 +116,5 @@ router.put('/cadastroempresa/:id', async (req, res) => {
 //   });
 // });
 
-// Rota para excluir um registro pelo ID
-router.delete('/cadastroempresa/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    await connection.query('DELETE FROM cadastroempresa WHERE id = ?', [id]);
-    res.json({ message: 'Registro excluído com sucesso' });
-  } catch (err) {
-    console.error('Erro ao excluir o registro:', err);
-    res.status(500).json({ error: 'Erro ao excluir o registro' });
-  }
-});
 
 module.exports = router;

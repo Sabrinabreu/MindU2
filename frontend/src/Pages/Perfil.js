@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "../css/Perfil.css";
 import { Container, Row, Col, Card, ListGroup, Button, Form, Alert } from 'react-bootstrap';
-import { Eye, EyeOff, LogOut, Pencil } from 'lucide-react';
+import { Eye, EyeOff, LogOut, Pencil, CircleX } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
@@ -21,6 +21,9 @@ function Perfil() {
     const [nomeEmpresa, setNomeEmpresa] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState(null);
+    const [error, setError] = useState(false);
     const { setToken } = useAuth();
     const navegacao = useNavigate();
 
@@ -51,6 +54,55 @@ function Perfil() {
         setToken(null);
         navegacao("/", { replace: true });
     };
+
+    const handleDeleteAccount = () => {
+        setShowConfirmation(true);
+    };
+    
+    const confirmDelete = async () => {
+        try {
+            let deleteUrl = '';
+            
+            // Verifica se é psicólogo ou funcionário
+            if (perfil.psicologo_id) {
+                deleteUrl = `http://localhost:3001/psicologos/delete/${perfil.psicologo_id}`;
+            } else if (perfil.id) {
+                deleteUrl = `http://localhost:3001/funcionarios/delete/${perfil.id}`;
+            }
+    
+            await axios.delete(deleteUrl);
+            
+            setError(false);
+            navegacao('/');
+            localStorage.removeItem('token');
+            setToken(null);
+            console.log("conta excluída com sucesso!");
+            setFeedbackMessage("Conta excluída com sucesso!");
+        } catch (error) {
+            setError(true);
+            console.error("Erro ao excluir conta:", error);
+            setFeedbackMessage("Erro ao excluir conta.");
+        } finally {
+            setShowConfirmation(false); 
+        }
+    };
+    
+    // A mensagem desaparece após 3 segundos
+    useEffect(() => {
+        if (feedbackMessage) {
+            const timer = setTimeout(() => {
+                setFeedbackMessage(null);
+            }, 3000);
+    
+            return () => clearTimeout(timer);
+        }
+    }, [feedbackMessage]);
+      
+    
+      const cancelDelete = () => {
+        setShowConfirmation(false);
+      };
+
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -192,6 +244,11 @@ function Perfil() {
     return (
         <>
             <BAPO />
+            {feedbackMessage && (
+                <div className={`confirmation-modal feedback-message ${error ? 'error' : 'success'}`}>
+                    {feedbackMessage}
+                </div>
+            )}
             <Container className='mt-4'>
                 {showAlert && (
                     <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
@@ -257,7 +314,19 @@ function Perfil() {
                                     </>
                                 )}
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <Button className="editarBot" onClick={handleLogout}><LogOut /> Sair da conta</Button>
+                                    <Button className="editarBot mb-2" onClick={handleLogout}><LogOut /> Sair da conta</Button>
+                                    <Button className="editarBot" onClick={handleDeleteAccount}> Deletar conta <CircleX className="logsvg" /> </Button>
+
+                                        {showConfirmation && (
+                                            <>
+                                            <div className="overlay"></div> 
+                                            <div className="confirmation-modal">
+                                            <p>Tem certeza de que deseja deletar sua conta? Essa ação é permanente e não pode ser desfeita.</p>
+                                            <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
+                                            <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
+                                            </div>
+                                            </>
+                                        )}
                                 </ListGroup.Item>
                             </ListGroup>
                         </Card>
