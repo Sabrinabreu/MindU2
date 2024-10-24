@@ -19,7 +19,6 @@ import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
 import Dashboard from "./Pages/Dashboard"; //empresa
 import SeuPlano from "./Pages/SeuPlano";
-import PerfilEmpresa from "./Pages/PerfilEmpresa";
 import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -95,15 +94,6 @@ const Rotas = () => {
         element={
           <ProtectedRoute allowedRoles={['empresa']}>
             <SeuPlano />
-          </ProtectedRoute>
-        }
-      />
-
-<Route
-        path="/perfilempresa"
-        element={
-          <ProtectedRoute allowedRoles={['empresa']}>
-            <PerfilEmpresa />
           </ProtectedRoute>
         }
       />
