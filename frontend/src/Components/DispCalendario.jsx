@@ -5,6 +5,16 @@ const DatePicker = ({ onDateSelect }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
 
+    const DatePicker = ({ onDateSelect }) => {
+        const handleDateChange = (date) => {
+            onDateSelect(date); // Passa a data selecionada para o componente pai
+        };
+    
+        return (
+            <input type="date" onChange={(e) => handleDateChange(new Date(e.target.value))} />
+        );
+    };
+
     const handlePrevMonth = () => {
         setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
     };

@@ -22,9 +22,11 @@ const CalendarioEDetalhes = ({
             const consultasDoDia = consultationDetails.filter(detail => {
                 const detailDate = new Date(detail.data);
                 return detailDate.getDate() === dataFormatada &&
-                       detailDate.getMonth() === currentDay.getMonth() &&
-                       detailDate.getFullYear() === currentDay.getFullYear();
+                    detailDate.getMonth() === currentDay.getMonth() &&
+                    detailDate.getFullYear() === currentDay.getFullYear();
             });
+
+            console.log(consultationDetails);
 
             days.push(
                 <div key={i} className="calendario-dia">
@@ -41,6 +43,7 @@ const CalendarioEDetalhes = ({
                             {hoveredConsultation.map((consulta, index) => (
                                 <div key={index}>
                                     <p>{consulta.horario} - {consulta.assunto} ({consulta.tipo})</p>
+                                    <p><strong>Psicólogo:</strong> {consulta.nomePsico || 'Psicólogo não disponível'}</p>
                                 </div>
                             ))}
                         </div>
@@ -84,7 +87,8 @@ const CalendarioEDetalhes = ({
                                     <p><strong>Data:</strong> {new Date(detail.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) || 'Data não disponível'}</p>
                                     <p><strong>Hora:</strong> {detail.horario || 'Hora não disponível'}</p>
                                     <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p>
-                                    <p><strong>Assunto:</strong> {detail.assunto || 'Assunto não disponível' }</p>
+                                    <p><strong>Assunto:</strong> {detail.assunto || 'Assunto não disponível'}</p>
+                                    <p><strong>Psicólogo:</strong> {detail.nomePsico || 'Psicólogo não disponível'}</p> {/* Exibindo o nome do psicólogo */}
                                     <hr />
                                 </div>
                             ))

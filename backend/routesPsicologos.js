@@ -58,11 +58,11 @@ router.get('/psicologos', (req, res) => {
 
 // API para buscar um psicólogo por ID
 router.get('/psicologos/:psicologo_id', (req, res) => {
-    console.log(`Requisição recebida para ID: ${req.params.psicologo_id}`);
-    const id = req.params.psicologo_id;
+    const psicologo_id = req.params.psicologo_id;
+    console.log(`Requisição recebida para ID: ${psicologo_id}`);
     connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [psicologo_id], (err, results) => {
         if (err) {
-            console.error('Erro ao buscar o registro:', err);
+            console.error('Erro ao buscar o registro:', err.message);
             return res.status(500).json({ error: 'Erro ao buscar o registro' });
         }
         if (results.length === 0) {
@@ -71,6 +71,7 @@ router.get('/psicologos/:psicologo_id', (req, res) => {
         res.json(results[0]);
     });
 });
+
 
 // // Rota para atualizar um psicólogo existente pelo ID
 // router.put('/:id', (req, res) => {

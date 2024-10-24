@@ -20,28 +20,30 @@ const Agendar = () => {
     const [nomePsico, setNomePsico] = useState('');
     const [consultasAgendadas, setConsultasAgendadas] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [telefone, setTelefone] = useState(''); 
 
     useEffect(() => {
         if (psicologo_id) {
-            fetchNomePsicologo(psicologo_id);
+            fetchPsicologoData(psicologo_id);
             fetchDisponibilidades(psicologo_id);
         }
     }, [psicologo_id]);
 
-    const handlePrevMonth = () => {
-        setCurrentMonth(prev => {
-            const date = new Date(prev);
-            date.setMonth(date.getMonth() - 1);
-            return date;
-        });
-    };
-
-    const handleNextMonth = () => {
-        setCurrentMonth(prev => {
-            const date = new Date(prev);
-            date.setMonth(date.getMonth() + 1);
-            return date;
-        });
+    const fetchPsicologoData = async (psicologo_id) => {
+        try {
+            console.log(`Buscando psicólogo com ID: ${psicologo_id}`);
+            const response = await axios.get(`http://localhost:3001/psicologos/${psicologo_id}`);
+            console.log('Resposta da API:', response.data);
+            if (response.data) {
+                setNomePsico(response.data.nome);
+                setTelefone(response.data.telefone);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar dados do psicólogo:', error);
+            if (error.response) {
+                console.error('Dados de erro da resposta:', error.response.data);
+            }
+        }
     };
 
     const fetchNomePsicologo = async (psicologo_id) => {
@@ -112,18 +114,18 @@ const Agendar = () => {
         try {
             const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData);
             alert(response.data.message);
-            
+
             // Atualiza o estado das consultas agendadas
             setConsultasAgendadas(prev => [
                 ...prev,
                 {
                     date: agendamentoData.data,
-                    time: agendamentoData.horario_inicio, 
+                    time: agendamentoData.horario_inicio,
                     tipo: agendamentoData.tipo,
-                    assunto : agendamentoData.assunto,
+                    assunto: agendamentoData.assunto,
                 },
             ]);
-            
+
             handleClose();
         } catch (error) {
             console.error('Erro ao agendar consulta:', error);
@@ -138,15 +140,16 @@ const Agendar = () => {
     return (
         <Container className='p-4'>
             <Row>
-                <Col md={6}>
+            <Col md={6}>
                     <div className='perfilPsico'>
                         <img className="fundoPsico" src={fundoPsico} alt="Imagem de fundo" />
                         <img className="psicologo" src={perfilPsicologo} alt="Perfil do psicólogo" />
-                        <button className='valores'>Duração da sessão <br /><b>1 hora</b></button>
                         <h4 className='nomePsico container p-4'>{nomePsico || 'Nome aqui'}</h4>
-                        <b className='infoPsico'>Psicólogo Cognitivo</b>
-                        <h6 className='infoPsico'>Cornélio Procópio - PR</h6>
-                        <h6 className='crp'>214579 / CRP - 4ª Região</h6>
+                        <div className='infoPsico'>
+                            <b>Psicólogo Cognitivo</b>
+                            <h6>Cornélio Procópio - PR</h6>
+                            <h6 className='crp'>214579 / CRP - 4ª Região</h6>
+                        </div>
                     </div>
                 </Col>
                 <Col md={6}>
@@ -182,13 +185,13 @@ const Agendar = () => {
                                         <h6>Horários disponíveis:</h6>
                                         {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).length > 0 ? (
                                             <ul>
-                                                {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario_inicio }) => ( 
+                                                {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario_inicio }) => (
                                                     <button
-                                                        key={horario_inicio} 
+                                                        key={horario_inicio}
                                                         className={`horarioBotao ${selectedTime === horario_inicio ? 'active' : ''}`}
                                                         onClick={() => handleTimeClick(horario_inicio)}
                                                     >
-                                                        {horario_inicio} 
+                                                        {horario_inicio}
                                                     </button>
                                                 ))}
                                             </ul>
@@ -218,10 +221,11 @@ const Agendar = () => {
                         <h5 className='titulosSobre py-3'>
                             <span className="material-symbols-outlined iconsSaibaMais">send</span> Contato
                         </h5>
+                        <p>Telefone: {telefone || 'Telefone aqui'}</p> {/* Exibindo telefone */}
                         <p>Telefone: (43) 1234-5678 <br /> Email: contato@psicologo.com.br</p>
                     </div>
                 </Col>
-            </Row>        
+            </Row>
         </Container>
     );
 };
