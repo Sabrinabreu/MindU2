@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import '../css/Dashboard.css';
 import '../css/SideBar.css';
 import axios from "axios";
-import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX } from 'lucide-react';
+import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX } from 'lucide-react';
 import BAPO from "../Components/WidgetBAPO";
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,9 @@ const Dashboard = () => {
     const [perfil, setPerfil] = useState({});
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [data, setData] = useState([]);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState(null);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         console.log('Dados:', data);
@@ -50,6 +53,47 @@ const Dashboard = () => {
         setToken(null);
         navegacao("/", { replace: true });
     };
+
+    
+    const handleDeleteAccount = () => {
+        setShowConfirmation(true);
+    };
+    
+    const confirmDelete = async () => {
+        // console.log("ID da empresa:", perfil.ID);
+        // console.log("Token:", decodedToken);
+        try {
+            await axios.delete(`http://localhost:3001/empresa/delete/${perfil.ID}`);
+            setError(false);
+            navegacao('/');
+            localStorage.removeItem('token');
+            setToken(null);
+            console.log("conta excluída com sucesso!");
+            setFeedbackMessage("Conta excluída com sucesso!");
+        } catch (error) {
+            setError(false);
+            console.error("Erro ao excluir conta:", error);
+            setFeedbackMessage("Erro ao excluir conta."); 
+        } finally {
+            setShowConfirmation(false); 
+        }
+    };
+    // A mensagem desaparece após 3 segundos
+    useEffect(() => {
+        if (feedbackMessage) {
+            const timer = setTimeout(() => {
+                setFeedbackMessage(null);
+            }, 3000);
+    
+            return () => clearTimeout(timer);
+        }
+    }, [feedbackMessage]);
+    
+    
+    
+      const cancelDelete = () => {
+        setShowConfirmation(false);
+      };
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
@@ -102,6 +146,12 @@ const Dashboard = () => {
         <>
             <BAPO />
 
+            {feedbackMessage && (
+                <div className={`confirmation-modal feedback-message ${error ? 'error' : 'success'}`}>
+                    {feedbackMessage}
+                </div>
+            )}
+
             {/* Sidebar */}
 
             <div id="navbar" className={isSidebarCollapsed ? 'collapsed' : ''}>
@@ -152,6 +202,18 @@ const Dashboard = () => {
                     </div>
                     <div id="nav-footer-content">
                         <button onClick={handleLogout} className="logout">Sair<LogOut className="logsvg" /></button>
+                        <button onClick={handleDeleteAccount} className="logout"> Deletar conta <CircleX className="logsvg" /> </button>
+
+                        {showConfirmation && (
+                            <>
+                            <div className="overlay"></div> 
+                            <div className="confirmation-modal">
+                            <p>Tem certeza de que deseja deletar sua conta? Todos os funcionários associados a esta empresa também serão deletados.</p>
+                            <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
+                            <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
+                            </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
