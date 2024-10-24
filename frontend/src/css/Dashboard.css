@@ -672,8 +672,6 @@ body {
   text-overflow: ellipsis;
 }
 
-
-
 .confirmation-modal {
   position: fixed;
   font-size: 16px;
@@ -714,6 +712,9 @@ body {
   background-color: #f8d7da;
   color: #721c24;
 }
+
+
+
 
 @media (min-width: 800px) and (max-width: 900px) {
   .confirmation-modal {

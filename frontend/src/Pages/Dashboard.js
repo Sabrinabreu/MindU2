@@ -167,13 +167,22 @@ const Dashboard = () => {
                 </div>
                 <div id="nav-content">
                     <div className="nav-button">
-                        <Link to="/seuplano"><i className="fas"><SquareChartGantt /></i><span>Seu Plano</span></Link>
+                        <Link to="/seuplano">
+                            <i className="fas"><SquareChartGantt /></i>
+                            <span>Seu Plano</span>
+                        </Link>
                     </div>
                     <div className="nav-button">
-                        <i className="fas"><CopyPlus /></i><span>Adicionar Funcionários</span>
+                        <Link to="/adicionarfuncionarios">
+                            <i className="fas"><CopyPlus /></i>
+                            <span>Adicionar Funcionários</span>
+                        </Link>
                     </div>
                     <div className="nav-button">
-                        <Link to="/perfilempresa"><i className="fas"><SquareChartGantt /></i><span>Perfil</span></Link>
+                        <Link to="/perfilempresa">
+                            <i className="fas"><SquareChartGantt /></i>
+                            <span>Perfil</span>
+                        </Link>
                     </div>
                     <div id="nav-content-highlight"></div>
                 </div>
