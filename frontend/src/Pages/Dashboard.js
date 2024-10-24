@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import '../css/Dashboard.css';
 import '../css/SideBar.css';
 import axios from "axios";
-import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX } from 'lucide-react';
+import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX, UserRoundPen } from 'lucide-react';
 import BAPO from "../Components/WidgetBAPO";
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
@@ -180,7 +180,7 @@ const Dashboard = () => {
                     </div>
                     <div className="nav-button">
                         <Link to="/perfilempresa">
-                            <i className="fas"><SquareChartGantt /></i>
+                            <i className="fas"><UserRoundPen /></i>
                             <span>Perfil</span>
                         </Link>
                     </div>
@@ -244,9 +244,9 @@ const Dashboard = () => {
                             onChange={(e) => setSelectedCategory(e.target.value)}
                         >
                             <option value="all">Todos</option>
-                            <option value="CEO">CEO</option>
-                            <option value="Chairman">Chairman</option>
-                            <option value="Head of Digital">Head of Digital</option>
+                            <option value="Plano1">Plano Bem-Estar</option>
+                            <option value="Plano2">Plano Equilíbrio</option>
+                            <option value="Plano3">Plano Transformação</option>
                         </select>
                     </div>
                     <div className="search">

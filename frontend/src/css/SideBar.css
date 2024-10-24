@@ -188,8 +188,9 @@ label[for="nav-toggle"] {
 
 .nav-title h5{
   color: var(--navbar-light-secondary);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 20px;
+  padding-left: 10px;
 }
 
 #nav-toggle-burger {
