@@ -659,6 +659,20 @@ body {
   border-radius: 0 0 16px 0 !important;
 }
 
+#nav-footer-titlebox {
+  display: flex;
+  align-items: start;
+}
+
+#nav-footer-title {
+  display: inline-block;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
 
 .confirmation-modal {
   position: fixed;
