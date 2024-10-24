@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import "../css/AgendarConsulta.css";
-import { Container, Col } from 'react-bootstrap';
+// import "../css/AgendarConsulta.css";
+import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
@@ -323,6 +323,7 @@ function AgendarConsulta() {
                       </Col>
                     </div>
 
+
                     <div className="tabs-container">
                       <Tabs
                         defaultActiveKey="agenda"
@@ -347,7 +348,7 @@ function AgendarConsulta() {
                                   ) : (
                                     <>
                                       <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <p style={{ marginRight: '10px'}}>{editedText[psicologo.psicologo_id] || "Informações não disponíveis."}</p>
+                                        <p style={{ marginRight: '10px' }}>{editedText[psicologo.psicologo_id] || "Informações não disponíveis."}</p>
                                         <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
                                           <Pencil />
                                         </button>
@@ -381,6 +382,9 @@ function AgendarConsulta() {
 
                       </Tabs>
                     </div>
+
+
+
                   </div>
                 </div>
               );
@@ -388,8 +392,8 @@ function AgendarConsulta() {
           ) : (
             <div className='semResultado'>Nenhum resultado encontrado.</div>
           )}
-        </Col>
-      </Container>
+        </Col >
+      </Container >
     </>
   );
 }

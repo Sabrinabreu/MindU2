@@ -1,17 +1,85 @@
 [data-theme='dark'] .rdt_TableHeader {
-    background: #7c6f8b !important;
+    background: #7766c6 !important;
     color: aliceblue;
 }
 
-[data-theme='dark'] .rdt_TableHeadRow{
-    background: #7c6f8b !important;
+[data-theme='dark'] .rdt_TableHeadRow {
+    background: #7766c6 !important;
     color: aliceblue;
 }
 
-[data-theme='dark'] .rdt_TableRow{
+[data-theme='dark'] .rdt_TableRow {
     background: #e3d9f2 !important;
 }
-[data-theme='dark'] .rdt_Pagination{
-    background: #7c6f8b !important;
+
+[data-theme='dark'] .rdt_Pagination {
+    background: #7766c6 !important;
     color: aliceblue;
+}
+
+.printicon {
+    padding-right: 8px !important;
+}
+
+
+.btnprint {
+    display: flex !important;
+    border-radius: 10px !important;
+    background-color: #aa76e7 !important;
+    color: white !important;
+    border: 1.4px solid #8e5aca !important;
+    padding: 8px !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+[data-theme="dark"] .btnprint {
+    display: flex !important;
+    border-radius: 10px !important;
+    background-color: #591ba0 !important;
+    color: white !important;
+    border: 1.4px solid #8e5aca !important;
+    padding: 8px !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btnprint:hover {
+    background-color: #9964d4 !important;
+    transform: scale(1.05);
+}
+
+.btnprint:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(170, 118, 231, 0.5);
+}
+
+
+.divprint {
+    margin-top: 6.5px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    display: flex !important;
+    position: absolute !important;
+    z-index: 99 !important;
+    right: 7% !important;
+}
+
+.tablefuncionarios {
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+.rdt_TableHeader {
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+}
+
+.rdt_Pagination {
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
 }

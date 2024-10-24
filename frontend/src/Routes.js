@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useAuth } from "./provider/AuthProvider";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { parseJwt } from './Components/jwtUtils';
- 
- 
+
+
 //Páginas
 import Home from "./Pages/Home";  //todos
 import Contato from "./Pages/Contato"; //todos
@@ -18,63 +18,59 @@ import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
 import Dashboard from "./Pages/Dashboard"; //empresa
+import SeuPlano from "./Pages/SeuPlano";
 import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { token, setToken } = useAuth();
- 
+
   const isTokenExpired = (token) => {
     if (!token) return true;
     const decoded = parseJwt(token);
     const currentTime = Date.now() / 1000;
     return decoded.exp < currentTime;
   };
- 
+
   useEffect(() => {
     if (token && isTokenExpired(token)) {
       setToken(null);
       localStorage.removeItem('token');
     }
   }, [token, setToken]);
- 
+
   if (!token || isTokenExpired(token)) {
     return <Navigate to="/login" replace />;
   }
- 
+
   const decodedToken = parseJwt(token);
   const tipoUsuario = decodedToken?.tipo_usuario;
- 
+
   // Verifica se o tipo de usuário está permitido para acessar a rota
   if (!allowedRoles.includes(tipoUsuario)) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" replace />; // Redireciona para home ou outra página caso o usuário não tenha permissão
   }
- 
+
   return children;
 };
- 
+
 const Rotas = () => {
   const { token } = useAuth();
- 
+
   return (
     <Routes>
       {/* Rotas públicas */}
       <Route path="/" element={<Home />} />
+      <Route path="/cadastroEmpresa" element={<Cadastroempresa />} />
       <Route path="/contato" element={<Contato />} />
+      <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
       <Route path="/planos" element={<Planos />} />
       <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
-      {!token && (
-        <>
-          <Route path="/cadastroEmpresa" element={<Cadastroempresa />} />
-          <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
-          <Route path="/login" element={<Login />} />
-        </>
-      )}
 
       {/* Rotas não autenticados */}
       {!token && (
         <Route path="/login" element={<Login />} />
       )}
- 
+
       {/* Rotas somente empresa */}
       <Route
         path="/acessoFuncionarios"
@@ -92,7 +88,16 @@ const Rotas = () => {
           </ProtectedRoute>
         }
       />
- 
+
+      <Route
+        path="/seuplano"
+        element={
+          <ProtectedRoute allowedRoles={['empresa']}>
+            <SeuPlano />
+          </ProtectedRoute>
+        }
+      />
+
       {/* Rotas somente psicologos */}
       <Route
         path="/disponibilidade"
@@ -102,16 +107,16 @@ const Rotas = () => {
           </ProtectedRoute>
         }
       />
- 
+
       {/* Rotas somente funcionários */}
- 
+
       {/* Rotas psicologo e funcionários */}
- 
- 
+
+
       {/* Rotas privadas para todos usuários*/}
       {token && (
         <>
-          
+
           <Route
             path="/agendarConsulta"
             element={
@@ -128,8 +133,8 @@ const Rotas = () => {
               </ProtectedRoute>
             }
           />
-      
-         <Route
+
+          <Route
             path="/psicologo/:psicologo_id"
             element={
               <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>

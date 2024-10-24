@@ -34,6 +34,10 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+[data-theme='dark'] .chat-button {
+  background-color: #9455cb;
+}
+
 .chat-icon {
   font-weight: bold;
 }

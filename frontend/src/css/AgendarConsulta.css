@@ -194,7 +194,8 @@
     --bs-nav-tabs-border-width: transparent;
 }
 
-.nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link {
+.nav-fill .nav-item .nav-link,
+.nav-justified .nav-item .nav-link {
     width: 108%;
 }
 
@@ -222,7 +223,7 @@
     margin: 0;
 }
 
-.nav-tabs .nav-link.active{
+.nav-tabs .nav-link.active {
     color: var(--dark);
     background: var(--back-tab);
     border-bottom: 3px solid var(--profi);
@@ -318,7 +319,7 @@
     margin-right: 2%;
     padding: 0 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 0 20px 20px 0 ;
+    border-radius: 0 20px 20px 0;
 }
 
 .buscaPor:focus {
@@ -349,7 +350,7 @@
     background-color: #8a74c1;
 }
 
-[data-theme='dark'] .searchA{
+[data-theme='dark'] .searchA {
     background-color: #c6b4f6 !important;
     color: #200d28;
 }
@@ -641,7 +642,26 @@
 }
 
 
+@media (min-width: 680px) and (max-width:1130px) {
 
+    .imgPerfil {
+        top: -40px;
+        left: -60px;
+    }
+
+    .tabs-container {
+        margin-left: 332px;
+    }
+
+    .nomeAgenda {
+        font-size: 22px;
+        margin-left: -10px;
+    }
+
+    .cardAgenda {
+        margin-bottom: 100px;
+    }
+}
 
 .spinner-border {
     width: 1.5rem;

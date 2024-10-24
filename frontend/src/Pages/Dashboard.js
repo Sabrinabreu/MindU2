@@ -3,11 +3,12 @@ import { Container, Row, Col } from "react-bootstrap";
 import '../css/Dashboard.css';
 import '../css/SideBar.css';
 import axios from "axios";
-import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX } from 'lucide-react';
+import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX, UserRoundPen } from 'lucide-react';
 import BAPO from "../Components/WidgetBAPO";
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -25,7 +26,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         axios.get('http://localhost:3001/contafuncionarios', {
-            params: { loginMethod: 'email' }
+            params: {loginMethod: 'email' }
         })
             .then(response => {
                 console.log('Dados recebidos:', response.data);
@@ -33,19 +34,18 @@ const Dashboard = () => {
             })
             .catch(error => {
                 console.error("Erro ao buscar os dados:", error);
-            });
+            });              
     }, []);
 
 
     const { setToken } = useAuth();
     const navegacao = useNavigate();
     const token = localStorage.getItem('token');
-    const decodedToken = React.useMemo(() => parseJwt(token), [token]);
+    const decodedToken = parseJwt(token);
 
     useEffect(() => {
         setPerfil(decodedToken.perfil);
-    }, [decodedToken]);
-
+    }, [decodedToken.perfil]);
 
 
     const handleLogout = () => {
@@ -54,6 +54,7 @@ const Dashboard = () => {
         navegacao("/", { replace: true });
     };
 
+    
     const handleDeleteAccount = () => {
         setShowConfirmation(true);
     };
@@ -122,7 +123,7 @@ const Dashboard = () => {
         const initials = names.slice(0, 2).map(n => n[0].toUpperCase()).join('');
         return initials;
     };
-
+    
     const getColorFromInitials = (initials) => {
         let hash = 0;
         for (let i = 0; i < initials.length; i++) {
@@ -131,7 +132,7 @@ const Dashboard = () => {
         const color = `#${((hash & 0x00FFFFFF) >> 0).toString(16).padStart(6, '0').toUpperCase()}`;
         return color;
     };
-
+    
     const getContrastingColor = (backgroundColor) => {
         const r = parseInt(backgroundColor.substring(1, 3), 16);
         const g = parseInt(backgroundColor.substring(3, 5), 16);
@@ -139,7 +140,7 @@ const Dashboard = () => {
         const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
         return luminosity > 128 ? '#000000' : '#FFFFFF';
     };
-
+    
 
     return (
         <>
@@ -150,6 +151,7 @@ const Dashboard = () => {
                     {feedbackMessage}
                 </div>
             )}
+
             {/* Sidebar */}
 
             <div id="navbar" className={isSidebarCollapsed ? 'collapsed' : ''}>
@@ -165,27 +167,39 @@ const Dashboard = () => {
                 </div>
                 <div id="nav-content">
                     <div className="nav-button">
-                        <i className="fas"><SquareChartGantt /></i><span>Seu Plano</span>
+                        <Link to="/seuplano">
+                            <i className="fas"><SquareChartGantt /></i>
+                            <span>Seu Plano</span>
+                        </Link>
                     </div>
                     <div className="nav-button">
-                        <i className="fas"><CopyPlus /></i><span>Adicionar Funcionários</span>
+                        <Link to="/adicionarfuncionarios">
+                            <i className="fas"><CopyPlus /></i>
+                            <span>Adicionar Funcionários</span>
+                        </Link>
+                    </div>
+                    <div className="nav-button">
+                        <Link to="/perfilempresa">
+                            <i className="fas"><UserRoundPen /></i>
+                            <span>Perfil</span>
+                        </Link>
                     </div>
                     <div id="nav-content-highlight"></div>
                 </div>
                 <input id="nav-footer-toggle" type="checkbox" />
                 <div id="nav-footer">
                     <div id="nav-footer-heading">
-                        <div id="nav-footer-avatar">
-                            <div
-                                className="profile-initials"
-                                style={{
-                                    backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
-                                    color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || '')))
-                                }}
-                            >
-                                {getInitials(perfil.empresa || '')}
-                            </div>
+                    <div id="nav-footer-avatar">
+                        <div
+                            className="profile-initials"
+                            style={{
+                                backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
+                                color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || '')))
+                            }}
+                        >
+                            {getInitials(perfil.empresa || '')}
                         </div>
+                    </div>
                         <div id="nav-footer-titlebox">
                             <a id="nav-footer-title"
                                 target="_blank" rel="noopener noreferrer">{perfil.empresa}</a>
@@ -197,7 +211,7 @@ const Dashboard = () => {
                     </div>
                     <div id="nav-footer-content">
                         <button onClick={handleLogout} className="logout">Sair<LogOut className="logsvg" /></button>
-                         <button onClick={handleDeleteAccount} className="logout"> Deletar conta <CircleX className="logsvg" /> </button>
+                        <button onClick={handleDeleteAccount} className="logout"> Deletar conta <CircleX className="logsvg" /> </button>
 
                         {showConfirmation && (
                             <>
@@ -209,10 +223,9 @@ const Dashboard = () => {
                             </div>
                             </>
                         )}
-                        </div>
                     </div>
                 </div>
-          
+            </div>
 
             {/* Filtro */}
 
@@ -231,31 +244,19 @@ const Dashboard = () => {
                             onChange={(e) => setSelectedCategory(e.target.value)}
                         >
                             <option value="all">Todos</option>
-                            <option value="CEO">CEO</option>
-                            <option value="Chairman">Chairman</option>
-                            <option value="Head of Digital">Head of Digital</option>
+                            <option value="Plano1">Plano Bem-Estar</option>
+                            <option value="Plano2">Plano Equilíbrio</option>
+                            <option value="Plano3">Plano Transformação</option>
                         </select>
                     </div>
                     <div className="search">
                         <label for="search">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" /></svg>
 
-                            <input
-                                className="searchdashboard"
-                                type="text"
-                                id="busca"
+                            <input type="text" id="busca"
                                 placeholder="Procurar funcionário..."
                                 value={searchTerm}
-                                onChange={handleSearchChange}
-                                style={{
-                                    color: 'white',
-
-                                    border: '2px solid black',
-                                    padding: '10px',
-                                    borderRadius: '40px'
-                                }}
-                            />
-
+                                onChange={handleSearchChange} />
                         </label>
                     </div>
                 </aside>
@@ -272,7 +273,7 @@ const Dashboard = () => {
                                             <Col lg={4} md={6} sm={6} xs={12}>
                                                 <div key={contafuncionarios.id} className="person-box">
                                                     <div className="box-avatar">
-                                                        <img src={contafuncionarios.foto} alt="foto do funcionário"/>
+                                                        <img src={contafuncionarios.foto} />
                                                     </div>
                                                     <div className="box-bio">
                                                         <h2 className="bio-name">{contafuncionarios.nome}</h2>
