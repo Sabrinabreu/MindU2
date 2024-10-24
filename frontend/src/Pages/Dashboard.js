@@ -37,11 +37,12 @@ const Dashboard = () => {
     const { setToken } = useAuth();
     const navegacao = useNavigate();
     const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token);
+    const decodedToken = React.useMemo(() => parseJwt(token), [token]);
 
     useEffect(() => {
         setPerfil(decodedToken.perfil);
-    }, [decodedToken.perfil]);
+    }, [decodedToken]);
+
 
 
     const handleLogout = () => {
