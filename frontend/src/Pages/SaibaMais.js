@@ -18,10 +18,7 @@ const Agendar = () => {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
     const [nomePsico, setNomePsico] = useState('');
-
     const [consultasAgendadas, setConsultasAgendadas] = useState([]);
-
-    // Estado para o calendário
     const [currentMonth, setCurrentMonth] = useState(new Date());
 
     useEffect(() => {
@@ -31,7 +28,6 @@ const Agendar = () => {
         }
     }, [psicologo_id]);
 
-    // Funções para navegar entre meses
     const handlePrevMonth = () => {
         setCurrentMonth(prev => {
             const date = new Date(prev);
@@ -46,11 +42,6 @@ const Agendar = () => {
             date.setMonth(date.getMonth() + 1);
             return date;
         });
-    };
-
-    const generateCalendar = () => {
-        // Lógica para gerar o calendário baseado em currentMonth
-        // Você pode implementar isso conforme suas necessidades
     };
 
     const fetchNomePsicologo = async (psicologo_id) => {
@@ -113,7 +104,7 @@ const Agendar = () => {
         const agendamentoData = {
             psicologo_id,
             data: selectedDate.toISOString().split('T')[0],
-            horario: selectedTime,
+            horario_inicio: selectedTime, // Alterado para horario_inicio
             tipo: selectedTipo,
             assunto,
         };
@@ -127,9 +118,9 @@ const Agendar = () => {
                 ...prev,
                 {
                     date: agendamentoData.data,
-                    time: agendamentoData.horario,
+                    time: agendamentoData.horario_inicio, 
                     tipo: agendamentoData.tipo,
-                    assunto: agendamentoData.assunto,
+                    assunto : agendamentoData.assunto,
                 },
             ]);
             
@@ -140,7 +131,7 @@ const Agendar = () => {
                 alert(`Erro: ${error.response.data.error}`);
             } else {
                 alert('Erro ao agendar consulta. Tente novamente.');
- }
+            }
         }
     };
 
@@ -191,13 +182,13 @@ const Agendar = () => {
                                         <h6>Horários disponíveis:</h6>
                                         {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).length > 0 ? (
                                             <ul>
-                                                {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario }) => (
+                                                {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario_inicio }) => ( 
                                                     <button
-                                                        key={horario}
-                                                        className={`horarioBotao ${selectedTime === horario ? 'active' : ''}`}
-                                                        onClick={() => handleTimeClick(horario)}
+                                                        key={horario_inicio} 
+                                                        className={`horarioBotao ${selectedTime === horario_inicio ? 'active' : ''}`}
+                                                        onClick={() => handleTimeClick(horario_inicio)}
                                                     >
-                                                        {horario}
+                                                        {horario_inicio} 
                                                     </button>
                                                 ))}
                                             </ul>
@@ -220,7 +211,7 @@ const Agendar = () => {
                             <span className="material-symbols-outlined iconsSaibaMais">person_book</span> Biografia
                         </h5>
                         <p className='mb-4'>
-                            Psicólogo, formado em 1990 pela Universidade Estadual do Paraná. Especialista em Terapia Cognitivo-Comportamental e Psicoterapia de Casal. Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
+                            Psicólogo, formado em 1990 pela Universidade Estadual do Paraná. Especialista em Terapia Cognitivo- Comportamental e Psicoterapia de Casal. Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
                         </p>
                     </div>
                     <div className='contato p-4'>

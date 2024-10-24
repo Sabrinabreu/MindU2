@@ -11,6 +11,7 @@ const rotaPsicologos = require('./routesPsicologos');
 const agendamentoRoutes = require('./routesAgendamento');
 const rotaPerfilsuario = require('./routesPerfilusuario');
 const disponibilidadesRoutes = require('./routesDisponibilidade');
+const rotaPlanos = require('./routesPlanos');
 const rotaEsqueciSenha = require('./routesEsqueciSenha');
 
 // Cria uma instância do Express
@@ -29,7 +30,8 @@ app.use('/', rotaLogin);
 app.use('/', rotaCadastropsi);
 app.use('/', rotaempresa);
 app.use('/', rotaFuncionario);
-app.use('/api', rotaPsicologos);
+app.use('/', rotaPsicologos);
+app.use('/api/', rotaPlanos);
 app.use('/api', agendamentoRoutes);
 app.use('/api/atualizarPerfil', rotaPerfilsuario);
 app.use('/api', disponibilidadesRoutes);
