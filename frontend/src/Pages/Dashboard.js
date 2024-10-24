@@ -24,7 +24,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         axios.get('http://localhost:3001/contafuncionarios', {
-            params: {loginMethod: 'email' }
+            params: { loginMethod: 'email' }
         })
             .then(response => {
                 console.log('Dados recebidos:', response.data);
@@ -32,18 +32,19 @@ const Dashboard = () => {
             })
             .catch(error => {
                 console.error("Erro ao buscar os dados:", error);
-            });              
+            });
     }, []);
 
 
     const { setToken } = useAuth();
     const navegacao = useNavigate();
     const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token);
+    const decodedToken = React.useMemo(() => parseJwt(token), [token]);
 
     useEffect(() => {
         setPerfil(decodedToken.perfil);
-    }, [decodedToken.perfil]);
+    }, [decodedToken]);
+
 
 
     const handleLogout = () => {
@@ -102,7 +103,7 @@ const Dashboard = () => {
         const initials = names.slice(0, 2).map(n => n[0].toUpperCase()).join('');
         return initials;
     };
-    
+
     const getColorFromInitials = (initials) => {
         let hash = 0;
         for (let i = 0; i < initials.length; i++) {
@@ -111,7 +112,7 @@ const Dashboard = () => {
         const color = `#${((hash & 0x00FFFFFF) >> 0).toString(16).padStart(6, '0').toUpperCase()}`;
         return color;
     };
-    
+
     const getContrastingColor = (backgroundColor) => {
         const r = parseInt(backgroundColor.substring(1, 3), 16);
         const g = parseInt(backgroundColor.substring(3, 5), 16);
@@ -119,7 +120,7 @@ const Dashboard = () => {
         const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
         return luminosity > 128 ? '#000000' : '#FFFFFF';
     };
-    
+
 
     return (
         <>
@@ -150,17 +151,17 @@ const Dashboard = () => {
                 <input id="nav-footer-toggle" type="checkbox" />
                 <div id="nav-footer">
                     <div id="nav-footer-heading">
-                    <div id="nav-footer-avatar">
-                        <div
-                            className="profile-initials"
-                            style={{
-                                backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
-                                color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || '')))
-                            }}
-                        >
-                            {getInitials(perfil.empresa || '')}
+                        <div id="nav-footer-avatar">
+                            <div
+                                className="profile-initials"
+                                style={{
+                                    backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
+                                    color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || '')))
+                                }}
+                            >
+                                {getInitials(perfil.empresa || '')}
+                            </div>
                         </div>
-                    </div>
                         <div id="nav-footer-titlebox">
                             <a id="nav-footer-title"
                                 target="_blank" rel="noopener noreferrer">{perfil.empresa}</a>
@@ -215,10 +216,22 @@ const Dashboard = () => {
                         <label for="search">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" /></svg>
 
-                            <input type="text" id="busca"
+                            <input
+                                className="searchdashboard"
+                                type="text"
+                                id="busca"
                                 placeholder="Procurar funcionário..."
                                 value={searchTerm}
-                                onChange={handleSearchChange} />
+                                onChange={handleSearchChange}
+                                style={{
+                                    color: 'white',
+
+                                    border: '2px solid black',
+                                    padding: '10px',
+                                    borderRadius: '40px'
+                                }}
+                            />
+
                         </label>
                     </div>
                 </aside>
