@@ -597,6 +597,10 @@
 }
 
 @media (max-width: 600px) {
+    *{
+        max-width: 100% !important;
+        height: auto !important;
+    }
     .imgPerfil {
         width: 100px;
         height: 100px;
@@ -626,7 +630,6 @@
     }
 
     .tabs-container {
-        margin-left: -10px;
         margin-top: 15px;
     }
 
@@ -643,7 +646,10 @@
 
 
 @media (min-width: 680px) and (max-width:1130px) {
-
+    *{
+        max-width: 100% !important;
+        height: auto !important;
+    }
     .imgPerfil {
         top: -40px;
         left: -60px;
