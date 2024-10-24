@@ -17,38 +17,48 @@ const Agendar = () => {
     const [assunto, setAssunto] = useState('');
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
+    
+    // Estados para armazenar os dados do psicólogo
     const [nomePsico, setNomePsico] = useState('');
-
-    const [consultasAgendadas, setConsultasAgendadas] = useState([]);
-
-    // Estado para o calendário
-    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [telefone, setTelefone] = useState('');
+    const [email, setEmail] = useState('');
 
     useEffect(() => {
         if (psicologo_id) {
-            fetchNomePsicologo(psicologo_id);
+            fetchPsicologoData(psicologo_id);
             fetchDisponibilidades(psicologo_id);
         }
     }, [psicologo_id]);
 
-    // Funções para navegar entre meses
-
-    const fetchNomePsicologo = async (psicologo_id) => {
+    const fetchPsicologoData = async (psicologo_id) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`);
-            if (response.data && response.data.nome) {
+            const token = localStorage.getItem('token'); // Obtendo o token do localStorage
+            const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}` // Adicionando o token no cabeçalho
+                }
+            });
+            if (response.data) {
                 setNomePsico(response.data.nome);
-            } else {
-                console.error('Nome do psicólogo não encontrado na resposta da API');
+                setTelefone(response.data.telefone);
+                setEmail(response.data.email); // Supondo que a API retorne o email
             }
         } catch (error) {
-            console.error('Erro ao buscar nome do psicólogo:', error);
+            console.error('Erro ao buscar dados do psicólogo:', error);
+            if (error.response) {
+                console.error('Dados de erro da resposta:', error.response.data);
+            }
         }
     };
 
     const fetchDisponibilidades = async (psicologo_id) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/disponibilidades/${psicologo_id}`);
+            const token = localStorage.getItem('token'); // Obtendo o token do localStorage
+            const response = await axios.get(`http://localhost:3001/api/disponibilidades/${psicologo_id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}` // Adicionando o token no cabeçalho
+                }
+            });
             setAvailableTimes(response.data);
             const dias = new Set(response.data.map(item => new Date(item.data).toDateString()));
             setDiasDisponiveis(dias);
@@ -86,33 +96,26 @@ const Agendar = () => {
 
     const handleSave = async () => {
         if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
-            alert('Por favor, preencha todos os campos antes de salvar.');
+ alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
 
         const agendamentoData = {
             psicologo_id,
             data: selectedDate.toISOString().split('T')[0],
-            horario: selectedTime,
+            horario_inicio: selectedTime,
             tipo: selectedTipo,
             assunto,
         };
 
         try {
-            const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData);
+            const token = localStorage.getItem('token'); // Obtendo o token do localStorage
+            const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
+                headers: {
+                    Authorization: `Bearer ${token}` // Adicionando o token no cabeçalho
+                }
+            });
             alert(response.data.message);
-            
-            // Atualiza o estado das consultas agendadas
-            setConsultasAgendadas(prev => [
-                ...prev,
-                {
-                    date: agendamentoData.data,
-                    time: agendamentoData.horario,
-                    tipo: agendamentoData.tipo,
-                    assunto: agendamentoData.assunto,
-                },
-            ]);
-            
             handleClose();
         } catch (error) {
             console.error('Erro ao agendar consulta:', error);
@@ -120,7 +123,7 @@ const Agendar = () => {
                 alert(`Erro: ${error.response.data.error}`);
             } else {
                 alert('Erro ao agendar consulta. Tente novamente.');
- }
+            }
         }
     };
 
@@ -131,11 +134,12 @@ const Agendar = () => {
                     <div className='perfilPsico'>
                         <img className="fundoPsico" src={fundoPsico} alt="Imagem de fundo" />
                         <img className="psicologo" src={perfilPsicologo} alt="Perfil do psicólogo" />
-                        <button className='valores'>Duração da sessão <br /><b>1 hora</b></button>
-                        <h4 className='nomePsico container p-4'>{nomePsico || 'Nome aqui'}</h4>
-                        <b className='infoPsico'>Psicólogo Cognitivo</b>
-                        <h6 className='infoPsico'>Cornélio Procópio - PR</h6>
-                        <h6 className='crp'>214579 / CRP - 4ª Região</h6>
+                        <h4 className='nomePsico container p-4'>{nomePsico}</h4>
+                        <div className='infoPsico'>
+                            <b>Psicólogo Cognitivo</b>
+                            <h6>Cornélio Procópio - PR</h6>
+                            <h6 className='crp'>214579 / CRP - 4ª Região</h6>
+                        </div>
                     </div>
                 </Col>
                 <Col md={6}>
@@ -171,13 +175,13 @@ const Agendar = () => {
                                         <h6>Horários disponíveis:</h6>
                                         {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).length > 0 ? (
                                             <ul>
-                                                {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario }) => (
+                                                {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario_inicio }) => (
                                                     <button
-                                                        key={horario}
-                                                        className={`horarioBotao ${selectedTime === horario ? 'active' : ''}`}
-                                                        onClick={() => handleTimeClick(horario)}
+                                                        key={horario_inicio}
+                                                        className={`horarioBotao ${selectedTime === horario_inicio ? 'active' : ''}`}
+                                                        onClick={() => handleTimeClick(horario_inicio)}
                                                     >
-                                                        {horario}
+                                                        {horario_inicio}
                                                     </button>
                                                 ))}
                                             </ul>
@@ -200,17 +204,18 @@ const Agendar = () => {
                             <span className="material-symbols-outlined iconsSaibaMais">person_book</span> Biografia
                         </h5>
                         <p className='mb-4'>
-                            Psicólogo, formado em 1990 pela Universidade Estadual do Paraná. Especialista em Terapia Cognitivo-Comportamental e Psicoterapia de Casal. Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
+                            Psicólogo, formado em 1990 pela Universidade Estadual do Paraná. Especialista em Terapia Cognitivo- Comportamental e Psicoterapia de Casal. Atua na área clínica há mais de 30 anos, com experiência em atendimentos individuais e grupais.
                         </p>
                     </div>
                     <div className='contato p-4'>
                         <h5 className='titulosSobre py-3'>
                             <span className="material-symbols-outlined iconsSaibaMais">send</span> Contato
                         </h5>
-                        <p>Telefone: (43) 1234-5678 <br /> Email: contato@psicologo.com.br</p>
+                        <p>Telefone: {telefone}</p>
+                        <p>Email: {email}</p>
                     </div>
                 </Col>
-            </Row>        
+            </Row>
         </Container>
     );
 };
