@@ -32,26 +32,6 @@ const Agendar = () => {
     }, [psicologo_id]);
 
     // Funções para navegar entre meses
-    const handlePrevMonth = () => {
-        setCurrentMonth(prev => {
-            const date = new Date(prev);
-            date.setMonth(date.getMonth() - 1);
-            return date;
-        });
-    };
-
-    const handleNextMonth = () => {
-        setCurrentMonth(prev => {
-            const date = new Date(prev);
-            date.setMonth(date.getMonth() + 1);
-            return date;
-        });
-    };
-
-    const generateCalendar = () => {
-        // Lógica para gerar o calendário baseado em currentMonth
-        // Você pode implementar isso conforme suas necessidades
-    };
 
     const fetchNomePsicologo = async (psicologo_id) => {
         try {
