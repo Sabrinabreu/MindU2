@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Trash } from 'lucide-react';
+import { Printer, Trash } from 'lucide-react';
 import DataTable from "react-data-table-component";
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
@@ -14,15 +14,15 @@ const TabelaFuncionarios = ({ contas }) => {
 
   // Função para buscar os funcionários
   const fetchFuncionariosNaoCadastrados = async () => {
-  try {
-    const response = await axios.get('http://localhost:3001/contaFuncionarios', {
-      params: { loginMethod: 'login_temporario' }
-    });
-    setContasFuncionarios(response.data);
-  } catch (error) {
-    console.error('Erro ao buscar funcionários não cadastrados:', error);
-  }
-};
+    try {
+      const response = await axios.get('http://localhost:3001/contaFuncionarios', {
+        params: { loginMethod: 'login_temporario' }
+      });
+      setContasFuncionarios(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar funcionários não cadastrados:', error);
+    }
+  };
 
   // Chama a função de busca ao carregar a página ou quando "contas" mudar
   useEffect(() => {
@@ -56,7 +56,7 @@ const TabelaFuncionarios = ({ contas }) => {
       setContasFuncionarios(prevContas =>
         prevContas.filter(conta => !selectedRows.some(row => row.login === conta.login))
       );
-      setSelectedRows([]); 
+      setSelectedRows([]);
       setToggleCleared(!toggleCleared); // Reseta a seleção
       console.log("Usuários excluídos com sucesso!");
     } catch (error) {
@@ -83,27 +83,70 @@ const TabelaFuncionarios = ({ contas }) => {
 
   const contextActions = React.useMemo(() => {
     return (
-      <Trash style={{ color: "red", padding: "1.5px" }} onClick={handleExcluirSelecionados} />
+      <>
+        <Trash style={{ color: "red", padding: "1.5px" }} onClick={handleExcluirSelecionados} />
+
+      </>
+
     );
   }, [selectedRows]);
-  
+
+  // Função para imprimir logins e senhas
+  const handlePrint = () => {
+    const printWindow = window.open('', '', 'height=400,width=600');
+    printWindow.document.write('<html><head><title>Imprimir Logins e Senhas</title>');
+
+    // Adicione estilos para a impressão
+    printWindow.document.write(`
+    <style>
+      body { font-family: Arial, sans-serif; }
+      h2 { text-align: center; }
+      .container { margin: 20px; }
+      .login-senha { margin-bottom: 15px; border: 1px solid #000; padding: 10px; }
+      .login-senha span { font-weight: bold; }
+    </style>
+  `);
+
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<h2>Logins e Senhas dos Funcionários</h2>');
+
+    // Adicione cada login e senha em um bloco
+    contasFuncionarios.forEach(conta => {
+      printWindow.document.write(`
+      <div class="login-senha">
+        <span>Login:</span> ${conta.login}<br>
+        <span>Senha:</span> ${conta.senha}
+      </div>
+    `);
+    });
+
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+  };
   return (
     <>
-    <BAPO/>
-    <div className="container my-5">
-      <DataTable
-        title="Tabela conta de funcionários criadas"
-        columns={colunas}
-        fixedHeader
-        pagination
-        selectableRows
-        onSelectedRowsChange={handleRowSelected}
-        data={contasFuncionarios}
-        contextActions={contextActions}
-        noDataComponent="Não há registros para exibir"
-        clearSelectedRows={toggleCleared} // Passa o estado para resetar a seleção
-      />
-    </div></>
+      <BAPO />
+
+      <div className="container my-5">
+        <div className="divprint">
+          <button className="btnprint" onClick={handlePrint}> <Printer className="printicon" /> Imprimir</button>
+        </div>
+        <DataTable
+          className="tablefuncionarios"
+          title="Tabela conta de funcionários criadas"
+          columns={colunas}
+          fixedHeader
+          pagination
+          selectableRows
+          onSelectedRowsChange={handleRowSelected}
+          data={contasFuncionarios}
+          contextActions={contextActions}
+          noDataComponent="Não há registros para exibir"
+          clearSelectedRows={toggleCleared} // Passa o estado para resetar a seleção
+        />
+
+      </div></>
   );
 };
 
