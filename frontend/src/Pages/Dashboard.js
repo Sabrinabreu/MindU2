@@ -17,6 +17,7 @@ const Dashboard = () => {
     const [data, setData] = useState([]);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState(null);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         console.log('Dados:', data);
@@ -58,17 +59,35 @@ const Dashboard = () => {
     };
     
     const confirmDelete = async () => {
-        console.log("ID da empresa:", perfil.ID);
+        // console.log("ID da empresa:", perfil.ID);
+        // console.log("Token:", decodedToken);
         try {
-            await axios.delete(`http://localhost:3001/empresa/${perfil.ID}`); // Substitua 'perfil.id' pelo ID correto da empresa
+            await axios.delete(`http://localhost:3001/empresa/delete/${perfil.ID}`);
+            setError(false);
+            navegacao('/');
+            localStorage.removeItem('token');
+            setToken(null);
             console.log("conta excluída com sucesso!");
+            setFeedbackMessage("Conta excluída com sucesso!");
         } catch (error) {
+            setError(false);
             console.error("Erro ao excluir conta:", error);
+            setFeedbackMessage("Erro ao excluir conta."); 
         } finally {
-            setShowConfirmation(false); // Fechar modal de confirmação
+            setShowConfirmation(false); 
         }
     };
-       
+    // A mensagem desaparece após 3 segundos
+    useEffect(() => {
+        if (feedbackMessage) {
+            const timer = setTimeout(() => {
+                setFeedbackMessage(null);
+            }, 3000);
+    
+            return () => clearTimeout(timer);
+        }
+    }, [feedbackMessage]);
+    
     
     
       const cancelDelete = () => {
@@ -126,6 +145,11 @@ const Dashboard = () => {
         <>
             <BAPO />
 
+            {feedbackMessage && (
+                <div className={`confirmation-modal feedback-message ${error ? 'error' : 'success'}`}>
+                    {feedbackMessage}
+                </div>
+            )}
             {/* Sidebar */}
 
             <div id="navbar" className={isSidebarCollapsed ? 'collapsed' : ''}>

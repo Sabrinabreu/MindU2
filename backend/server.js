@@ -13,6 +13,7 @@ const rotaPerfilsuario = require('./routesPerfilusuario');
 const disponibilidadesRoutes = require('./routesDisponibilidade');
 const rotaPlanos = require('./routesPlanos');
 const rotaEsqueciSenha = require('./routesEsqueciSenha');
+const rotaDelete = require('./routesDelete');
 
 // Cria uma instância do Express
 const app = express();
@@ -36,6 +37,7 @@ app.use('/api', agendamentoRoutes);
 app.use('/api/atualizarPerfil', rotaPerfilsuario);
 app.use('/api', disponibilidadesRoutes);
 app.use('/api', rotaEsqueciSenha);
+app.use('/', rotaDelete);
 
 // Remove rotas não definidas (ajustar ou remover se não houver)
 app.use('/', (req, res) => {

@@ -3,7 +3,7 @@ const router = express.Router();
 const connection = require('./db');
 
 // Rota para deletar uma empresa
-router.delete('/cadastroempresa/:id', async (req, res) => {
+router.delete('/empresa/delete/:id', async (req, res) => {
     const { id } = req.params;
     try {
         await connection.query('DELETE FROM cadastroempresa WHERE id = ?', [id]);
