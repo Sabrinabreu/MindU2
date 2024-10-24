@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const connection = require('./db');
 
-// Rota para deletar uma empresa
 router.delete('/empresa/delete/:id', async (req, res) => {
     const { id } = req.params;
     try {
+        // Deletar funcionários associados à empresa
+        await connection.query('DELETE FROM contaFuncionarios WHERE empresa_id = ?', [id]);
+        // Deletar a empresa
         await connection.query('DELETE FROM cadastroempresa WHERE id = ?', [id]);
         res.json({ message: 'Empresa e funcionários associados excluídos com sucesso' });
     } catch (err) {
@@ -13,6 +15,7 @@ router.delete('/empresa/delete/:id', async (req, res) => {
         res.status(500).json({ error: 'Erro ao excluir a empresa' });
     }
 });
+
 
 // Rota para deletar um psicologo
 router.delete('/psicologos/delete/:psicologo_id', async (req, res) => {
