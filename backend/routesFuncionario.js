@@ -38,13 +38,13 @@ const verifyToken = (req, res, next) => {
 
 // Rota para criar contas de funcionários
 router.post('/contaFuncionarios', verifyToken, async (req, res) => {
-  const { cpf, nome, cargo, telefone, email } = req.body;
+  const { cpf, nome, cargo, telefone } = req.body;
   const empresa_id = req.empresaId; // Pega o empresa_id do token
 
   try {
     const [result] = await connection.query(
-      'INSERT INTO contaFuncionarios (empresa_id, cpf, nome, cargo, telefone, email) VALUES (?, ?, ?, ?, ?, ?)',
-      [empresa_id, cpf, nome, cargo, telefone, email]
+      'INSERT INTO contaFuncionarios (empresa_id, cpf, nome, cargo, telefone) VALUES (?, ?, ?, ?, ?)',
+      [empresa_id, cpf, nome, cargo, telefone]
     );
     res.status(201).json({ message: 'Conta de funcionário criada com sucesso', id: result.insertId });
   } catch (err) {

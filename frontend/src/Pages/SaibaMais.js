@@ -7,7 +7,6 @@ import fundoPsico from '../img/fundoPsico.webp';
 import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 import DatePicker from "../Components/Calendario";
 import axios from 'axios';
-import Calendario from "../Components/CalendarioPerfil";
 
 const Agendar = () => {
     const { psicologo_id } = useParams();
@@ -19,8 +18,8 @@ const Agendar = () => {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
     const [nomePsico, setNomePsico] = useState('');
-    const [tipoUsuario, setTipoUsuario] = useState('funcionario');
-    const [consultasAgendadas, setConsultasAgendadas] = useState([]); // Estado para armazenar consultas agendadas
+
+    const [consultasAgendadas, setConsultasAgendadas] = useState([]);
 
     // Estado para o calendário
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -33,26 +32,6 @@ const Agendar = () => {
     }, [psicologo_id]);
 
     // Funções para navegar entre meses
-    const handlePrevMonth = () => {
-        setCurrentMonth(prev => {
-            const date = new Date(prev);
-            date.setMonth(date.getMonth() - 1);
-            return date;
-        });
-    };
-
-    const handleNextMonth = () => {
-        setCurrentMonth(prev => {
-            const date = new Date(prev);
-            date.setMonth(date.getMonth() + 1);
-            return date;
-        });
-    };
-
-    const generateCalendar = () => {
-        // Lógica para gerar o calendário baseado em currentMonth
-        // Você pode implementar isso conforme suas necessidades
-    };
 
     const fetchNomePsicologo = async (psicologo_id) => {
         try {
@@ -231,16 +210,7 @@ const Agendar = () => {
                         <p>Telefone: (43) 1234-5678 <br /> Email: contato@psicologo.com.br</p>
                     </div>
                 </Col>
-            </Row>
-            <br></br>
-            <Calendario 
-                currentMonth={currentMonth} 
-                handlePrevMonth={handlePrevMonth} 
-                handleNextMonth={handleNextMonth} 
-                generateCalendar={generateCalendar} 
-                consultationDetails={consultasAgendadas} 
-                tipoUsuario={tipoUsuario} 
-            />
+            </Row>        
         </Container>
     );
 };

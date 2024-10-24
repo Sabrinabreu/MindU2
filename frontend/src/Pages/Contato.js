@@ -62,12 +62,6 @@ const Contato = () => {
     { id: 'section5', delay: '0.2s' },
   ];
 
-const handleLogout = () => {
-      localStorage.removeItem('token');
-      setToken(null);
-      navegacao("/", { replace: true });
-  };
-
   useEffect(() => {
     const handleScroll = () => {
       sectionsConfig.forEach(({ id, delay }) => {

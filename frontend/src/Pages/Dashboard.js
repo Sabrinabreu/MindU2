@@ -37,11 +37,12 @@ const Dashboard = () => {
     const { setToken } = useAuth();
     const navegacao = useNavigate();
     const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token);
+    const decodedToken = React.useMemo(() => parseJwt(token), [token]);
 
     useEffect(() => {
         setPerfil(decodedToken.perfil);
-    }, [decodedToken.perfil]);
+    }, [decodedToken]);
+
 
 
     const handleLogout = () => {
@@ -210,7 +211,7 @@ const Dashboard = () => {
                                             <Col lg={4} md={6} sm={6} xs={12}>
                                                 <div key={contafuncionarios.id} className="person-box">
                                                     <div className="box-avatar">
-                                                        <img src={contafuncionarios.foto} />
+                                                        <img src={contafuncionarios.foto} alt="foto do funcionário"/>
                                                     </div>
                                                     <div className="box-bio">
                                                         <h2 className="bio-name">{contafuncionarios.nome}</h2>

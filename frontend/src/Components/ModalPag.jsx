@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 
 const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice, selectedPlan, empresaId }) => {
     const [nContas, setNContas] = useState(1);
-    const [setResultados] = useState([]);
+    const [resultados, setResultados] = useState([]);
     const [activeTab, setActiveTab] = useState("home");
     const [completedSteps, setCompletedSteps] = useState([false, false, false]);
     const [totalPrice, setTotalPrice] = useState(planPrice ? planPrice : 0);

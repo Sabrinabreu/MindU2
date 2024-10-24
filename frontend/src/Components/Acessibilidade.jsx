@@ -17,9 +17,6 @@ const Acessibilidade = ({ toggleTheme }) => {
     const highlightOverlayBottomRef = useRef(null);
     const [IsTDHAFriendly, setIsTDHAFriendly] = useState(false);
     const location = useLocation();
-    const inputRef = useRef(null); // Referência ao input
-    const [inputValue, setInputValue] = useState("");
-    const handleVlibrasTogglePanel = () => setIsPanelOpen(prevState => !prevState);
 
     const [fontSizeLevel, setFontSizeLevel] = useState(100);
 

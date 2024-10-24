@@ -20,7 +20,7 @@ function gerarNovoToken(usuario, tipoUsuario) {
 
 router.put('/', async (req, res) => {
     const {
-        id, nome, senha, email, telefone, pergunta_seguranca, resposta_seguranca,
+        id, nome, senha, email, login, telefone, pergunta_seguranca, resposta_seguranca,
         cpf, cargo, endereco, crp, preferenciaHorario, disponibilidade,
         localizacao, motivacao, objetivos, tipoUsuario, psicologo_id
     } = req.body;
@@ -76,7 +76,7 @@ router.put('/', async (req, res) => {
             query = `
                 UPDATE contaFuncionarios SET
                     nome = ?,
-                    email = ?,
+                    login = ?,
                     cpf = ?,
                     telefone = ?,
                     cargo = ?,
@@ -86,7 +86,7 @@ router.put('/', async (req, res) => {
             `;
 
             params = [
-                nome, email, cpf, telefone, cargo, pergunta_seguranca,
+                nome, login, cpf, telefone, cargo, pergunta_seguranca,
                 resposta_seguranca
             ];
 

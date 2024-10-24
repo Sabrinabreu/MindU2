@@ -16,18 +16,24 @@ const CalendarioEDetalhes = ({
         // Adiciona os dias do mês ao array
         for (let i = startDate.getDate(); i <= endDate.getDate(); i++) {
             const currentDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
-            const consultasDoDia = consultationDetails.filter(detail =>
-                detail.date === currentDay.toISOString().split('T')[0]
-            );
+            const dataFormatada = currentDay.getDate(); // Mantém apenas o dia para o calendário
+            
+            // Converte a data da consulta para o formato local
+            const consultasDoDia = consultationDetails.filter(detail => {
+                const detailDate = new Date(detail.data); // Converte a data da consulta
+                return detailDate.getDate() === dataFormatada && 
+                       detailDate.getMonth() === currentDay.getMonth() &&
+                       detailDate.getFullYear() === currentDay.getFullYear();
+            });
 
             days.push(
                 <div key={i} className="calendario-dia">
-                    <div>{currentDay.getDate()}</div>
+                    <div>{dataFormatada}</div> {/* Exibe apenas o dia */}
                     {consultasDoDia.length > 0 && (
                         <div>
                             {consultasDoDia.map((consulta, index) => (
                                 <div key={index}>
-                                    <p>{consulta.time} - {consulta.assunto}</p>
+                                    <p>{consulta.horario} - {consulta.assunto} ({consulta.tipo})</p> {/* Adiciona o tipo de consulta */}
                                 </div>
                             ))}
                         </div>
@@ -68,15 +74,15 @@ const CalendarioEDetalhes = ({
                         {Array.isArray(consultationDetails) && consultationDetails.length > 0 ? (
                             consultationDetails.map((detail, index) => (
                                 <div className='avisoSemData' key={index}>
-                                    <p><strong>Data:</strong> {detail.date || 'Data não disponível'}</p>
-                                    <p><strong>Horário:</strong> {detail.time || 'Horário não disponível'}</p>
-                                    <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p>
-                                    <p><strong>Assuntos:</strong> {detail.assunto || 'Assunto não disponível'}</p>
+                                    <p><strong>Data:</strong> {new Date(detail.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) || 'Data não disponível'}</p>
+                                    <p><strong>Hora:</strong> {detail.horario || 'Hora não disponível'}</p>
+                                    <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p> {/* Adiciona o tipo de consulta aqui */}
+                                    <p><strong>Assunto:</strong> {detail.assunto || 'Assunto não disponível'}</p>
                                     <hr />
                                 </div>
                             ))
                         ) : (
-                            <p className='avisoSemData'>Nenhum agendamento encontrado.</p>
+                            <p>Nenhuma consulta agendada.</p>
                         )}
                     </div>
                 </div>
