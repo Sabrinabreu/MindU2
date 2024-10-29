@@ -56,39 +56,15 @@
 }
 
 .rowCardAgenda {
-    background-color: aqua;
+    background-color: var(--back-card);
+    margin: 0 30px 50px;
+    border-radius: 8px;
 }
 
 .colCardAgenda {
-    background-color: #5e40b0;
-}
-
-.cardAgenda {
-    background: var(--back-card);
-    padding: 20px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    margin-bottom: 60px;
-    height: 350px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    border: 0;
-}
-
-.cardAgenda::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    width: 1px;
-    background: var(--name);
-    z-index: 0;
+    /* background-color: #5e40b0; */
+    padding: 3% 0 5% 10%;
+    border-right: var(--name) 2px solid;
 }
 
 .imgPerfil {
@@ -97,9 +73,10 @@
     border-radius: 6%;
     object-fit: cover;
     padding: 10px;
-    position: relative;
-    top: -30px;
-    left: -70px;
+    position: absolute;
+    /* top: -30px; */
+    /* left: -70px; */
+    transform: translateX(-40%) translateY(-20%);
     z-index: 1;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
@@ -206,12 +183,18 @@
     width: 108%;
 }
 
-/* .tabs-container {
-    margin-left: 432px;
-    margin-top: -310px;
-    margin-bottom: 350px;
-    width: 53%;
-} */
+.nav-item {
+    margin-right: 0 !important;
+}
+
+.nav-item button {
+    width: 100%  !important;
+    margin-right: 0 !important;
+}
+
+.tabs-container {
+    padding: 0;
+}
 
 .nav-tabs .nav-link {
     color: var(--tab);
@@ -475,6 +458,8 @@
      */
 }
 
+
+
 .agendarBot {
     padding: 1.3em 3em;
     font-size: 12px;
@@ -489,8 +474,10 @@
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
-    margin-left: 25%;
+    text-align: center !important;
     text-decoration: none;
+    justify-self: center;
+    display: flex;
     /*
     position: absolute;   ativar depois
     */

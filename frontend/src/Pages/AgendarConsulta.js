@@ -308,8 +308,9 @@ function AgendarConsulta() {
                 // className="cardAgenda"
                 >
                   <Row className="rowCardAgenda">
-                    <Col md={6} sm={12} className="colCardAgenda">
                     <img className='imgPerfil' src={tabs.find(tab => tab.id === psicologo.psicologo_id)?.foto || padraoPerfil} alt="Foto de Perfil" />
+                    <Col md={6} sm={12} className="colCardAgenda">
+                    
                     <div
                     // className="primeiro"
                     >
