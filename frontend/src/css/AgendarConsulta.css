@@ -648,7 +648,6 @@
 @media (min-width: 680px) and (max-width:1130px) {
     *{
         max-width: 100% !important;
-        height: auto !important;
     }
     .imgPerfil {
         top: -40px;
@@ -657,6 +656,9 @@
 
     .tabs-container {
         margin-left: 332px;
+        padding-left: 45px;
+        width: 60%;
+        padding-top: 20px;
     }
 
     .nomeAgenda {
@@ -666,6 +668,13 @@
 
     .cardAgenda {
         margin-bottom: 100px;
+        padding: 0 20px 20px 20px;
+        height: 400px;
+    }
+
+    .primeiro {
+        padding: 20px 0 10px 30px;
+
     }
 }
 
