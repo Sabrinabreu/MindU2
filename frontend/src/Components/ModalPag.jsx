@@ -16,20 +16,8 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice, selected
     const [completedSteps, setCompletedSteps] = useState([false, false, false]);
     const [totalPrice, setTotalPrice] = useState(planPrice ? planPrice : 0);
     const [data, setData] = useState(null);
-    const [planos, setPlanos] = useState([]);
 
-    useEffect(() => {
-        const fetchPlanos = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/api/planos');
-                setPlanos(response.data);
-            } catch (error) {
-                console.error('Erro ao carregar planos:', error);
-            }
-        };
-
-        fetchPlanos();
-    }, []);
+    console.log("plano selecionado: ", selectedPlan)
 
     // Atualiza o preço total sempre que o número de contas mudar
     useEffect(() => {
@@ -58,6 +46,8 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice, selected
             id_plano: selectedPlan?.id, 
             qtd_funcionarios: nContas,
         };
+
+        // console.log("Plano selecionado: ", planName);
     
         try {
             const response = await axios.post('http://localhost:3001/api/compras', purchaseData);
@@ -91,14 +81,11 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice, selected
             centered
         >
             <Modal.Header>
-                <Modal.Title
-                    id="contained-modal-title-vcenter"
-                    style={{ flex: 1, textAlign: 'center' }}
-                >
-                    Plano Selecionado: {planName}
-                    <br />
-                    Preço total: R$ {formatCurrency(totalPrice)}
-                </Modal.Title>
+            <Modal.Title id="contained-modal-title-vcenter" style={{ flex: 1, textAlign: 'center' }}>
+              Plano Selecionado: {selectedPlan?.nome || "Nenhum Plano"}
+              <br />
+              Preço total: R$ {formatCurrency(totalPrice)}
+            </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className='centralizar'>
@@ -115,7 +102,12 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice, selected
                             <PaymentForm selectedPlan={{ name: planName, price: totalPrice }} completeStep={() => completeStep(1)} />
                         </Tab>
                         <Tab className='tab' eventKey="contact" title="Passo 3: Criar Contas" disabled={!completedSteps[1]}>
-                            <CriarContasFuncionarios nContas={nContas} setResultados={setResultados} />
+                            <CriarContasFuncionarios
+                            nContas={nContas}
+                            empresaId={empresaId}
+                            planoSelecionado={selectedPlan}
+                            setResultados={setResultados}
+                            />
                         </Tab>
                     </Tabs>
                 </div>

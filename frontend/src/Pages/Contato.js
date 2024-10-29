@@ -18,7 +18,16 @@ import { useAuth } from "../provider/AuthProvider";
 
 const Contato = () => {
   const { setToken } = useAuth();
-    const navegacao = useNavigate();
+  const navegacao = useNavigate();
+
+
+  const handleLogout = () => {
+      localStorage.removeItem('token');
+      setToken(null);
+      navegacao("/", { replace: true });
+  };
+
+  
 
   const [slides] = useState([
       {
@@ -92,7 +101,7 @@ const Contato = () => {
     <>
     <BAPO/>
       <div>
-      
+      <button className="btnLog" onClick={handleLogout}>Sair da conta</button>
         <div className="bannerContato">
           <Row>        
           <Col md={6} sm={12}>
