@@ -298,6 +298,10 @@ function Perfil() {
                                             <h6 className="mb-0">Cargo</h6>
                                             <span className="text-secondary">{perfil.cargo || "definir"}</span>
                                         </ListGroup.Item>
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 className="mb-0">Plano</h6>
+                                            <span className="text-secondary">{perfil.nomePlano || "definir"}</span>
+                                        </ListGroup.Item>
                                     </>
                                 )}
                                 {/* informações exclusivas de psicologo */}
