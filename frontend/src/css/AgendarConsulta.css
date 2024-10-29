@@ -55,6 +55,14 @@
     color: #fff;
 }
 
+.rowCardAgenda {
+    background-color: aqua;
+}
+
+.colCardAgenda {
+    background-color: #5e40b0;
+}
+
 .cardAgenda {
     background: var(--back-card);
     padding: 20px;
@@ -71,6 +79,17 @@
     border: 0;
 }
 
+.cardAgenda::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    width: 1px;
+    background: var(--name);
+    z-index: 0;
+}
 
 .imgPerfil {
     width: 140px;
@@ -78,7 +97,7 @@
     border-radius: 6%;
     object-fit: cover;
     padding: 10px;
-    position: absolute;
+    position: relative;
     top: -30px;
     left: -70px;
     z-index: 1;
@@ -173,18 +192,6 @@
     background-color: #fff;
 }
 
-.cardAgenda::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    width: 1px;
-    background: var(--name);
-    z-index: 0;
-}
-
 .semResultado {
     font-size: 22px;
 }
@@ -199,12 +206,12 @@
     width: 108%;
 }
 
-.tabs-container {
+/* .tabs-container {
     margin-left: 432px;
     margin-top: -310px;
     margin-bottom: 350px;
     width: 53%;
-}
+} */
 
 .nav-tabs .nav-link {
     color: var(--tab);
@@ -583,12 +590,12 @@
         height: 680px;
     }
 
-    .tabs-container {
+    /* .tabs-container {
         margin-left: 0;
         margin-top: 0;
         margin-bottom: 0;
         width: 100%;
-    }
+    } */
 
     .cardAgenda::before {
         display: none;
@@ -630,9 +637,9 @@
         display: none;
     }
 
-    .tabs-container {
+    /* .tabs-container {
         margin-top: 15px;
-    }
+    } */
 
     .busca {
         margin-right: px;
@@ -656,12 +663,12 @@
         left: -60px;
     }
 
-    .tabs-container {
+    /* .tabs-container {
         margin-left: 332px;
         padding-left: 45px;
         width: 60%;
         padding-top: 20px;
-    }
+    } */
 
     .nomeAgenda {
         font-size: 22px;

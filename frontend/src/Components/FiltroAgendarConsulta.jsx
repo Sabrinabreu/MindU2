@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import "../css/AgendarConsulta.css";
+// import "../css/AgendarConsulta.css";
 
 const FiltroBusca = ({ filterType, setFilterType, selectedProfession, setSelectedProfession, professionOptions, searchTerm, setSearchTerm }) => {
     return (
