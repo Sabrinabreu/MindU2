@@ -64,7 +64,6 @@
 .colCardAgenda {
     /* background-color: #5e40b0; */
     padding: 3% 0 5% 10%;
-    border-right: var(--name) 2px solid;
 }
 
 .imgPerfil {
@@ -483,6 +482,7 @@
     */
 }
 
+/* colocar no card depois */
 .agendarBot:hover {
     box-shadow: 0px 15px 20px #a89cdca0;
     transform: translateY(-7px);
@@ -552,12 +552,6 @@
 }
 
 @media (max-width: 601px) {
-    .imgPerfil {
-        width: 120px;
-        height: 120px;
-        top: -30px;
-        left: -20px;
-    }
 
     .primeiro,
     .segundo {
@@ -591,11 +585,6 @@
 }
 
 @media (max-width: 600px) {
-
-    .imgPerfil {
-        width: 100px;
-        height: 100px;
-    }
 
     .nomeAgenda {
         font-size: 22px;
@@ -635,15 +624,15 @@
 
 }
 
+@media (min-width:768px) {
+    .colCardAgenda {
+        border-right: var(--name) 2px solid;
+    }
+}
 
 @media (min-width: 680px) and (max-width:1130px) {
     * {
         max-width: 100% !important;
-    }
-
-    .imgPerfil {
-        top: -40px;
-        left: -50px;
     }
 
     /* .tabs-container {
