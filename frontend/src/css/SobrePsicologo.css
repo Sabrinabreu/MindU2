@@ -246,9 +246,10 @@
     border-radius: 4px;
     padding: 10px;
     margin: 5px 0;
-    margin-left: -5%;
+    margin-left: -4%;
     cursor: pointer;
-    width: 40%;
+    width: 20%;
+    margin-right: 25px;
     text-align: left; 
 }
 
@@ -414,7 +415,7 @@
 @media (max-width: 600px) {
 
     .perfilPsico{
-        margin-left: 20px;
+        margin-left: 2px;
         width: 100%;
     }
 
@@ -430,12 +431,18 @@
 
     .agenda {
         margin-top: 20px;
-        margin-left: 0;
-
+        width: 100%;
+        margin-left: 2px;
     }
 
     .contato, .biografia, .agenda {
-        margin-left: 4%;
+        width: 100%;
+        margin-left: 2px;
+    }
+
+    .datepicker {
+        padding: 0;
+        width: 100%;
     }
 
     .displayCalendario {
