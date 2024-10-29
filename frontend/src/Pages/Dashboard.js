@@ -3,11 +3,12 @@ import { Container, Row, Col } from "react-bootstrap";
 import '../css/Dashboard.css';
 import '../css/SideBar.css';
 import axios from "axios";
-import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX } from 'lucide-react';
+import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX, UserRoundPen } from 'lucide-react';
 import BAPO from "../Components/WidgetBAPO";
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -15,6 +16,9 @@ const Dashboard = () => {
     const [perfil, setPerfil] = useState({});
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [data, setData] = useState([]);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState(null);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         console.log('Dados:', data);
@@ -37,12 +41,11 @@ const Dashboard = () => {
     const { setToken } = useAuth();
     const navegacao = useNavigate();
     const token = localStorage.getItem('token');
-    const decodedToken = React.useMemo(() => parseJwt(token), [token]);
+    const decodedToken = parseJwt(token);
 
     useEffect(() => {
         setPerfil(decodedToken.perfil);
-    }, [decodedToken]);
-
+    }, [decodedToken.perfil]);
 
 
     const handleLogout = () => {
@@ -50,6 +53,47 @@ const Dashboard = () => {
         setToken(null);
         navegacao("/", { replace: true });
     };
+
+    
+    const handleDeleteAccount = () => {
+        setShowConfirmation(true);
+    };
+    
+    const confirmDelete = async () => {
+        // console.log("ID da empresa:", perfil.ID);
+        // console.log("Token:", decodedToken);
+        try {
+            await axios.delete(`http://localhost:3001/empresa/delete/${perfil.ID}`);
+            setError(false);
+            navegacao('/');
+            localStorage.removeItem('token');
+            setToken(null);
+            console.log("conta excluída com sucesso!");
+            setFeedbackMessage("Conta excluída com sucesso!");
+        } catch (error) {
+            setError(false);
+            console.error("Erro ao excluir conta:", error);
+            setFeedbackMessage("Erro ao excluir conta."); 
+        } finally {
+            setShowConfirmation(false); 
+        }
+    };
+    // A mensagem desaparece após 3 segundos
+    useEffect(() => {
+        if (feedbackMessage) {
+            const timer = setTimeout(() => {
+                setFeedbackMessage(null);
+            }, 3000);
+    
+            return () => clearTimeout(timer);
+        }
+    }, [feedbackMessage]);
+    
+    
+    
+      const cancelDelete = () => {
+        setShowConfirmation(false);
+      };
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
@@ -102,6 +146,12 @@ const Dashboard = () => {
         <>
             <BAPO />
 
+            {feedbackMessage && (
+                <div className={`confirmation-modal feedback-message ${error ? 'error' : 'success'}`}>
+                    {feedbackMessage}
+                </div>
+            )}
+
             {/* Sidebar */}
 
             <div id="navbar" className={isSidebarCollapsed ? 'collapsed' : ''}>
@@ -117,10 +167,22 @@ const Dashboard = () => {
                 </div>
                 <div id="nav-content">
                     <div className="nav-button">
-                        <i className="fas"><SquareChartGantt /></i><span>Seu Plano</span>
+                        <Link to="/seuplano">
+                            <i className="fas"><SquareChartGantt /></i>
+                            <span>Seu Plano</span>
+                        </Link>
                     </div>
                     <div className="nav-button">
-                        <i className="fas"><CopyPlus /></i><span>Adicionar Funcionários</span>
+                        <Link to="/adicionarfuncionarios">
+                            <i className="fas"><CopyPlus /></i>
+                            <span>Adicionar Funcionários</span>
+                        </Link>
+                    </div>
+                    <div className="nav-button">
+                        <Link to="/perfilempresa">
+                            <i className="fas"><UserRoundPen /></i>
+                            <span>Perfil</span>
+                        </Link>
                     </div>
                     <div id="nav-content-highlight"></div>
                 </div>
@@ -149,6 +211,18 @@ const Dashboard = () => {
                     </div>
                     <div id="nav-footer-content">
                         <button onClick={handleLogout} className="logout">Sair<LogOut className="logsvg" /></button>
+                        <button onClick={handleDeleteAccount} className="logout"> Deletar conta <CircleX className="logsvg" /> </button>
+
+                        {showConfirmation && (
+                            <>
+                            <div className="overlay"></div> 
+                            <div className="confirmation-modal">
+                            <p>Tem certeza de que deseja deletar sua conta? Todos os funcionários associados a esta empresa também serão deletados.</p>
+                            <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
+                            <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
+                            </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -170,9 +244,9 @@ const Dashboard = () => {
                             onChange={(e) => setSelectedCategory(e.target.value)}
                         >
                             <option value="all">Todos</option>
-                            <option value="CEO">CEO</option>
-                            <option value="Chairman">Chairman</option>
-                            <option value="Head of Digital">Head of Digital</option>
+                            <option value="Plano1">Plano Bem-Estar</option>
+                            <option value="Plano2">Plano Equilíbrio</option>
+                            <option value="Plano3">Plano Transformação</option>
                         </select>
                     </div>
                     <div className="search">
@@ -199,7 +273,7 @@ const Dashboard = () => {
                                             <Col lg={4} md={6} sm={6} xs={12}>
                                                 <div key={contafuncionarios.id} className="person-box">
                                                     <div className="box-avatar">
-                                                        <img src={contafuncionarios.foto} alt="foto do funcionário"/>
+                                                        <img src={contafuncionarios.foto} />
                                                     </div>
                                                     <div className="box-bio">
                                                         <h2 className="bio-name">{contafuncionarios.nome}</h2>

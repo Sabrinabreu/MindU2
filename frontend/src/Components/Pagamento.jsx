@@ -306,46 +306,51 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                         <label className="formlabel">Escolha o Tipo de Pagamento:</label>
                         <div className="payment-options">
                             <div className="payment-option-container">
-                            <label
-                                className={`payment-option ${paymentType === 'boleto' ? 'active' : ''}`}
-                                htmlFor="boleto"
-                                tabIndex={0} // Torna a label focável com o teclado
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        handlePaymentTypeChange({ target: { value: 'boleto' } }); // Chama a mudança de pagamento
-                                    }
-                                }}
-                            >
-                                Boleto
-                            </label>
+                                <label
+                                    className={`payment-option ${paymentType === 'boleto' ? 'active' : ''}`}
+                                    htmlFor="boleto"
+                                    tabIndex={0} // Torna a label focável com o teclado
+                                    onClick={() => handlePaymentTypeChange({ target: { value: 'boleto' } })} // Chama a mudança de pagamento ao clicar com o mouse
+                                    onKeyPress={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            handlePaymentTypeChange({ target: { value: 'boleto' } }); // Chama a mudança de pagamento com o teclado
+                                        }
+                                    }}
+                                >
+                                    Boleto
+                                </label>
                             </div>
+
                             <div className="payment-option-container">
-                            <label
-                                className={`payment-option ${paymentType === 'pix' ? 'active' : ''}`}
-                                htmlFor="pix"
-                                tabIndex={0} // Torna a label focável com o teclado
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        handlePaymentTypeChange({ target: { value: 'pix' } }); // Chama a mudança de pagamento
-                                    }
-                                }}
-                            >
-                                PIX
-                            </label>
+                                <label
+                                    className={`payment-option ${paymentType === 'pix' ? 'active' : ''}`}
+                                    htmlFor="pix"
+                                    tabIndex={0} // Torna a label focável com o teclado
+                                    onClick={() => handlePaymentTypeChange({ target: { value: 'pix' } })} // Chama a mudança de pagamento ao clicar com o mouse
+                                    onKeyPress={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            handlePaymentTypeChange({ target: { value: 'pix' } }); // Chama a mudança de pagamento com o teclado
+                                        }
+                                    }}
+                                >
+                                    PIX
+                                </label>
                             </div>
+
                             <div className="payment-option-container">
-                            <label
-                                className={`payment-option ${paymentType === 'cartao' ? 'active' : ''}`}
-                                htmlFor="cartao"
-                                tabIndex={0} // Torna a label focável com o teclado
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        handlePaymentTypeChange({ target: { value: 'cartao' } }); // Chama a mudança de pagamento
-                                    }
-                                }}
-                            >
-                                Cartão
-                            </label>
+                                <label
+                                    className={`payment-option ${paymentType === 'cartao' ? 'active' : ''}`}
+                                    htmlFor="cartao"
+                                    tabIndex={0} // Torna a label focável com o teclado
+                                    onClick={() => handlePaymentTypeChange({ target: { value: 'cartao' } })} // Chama a mudança de pagamento ao clicar com o mouse
+                                    onKeyPress={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            handlePaymentTypeChange({ target: { value: 'cartao' } }); // Chama a mudança de pagamento com o teclado
+                                        }
+                                    }}
+                                >
+                                    Cartão
+                                </label>
                             </div>
                         </div>
                     </div>

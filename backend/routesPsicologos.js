@@ -56,42 +56,26 @@ router.get('/psicologos', (req, res) => {
     });
 });
 
+// Função para buscar psicólogo por ID
+const getPsicologoById = async (id) => {
+    const [results] = await connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [id]);
+    return results[0]; 
+};
+
 // API para buscar um psicólogo por ID
-router.get('/psicologos/:psicologo_id', (req, res) => {
-    console.log(`Requisição recebida para ID: ${req.params.psicologo_id}`);
-    const id = req.params.psicologo_id;
-    connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [psicologo_id], (err, results) => {
-        if (err) {
-            console.error('Erro ao buscar o registro:', err);
-            return res.status(500).json({ error: 'Erro ao buscar o registro' });
-        }
-        if (results.length === 0) {
+router.get('/psicologos/:psicologo_id', async (req, res) => {
+    console.log('ID do psicólogo:', req.params.psicologo_id); 
+    try {
+        const psicologo = await getPsicologoById(req.params.psicologo_id);
+        if (!psicologo) {
             return res.status(404).json({ error: 'Psicólogo não encontrado' });
         }
-        res.json(results[0]);
-    });
+        res.json(psicologo);
+    } catch (error) {
+        console.error('Erro ao buscar psicólogo:', error);
+        res.status(500).json({ error: 'Erro ao buscar o registro' });
+    }
 });
-
-// // Rota para atualizar um psicólogo existente pelo ID
-// router.put('/:id', (req, res) => {
-//     const { id } = req.params;
-//     const { nome, especialidade, localizacao } = req.body;
-
-//     connection.query(
-//         'UPDATE psicologos SET nome = ?, especialidade = ?, localizacao = ? WHERE psicologo_id = ?',
-//         [nome, especialidade, localizacao, id],
-//         (err, result) => {
-//             if (err) {
-//                 console.error('Erro ao atualizar o psicólogo:', err);
-//                 return res.status(500).json({ error: 'Erro ao atualizar o psicólogo' });
-//             }
-//             if (result.affectedRows === 0) {
-//                 return res.status(404).json({ error: 'Psicólogo não encontrado' });
-//             }
-//             res.json({ message: 'Psicólogo atualizado com sucesso' });
-//         }
-//     );
-// });
 
 // Rota para excluir um psicólogo pelo ID
 router.delete('/:id', (req, res) => {

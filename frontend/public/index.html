@@ -7,41 +7,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Web site created using create-react-app" />
-  <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
   <title>Clinica MindU</title>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+
+  <!-- Botão VLibras acessível -->
   <div vw class="enabled">
-    <div vw-access-button class="active libras"></div>
+    <div id="vlibras-button" vw-access-button class="active libras" aria-label="Ativar tradução em Libras"
+      tabindex="0"></div>
     <div vw-plugin-wrapper>
-      <div class="vw-plugin-top-wrapper"></div>
+      <div id="vlibras" class="vw-plugin-top-wrapper" style="display: none;"></div>
     </div>
   </div>
+
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    // Função para ativar o VLibras
+    function activateVLibras() {
+      const vlibrasWidget = document.getElementById('vlibras');
+    }
+
+    // Certifica-se de que o DOM foi carregado
+    document.addEventListener('DOMContentLoaded', function () {
+      const vlibrasButton = document.getElementById('vlibras-button');
+
+      // Adiciona evento de clique
+      vlibrasButton.addEventListener('click', activateVLibras);
+
+      // Adiciona evento de teclado (Enter ou Espaço)
+      vlibrasButton.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault(); // Previne comportamento padrão (ex: rolar a página)
+          activateVLibras(); // Ativa o VLibras com Enter ou Espaço
+        }
+      });
+    });
+  </script>
+
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
   </script>
+
   <style>
+    /* Estilo das opções de texto do VLibras */
     [vp] .vpw-controls.vpw-selectText {
-      background-color: #7766c6 !important
+      background-color: #7766c6 !important;
     }
 
+    /* Estilo para a mudança de avatar */
     [vp] [vp-change-avatar] .vp-button-change-avatar.vp-selected {
       display: flex !important;
       background-color: #7766c6 !important;
@@ -53,32 +70,20 @@
       visibility: visible;
     }
 
+    /* Estilo do VLibras em tema escuro */
     [data-theme='dark'] #gameContainer canvas {
-      min-height: calc(0.7* 450px);
-      min-width: calc(0.9* 300px);
+      min-height: calc(0.7 * 450px);
+      min-width: calc(0.9 * 300px);
       height: 100%;
       width: 100%;
-      -webkit-filter: blur(0px);
-      -moz-filter: blur(0px);
-      -ms-filter: blur(0px);
-      -o-filter: blur(0px);
-      filter: blur(0px);
       background-color: slategrey;
     }
 
-
-    [vw] [wv-access-button].active {
+    /* Outras customizações visuais */
+    [vp] .vpw-controls.vpw-selectText {
       background-color: #7766c6 !important;
-
     }
   </style>
-
-
-
-
-
-
-
 </body>
 
 </html>

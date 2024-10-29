@@ -54,7 +54,7 @@ input:checked+.slider:before {
 
 @media (max-width: 991px) {
     .navCentro {
-    display: block;
+        display: block;
     }
 }
 
@@ -78,7 +78,7 @@ input:checked+.slider:before {
     background-color: #7766C6 !important;
     color: #ffffff;
     padding: 0 1.75%;
-    /* width: 100% !important; */
+    z-index: 9999 !important;
 }
 
 .custom-navbar .navbar-nav .nav-link {
