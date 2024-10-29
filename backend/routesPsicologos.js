@@ -5,7 +5,6 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 
-// Configuração do CORS
 router.use(cors());
 
 // Configuração do multer para o upload de arquivos
@@ -128,6 +127,37 @@ router.get('/by-name', (req, res) => {
         }
         res.json(results[0]);
     });
+});
+
+
+
+
+router.put('/:psicologo_id', async (req, res) => {
+    console.log('Requisição PUT recebida para psicólogo ID:', req.params.psicologo_id);
+    const { psicologo_id } = req.params; // Usando psicologo_id
+    const { biografia } = req.body; // Apenas biografia
+
+    console.log('Dados recebidos:', req.body);
+
+    if (!biografia) {
+        return res.status(400).json({ error: 'A biografia é obrigatória.' });
+    }
+
+    const sql = 'UPDATE psicologos SET biografia = ? WHERE psicologo_id = ?';
+    const params = [biografia, psicologo_id];
+
+    try {
+        const [result] = await connection.query(sql, params);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Psicólogo não encontrado' });
+        }
+
+        res.json({ message: 'Biografia atualizada com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao atualizar psicólogo:', error);
+        res.status(500).json({ error: 'Erro ao atualizar psicólogo' });
+    }
 });
 
 module.exports = router;

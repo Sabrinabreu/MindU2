@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import "../css/AgendarConsulta.css";
 import "../css/SobrePsicologo.css";
 import fundoPsico from '../img/fundoPsico.webp';
 import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
