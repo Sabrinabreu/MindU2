@@ -622,9 +622,6 @@
 
 
 @media (min-width: 680px) and (max-width:1130px) {
-    * {
-        max-width: 100% !important;
-    }
 
     .imgPerfil {
         top: -40px;
