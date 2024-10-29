@@ -604,6 +604,7 @@
 }
 
 @media (max-width: 600px) {
+
     .imgPerfil {
         width: 100px;
         height: 100px;
@@ -628,22 +629,13 @@
         height: 20px;
     }
 
-    .cardAgenda {
-        height: auto;
-        margin-bottom: 50px;
-    }
     .cardAgenda::before {
         display: none;
     }
 
     /* .tabs-container {
         margin-top: 15px;
-<<<<<<< HEAD
     } */
-=======
-        max-width: 100% !important;
-    }
->>>>>>> 361d49a9069a7c4dc9a55ccf2f5bc1bfc9e3c0cd
 
     .busca {
         margin-right: px;
@@ -691,7 +683,7 @@
     .chat-box {
         max-width: 500px !important;
     }
-}
+    }
 
 .spinner-border {
     width: 1.5rem;
