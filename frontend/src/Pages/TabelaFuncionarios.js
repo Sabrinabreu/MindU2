@@ -69,12 +69,14 @@ const TabelaFuncionarios = ({ contas }) => {
       name: "Login",
       selector: contaFuncionario => contaFuncionario.login,
       sortable: true,
-    },
-    {
+    },{
       name: "Senha",
       selector: contaFuncionario => contaFuncionario.senha
-    },
-    {
+    },{
+      name: "Plano",
+      selector: contaFuncionario => contaFuncionario.nomePlano,
+      sortable: true,
+    },{
       cell: contaFuncionario => (
         <Trash style={{ color: "red", padding: "1.5px" }} onClick={() => handleExcluirUsuario(contaFuncionario.login)} />
       )
@@ -115,7 +117,8 @@ const TabelaFuncionarios = ({ contas }) => {
       printWindow.document.write(`
       <div class="login-senha">
         <span>Login:</span> ${conta.login}<br>
-        <span>Senha:</span> ${conta.senha}
+        <span>Senha:</span> ${conta.senha}<br>
+        <span>Plano:</span> ${conta.nomePlano}
       </div>
     `);
     });
