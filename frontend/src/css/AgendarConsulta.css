@@ -206,13 +206,6 @@
     width: 108%;
 }
 
-/* .tabs-container {
-    margin-left: 432px;
-    margin-top: -310px;
-    margin-bottom: 350px;
-    width: 53%;
-} */
-
 .nav-tabs .nav-link {
     color: var(--tab);
     border: none;
@@ -470,9 +463,6 @@
     outline: none;
     margin-left: 25%;
     text-decoration: none;
-    /*
-    position: absolute;   ativar depois
-     */
 }
 
 .agendarBot {
@@ -491,9 +481,6 @@
     outline: none;
     margin-left: 25%;
     text-decoration: none;
-    /*
-    position: absolute;   ativar depois
-    */
 }
 
 .agendarBot:hover {
@@ -590,17 +577,6 @@
         height: 680px;
     }
 
-    /* .tabs-container {
-        margin-left: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        width: 100%;
-    } */
-
-    .cardAgenda::before {
-        display: none;
-    }
-
 }
 
 @media (max-width: 600px) {
@@ -633,10 +609,6 @@
         display: none;
     }
 
-    /* .tabs-container {
-        margin-top: 15px;
-    } */
-
     .busca {
         margin-right: px;
         width: 300px;
@@ -658,13 +630,6 @@
         top: -40px;
         left: -50px;
     }
-
-    /* .tabs-container {
-        margin-left: 332px;
-        padding-left: 45px;
-        width: 60%;
-        padding-top: 20px;
-    } */
 
     .nomeAgenda {
         font-size: 22px;

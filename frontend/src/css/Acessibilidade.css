@@ -4,7 +4,6 @@
     color: white;
     border: none;
     border-radius: 50%;
-    /* padding: 10px; */
     cursor: pointer;
     z-index: 2000;
     height: 37px !important;
@@ -46,7 +45,6 @@
 
 .word {
     transition: background-color 0.3s;
-    /* Para suavizar a mudança de destaque */
 }
 
 .accessibility-close {

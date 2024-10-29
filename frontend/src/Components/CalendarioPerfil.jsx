@@ -88,7 +88,7 @@ const CalendarioEDetalhes = ({
                                     <p><strong>Hora:</strong> {detail.horario || 'Hora não disponível'}</p>
                                     <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p>
                                     <p><strong>Assunto:</strong> {detail.assunto || 'Assunto não disponível'}</p>
-                                    <p><strong>Psicólogo:</strong> {detail.nomePsico || 'Psicólogo não disponível'}</p> {/* Exibindo o nome do psicólogo */}
+                                    <p><strong>Psicólogo:</strong> {detail.nomePsico || 'Psicólogo não disponível'}</p>
                                     <hr />
                                 </div>
                             ))
