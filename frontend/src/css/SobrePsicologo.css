@@ -421,8 +421,12 @@
     }
 
     .psicologo {
-        width: 100%;
-        max-width: 130px;
+        margin: 130px 0px 0px 10px !important;
+        width: 40%;
+    }
+    .infoPsico {
+        padding-bottom: 15px !important;
+        margin-left: 20px;
     }
 
     .valores {

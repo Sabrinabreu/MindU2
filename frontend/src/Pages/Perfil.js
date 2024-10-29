@@ -28,12 +28,14 @@ function Perfil() {
     const navegacao = useNavigate();
 
     const [consultasAgendadas, setConsultasAgendadas] = useState([]);
-    const [currentMonth] = useState(new Date());
+// Substitua a linha onde você declara currentMonth
+const [currentMonth, setCurrentMonth] = useState(new Date()); // Mês atual
 
     const [showPassword, setShowPassword] = useState(false);
     const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
+
 
     useEffect(() => {
 
@@ -58,20 +60,37 @@ function Perfil() {
     const handleDeleteAccount = () => {
         setShowConfirmation(true);
     };
+
+
+
+    const goToNextMonth = () => {
+        const nextMonth = new Date(currentMonth);
+        nextMonth.setMonth(currentMonth.getMonth() + 1); // Incrementa o mês
+        setCurrentMonth(nextMonth);
+    };
     
+    const goToPreviousMonth = () => {
+        const previousMonth = new Date(currentMonth);
+        previousMonth.setMonth(currentMonth.getMonth() - 1); // Decrementa o mês
+        setCurrentMonth(previousMonth);
+    };
+
+
+
+
     const confirmDelete = async () => {
         try {
             let deleteUrl = '';
-            
+
             // Verifica se é psicólogo ou funcionário
             if (perfil.psicologo_id) {
                 deleteUrl = `http://localhost:3001/psicologos/delete/${perfil.psicologo_id}`;
             } else if (perfil.id) {
                 deleteUrl = `http://localhost:3001/funcionarios/delete/${perfil.id}`;
             }
-    
+
             await axios.delete(deleteUrl);
-            
+
             setError(false);
             navegacao('/');
             localStorage.removeItem('token');
@@ -83,25 +102,25 @@ function Perfil() {
             console.error("Erro ao excluir conta:", error);
             setFeedbackMessage("Erro ao excluir conta.");
         } finally {
-            setShowConfirmation(false); 
+            setShowConfirmation(false);
         }
     };
-    
+
     // A mensagem desaparece após 3 segundos
     useEffect(() => {
         if (feedbackMessage) {
             const timer = setTimeout(() => {
                 setFeedbackMessage(null);
             }, 3000);
-    
+
             return () => clearTimeout(timer);
         }
     }, [feedbackMessage]);
-      
-    
-      const cancelDelete = () => {
+
+
+    const cancelDelete = () => {
         setShowConfirmation(false);
-      };
+    };
 
 
     const handleEditClick = () => {
@@ -111,24 +130,24 @@ function Perfil() {
 
     const validateForm = () => {
         const camposComuns = [
-            'nome', 'telefone', 'pergunta_seguranca', 
+            'nome', 'telefone', 'pergunta_seguranca',
             'resposta_seguranca', 'cpf'
         ];
-    
+
         const camposPsicologo = [
-            ...camposComuns, 'email', 'endereco', 'crp', 'preferenciaHorario', 
+            ...camposComuns, 'email', 'endereco', 'crp', 'preferenciaHorario',
             'disponibilidade', 'localizacao', 'motivacao', 'objetivos'
         ];
-    
+
         const camposFuncionario = [
             ...camposComuns, 'login', 'cargo'
         ];
-    
-        const camposObrigatorios = 
+
+        const camposObrigatorios =
             tipoUsuario === 'psicologo' ? camposPsicologo : camposFuncionario;
-    
+
         const algumCampoVazio = camposObrigatorios.some(campo => !perfil[campo]);
-    
+
         if (algumCampoVazio) {
             setErrorMessage('Preencha todos os campos obrigatórios.');
             return false;
@@ -136,27 +155,27 @@ function Perfil() {
 
         return true;
     };
-    
+
     const handleSave = async (e) => {
         e.preventDefault();
-    
+
         if (!validateForm()) return;
-    
+
         setErrorMessage('');
-    
+
         const updatedPerfil = {
             ...perfil,
             loginMethod: 'email',
             tipoUsuario,
         };
-    
+
         // Remove senha do payload se não fornecida
         if (!perfil.senha) delete updatedPerfil.senha;
-    
+
         try {
             const response = await axios.put(
-                'http://localhost:3001/api/atualizarPerfil', 
-                updatedPerfil, 
+                'http://localhost:3001/api/atualizarPerfil',
+                updatedPerfil,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -164,10 +183,10 @@ function Perfil() {
                     },
                 }
             );
-    
+
             if (response.status >= 200 && response.status < 300) {
                 const novoToken = response.data.token;
-    
+
                 setToken(novoToken);
                 localStorage.setItem('token', novoToken);
 
@@ -231,14 +250,14 @@ function Perfil() {
     const fetchConsultasAgendadas = async (usuarioId) => {
         try {
             const response = await axios.get(`http://localhost:3001/api/agendamentos`);
-            console.log("Consultas Agendadas:", response.data); 
+            console.log("Consultas Agendadas:", response.data);
             setConsultasAgendadas(response.data);
-            localStorage.setItem('consultasAgendadas', JSON.stringify(response.data)); 
+            localStorage.setItem('consultasAgendadas', JSON.stringify(response.data));
         } catch (error) {
             console.error('Erro ao buscar consultas agendadas:', error);
         }
 
-        
+
     };
 
     return (
@@ -263,7 +282,7 @@ function Perfil() {
                         <Card className='cardPerfil'>
                             <Card.Body>
                                 <div className="d-flex flex-column align-items-center text-center">
-                                <FotoPerfil name={perfil.nome || ''} />
+                                    <FotoPerfil name={perfil.nome || ''} />
                                     <div className="mt-3">
                                         <h4>{perfil.nome}</h4>
                                         <p>{perfil.login}</p>
@@ -321,16 +340,16 @@ function Perfil() {
                                     <Button className="editarBot mb-2" onClick={handleLogout}><LogOut /> Sair da conta</Button>
                                     <Button className="editarBot" onClick={handleDeleteAccount}> Deletar conta <CircleX className="logsvg" /> </Button>
 
-                                        {showConfirmation && (
-                                            <>
-                                            <div className="overlay"></div> 
+                                    {showConfirmation && (
+                                        <>
+                                            <div className="overlay"></div>
                                             <div className="confirmation-modal">
-                                            <p>Tem certeza de que deseja deletar sua conta? Essa ação é permanente e não pode ser desfeita.</p>
-                                            <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
-                                            <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
+                                                <p>Tem certeza de que deseja deletar sua conta? Essa ação é permanente e não pode ser desfeita.</p>
+                                                <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
+                                                <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
                                             </div>
-                                            </>
-                                        )}
+                                        </>
+                                    )}
                                 </ListGroup.Item>
                             </ListGroup>
                         </Card>
@@ -399,7 +418,7 @@ function Perfil() {
                                             )}
                                             {/* informações exclusivas de psicologo */}
                                             {tipoUsuario === 'psicologo' && (
-                                                <> 
+                                                <>
                                                     <Form.Group controlId="formEmail">
                                                         <Form.Label>Email</Form.Label>
                                                         <Form.Control
@@ -534,129 +553,131 @@ function Perfil() {
                                             {errorMessage && <p className="text-danger">{errorMessage}</p>}
                                         </Form>
 
-                                ) : (
-                                    <>
-                                        <Row>
-                                            <Col sm={3}><h6 className="mb-0">Nome </h6></Col>
-                                            <Col sm={9} className="text-secondary">{perfil.nome}</Col>
-                                        </Row>
-                                        <hr />
-                                        <Row>
-                                            <Col sm={3}><h6 className="mb-0">CPF</h6></Col>
-                                            <Col sm={9} className="text-secondary">{perfil.cpf}</Col>
-                                        </Row>
-                                        <hr />
-                                        <Row>
-                                            <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
-                                            <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
-                                        </Row>
-                                        {/* informações exclusivas de funcionario */}
-                                        {tipoUsuario === 'funcionario' && (
-                                        <>
-                                            <hr />
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Cargo</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.cargo}</Col>
-                                            </Row>
-                                        </>
-                                        )}
-                                        <hr />
-                                        {/* informações exclusivas de psicologo */}
-                                        {tipoUsuario === 'psicologo' && (
+                                    ) : (
                                         <>
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Email</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.email}</Col>
+                                                <Col sm={3}><h6 className="mb-0">Nome </h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.nome}</Col>
                                             </Row>
                                             <hr />
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Gênero</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.genero}</Col>
+                                                <Col sm={3}><h6 className="mb-0">CPF</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.cpf}</Col>
                                             </Row>
                                             <hr />
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Endereço</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.endereco}</Col>
+                                                <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
+                                            </Row>
+                                            {/* informações exclusivas de funcionario */}
+                                            {tipoUsuario === 'funcionario' && (
+                                                <>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Cargo</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.cargo}</Col>
+                                                    </Row>
+                                                </>
+                                            )}
+                                            <hr />
+                                            {/* informações exclusivas de psicologo */}
+                                            {tipoUsuario === 'psicologo' && (
+                                                <>
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Email</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.email}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Gênero</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.genero}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Endereço</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.endereco}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">CRP</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.crp}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Preferência de Horário</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.preferenciaHorario}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Disponibilidade</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.disponibilidade}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Motivação</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.motivacao}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Objetivos</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.objetivos}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                </>
+                                            )}
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">Senha</h6></Col>
+                                                <Col sm={9} className="text-secondary">
+                                                    {isEditing ? perfil.senha : '*****'}
+                                                </Col>
                                             </Row>
                                             <hr />
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">CRP</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.crp}</Col>
+                                                <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.pergunta_seguranca}</Col>
                                             </Row>
                                             <hr />
+                                            {isPsicologo && (
+                                                <>
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Biografia</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.biografia}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
+                                                    </Row>
+                                                    <hr />
+                                                </>
+                                            )}
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Preferência de Horário</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.preferenciaHorario}</Col>
+                                                <Col sm={12}>
+                                                    <Button className='editarBot' onClick={handleEditClick}><Pencil /> Editar</Button>
+                                                </Col>
                                             </Row>
-                                            <hr />
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Disponibilidade</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.disponibilidade}</Col>
-                                            </Row>
-                                            <hr />
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
-                                            </Row>
-                                            <hr />
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Motivação</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.motivacao}</Col>
-                                            </Row>
-                                            <hr />
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">Objetivos</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.objetivos}</Col>
-                                            </Row>
-                                            <hr />
                                         </>
-                                        )}
-                                        <Row>
-                                            <Col sm={3}><h6 className="mb-0">Senha</h6></Col>
-                                            <Col sm={9} className="text-secondary">
-                                                {isEditing ? perfil.senha : '*****'}
-                                            </Col>
-                                        </Row>
-                                        <hr />
-                                        <Row>
-                                            <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
-                                            <Col sm={9} className="text-secondary">{perfil.pergunta_seguranca}</Col>
-                                        </Row>
-                                        <hr />
-                                        {isPsicologo && (
-                                            <>
-                                                <Row>
-                                                    <Col sm={3}><h6 className="mb-0">Biografia</h6></Col>
-                                                    <Col sm={9} className="text-secondary">{perfil.biografia}</Col>
-                                                </Row>
-                                                <hr />
-                                                <Row>
-                                                    <Col sm={3}><h6 className="mb-0">Localização</h6></Col>
-                                                    <Col sm={9} className="text-secondary">{perfil.localizacao}</Col>
-                                                </Row>
-                                                <hr />
-                                                <Row>
-                                                    <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
-                                                    <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
-                                                </Row>
-                                                <hr />
-                                            </>
-                                        )}
-                                        <Row>
-                                            <Col sm={12}>
-                                                <Button className='editarBot' onClick={handleEditClick}><Pencil /> Editar</Button>
-                                            </Col>
-                                        </Row>
-                                    </>
-                                )}
-                            </Card.Body>
-                        )}
+                                    )}
+                                </Card.Body>
+                            )}
 
                         </Card>
 
                         {tipoUsuario === 'funcionario' && (
                             <Row>
                                 <Col>
+                                    <Button onClick={goToPreviousMonth}>◀</Button>
+                                    <Button onClick={goToNextMonth}>▶</Button>
                                     <Calendario
                                         currentMonth={currentMonth}
                                         consultationDetails={consultasAgendadas}
