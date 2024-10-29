@@ -9,7 +9,7 @@ const CriarContasFuncionarios = ({ nContas, setResultados, planoSelecionado, emp
             for (let i = 0; i < nContas; i++) {
                 const response = await axios.post('http://localhost:3001/contaFuncionarios', {
                     empresa_id: empresaId,
-                    nomePlano: planoSelecionado.nome  // Utilizando selectedPlan diretamente
+                    nomePlano: planoSelecionado.nome 
                 });
                 contasCriadas.push(response.data);
             }

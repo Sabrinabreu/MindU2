@@ -31,18 +31,17 @@
       const vlibrasWidget = document.getElementById('vlibras');
     }
 
-    // Certifica-se de que o DOM foi carregado
     document.addEventListener('DOMContentLoaded', function () {
       const vlibrasButton = document.getElementById('vlibras-button');
 
-      // Adiciona evento de clique
-      vlibrasButton.addEventListener('click', activateVLibras);
+      if (vlibrasButton) {
+        vlibrasButton.addEventListener('click', activateVLibras);
+      }
 
-      // Adiciona evento de teclado (Enter ou Espaço)
       vlibrasButton.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault(); // Previne comportamento padrão (ex: rolar a página)
-          activateVLibras(); // Ativa o VLibras com Enter ou Espaço
+          event.preventDefault();
+          activateVLibras();
         }
       });
     });

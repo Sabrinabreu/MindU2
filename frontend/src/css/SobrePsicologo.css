@@ -445,6 +445,47 @@
     .displayCalendario {
         margin-left: 0;
     }
+    .navbar-toggler-icon {
+        height: 1.5em !important;
+    }
+}
+
+/* versao ipad  */
+@media (min-width: 700px) and (max-width: 900px) {
+    .perfilPsico {
+        width: 90%;
+    }
+    .agenda {
+        height: auto;
+        width: 400px;
+        max-width: 150% !important;
+        margin-left: -25px;
+    }
+    .agendaConsulta {
+        padding: 1em 2em;
+        font-size: 14px;
+        margin-left: 30%;
+        margin-top: 10px;
+    }
+    .displayCalendario {
+        margin-left: 2%;
+    }
+    .datepicker-calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+    }
+    .datepicker {
+        padding: 0;
+        width: 100%;
+    }
+    .datepicker-top {
+        margin: 1rem;
+    }
+    .contato, .localizacao, .biografia {
+        margin-left: -25px;
+        width: 400px;
+        max-width: 150% !important;
+    }
 }
 
 

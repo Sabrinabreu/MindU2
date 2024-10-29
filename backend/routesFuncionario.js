@@ -22,11 +22,9 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(500).send('Falha ao autenticar token.');
     }
-
-    // Verifica se o `id_referencia` (empresa_id) existe no token
     console.log("Token decodificado:", decoded);
 
-    req.empresaId = decoded.id_referencia;  // Setando o `empresa_id` no req
+    req.empresaId = decoded.id_referencia;  // Seta o empresa id no req
     if (!req.empresaId) {
       return res.status(403).send('Empresa não identificada no token.');
     }
@@ -38,7 +36,7 @@ const verifyToken = (req, res, next) => {
 // Rota para criar contas de funcionários
 router.post('/contaFuncionarios', verifyToken, async (req, res) => {
   const { nomePlano, cpf, nome, cargo, telefone } = req.body;
-  const empresa_id = req.empresaId; // Pega o empresa_id do token
+  const empresa_id = req.empresaId;
 
   console.log("Inserindo plano:", nomePlano);
 
@@ -55,11 +53,11 @@ router.post('/contaFuncionarios', verifyToken, async (req, res) => {
 });
 
 
-// Rota para listar registros de funcionários da empresa logada com filtro opcional por loginMethod
+// Rota para listar registros de funcionários da empresa
 router.get('/contaFuncionarios', verifyToken, async (req, res) => {
   try {
-    const { loginMethod } = req.query; // Extrai o filtro opcional
-    const { empresaId } = req; // Obtém o ID da empresa a partir do token
+    const { loginMethod } = req.query; 
+    const { empresaId } = req;
 
     console.log('Empresa ID recebido na rota:', empresaId);
     console.log('Filtro loginMethod:', loginMethod);
@@ -67,7 +65,6 @@ router.get('/contaFuncionarios', verifyToken, async (req, res) => {
     let query = 'SELECT * FROM contaFuncionarios WHERE empresa_id = ?';
     const params = [empresaId];
 
-    // Se o loginMethod for fornecido, adiciona à query
     if (loginMethod) {
       query += ' AND loginMethod = ?';
       params.push(loginMethod);

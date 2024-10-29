@@ -381,7 +381,7 @@ const Acessibilidade = ({ toggleTheme }) => {
                                     className={classNames('accessibility-button', { 'active': activeButtons['darkMode'] })}
                                     onClick={() => {
                                         toggleClass('dark-mode', 'darkMode');
-                                        toggleTheme(); // Chamando a função para alternar o tema
+                                        toggleTheme();
                                     }}
                                     aria-label="Modo escuro"
                                 >

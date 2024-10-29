@@ -14,7 +14,7 @@ function gerarNovoToken(usuario, tipoUsuario) {
     perfil: { ...usuario }
   };
 
-  // Gera um novo token com as informações atualizadas
+  // Gera um novo token com as informações atualizadas a cada 1 hora
   return jwt.sign(payload, 'chave_secreta', { expiresIn: '1h' });
 }
 
@@ -64,11 +64,11 @@ router.put('/', async (req, res) => {
                 const hashedPassword = await bcrypt.hash(senha, saltRounds);
                 console.log('Senha criptografada:', hashedPassword);
 
-                query += `, senha = ?`; // Adiciona campo 'senha'
+                query += `, senha = ?`; 
                 params.push(hashedPassword);
             }
 
-            query += ` WHERE psicologo_id = ?`; // Finaliza a query
+            query += ` WHERE psicologo_id = ?`;
             params.push(psicologo_id);
         } 
         // Lógica para funcionário
@@ -95,11 +95,11 @@ router.put('/', async (req, res) => {
                 const hashedPassword = await bcrypt.hash(senha, saltRounds);
                 console.log('Senha criptografada:', hashedPassword);
 
-                query += `, senha = ?`; // Adiciona campo 'senha'
+                query += `, senha = ?`;
                 params.push(hashedPassword);
             }
 
-            query += ` WHERE id = ?`; // Finaliza a query
+            query += ` WHERE id = ?`;
             params.push(id);
         }
 

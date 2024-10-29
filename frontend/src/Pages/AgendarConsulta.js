@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// import "../css/AgendarConsulta.css";
-import { Container, Col } from 'react-bootstrap';
+import "../css/AgendarConsulta.css";
+import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
@@ -332,16 +332,22 @@ function AgendarConsulta() {
 
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
+        <Row>
         <Col md={12}>
           {filteredCards.length > 0 ? (
             filteredCards.map(psicologo => {
               const tabsData = getTabsForPsicologo(psicologo);
 
               return (
-                <div key={psicologo.psicologo_id} className="cardAgenda">
-                  <div className="content-container">
+                <div key={psicologo.psicologo_id}
+                // className="cardAgenda"
+                >
+                  <Row className="rowCardAgenda">
+                    <Col md={6} sm={12} className="colCardAgenda">
                     <img className='imgPerfil' src={tabs.find(tab => tab.id === psicologo.psicologo_id)?.foto || padraoPerfil} alt="Foto de Perfil" />
-                    <div className="primeiro">
+                    <div
+                    // className="primeiro"
+                    >
                       <h3 className='nomeAgenda'>{psicologo.nome}</h3>
                       <p className='profissao'>{psicologo.crp}</p>
                       <p className='profissao'>{psicologo.especialidade}</p>
@@ -352,14 +358,17 @@ function AgendarConsulta() {
                         ))}
                       </div>
                     </div>
-                    <div className='segundo'>
-                      <Col className='p-2'>
+                    <div
+                    // className='segundo'
+                    >
+                      <div className='p-2'>
                         <div className='sessao'>Duração da Sessão<br /><b className='hora'>1 Hora</b></div>
-                      </Col>
+                      </div>
                     </div>
+                    </Col>
 
 
-                    <div className="tabs-container">
+                    <Col md={6} sm={12} className="tabs-container">
                       <Tabs
                         defaultActiveKey="agenda"
                         id={`tabs-${psicologo.psicologo_id}`}
@@ -416,10 +425,10 @@ function AgendarConsulta() {
                         ))}
 
                       </Tabs>
-                    </div>
+                    </Col>
 
 
-                  </div>
+                  </Row>
                 </div>
               );
             })
@@ -427,6 +436,7 @@ function AgendarConsulta() {
             <div className='semResultado'>Nenhum resultado encontrado.</div>
           )}
         </Col >
+        </Row>
       </Container >
     </>
   );

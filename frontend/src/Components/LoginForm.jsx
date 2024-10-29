@@ -45,7 +45,6 @@ const LoginForm = () => {
       <Row className='rowLogin'>
         <Col className='colEsqLogin' md={6} sm={12}>
           <video className='loginVideo'
-          // width="100%" height='100%'
            autoPlay muted playsInline preload="auto" loop  >
             <source src={MentalBalanceVid} type='video/mp4' alt="imagem de mulher boiando na água para ilustrar login" />
             Seu navegador não suporta a tag de vídeo.
@@ -61,7 +60,7 @@ const LoginForm = () => {
             <button type="submit" className='inputLogin inputLoginbtn'>Entrar</button>
           </form>
             <div className='semContadiv'>
-              <p>Não possúi conta? Escolha uma das opções de cadastro:</p>
+              <p>Não possui conta? Escolha uma das opções de cadastro:</p>
               <Stack direction="horizontal" gap={3}>
                 <Col as={Link} className='opcaoCadastroCard' to="/cadastroPsicologos"><img src={iconPsicologo} alt="icone para ilustrar empresa" /><spam>Psicólogo</spam></Col>
                 <Col as={Link} className='opcaoCadastroCard' to="/cadastroEmpresa"><img src={iconEmpresa} alt="icone para ilustrar psicologo" /><spam>Empresa</spam></Col>

@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const connection = require('./db'); // Ajuste o caminho conforme necessário
+const connection = require('./db'); 
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { error } = require('console');

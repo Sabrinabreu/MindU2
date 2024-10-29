@@ -47,7 +47,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
   // Verifica se o tipo de usuário está permitido para acessar a rota
   if (!allowedRoles.includes(tipoUsuario)) {
-    return <Navigate to="/" replace />; // Redireciona para home ou outra página caso o usuário não tenha permissão
+    return <Navigate to="/" replace />; // Redireciona para home caso o usuário não tenha permissão
   }
 
   return children;

@@ -55,6 +55,14 @@
     color: #fff;
 }
 
+.rowCardAgenda {
+    background-color: aqua;
+}
+
+.colCardAgenda {
+    background-color: #5e40b0;
+}
+
 .cardAgenda {
     background: var(--back-card);
     padding: 20px;
@@ -71,6 +79,17 @@
     border: 0;
 }
 
+.cardAgenda::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    width: 1px;
+    background: var(--name);
+    z-index: 0;
+}
 
 .imgPerfil {
     width: 140px;
@@ -78,7 +97,7 @@
     border-radius: 6%;
     object-fit: cover;
     padding: 10px;
-    position: absolute;
+    position: relative;
     top: -30px;
     left: -70px;
     z-index: 1;
@@ -173,18 +192,6 @@
     background-color: #fff;
 }
 
-.cardAgenda::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    width: 1px;
-    background: var(--name);
-    z-index: 0;
-}
-
 .semResultado {
     font-size: 22px;
 }
@@ -197,13 +204,6 @@
 .nav-fill .nav-item .nav-link,
 .nav-justified .nav-item .nav-link {
     width: 108%;
-}
-
-.tabs-container {
-    margin-left: 432px;
-    margin-top: -310px;
-    margin-bottom: 350px;
-    width: 53%;
 }
 
 .nav-tabs .nav-link {
@@ -463,9 +463,6 @@
     outline: none;
     margin-left: 25%;
     text-decoration: none;
-    /*
-    position: absolute;   ativar depois
-     */
 }
 
 .agendarBot {
@@ -484,9 +481,6 @@
     outline: none;
     margin-left: 25%;
     text-decoration: none;
-    /*
-    position: absolute;   ativar depois
-    */
 }
 
 .agendarBot:hover {
@@ -583,24 +577,9 @@
         height: 680px;
     }
 
-    .tabs-container {
-        margin-left: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        width: 100%;
-    }
-
-    .cardAgenda::before {
-        display: none;
-    }
-
 }
 
 @media (max-width: 600px) {
-    * {
-        max-width: 100% !important;
-        height: auto !important;
-    }
 
     .imgPerfil {
         width: 100px;
@@ -630,10 +609,6 @@
         display: none;
     }
 
-    .tabs-container {
-        margin-top: 15px;
-    }
-
     .busca {
         margin-right: px;
         width: 300px;
@@ -647,18 +622,10 @@
 
 
 @media (min-width: 680px) and (max-width:1130px) {
-    * {
-        max-width: 100% !important;
-        height: auto !important;
-    }
 
     .imgPerfil {
         top: -40px;
-        left: -60px;
-    }
-
-    .tabs-container {
-        margin-left: 332px;
+        left: -50px;
     }
 
     .nomeAgenda {
@@ -668,8 +635,17 @@
 
     .cardAgenda {
         margin-bottom: 100px;
+        padding: 0 20px 20px 20px;
+        height: 400px;
     }
-}
+
+    .primeiro {
+        padding: 20px 0 10px 30px;
+    }
+    .chat-box {
+        max-width: 500px !important;
+    }
+    }
 
 .spinner-border {
     width: 1.5rem;
