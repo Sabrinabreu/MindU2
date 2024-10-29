@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import "../css/AgendarConsulta.css";
 import "../css/Disponibilidade.css";
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import DatePicker from './DispCalendario';

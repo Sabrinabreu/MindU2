@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
     const payload = {
       id: usuario.id,
       tipo_usuario: usuario.tipo_usuario,
-      id_referencia: usuario.id_referencia,  // ID relacionado ao tipo de usuário (empresa, funcionário ou psicólogo)
+      id_referencia: usuario.id_referencia, 
       perfil: userData  // Informações adicionais do perfil (empresa, funcionário ou psicólogo)
     };
 

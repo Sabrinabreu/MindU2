@@ -5,13 +5,12 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 
-// Configuração do CORS
 router.use(cors());
 
 // Configuração do multer para o upload de arquivos
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'img/'); // Diretório onde as imagens serão armazenadas
+        cb(null, 'img/');
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname)); // Renomeia o arquivo
@@ -23,7 +22,7 @@ const upload = multer({ storage });
 // Rota para criar um novo psicólogo
 router.post('/', upload.single('foto'), (req, res) => {
     const { nome, especialidade, localizacao } = req.body;
-    const foto = req.file ? req.file.path.replace(/\\/g, '/') : null; // Caminho da imagem (substitui \ por /)
+    const foto = req.file ? req.file.path.replace(/\\/g, '/') : null; // no caminho da imagem (substitui \ por /)
 
     if (!nome || !especialidade || !localizacao) {
         return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });

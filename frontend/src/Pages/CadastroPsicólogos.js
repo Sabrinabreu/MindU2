@@ -1,4 +1,4 @@
-// Home
+// CadastroPsico
 import React from 'react';
 import CadastroFormPsicologos from '../Components/CadastroFormPsicologos'
 import '../css/CadastroPsicólogos.css'

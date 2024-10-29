@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import "../css/AgendarConsulta.css";
 import '../css/Calendario.css';
 
 const DatePicker = ({ onDateSelect, diasDisponiveis }) => {

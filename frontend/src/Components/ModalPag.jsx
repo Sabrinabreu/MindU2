@@ -47,8 +47,6 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice, selected
             qtd_funcionarios: nContas,
         };
 
-        // console.log("Plano selecionado: ", planName);
-    
         try {
             const response = await axios.post('http://localhost:3001/api/compras', purchaseData);
             console.log('Compra salva com sucesso:', response.data);

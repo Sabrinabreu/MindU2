@@ -3,13 +3,11 @@ import '../css/ContasFuncionarios.css'
 
 const PagFuncionarios = ({ completeStep, setNContas, nContas }) => {
 
-    const [error, setError] = useState(''); // Estado para mensagem de erro
-    const maxContas = 100000; // Defina o número máximo de contas permitidas
+    const [error, setError] = useState(''); 
+    const maxContas = 100000; //número máximo de contas permitidas
 
     const handleChange = (e) => {
         let value = e.target.value;
-
-        // Se o valor for vazio, permita que o usuário apague o campo
         if (value === '') {
             setNContas('');
             setError('');
@@ -23,15 +21,13 @@ const PagFuncionarios = ({ completeStep, setNContas, nContas }) => {
         } else if (value < 1) {
             setError('É necessário criar no mínimo uma conta.');
         } else {
-            setNContas(value); // Atualiza o estado com o valor válido
-            setError(''); // Limpa a mensagem de erro se o valor for válido
+            setNContas(value); 
+            setError(''); 
         }
     };
 
     const handleSubmit = () => {
         const numericValue = Number(nContas);
-
-        // Se o número de contas for válido, permite avançar
         if (numericValue >= 1 && numericValue <= maxContas) {
             completeStep();
         } else if (numericValue > maxContas) {
@@ -54,7 +50,6 @@ const PagFuncionarios = ({ completeStep, setNContas, nContas }) => {
                     min="1"
                     max={maxContas}
                 />
-                {/* Exibe a mensagem de erro caso exista */}
                 {error && <p className="text-danger">{error}</p>}
             </form>
             <button className="btnCreate" type="button" onClick={handleSubmit}>

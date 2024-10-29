@@ -36,7 +36,7 @@ router.post('/disponibilidade/psicologo', (req, res) => {
 
     console.log('Dados recebidos para inserção:', dataDisponibilidade);
 
-    // Verifique se os dados necessários foram enviados
+    // Verifique se os dados foram enviados
     if (!Array.isArray(dataDisponibilidade) || dataDisponibilidade.length === 0) {
         console.log('Dados inválidos:', dataDisponibilidade);
         return res.status(400).json({ error: 'Dados incompletos ou inválidos' });
@@ -56,7 +56,7 @@ router.post('/disponibilidade/psicologo', (req, res) => {
     });
 });
 
-// Rota para listar todas as disponibilidades (opcional) 
+// Rota para listar todas as disponibilidades
 router.get('/disponibilidade', (req, res) => {
     connection.query('SELECT * FROM disponibilidadepsico', (err, results) => {
         if (err) {

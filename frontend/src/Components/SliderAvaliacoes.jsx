@@ -49,10 +49,8 @@ function Avaliacoes() {
     // Função para detectar teclas de seta e acionar os botões de navegação
     document.addEventListener('keydown', function (event) {
         if (event.key === 'ArrowLeft') {
-            // Simula um clique no botão "Anterior" do slide
             document.querySelector('.slick-prev').click();
         } else if (event.key === 'ArrowRight') {
-            // Simula um clique no botão "Próximo" do slide
             document.querySelector('.slick-next').click();
         }
     });
