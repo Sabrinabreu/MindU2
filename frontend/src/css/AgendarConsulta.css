@@ -604,11 +604,6 @@
 }
 
 @media (max-width: 600px) {
-    * {
-        max-width: 100% !important;
-        height: auto !important;
-    }
-
     .imgPerfil {
         width: 100px;
         height: 100px;
@@ -633,13 +628,22 @@
         height: 20px;
     }
 
+    .cardAgenda {
+        height: auto;
+        margin-bottom: 50px;
+    }
     .cardAgenda::before {
         display: none;
     }
 
     /* .tabs-container {
         margin-top: 15px;
+<<<<<<< HEAD
     } */
+=======
+        max-width: 100% !important;
+    }
+>>>>>>> 361d49a9069a7c4dc9a55ccf2f5bc1bfc9e3c0cd
 
     .busca {
         margin-right: px;
@@ -660,7 +664,7 @@
 
     .imgPerfil {
         top: -40px;
-        left: -60px;
+        left: -50px;
     }
 
     /* .tabs-container {
@@ -683,7 +687,9 @@
 
     .primeiro {
         padding: 20px 0 10px 30px;
-
+    }
+    .chat-box {
+        max-width: 500px !important;
     }
 }
 
