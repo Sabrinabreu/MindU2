@@ -653,7 +653,7 @@
 
     .imgPerfil {
         top: -40px;
-        left: -60px;
+        left: -50px;
     }
 
     .tabs-container {
@@ -676,7 +676,9 @@
 
     .primeiro {
         padding: 20px 0 10px 30px;
-
+    }
+    .chat-box {
+        max-width: 500px !important;
     }
 }
 
