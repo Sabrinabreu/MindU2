@@ -28,8 +28,7 @@ function Perfil() {
     const navegacao = useNavigate();
 
     const [consultasAgendadas, setConsultasAgendadas] = useState([]);
-// Substitua a linha onde você declara currentMonth
-const [currentMonth, setCurrentMonth] = useState(new Date()); // Mês atual
+    const [currentMonth, setCurrentMonth] = useState(new Date());
 
     const [showPassword, setShowPassword] = useState(false);
     const [isPsicologo] = useState(false);
@@ -44,12 +43,12 @@ const [currentMonth, setCurrentMonth] = useState(new Date()); // Mês atual
             setPerfil(decodedToken.perfil);
             setTipoUsuario(decodedToken.tipo_usuario);
 
-            // Se for um funcionário, buscar o nome da empresa pelo `empresa_id`
+            // Se for um funcionário, buscar o nome da empresa pelo empresa id
             if (decodedToken.tipo_usuario === 'funcionario') {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
-    }, [token]); // adiciona [token] para monitorar mudanças no token    
+    }, [token]); // monitorar mudanças no token    
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -62,19 +61,17 @@ const [currentMonth, setCurrentMonth] = useState(new Date()); // Mês atual
     };
 
 
-
     const goToNextMonth = () => {
         const nextMonth = new Date(currentMonth);
-        nextMonth.setMonth(currentMonth.getMonth() + 1); // Incrementa o mês
+        nextMonth.setMonth(currentMonth.getMonth() + 1);
         setCurrentMonth(nextMonth);
     };
     
     const goToPreviousMonth = () => {
         const previousMonth = new Date(currentMonth);
-        previousMonth.setMonth(currentMonth.getMonth() - 1); // Decrementa o mês
+        previousMonth.setMonth(currentMonth.getMonth() - 1);
         setCurrentMonth(previousMonth);
     };
-
 
 
 
@@ -232,7 +229,7 @@ const [currentMonth, setCurrentMonth] = useState(new Date()); // Mês atual
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
 
-            fetchConsultasAgendadas(decodedToken.perfil.id);/*pega os agendamentos*/
+            fetchConsultasAgendadas(decodedToken.perfil.id);
         }
     }, [token]);
 
@@ -404,7 +401,6 @@ const [currentMonth, setCurrentMonth] = useState(new Date()); // Mês atual
                                                         />
                                                     </Form.Group>
                                                     <Form.Group>
-                                                        {/* //mudar esses ids depois */}
                                                         <Form.Label>Cargo</Form.Label>
                                                         <Form.Control
                                                             className='mb-2'

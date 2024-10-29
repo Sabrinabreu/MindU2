@@ -182,18 +182,12 @@
     width: 108%;
 }
 
-.nav-item {
-    margin-right: 0 !important;
-}
-
-.nav-item button {
-    width: 100%  !important;
-    margin-right: 0 !important;
-}
-
-.tabs-container {
-    padding: 0;
-}
+/* .tabs-container {
+    margin-left: 432px;
+    margin-top: -310px;
+    margin-bottom: 350px;
+    width: 53%;
+} */
 
 .nav-tabs .nav-link {
     color: var(--tab);
@@ -452,9 +446,6 @@
     outline: none;
     margin-left: 25%;
     text-decoration: none;
-    /*
-    position: absolute;   ativar depois
-     */
 }
 
 
@@ -475,8 +466,6 @@
     outline: none;
     text-align: center !important;
     text-decoration: none;
-    justify-self: center;
-    display: flex;
     /*
     position: absolute;   ativar depois
     */
@@ -571,17 +560,6 @@
         height: 680px;
     }
 
-    /* .tabs-container {
-        margin-left: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        width: 100%;
-    } */
-
-    .cardAgenda::before {
-        display: none;
-    }
-
 }
 
 @media (max-width: 600px) {
@@ -609,10 +587,6 @@
         display: none;
     }
 
-    /* .tabs-container {
-        margin-top: 15px;
-    } */
-
     .busca {
         margin-right: px;
         width: 300px;
@@ -633,6 +607,11 @@
 @media (min-width: 680px) and (max-width:1130px) {
     * {
         max-width: 100% !important;
+    }
+
+    .imgPerfil {
+        top: -40px;
+        left: -50px;
     }
 
     /* .tabs-container {

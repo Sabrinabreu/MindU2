@@ -394,17 +394,6 @@ label[for="nav-footer-toggle"] {
   padding: 16px 0;
   color: var(--navbar-light-primary);
   font-size: .8rem;
-  /* overflow: auto;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 99px;
-    background-color: #583fc7;
-  } */
 }
 
 @media (max-width: 1100px) and (orientation: landscape) {

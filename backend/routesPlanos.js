@@ -1,5 +1,5 @@
 const express = require('express');
-const connection = require('./db'); // Certifique-se de que o caminho está correto
+const connection = require('./db'); 
 const router = express.Router();
 
 // Rota para listar todas as compras
@@ -16,7 +16,6 @@ router.get('/compras', async (req, res) => {
 router.get('/planos', async (req, res) => {
     try {
         const [results] = await connection.query('SELECT * FROM planos');
-        // Verifique se a consulta retornou resultados
         if (results.length === 0) {
             return res.status(404).json({ message: 'Nenhum plano encontrado' });
         }

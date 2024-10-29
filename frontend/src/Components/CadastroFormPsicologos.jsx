@@ -93,7 +93,6 @@ const CadastroFormPsi = () => {
 
             // Verifica se o ano é maior que 2024
             if (selectedYear > maxYear) {
-                // Se for maior que 2024, corrige para a data máxima permitida
                 setFormData((prev) => ({
                     ...prev,
                     [name]: "2024-12-31" // Corrige para a data máxima
@@ -147,7 +146,7 @@ const CadastroFormPsi = () => {
         catch (error) {
             console.error('Erro ao criar cadastro:', error);
             if (error.response && error.response.status === 400) {
-                setError(error.response.data.error); //erro do email
+                setError(error.response.data.error);
             } else {
                 setError('Erro ao criar cadastro. Verifique se algum campo não foi preenchido corretamente.');
             }
@@ -155,7 +154,7 @@ const CadastroFormPsi = () => {
         // Verifica se o erro é relacionado a duplicidade de entrada
         if (error.response && error.response.data && error.response.data.error === 'ER_DUP_ENTRY') {
             alert('Erro: Este CPF já foi utilizado.');
-            setError(error.response.data.error); // Define o erro no estado
+            setError(error.response.data.error);
         }
     };
 
@@ -181,9 +180,9 @@ const CadastroFormPsi = () => {
                                     id="dataNascimento"
                                     name="dataNascimento"
                                     value={formData.dataNascimento}
-                                    onChange={handleChange} // Permite que o usuário digite normalmente
-                                    onBlur={handleBlur} // Valida quando o campo perde o foco
-                                    max="2024-12-31"  // Ainda mantemos o limite máximo
+                                    onChange={handleChange} 
+                                    onBlur={handleBlur} 
+                                    max="2024-12-31"
                                     dateFormat="dd/mm/yy"
                                 />
                             </span>

@@ -50,13 +50,13 @@
 }
 
 .day-checkbox {
-    margin-bottom: 25px; /* Ajuste conforme necessário */
+    margin-bottom: 25px;
 }
 
 
 
 .updated-working-day {
-    background-color: lightgreen; /* Cor para dias de trabalho atualizados */
+    background-color: lightgreen; 
 }
 
 
@@ -76,8 +76,8 @@
 
 
 .updated-day {
-    background-color: green; /* Cor para dias atualizados */
-    color: white; /* Cor do texto */
+    background-color: green;
+    color: white; 
 }
 
 
@@ -87,8 +87,7 @@
 .cl-checkbox {
     position: relative;
    }
-   
-   /* Input */
+
    .cl-checkbox > input {
     appearance: none;
     -moz-appearance: none;
@@ -110,15 +109,13 @@
     pointer-events: none;
     transition: opacity 0.3s, transform 0.2s;
    }
-   
-   /* Span */
+ 
    .cl-checkbox > span {
     width: 100%;
     cursor: pointer;
     
    }
-   
-   /* Box */
+
    .cl-checkbox > span::before {
     content: "";
     display: inline-block;
@@ -127,7 +124,6 @@
     border: solid 2px;
     border-radius: 100% !important;
 
-    /* Safari */
     border-color: rgba(0, 0, 0, 0.6);
     border-radius: 2px;
     width: 18px;
@@ -135,8 +131,7 @@
     vertical-align: top;
     transition: border-color 0.2s, background-color 0.2s;
    }
-   
-   /* Checkmark */
+
    .cl-checkbox > span::after {
     content: "";
     display: block;

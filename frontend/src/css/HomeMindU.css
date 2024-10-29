@@ -950,9 +950,7 @@ body {
         justify-content: center !important;
         align-items: stretch !important;
         width: 300px !important;
-        /* Tamanho uniforme para todos os slides */
         height: 400px !important;
-        /* Altura uniforme */
         margin-left: -20px !important;
     }
 
@@ -1043,7 +1041,6 @@ body {
 
     .slide {
         width: 100% !important;
-        /* Ajusta a largura do slide para 80% */
         height: auto !important;
         margin: 0 auto !important;
     }

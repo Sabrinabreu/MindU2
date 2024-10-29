@@ -13,10 +13,16 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
         );
 
         // Formatar a resposta
-        const formattedDisponibilidades = disponibilidades.map(item => ({
-            data: item.data.toISOString().split('T')[0], // Formato YYYY-MM-DD
-            horario_inicio: item.horario_inicio.toString() // Formato HH:mm:ss
-        }));
+        const formattedDisponibilidades = disponibilidades.map(item => {
+            // Supondo que item.horario_inicio seja uma string no formato HH:mm:ss
+            const horarioInicio = item.horario_inicio; // Ex: "14:30:00"
+            const horarioFormatado = horarioInicio.substring(0, 5); // Extrai os primeiros 5 caracteres (HH:mm)
+        
+            return {
+                data: item.data.toISOString().split('T')[0], // Formato YYYY-MM-DD
+                horario_inicio: horarioFormatado // Formato HH:mm
+            };
+        });
 
         if (formattedDisponibilidades.length === 0) {
             return res.status(404).json({ message: 'Nenhuma disponibilidade encontrada.' });
@@ -31,32 +37,38 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
 
 
 // Rota para inserir a disponibilidade de um psicólogo 
-router.post('/disponibilidade/psicologo', (req, res) => {
-    const dataDisponibilidade = req.body;
+router.post('/disponibilidade/psicologo', async (req, res) => {
+    const { psicologo_id, data, horario_inicio, horario_fim } = req.body;
 
-    console.log('Dados recebidos para inserção:', dataDisponibilidade);
+    // Verifique se a data já existe
+    const [existingDisponibilidades] = await connection.query(
+        'SELECT * FROM disponibilidadepsico WHERE psicologo_id = ? AND data = ?',
+        [psicologo_id, data]
+    );
 
-    // Verifique se os dados necessários foram enviados
+<<<<<<< HEAD
+    if (existingDisponibilidades.length > 0) {
+        return res.status(400).json({ error: 'Disponibilidade já existe para essa data.' });
+=======
+    // Verifique se os dados foram enviados
     if (!Array.isArray(dataDisponibilidade) || dataDisponibilidade.length === 0) {
         console.log('Dados inválidos:', dataDisponibilidade);
         return res.status(400).json({ error: 'Dados incompletos ou inválidos' });
+>>>>>>> e1a8e90b0ea7bd39318f06d0e97695a1a1b80826
     }
 
-    // Cria uma query para inserir múltiplos registros
-    const query = 'INSERT INTO disponibilidadepsico (psicologo_id, data, horario_inicio, horario_fim) VALUES ?';
-    const values = dataDisponibilidade.map(item => [item.psicologo_id, item.data, item.horario_inicio, item.horario_fim]);
-
-    connection.query(query, [values], (error, results) => {
+    // Insira a nova disponibilidade
+    const query = 'INSERT INTO disponibilidadepsico (psicologo_id, data, horario_inicio, horario_fim) VALUES (?, ?, ?, ?)';
+    connection.query(query, [psicologo_id, data, horario_inicio, horario_fim], (error, results) => {
         if (error) {
             console.error('Erro ao inserir dados:', error);
             return res.status(500).json({ error: 'Erro ao inserir dados' });
         }
-        console.log('Disponibilidades inseridas com sucesso!');
-        res.status(201).json({ message: 'Disponibilidades inseridas com sucesso!', insertedCount: results.affectedRows });
+        res.status(201).json({ message: 'Disponibilidade inserida com sucesso!' });
     });
 });
 
-// Rota para listar todas as disponibilidades (opcional) 
+// Rota para listar todas as disponibilidades
 router.get('/disponibilidade', (req, res) => {
     connection.query('SELECT * FROM disponibilidadepsico', (err, results) => {
         if (err) {
@@ -67,4 +79,4 @@ router.get('/disponibilidade', (req, res) => {
     });
 });
 
-module.exports = router; 
+module.exports = router;

@@ -73,7 +73,7 @@ const Planos = () => {
         if (token) {
             const decodedToken = parseJwt(token);
             setTipoUsuario(decodedToken.tipo_usuario);
-            setEmpresaId(decodedToken.id_referencia); // Agora setEmpresaId está definido
+            setEmpresaId(decodedToken.id_referencia);
         }
     }, [token]);
 

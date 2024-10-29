@@ -713,9 +713,6 @@ body {
   color: #721c24;
 }
 
-
-
-
 @media (min-width: 800px) and (max-width: 900px) {
   .confirmation-modal {
     font-size: 18px;
