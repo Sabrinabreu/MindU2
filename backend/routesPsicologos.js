@@ -56,8 +56,15 @@ router.get('/psicologos', (req, res) => {
     });
 });
 
+// Função para buscar psicólogo por ID
+const getPsicologoById = async (id) => {
+    const [results] = await connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [id]);
+    return results[0]; 
+};
+
 // API para buscar um psicólogo por ID
 router.get('/psicologos/:psicologo_id', async (req, res) => {
+    console.log('ID do psicólogo:', req.params.psicologo_id); 
     try {
         const psicologo = await getPsicologoById(req.params.psicologo_id);
         if (!psicologo) {
@@ -69,22 +76,6 @@ router.get('/psicologos/:psicologo_id', async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar o registro' });
     }
 });
-/*
-// API para buscar um psicólogo por ID
-router.get('/psicologos/:psicologo_id', (req, res) => {
-    const psicologo_id = req.params.psicologo_id;
-    console.log(`Requisição recebida para ID: ${psicologo_id}`);
-    connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [psicologo_id], (err, results) => {
-        if (err) {
-            console.error('Erro ao buscar o registro:', err.message);
-            return res.status(500).json({ error: 'Erro ao buscar o registro' });
-        }
-        if (results.length === 0) {
-            return res.status(404).json({ error: 'Psicólogo não encontrado' });
-        }
-        res.json(results[0]);
-    });
-}); */
 
 // Rota para excluir um psicólogo pelo ID
 router.delete('/:id', (req, res) => {

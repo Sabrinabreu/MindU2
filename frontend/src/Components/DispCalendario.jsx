@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import "../css/Calendario.css";
 
-const DatePicker = ({ onDateSelect }) => {
+const DatePicker = ({ onDateSelect, updatedDays }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
 
-    const DatePicker = ({ onDateSelect }) => {
-        const handleDateChange = (date) => {
-            onDateSelect(date); // Passa a data selecionada para o componente pai
-        };
-    
-        return (
-            <input type="date" onChange={(e) => handleDateChange(new Date(e.target.value))} />
-        );
+    const handleDateChange = (date) => {
+        onDateSelect(date);
     };
 
     const handlePrevMonth = () => {
@@ -41,13 +35,15 @@ const DatePicker = ({ onDateSelect }) => {
 
         // Dias do mês
         for (let i = 1; i <= daysInMonth; i++) {
+            const dateToCheck = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
+            const isUpdated = updatedDays[dateToCheck.toISOString().split('T')[0]];
             const isToday = i === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear();
             const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
 
             dates.push(
                 <button
                     key={`date-${i}`}
-                    className={`date ${isToday ? 'current-day' : (isSelected ? 'selected-day' : '')}`}
+                    className={`date ${isToday ? 'current-day' : (isSelected ? 'selected-day' : '')} ${isUpdated ? 'updated-day' : ''}`}
                     onClick={() => handleDateClick(i)}
                 >
                     {i}

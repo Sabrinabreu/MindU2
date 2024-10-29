@@ -13,10 +13,16 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
         );
 
         // Formatar a resposta
-        const formattedDisponibilidades = disponibilidades.map(item => ({
-            data: item.data.toISOString().split('T')[0], // Formato YYYY-MM-DD
-            horario_inicio: item.horario_inicio.toString() // Formato HH:mm:ss
-        }));
+        const formattedDisponibilidades = disponibilidades.map(item => {
+            // Supondo que item.horario_inicio seja uma string no formato HH:mm:ss
+            const horarioInicio = item.horario_inicio; // Ex: "14:30:00"
+            const horarioFormatado = horarioInicio.substring(0, 5); // Extrai os primeiros 5 caracteres (HH:mm)
+        
+            return {
+                data: item.data.toISOString().split('T')[0], // Formato YYYY-MM-DD
+                horario_inicio: horarioFormatado // Formato HH:mm
+            };
+        });
 
         if (formattedDisponibilidades.length === 0) {
             return res.status(404).json({ message: 'Nenhuma disponibilidade encontrada.' });
@@ -67,4 +73,4 @@ router.get('/disponibilidade', (req, res) => {
     });
 });
 
-module.exports = router; 
+module.exports = router;

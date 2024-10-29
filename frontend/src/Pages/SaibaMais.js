@@ -9,7 +9,8 @@ import DatePicker from "../Components/Calendario";
 import axios from 'axios';
 
 const Agendar = () => {
-    const { psicologo_id } = useParams();
+    const { psicologo_id } = useParams(); 
+    
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -22,6 +23,9 @@ const Agendar = () => {
     const [nomePsico, setNomePsico] = useState('');
     const [telefone, setTelefone] = useState('');
     const [email, setEmail] = useState('');
+    const [crp, setCrp] = useState(''); 
+    const [localizacao, setLocalizacao] = useState(''); 
+    const [especialidade, setEspecialidade] = useState('');
 
     useEffect(() => {
         if (psicologo_id) {
@@ -30,18 +34,22 @@ const Agendar = () => {
         }
     }, [psicologo_id]);
 
+    // Função para buscar os dados do psicólogo
     const fetchPsicologoData = async (psicologo_id) => {
         try {
-            const token = localStorage.getItem('token'); // Obtendo o token do localStorage
+            const token = localStorage.getItem('token'); 
             const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`, {
                 headers: {
-                    Authorization: `Bearer ${token}` // Adicionando o token no cabeçalho
+                    Authorization: `Bearer ${token}` 
                 }
             });
             if (response.data) {
                 setNomePsico(response.data.nome);
                 setTelefone(response.data.telefone);
-                setEmail(response.data.email); // Supondo que a API retorne o email
+                setEmail(response.data.email); 
+                setCrp(response.data.crp);
+                setLocalizacao(response.data.localizacao); 
+                setEspecialidade(response.data.especialidade);
             }
         } catch (error) {
             console.error('Erro ao buscar dados do psicólogo:', error);
@@ -51,26 +59,30 @@ const Agendar = () => {
         }
     };
 
+    // Função para buscar as disponibilidades do psicólogo
     const fetchDisponibilidades = async (psicologo_id) => {
         try {
-            const token = localStorage.getItem('token'); // Obtendo o token do localStorage
-            const response = await axios.get(`http://localhost:3001/api/disponibilidades/${psicologo_id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}` // Adicionando o token no cabeçalho
-                }
-            });
-            setAvailableTimes(response.data);
-            const dias = new Set(response.data.map(item => new Date(item.data).toDateString()));
-            setDiasDisponiveis(dias);
+          const token = localStorage.getItem('token');
+          const response = await axios.get(`http://localhost:3001/api/disponibilidades/${psicologo_id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          const availableTimes = response.data.map(item => ({
+            data: item.data,
+            horario_inicio: item.horario_inicio.substring(0, 5) // (HH:mm)
+          }));
+          setAvailableTimes(availableTimes);
+          const dias = new Set(availableTimes.map(item => new Date(item.data).toDateString()));
+          setDiasDisponiveis(dias);
         } catch (error) {
-            console.error('Erro ao buscar disponibilidades:', error);
+          console.error('Erro ao buscar disponibilidades:', error);
         }
-    };
-
+      };
     const handleShow = () => {
         setShow(true);
         setSelectedTime(null);
-        setSelectedTipo(null);
+        setSelectedTipo (null);
         setAssunto('');
     };
 
@@ -96,7 +108,7 @@ const Agendar = () => {
 
     const handleSave = async () => {
         if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
- alert('Por favor, preencha todos os campos antes de salvar.');
+            alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
 
@@ -109,10 +121,10 @@ const Agendar = () => {
         };
 
         try {
-            const token = localStorage.getItem('token'); // Obtendo o token do localStorage
+            const token = localStorage.getItem('token'); 
             const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
                 headers: {
-                    Authorization: `Bearer ${token}` // Adicionando o token no cabeçalho
+                    Authorization: `Bearer ${token}`
                 }
             });
             alert(response.data.message);
@@ -136,9 +148,9 @@ const Agendar = () => {
                         <img className="psicologo" src={perfilPsicologo} alt="Perfil do psicólogo" />
                         <h4 className='nomePsico container p-4'>{nomePsico}</h4>
                         <div className='infoPsico'>
-                            <b>Psicólogo Cognitivo</b>
-                            <h6>Cornélio Procópio - PR</h6>
-                            <h6 className='crp'>214579 / CRP - 4ª Região</h6>
+                            <b>{especialidade}</b>
+                            <h6>{localizacao}</h6>
+                            <h6 className='crp'>{crp}</h6>
                         </div>
                     </div>
                 </Col>

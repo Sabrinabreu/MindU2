@@ -3,7 +3,7 @@ import "../css/AgendarConsulta.css";
 import "../css/Disponibilidade.css";
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import DatePicker from './DispCalendario';
-import { parseJwt } from '../Components/jwtUtils'; // Certifique-se de importar a função
+import { parseJwt } from '../Components/jwtUtils';
 
 const Disponibilidade = () => {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -19,7 +19,7 @@ const Disponibilidade = () => {
     });
     const [selectedDays, setSelectedDays] = useState({});
     const [updatedDays, setUpdatedDays] = useState({});
-    const [psicologoId, setPsicologoId] = useState(null); // Estado para armazenar o ID do psicólogo
+    const [psicologoId, setPsicologoId] = useState(null);
 
     const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 
@@ -31,13 +31,12 @@ const Disponibilidade = () => {
         }
     };
 
-    // Pega o ID do psicólogo
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             const decodedToken = parseJwt(token);
             const id = decodedToken.psicologo_id || decodedToken.id;
-            setPsicologoId(id); // Armazenar o ID no estado
+            setPsicologoId(id);
         } else {
             console.log('Token não encontrado.');
         }
@@ -69,35 +68,32 @@ const Disponibilidade = () => {
         const dataDisponibilidade = [];
 
         for (const day of daysOfWeek) {
-            if (selectedDays[day] && (!workingHours[day].start || !workingHours[day].end)) {
-                alert(`Por favor, preencha os horários de trabalho para ${day} antes de atualizar.`);
-                return;
-            }
-
             if (selectedDays[day]) {
                 // Aqui, você pode gerar as datas para todos os dias correspondentes no mês atual
                 const today = new Date();
                 const year = today.getFullYear();
                 const month = today.getMonth();
-
+        
                 for (let i = 1; i <= 31; i++) {
                     const date = new Date(year, month, i);
                     if (date.getMonth() !== month) break; // Se o mês mudou, saia do loop
-
+        
                     if (date.getDay() === daysOfWeek.indexOf(day)) { // Verifica se é o dia correspondente
                         const data = date.toISOString().split('T')[0]; // Formata a data para 'YYYY-MM-DD'
                         dataDisponibilidade.push({
-                            psicologo_id: psicologoId, // Usar o ID do psicólogo aqui
+                            psicologo_id: psicologoId,
                             data: data,
                             horario_inicio: workingHours[day].start,
                             horario_fim: workingHours[day].end
                         });
+        
+                        // Adiciona a data ao estado de dias atualizados
+                        setUpdatedDays(prev => ({
+                            ...prev,
+                            [data]: true // Armazena a data formatada como chave
+                        }));
                     }
                 }
-                setUpdatedDays(prev => ({
-                    ...prev,
-                    [day]: true
-                }));
             }
         }
 
@@ -174,7 +170,8 @@ const Disponibilidade = () => {
                 <Col md={6}>
                     <h1 className='mb-4 text-center textroxo'>Calendário</h1>
                     <DatePicker onDateSelect={handleDateSelect} updatedDays={updatedDays} />
-                </Col><Col md={6}>
+                </Col>
+                <Col md={6}>
                     {selectedDate ? (
                         <>
                             <h4 className='mt-4 text-center textroxo'>Eventos marcados para {selectedDate.toLocaleDateString()}</h4>
