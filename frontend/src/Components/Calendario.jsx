@@ -16,7 +16,7 @@ const DatePicker = ({ onDateSelect, diasDisponiveis }) => {
 
     const handleDateClick = (day) => {
         const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-        console.log('Data selecionada:', newDate); // Adicione este log
+        console.log('Data selecionada:', newDate); 
         setSelectedDate(newDate);
         onDateSelect(newDate);
     };

@@ -69,16 +69,15 @@ const Disponibilidade = () => {
 
         for (const day of daysOfWeek) {
             if (selectedDays[day]) {
-                // Aqui, você pode gerar as datas para todos os dias correspondentes no mês atual
                 const today = new Date();
                 const year = today.getFullYear();
                 const month = today.getMonth();
         
                 for (let i = 1; i <= 31; i++) {
                     const date = new Date(year, month, i);
-                    if (date.getMonth() !== month) break; // Se o mês mudou, saia do loop
+                    if (date.getMonth() !== month) break;
         
-                    if (date.getDay() === daysOfWeek.indexOf(day)) { // Verifica se é o dia correspondente
+                    if (date.getDay() === daysOfWeek.indexOf(day)) { 
                         const data = date.toISOString().split('T')[0]; // Formata a data para 'YYYY-MM-DD'
                         dataDisponibilidade.push({
                             psicologo_id: psicologoId,
@@ -86,11 +85,10 @@ const Disponibilidade = () => {
                             horario_inicio: workingHours[day].start,
                             horario_fim: workingHours[day].end
                         });
-        
-                        // Adiciona a data ao estado de dias atualizados
+
                         setUpdatedDays(prev => ({
                             ...prev,
-                            [data]: true // Armazena a data formatada como chave
+                            [data]: true 
                         }));
                     }
                 }

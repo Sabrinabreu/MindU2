@@ -8,6 +8,7 @@ import { CopyIcon } from 'lucide-react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { PDFDocument, rgb } from 'pdf-lib';
 import JsBarcode from 'jsbarcode';
+
 const PaymentForm = ({ selectedPlan, completeStep }) => {
     const [paymentType, setPaymentType] = useState('');
     const [cardNumber, setCardNumber] = useState('');
@@ -18,8 +19,6 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
     const [isCVCVisible, setIsCVCVisible] = useState(false);
     const [installments, setInstallments] = useState(1);
     const [nContas] = useState(1);
-
-    // Verifica se o preço do plano é um número válido, senão define como 0
     const initialPrice = parseFloat(selectedPlan?.price) || 0;
     const [totalPrice, setTotalPrice] = useState(initialPrice * nContas);
 
@@ -29,9 +28,8 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         setTotalPrice(price * nContas);
     }, [nContas, selectedPlan]);
 
-    // Função para formatar o número e substituir vírgulas por pontos no input
+    // Função para formatar o número e substituir vírgulas por ponto
     const formatCurrency = (value) => {
-        // Converte o valor para float e depois formata para moeda brasileira
         const formattedValue = parseFloat(value).toLocaleString('pt-BR', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
@@ -39,7 +37,6 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
         return formattedValue;
     };
 
-    // Garante que o cálculo da parcela seja válido
     const amountPerInstallment = installments > 0 ? formatCurrency(totalPrice / installments) : '0,00';
     const [formData, setFormData] = useState({
         name: '',
@@ -65,8 +62,6 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
             <Popover.Body>Chave PIX copiada!</Popover.Body>
         </Popover>
     );
-
-
 
     useEffect(() => {
         if (selectedPlan) {
@@ -309,7 +304,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                 <label
                                     className={`payment-option ${paymentType === 'boleto' ? 'active' : ''}`}
                                     htmlFor="boleto"
-                                    tabIndex={0} // Torna a label focável com o teclado
+                                    tabIndex={0} 
                                     onClick={() => handlePaymentTypeChange({ target: { value: 'boleto' } })} // Chama a mudança de pagamento ao clicar com o mouse
                                     onKeyPress={(e) => {
                                         if (e.key === 'Enter' || e.key === ' ') {
@@ -325,7 +320,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                 <label
                                     className={`payment-option ${paymentType === 'pix' ? 'active' : ''}`}
                                     htmlFor="pix"
-                                    tabIndex={0} // Torna a label focável com o teclado
+                                    tabIndex={0} 
                                     onClick={() => handlePaymentTypeChange({ target: { value: 'pix' } })} // Chama a mudança de pagamento ao clicar com o mouse
                                     onKeyPress={(e) => {
                                         if (e.key === 'Enter' || e.key === ' ') {
@@ -341,7 +336,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                 <label
                                     className={`payment-option ${paymentType === 'cartao' ? 'active' : ''}`}
                                     htmlFor="cartao"
-                                    tabIndex={0} // Torna a label focável com o teclado
+                                    tabIndex={0}
                                     onClick={() => handlePaymentTypeChange({ target: { value: 'cartao' } })} // Chama a mudança de pagamento ao clicar com o mouse
                                     onKeyPress={(e) => {
                                         if (e.key === 'Enter' || e.key === ' ') {
@@ -557,8 +552,8 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                             number={cardNumber}
                                             name={cardName}
                                             expiry={cardExpiry}
-                                            cvc={isCVCVisible ? cardCVC : ''} // Exibe o CVV somente se visível
-                                            focused={isCVCVisible ? 'cvc' : ''} // Foca no CVV se visível
+                                            cvc={isCVCVisible ? cardCVC : ''} 
+                                            focused={isCVCVisible ? 'cvc' : ''} 
                                             issuer={issuer}
                                         />
                                     </div>
@@ -623,13 +618,13 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
                                                         value={cardCVC}
                                                         onChange={(e) => {
                                                             setCardCVC(e.target.value);
-                                                            setIsCVCVisible(true); // Mantém o CVV visível ao digitar
+                                                            setIsCVCVisible(true);
                                                         }}
-                                                        onFocus={() => setIsCVCVisible(true)} // Foca no CVV
-                                                        onBlur={() => setIsCVCVisible(false)} // Desfoca o CVV
+                                                        onFocus={() => setIsCVCVisible(true)} 
+                                                        onBlur={() => setIsCVCVisible(false)}
                                                         placeholder="CVV"
                                                         style={{ width: '100%' }}
-                                                        maxLength="4" // Limita o CVV a 4 caracteres
+                                                        maxLength="4"
                                                     />
                                                 </div>
                                             </Col>
@@ -697,7 +692,7 @@ const PaymentForm = ({ selectedPlan, completeStep }) => {
             </Row>
             <Button
                 onClick={handleProceed}
-                disabled={!paymentType} // Desabilitar se nenhum tipo de pagamento estiver selecionado
+                disabled={!paymentType}
                 className="mt-3 btnCreate"
             >
                 Prosseguir

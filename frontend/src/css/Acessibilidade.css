@@ -369,7 +369,6 @@
     transition: outline 0.3s ease;
 }
 
-/* Estilo padrão */
 html.font-normal {
     font-size: 100%;
 }
@@ -398,76 +397,6 @@ html.font-small-2 {
 
 html.font-small-3 {
     font-size: 70%;
-}
-
-.keyboard-container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    /* Borda para o teclado */
-    border-radius: 5px;
-    /* Bordas arredondadas */
-    padding: 10px;
-    background-color: #f0f0f0;
-    /* Cor de fundo */
-}
-
-.react-simple-keyboard .hg-button {
-    background-color: #fff;
-    /* Cor das teclas */
-    border: 1px solid #ccc;
-    /* Borda das teclas */
-    border-radius: 3px;
-    /* Bordas arredondadas das teclas */
-    font-size: 16px;
-    /* Tamanho da fonte */
-    margin: 2px;
-    /* Margem entre as teclas */
-    transition: background-color 0.3s;
-    /* Transição suave */
-}
-
-.react-simple-keyboard .hg-button:hover {
-    background-color: #e0e0e0;
-    /* Cor de fundo ao passar o mouse */
-}
-
-.react-simple-keyboard .hg-button.hg-active {
-    background-color: #c0c0c0;
-    /* Cor ao pressionar a tecla */
-}
-
-.react-simple-keyboard .hg-button.hg-shift {
-    background-color: #d3d3d3;
-    /* Cor especial para tecla Shift */
-}
-
-.hg-theme-default .hg-row:not(:last-child) {
-    margin-bottom: 5px;
-    color: black !important;
-}
-
-.keyboard {
-    transform: scale(1.2) !important;
-    /* Aumenta o tamanho do teclado */
-    transition: transform 0.2s !important;
-    /* Adiciona uma transição suave */
-}
-
-[vp] .vpw-settings-btn {
-    padding: 0 10px;
-    background-color: #7766c6;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-[vp] .vpw-settings-btn div button svg {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-color: #7766c6 !important;
-    border-color: none !important;
 }
 
 /* versao mobile  */
