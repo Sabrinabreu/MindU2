@@ -36,7 +36,7 @@ const DatePicker = ({ onDateSelect, diasDisponiveis }) => {
             const isToday = date.toDateString() === new Date().toDateString();
             const isSelected = selectedDate && i === selectedDate.getDate() && currentMonth.getMonth() === selectedDate.getMonth() && currentMonth.getFullYear() === selectedDate.getFullYear();
             const isDisabled = date < new Date() || !diasDisponiveis.has(date.toDateString());
-
+            console.log('Dias Disponíveis:', diasDisponiveis);
             dates.push(
                 <button
                     key={`date-${i}`}

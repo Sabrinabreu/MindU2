@@ -60,7 +60,7 @@ function AgendarConsulta() {
     {
       eventKey: "especialidades",
       title: "Especialidades",
-      content: <p>Nenhuma especialidade listada.</p>,
+      content: <p>Clique aqui para listar suas especialidades .</p>,
     },
     {
       eventKey: "agenda",
@@ -235,13 +235,13 @@ function AgendarConsulta() {
           content: (
             <div className="especialidades">
               {[{ description: "Aconselhamento individual e em grupo" }, { description: "Desenvolvimento de autoestima" }, { description: "Coaching" }, { description: "Habilidades para lidar com estresse e ansiedade" }].map((servico, index) => (
-                <div key={index}>
-                  <p className='especialidade'>{servico.description}</p>
-                </div>
+                  <div key={index}>
+                    <p className='especialidade'>{servico.description}</p>
+                  </div>
               ))}
             </div>
           ),
-        },
+        },        
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para ele." }
       ]
     }
@@ -333,110 +333,123 @@ function AgendarConsulta() {
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
         <Row>
-        <Col md={12}>
-          {filteredCards.length > 0 ? (
-            filteredCards.map(psicologo => {
-              const tabsData = getTabsForPsicologo(psicologo);
+          <Col md={12}>
+            {filteredCards.length > 0 ? (
+              filteredCards.map(psicologo => {
+                const tabsData = getTabsForPsicologo(psicologo);
 
-              return (
-                <div key={psicologo.psicologo_id}
-                // className="cardAgenda"
-                >
-                  <Row className="rowCardAgenda">
-                    <img className='imgPerfil' src={tabs.find(tab => tab.id === psicologo.psicologo_id)?.foto || padraoPerfil} alt="Foto de Perfil" />
-                    <Col md={6} sm={12} className="colCardAgenda">
-                    
-                    <div
-                    // className="primeiro"
-                    >
-                      <h3 className='nomeAgenda'>{psicologo.nome}</h3>
-                      <p className='profissao'>{psicologo.crp}</p>
-                      <p className='profissao'>{psicologo.especialidade}</p>
-                      <p className='local'>{psicologo.localizacao}</p>
-                      <div className="estrelas">
-                        {[...Array(5)].map((_, i) => (
-                          <span key={i} className={`star ${i < psicologo.rating ? 'filled' : ''}`}></span>
-                        ))}
-                      </div>
-                    </div>
-                    <div
-                    // className='segundo'
-                    >
-                      <div className='p-2'>
-                        <div className='sessao'>Duração da Sessão<br /><b className='hora'>1 Hora</b></div>
-                      </div>
-                    </div>
-                    </Col>
+                return (
+                  <div key={psicologo.psicologo_id}
+                  // className="cardAgenda"
+                  >
+                    <Row className="rowCardAgenda">
+                      <img className='imgPerfil' src={tabs.find(tab => tab.id === psicologo.psicologo_id)?.foto || padraoPerfil} alt="Foto de Perfil" />
+                      <Col md={6} sm={12} className="colCardAgenda">
 
+                        <div
+                        // className="primeiro"
+                        >
+                          <h3 className='nomeAgenda'>{psicologo.nome}</h3>
+                          <p className='profissao'>{psicologo.crp}</p>
+                          <p className='profissao'>{psicologo.especialidade}</p>
+                          <p className='local'>{psicologo.localizacao}</p>
+                          <div className="estrelas">
+                            {[...Array(5)].map((_, i) => (
+                              <span key={i} className={`star ${i < psicologo.rating ? 'filled' : ''}`}></span>
+                            ))}
+                          </div>
+                        </div>
+                        <div
+                        // className='segundo'
+                        >
+                          <div className='p-2'>
+                            <div className='sessao'>Duração da Sessão<br /><b className='hora'>1 Hora</b></div>
+                          </div>
+                        </div>
+                      </Col>
 
-                    <Col md={6} sm={12} className="tabs-container">
-                      <Tabs
-                        defaultActiveKey="agenda"
-                        id={`tabs-${psicologo.psicologo_id}`}
-                        fill
-                        activeKey={activeTabs[psicologo.psicologo_id] || 'agenda'}
-                        onSelect={(k) => setActiveTabs(prev => ({ ...prev, [psicologo.psicologo_id]: k }))}>
-                        {tabsData.map((tab, i) => (
-                          <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
-                            {tab.eventKey === 'sobre' ? (
-                              psicologo.psicologo_id >= 8 ? ( // Para IDs 8 ou superiores
-                                <>
-                                  {editableInfo[psicologo.psicologo_id] ? (
-                                    <>
-                                      <input
-                                        type="text"
-                                        value={editedText[psicologo.psicologo_id] || psicologo.biografia}
-                                        onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
-                                      />
-                                      <button className='salvarEdicoes' onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <p style={{ marginRight: '10px' }}>{psicologo.biografia}</p>
-                                        <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
-                                          <Pencil />
-                                        </button>
-                                      </div>
-                                      <Link to={`/psicologo/${psicologo.psicologo_id}`} className="saibaMaisBot mt-3">
-                                        Saiba Mais
-                                      </Link>
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                <div>
-                                  <p>{tabs.find(tab => tab.id === psicologo.psicologo_id)?.tabs[0].content}</p>
-                                  {editableInfo[psicologo.psicologo_id] && ( // Para IDs 1 a 7
-                                    <>
+                      <Col md={6} sm={12} className="tabs-container">
+                        <Tabs
+                          defaultActiveKey="agenda"
+                          id={`tabs-${psicologo.psicologo_id}`}
+                          fill
+                          activeKey={activeTabs[psicologo.psicologo_id] || 'agenda'}
+                          onSelect={(k) => setActiveTabs(prev => ({ ...prev, [psicologo.psicologo_id]: k }))}>
+                          {tabsData.map((tab, i) => (
+                            <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
+                              {tab.eventKey === 'sobre' ? (
+                                // Lógica para "Sobre Mim"
+                                psicologo.psicologo_id >= 8 ? (
+                                  // Para IDs 8 ou superiores
+                                  <>
+                                    {editableInfo[psicologo.psicologo_id] ? (
+                                      <>
+                                        <textarea
+                                          className='textareaSobreMim'
+                                          value={editedText[psicologo.psicologo_id] || psicologo.biografia}
+                                          onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
+                                        ></textarea>
+                                        <button className='salvarEdicoes' onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                          <p style={{ marginRight: '10px' }}>{psicologo.biografia}</p>
+                                          <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
+                                            <Pencil />
+                                          </button>
+                                        </div>
+                                      </>
+                                    )}
+                                  </>
+                                ) : (
+                                  // Para IDs de 1 a 7
+                                  <div>
+                                    <p>{tabs.find(tab => tab.id === psicologo.psicologo_id)?.tabs[0].content}</p>
+                                    {editableInfo[psicologo.psicologo_id] && (
                                       <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Editar</button>
-                                    </>
-                                  )}
-                                </div>
-                              )
-                            ) : (
-                              <p>{tab.content}</p>
-                            )}
-                            {tab.eventKey === 'agenda' && (
-                              <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-                                Agendar
-                              </Link>
-                            )}
-                          </Tab>
-                        ))}
+                                    )}
+                                  </div>
+                                )
+                              ) : tab.eventKey === 'especialidades' ? (
+                                psicologo.psicologo_id >= 8 ? (
+                                  // Para IDs 8 ou superiores
+                                  <div>
+                                    <p>Aqui você pode listar as especialidades de forma editável...</p>
+                                    {/* Coloque a lógica aqui para editar as especialidades, se necessário */}
+                                  </div>
+                                ) : (
+                                  <div className="especialidades">
+                                    {tabs.find(tab => tab.id === psicologo.psicologo_id)?.tabs[1].content}
+                                  </div>
+                                )
+                              ) : (
+                                <p>{tab.content}</p>
+                              )}
 
-                      </Tabs>
-                    </Col>
+                              {tab.eventKey === 'sobre' && (
+                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+                                  Saiba Mais
+                                </Link>
+                              )}
 
-
-                  </Row>
-                </div>
-              );
-            })
-          ) : (
-            <div className='semResultado'>Nenhum resultado encontrado.</div>
-          )}
-        </Col >
+                              {tab.eventKey === 'agenda' && (
+                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+                                  Agendar
+                                </Link>
+                              )}
+                            </Tab>
+                          ))}
+                        </Tabs>
+                      </Col>
+                    </Row>
+                  </div>
+                );
+              })
+            ) : (
+              <div className='semResultado'>Nenhum resultado encontrado.</div>
+            )}
+          </Col >
         </Row>
       </Container >
     </>
