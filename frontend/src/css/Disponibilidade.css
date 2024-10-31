@@ -111,6 +111,7 @@
    }
  
    .cl-checkbox > span {
+    display: flex;
     width: 100%;
     cursor: pointer;
     
@@ -217,3 +218,24 @@
     background-color: currentColor;
    }
    
+   @media (min-width: 700px) and (max-width: 900px) {
+    .disponibilidade .datepicker {
+        padding: 0 !important;
+        width: calc(100% + 20px);
+        height: 350px;
+    }
+    .datepicker-calendar {
+        width: 20% !important;
+    }
+    .avisoSemData.dispon {
+        position: relative;
+        left: 20px;
+        width: calc(100% - 20px);
+    }
+}
+
+@media (min-width: 400px) and (max-width: 699px) {
+    .disponibilidade .datepicker {
+        padding: 15px;
+    }
+}
