@@ -91,12 +91,10 @@ const TabelaFuncionarios = ({ contas }) => {
     );
   }, [selectedRows]);
 
-  // Função para imprimir logins e senhas
   const handlePrint = () => {
     const printWindow = window.open('', '', 'height=400,width=600');
     printWindow.document.write('<html><head><title>Imprimir Logins e Senhas</title>');
 
-    // Adicione estilos para a impressão
     printWindow.document.write(`
     <style>
       body { font-family: Arial, sans-serif; }
@@ -110,7 +108,6 @@ const TabelaFuncionarios = ({ contas }) => {
     printWindow.document.write('</head><body>');
     printWindow.document.write('<h2>Logins e Senhas dos Funcionários</h2>');
 
-    // Adicione cada login e senha em um bloco
     contasFuncionarios.forEach(conta => {
       printWindow.document.write(`
       <div class="login-senha">

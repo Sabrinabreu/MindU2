@@ -26,7 +26,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         axios.get('http://localhost:3001/contafuncionarios', {
-            params: {loginMethod: 'email' }
+            params: { loginMethod: 'email' }
         })
             .then(response => {
                 console.log('Dados recebidos:', response.data);
@@ -34,7 +34,7 @@ const Dashboard = () => {
             })
             .catch(error => {
                 console.error("Erro ao buscar os dados:", error);
-            });              
+            });
     }, []);
 
 
@@ -54,11 +54,11 @@ const Dashboard = () => {
         navegacao("/", { replace: true });
     };
 
-    
+
     const handleDeleteAccount = () => {
         setShowConfirmation(true);
     };
-    
+
     const confirmDelete = async () => {
         // console.log("ID da empresa:", perfil.ID);
         // console.log("Token:", decodedToken);
@@ -73,9 +73,9 @@ const Dashboard = () => {
         } catch (error) {
             setError(false);
             console.error("Erro ao excluir conta:", error);
-            setFeedbackMessage("Erro ao excluir conta."); 
+            setFeedbackMessage("Erro ao excluir conta.");
         } finally {
-            setShowConfirmation(false); 
+            setShowConfirmation(false);
         }
     };
     // A mensagem desaparece após 3 segundos
@@ -84,16 +84,16 @@ const Dashboard = () => {
             const timer = setTimeout(() => {
                 setFeedbackMessage(null);
             }, 3000);
-    
+
             return () => clearTimeout(timer);
         }
     }, [feedbackMessage]);
-    
-    
-    
-      const cancelDelete = () => {
+
+
+
+    const cancelDelete = () => {
         setShowConfirmation(false);
-      };
+    };
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!isSidebarCollapsed);
@@ -123,7 +123,7 @@ const Dashboard = () => {
         const initials = names.slice(0, 2).map(n => n[0].toUpperCase()).join('');
         return initials;
     };
-    
+
     const getColorFromInitials = (initials) => {
         let hash = 0;
         for (let i = 0; i < initials.length; i++) {
@@ -132,7 +132,7 @@ const Dashboard = () => {
         const color = `#${((hash & 0x00FFFFFF) >> 0).toString(16).padStart(6, '0').toUpperCase()}`;
         return color;
     };
-    
+
     const getContrastingColor = (backgroundColor) => {
         const r = parseInt(backgroundColor.substring(1, 3), 16);
         const g = parseInt(backgroundColor.substring(3, 5), 16);
@@ -140,8 +140,6 @@ const Dashboard = () => {
         const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
         return luminosity > 128 ? '#000000' : '#FFFFFF';
     };
-    
-
     return (
         <>
             <BAPO />
@@ -189,17 +187,17 @@ const Dashboard = () => {
                 <input id="nav-footer-toggle" type="checkbox" />
                 <div id="nav-footer">
                     <div id="nav-footer-heading">
-                    <div id="nav-footer-avatar">
-                        <div
-                            className="profile-initials"
-                            style={{
-                                backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
-                                color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || '')))
-                            }}
-                        >
-                            {getInitials(perfil.empresa || '')}
+                        <div id="nav-footer-avatar">
+                            <div
+                                className="profile-initials"
+                                style={{
+                                    backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
+                                    color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || '')))
+                                }}
+                            >
+                                {getInitials(perfil.empresa || '')}
+                            </div>
                         </div>
-                    </div>
                         <div id="nav-footer-titlebox">
                             <a id="nav-footer-title"
                                 target="_blank" rel="noopener noreferrer">{perfil.empresa}</a>
@@ -215,12 +213,12 @@ const Dashboard = () => {
 
                         {showConfirmation && (
                             <>
-                            <div className="overlay"></div> 
-                            <div className="confirmation-modal">
-                            <p>Tem certeza de que deseja deletar sua conta? Todos os funcionários associados a esta empresa também serão deletados.</p>
-                            <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
-                            <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
-                            </div>
+                                <div className="overlay"></div>
+                                <div className="confirmation-modal">
+                                    <p>Tem certeza de que deseja deletar sua conta? Todos os funcionários associados a esta empresa também serão deletados.</p>
+                                    <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
+                                    <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
+                                </div>
                             </>
                         )}
                     </div>

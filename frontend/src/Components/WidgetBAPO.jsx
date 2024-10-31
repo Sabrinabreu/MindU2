@@ -21,7 +21,7 @@ const ChatWidget = () => {
     iframe: {
       borderRadius: '8px',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-      display: loading ? 'none' : 'block', 
+      display: loading ? 'none' : 'block',
     },
   };
 
@@ -47,7 +47,7 @@ const ChatWidget = () => {
             )}
             <div className="chat-iframe">
               <iframe
-                src="https://webchat.botframework.com/embed/MINDUCHATBOT123-bot?s=04cGCIU0y9Q.NAMR51EDE1AsEJ2yYQ_DnOa_Nm0ol6ydoZ8t0jQH1CE"
+                src="https://webchat.botframework.com/embed/MindU-bot?s=Cx14g-Jvgcc.Dgr5FuyBb_UiRt04wJgcjm_LjtqXY-IJbJafOCz8GOA"
                 title="Chatbot"
                 width="100%"
                 height="400px"
