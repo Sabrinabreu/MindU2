@@ -35,6 +35,8 @@ const upload = multer({
 
 // Rota para upload de arquivos
 router.post('/psicologos/upload', upload.single('certificados'), (req, res) => {
+
+
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'Nenhum arquivo enviado' });
@@ -145,8 +147,8 @@ router.post('/psicologos', upload.single('certificados'), async (req, res) => {
     const hashedPassword = await bcrypt.hash(senha, saltRounds);
 
     const [result] = await connection.query(
-      'INSERT INTO psicologos (nome, dataNascimento, genero, telefone, email, CPF, endereco, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, senha, certificados) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [nome, dataNascimento, genero, telefone, email, CPF, endereco, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, hashedPassword, certificados]
+      'INSERT INTO psicologos (nome, dataNascimento, genero, telefone, email, CPF, crp, endereco, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, senha, certificados) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [nome, dataNascimento, genero, telefone, email, CPF, crp, endereco, especialidade, preferenciaHorario, disponibilidade, localizacao, motivacao, objetivos, hashedPassword, certificados]
     );
 
     res.status(201).json({ message: 'Registro criado com sucesso', id: result.insertId });

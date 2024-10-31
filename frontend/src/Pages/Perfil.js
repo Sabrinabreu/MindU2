@@ -90,7 +90,7 @@ function Perfil() {
 
         const formData = new FormData();
         formData.append('fotoPerfil', file); // Certifique-se de que "file" é do tipo File
-        formData.append('funcionario'); // Exemplo: "funcionario" ou "psicologo"
+        formData.append('tipoUsuario','funcionario'); // Exemplo: "funcionario" ou "psicologo"
         formData.append('id', perfil.id); // ID especifico para funcionario
         if (perfil.tipoUsuario === 'psicologo') {
             formData.append('psicologo_id', perfil.psicologo_id); // ID específico para psicólogo, se aplicável

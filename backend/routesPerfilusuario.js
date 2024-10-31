@@ -40,7 +40,7 @@ router.post('/upload-foto', upload.single('fotoPerfil'), async (req, res) => {
     }
 
     const fotoUrl = `${req.file.filename}`;
-    const { tipoUsuario, id, psicologo_id } = req.body;
+    const { tipoUsuario, id, psicologo_id, ID } = req.body;
 
     try {
         let query;
@@ -48,7 +48,7 @@ router.post('/upload-foto', upload.single('fotoPerfil'), async (req, res) => {
 
         if (tipoUsuario === 'empresa') {
             query = `UPDATE cadastroempresa SET foto_perfil = ? WHERE ID = ?`;
-            params.push(id);
+            params.push(ID);
         } else if (tipoUsuario === 'funcionario') {
             query = `UPDATE contaFuncionarios SET foto_perfil = ? WHERE id = ?`;
             params.push(id);
