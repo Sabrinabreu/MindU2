@@ -23,13 +23,8 @@ function Perfil() {
     const [error, setError] = useState(false);
     const { setToken } = useAuth();
     const navegacao = useNavigate();
-    const [foto, setFoto] = useState(null);
-
     const [consultasAgendadas, setConsultasAgendadas] = useState([]);
-    const [currentMonth] = useState(new Date());
-
     const [showPassword, setShowPassword] = useState(false);
-    const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
 
@@ -37,6 +32,55 @@ function Perfil() {
         const file = event.target.files[0];
         if (file) {
             handleUpload(file); // Chama a função de upload passando o arquivo
+        }
+    };
+
+    // Função para carregar os dados do perfil
+    const fetchProfileData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/api/atualizarPerfil/dados-perfil');
+            setPerfil(response.data);
+        } catch (error) {
+            console.error('Erro ao carregar dados do perfil:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchProfileData();
+    }, []);
+    const fileInputRef = useRef(null);
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+        setPerfil(prevData => ({ ...prevData, senha: '' }));
+        setIsEditing(!isEditing); // Alterna o modo de edição
+    };
+
+    const handleUploadClick = () => {
+        fileInputRef.current.click(); // Abre o seletor de arquivo
+    };
+
+    const handleUpload = async (file) => {
+        const formData = new FormData();
+        formData.append('fotoPerfil', file);
+        formData.append('tipoUsuario', 'empresa'); // Ajuste conforme necessário
+        formData.append('ID', perfil.ID);
+
+        try {
+            const response = await axios.post('http://localhost:3001/api/atualizarPerfil/upload-foto', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            // Atualiza o perfil com a nova URL da foto de perfil
+            setPerfil((prevPerfil) => ({
+                ...prevPerfil,
+                foto_perfil: response.data.url, // Usa a URL retornada pelo backend
+            }));
+            console.log('Foto enviada com sucesso:', response.data);
+        } catch (error) {
+            console.error('Erro ao fazer upload da foto:', error);
         }
     };
 
@@ -54,52 +98,7 @@ function Perfil() {
         }
     }, [token]); // adiciona [token] para monitorar mudanças no token    
 
-    const fileInputRef = useRef(null);
-
-    useEffect(() => {
-        // Simula a carga inicial dos dados do perfil, incluindo a URL da foto
-        async function fetchProfileData() {
-            try {
-                const response = await axios.get('http://localhost:3001/api/atualizarPerfil/dados-perfil');
-                setPerfil(response.data); // Carrega todos os dados do perfil, incluindo a foto
-            } catch (error) {
-                console.error('Erro ao carregar dados do perfil:', error);
-            }
-        }
-        fetchProfileData();
-    }, []);
-
-    const handleUploadClick = () => {
-        fileInputRef.current.click();
-    };
-
-
-    const handleUpload = async (file) => {
-        const formData = new FormData();
-        formData.append('fotoPerfil', file); // Certifique-se de que o nome seja 'fotoPerfil'
-        formData.append('tipoUsuario', 'empresa'); // ou 'psicologo', 'funcionario', conforme o contexto
-        formData.append('ID', perfil.ID); // Certifique-se de que o ID está presente no `perfil`
-
-        try {
-            const response = await axios.post('http://localhost:3001/api/atualizarPerfil/upload-foto', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-
-            // Atualiza o perfil com a nova URL da foto de perfil
-            setPerfil((prevPerfil) => ({
-                ...prevPerfil,
-                foto_perfil: response.data.url, // Usa a URL retornada pelo backend
-            }));
-
-            console.log('Foto enviada com sucesso:', response.data);
-        } catch (error) {
-            console.error('Erro ao fazer upload da foto:', error);
-        }
-    };
-
-
+    
     const handleLogout = () => {
         localStorage.removeItem('token');
         setToken(null);
@@ -152,12 +151,6 @@ function Perfil() {
 
     const cancelDelete = () => {
         setShowConfirmation(false);
-    };
-
-
-    const handleEditClick = () => {
-        setIsEditing(true);
-        setPerfil(prevData => ({ ...prevData, senha: '' }));
     };
 
     const validateForm = () => {
@@ -316,22 +309,36 @@ function Perfil() {
                         <Card className='cardPerfil'>
                             <Card.Body>
 
-                                <div className="d-flex flex-column align-items-center text-center">
-                                    <div onClick={handleUploadClick} style={{ cursor: 'pointer' }}>
-                                        <FotoPerfil
-                                            src={perfil.foto_perfil ? `http://localhost:3001${perfil.foto_perfil}` : null}
-                                            name={perfil.empresa || ''}
-                                        />
+                                <div>
+                                    <div className="d-flex flex-column align-items-center text-center">
+                                        <div onClick={isEditing ? handleUploadClick : null} style={{ cursor: isEditing ? 'pointer' : 'default' }}>
+                                            <FotoPerfil
+                                                src={perfil.foto_perfil ? `http://localhost:3001${perfil.foto_perfil}` : null}
+                                                name={perfil.empresa || ''}
+                                            />
+                                        </div>
+
+                                        <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+
+                                        <div className="mt-3">
+                                            <h4>{perfil.nome}</h4>
+                                            <p>{perfil.login}</p>
+                                            <p className="text-muted font-size-sm">..</p>
+                                        </div>
                                     </div>
 
 
-                                    <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
 
-                                    <div className="mt-3">
-                                        <h4>{perfil.nome}</h4>
-                                        <p>{perfil.login}</p>
-                                        <p className="text-muted font-size-sm">..</p>
-                                    </div>
+                                    {/* Botão "Editar Foto" visível somente no modo de edição */}
+                                    {isEditing && (
+                                        <Row>
+                                            <Col sm={12}>
+                                                <Button className='editarBot' onClick={handleUploadClick}>
+                                                    <Pencil /> Editar Foto
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    )}
                                 </div>
                             </Card.Body>
                         </Card>
@@ -534,9 +541,12 @@ function Perfil() {
                                             </Row>
                                             <hr />
 
+                                            {/* Botão para alternar o modo de edição */}
                                             <Row>
                                                 <Col sm={12}>
-                                                    <Button className='editarBot' onClick={handleEditClick}><Pencil /> Editar</Button>
+                                                    <Button className='editarBot' onClick={handleEditClick}>
+                                                        <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
+                                                    </Button>
                                                 </Col>
                                             </Row>
                                         </>

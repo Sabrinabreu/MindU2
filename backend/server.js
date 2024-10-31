@@ -36,7 +36,7 @@ app.use('/', rotaFuncionario);
 app.use('/api/psicologos', rotaPsicologos);
 app.use('/api/', rotaPlanos);
 app.use('/api', agendamentoRoutes);
-app.use('/api/atualizarPerfil/upload-foto', rotaPerfilsuario);
+app.use('/api/atualizarPerfil', rotaPerfilsuario);
 app.use('/api', disponibilidadesRoutes);
 app.use('/api', rotaEsqueciSenha);
 app.use('/', rotaDelete);

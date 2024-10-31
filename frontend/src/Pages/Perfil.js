@@ -59,7 +59,17 @@ function Perfil() {
     const handleDeleteAccount = () => {
         setShowConfirmation(true);
     };
-    
+    const goToNextMonth = () => {
+        const nextMonth = new Date(currentMonth);
+        nextMonth.setMonth(currentMonth.getMonth() + 1);
+        setCurrentMonth(nextMonth);
+    };
+
+    const goToPreviousMonth = () => {
+        const previousMonth = new Date(currentMonth);
+        previousMonth.setMonth(currentMonth.getMonth() - 1);
+        setCurrentMonth(previousMonth);
+    };
     const confirmDelete = async () => {
         try {
             let deleteUrl = '';
@@ -264,7 +274,7 @@ function Perfil() {
                         <Card className='cardPerfil'>
                             <Card.Body>
                                 <div className="d-flex flex-column align-items-center text-center">
-                                <FotoPerfil name={perfil.nome || ''} />
+                                    <FotoPerfil name={perfil.nome || ''} />
                                     <div className="mt-3">
                                         <h4>{perfil.nome}</h4>
                                         <p>{perfil.login}</p>

@@ -18,6 +18,10 @@ router.post('/login', async (req, res) => {
       return res.status(404).json({ error: 'Usuário ou senha incorretos' });
     }
 
+
+    console.log('Dados do usuário: ', userResult);
+
+
     const usuario = userResult[0];
     let userData = {};
 
@@ -50,7 +54,7 @@ router.post('/login', async (req, res) => {
     const payload = {
       id: usuario.id,
       tipo_usuario: usuario.tipo_usuario,
-      id_referencia: usuario.id_referencia, 
+      id_referencia: usuario.id_referencia,
       perfil: userData  // Informações adicionais do perfil (empresa, funcionário ou psicólogo)
     };
 
@@ -63,6 +67,7 @@ router.post('/login', async (req, res) => {
     console.error('Erro ao autenticar o usuário:', err);
     res.status(500).json({ error: 'Erro ao processar o login' });
   }
+
 });
 
 module.exports = router;
