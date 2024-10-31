@@ -63,7 +63,7 @@
 
 .colCardAgenda {
     /* background-color: #5e40b0; */
-    padding: 0
+    padding: 3% 0 5% 10%;
 }
 
 .imgPerfil {
@@ -73,6 +73,8 @@
     object-fit: cover;
     padding: 10px;
     position: absolute;
+    /* top: -30px; */
+    /* left: -70px; */
     transform: translateX(-40%) translateY(-20%);
     z-index: 1;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -170,22 +172,22 @@
     font-size: 22px;
 }
 
-.tabs-container {
-    margin: 0;
-    padding: 0;
-}
-
+/* Tabs */
 .nav-tabs {
     --bs-nav-tabs-border-width: transparent;
-    width: 103% !important;
-    display: flex;
-    justify-content: center;
 }
 
 .nav-fill .nav-item .nav-link,
 .nav-justified .nav-item .nav-link {
-    width: 100%;
+    width: 108%;
 }
+
+/* .tabs-container {
+    margin-left: 432px;
+    margin-top: -310px;
+    margin-bottom: 350px;
+    width: 53%;
+} */
 
 .nav-tabs .nav-link {
     color: var(--tab);
@@ -464,8 +466,9 @@
     outline: none;
     text-align: center !important;
     text-decoration: none;
-    display: block;
-    justify-self: center;
+    /*
+    position: absolute;   ativar depois
+    */
 }
 
 /* colocar no card depois */
@@ -597,56 +600,35 @@
 @media (min-width:768px) {
     .colCardAgenda {
         border-right: var(--name) 2px solid;
-        padding: 3% 0 5% 10%;
     }
+}
+
+@media (min-width: 680px) and (max-width:1130px) {
+    * {
+        max-width: 100% !important;
+    }
+
     .imgPerfil {
-        left: 7.5%;
-        width: 130px;
-        height: 150px;
+        top: -40px;
+        left: -50px;
     }
-    .sessao {
-        padding: 1em 0;
-        display: block;
-        width: 280px;
-        position: relative;
-        left: -70px;
-    }
-}
 
-@media (max-width: 767px) {
-    .imgPerfil {
-        left: 50%;
-        transform: translateX(-50%) translateY(-30px);
-        position: relative;
-        justify-self: center;
-        width: 130px;
-        height: 150px;
-    }
-    .txtCardAgenda {
-      place-items: center;
-    }
-    .nav-tabs {
-        width: 104% !important;
-    }
-}
-
-@media (max-width:1131px) and (min-width:767px) {
-    .colCardAgenda {
-        padding-left: 13%;
-    }
-}
-
-@media (min-width: 1130px) and (max-width: 1200px) {
-    .colCardAgenda {
-        padding-left: 8%;
-    }
-}
-
-@media (min-width: 680px) and (max-width:900px) {
+    /* .tabs-container {
+        margin-left: 332px;
+        padding-left: 45px;
+        width: 60%;
+        padding-top: 20px;
+    } */
 
     .nomeAgenda {
         font-size: 22px;
         margin-left: -10px;
+    }
+
+    .cardAgenda {
+        margin-bottom: 100px;
+        padding: 0 20px 20px 20px;
+        height: 400px;
     }
 
     .primeiro {
@@ -655,13 +637,6 @@
     .chat-box {
         max-width: 500px !important;
     }
-    }
-
-    @media (min-width: 780px) and (max-width:900px) {
-
-        .nav-tabs {
-            width: 104% !important;
-        }
     }
 
 .spinner-border {

@@ -15,10 +15,12 @@ const DatePicker = ({ onDateSelect, diasDisponiveis }) => {
 
     const handleDateClick = (day) => {
         const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-        console.log('Data selecionada:', newDate); 
+        if (!diasDisponiveis.has(newDate.toDateString())) return; // Não permite a seleção de datas não disponíveis
+        console.log('Data selecionada:', newDate);
         setSelectedDate(newDate);
         onDateSelect(newDate);
     };
+    
 
     const generateDays = () => {
         const startDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
