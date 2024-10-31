@@ -100,10 +100,10 @@ const Planos = () => {
             <BAPO />
             <Container className="caixaPlanos">
                 <h2 className="mb-4 text-center textroxo textclaro">Nossos Planos</h2>
-                <Row className="assinatura">
+                <Row className="assinatura rowPlanos">
                     {Array.isArray(planos) && planos.length > 0 ? (
                         planos.map((plano, index) => (
-                            <Col md={4} key={plano.id}>
+                            <Col md={4} key={plano.id} className="colPlanos">
                                 <div className="plan mt-2">
                                     <div className="inner">
                                         <p className="title">{plano.nome}</p>

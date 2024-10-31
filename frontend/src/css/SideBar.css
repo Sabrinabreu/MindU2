@@ -328,7 +328,6 @@ label[for="nav-toggle"] {
   flex-direction: column;
   z-index: 2;
   transition: width .2s, height .2s;
-  overflow: hidden;
 }
 
 #nav-footer-heading {
