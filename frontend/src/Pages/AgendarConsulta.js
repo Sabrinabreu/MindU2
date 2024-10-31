@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row, Button, Tab, Tabs } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import perfilPsicologo from '../img/perfilPsicologo.jfif';
 import perfilPsicologa from '../img/perfilPsicologa.jfif';
 import perfilPsicologaclinica from '../img/perfilPsicologaclinica.png';
@@ -346,7 +344,7 @@ function AgendarConsulta() {
                     <img className='imgPerfil' src={tabs.find(tab => tab.id === psicologo.psicologo_id)?.foto || padraoPerfil} alt="Foto de Perfil" />
                     <Col md={6} sm={12} className="colCardAgenda">
                     
-                    <div
+                    <div className='txtCardAgenda'
                     // className="primeiro"
                     >
                       <h3 className='nomeAgenda'>{psicologo.nome}</h3>
@@ -370,63 +368,81 @@ function AgendarConsulta() {
 
 
                     <Col md={6} sm={12} className="tabs-container">
-                      <Tabs
-                        defaultActiveKey="agenda"
-                        id={`tabs-${psicologo.psicologo_id}`}
-                        fill
-                        activeKey={activeTabs[psicologo.psicologo_id] || 'agenda'}
-                        onSelect={(k) => setActiveTabs(prev => ({ ...prev, [psicologo.psicologo_id]: k }))}>
-                        {tabsData.map((tab, i) => (
-                          <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
-                            {tab.eventKey === 'sobre' ? (
-                              psicologo.psicologo_id >= 8 ? ( // Para IDs 8 ou superiores
-                                <>
-                                  {editableInfo[psicologo.psicologo_id] ? (
-                                    <>
-                                      <input
-                                        type="text"
-                                        value={editedText[psicologo.psicologo_id] || psicologo.biografia}
-                                        onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
-                                      />
-                                      <button className='salvarEdicoes' onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <p style={{ marginRight: '10px' }}>{psicologo.biografia}</p>
-                                        <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
-                                          <Pencil />
-                                        </button>
-                                      </div>
-                                      <Link to={`/psicologo/${psicologo.psicologo_id}`} className="saibaMaisBot mt-3">
-                                        Saiba Mais
-                                      </Link>
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                <div>
-                                  <p>{tabs.find(tab => tab.id === psicologo.psicologo_id)?.tabs[0].content}</p>
-                                  {editableInfo[psicologo.psicologo_id] && ( // Para IDs 1 a 7
-                                    <>
-                                      <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Editar</button>
-                                    </>
-                                  )}
-                                </div>
-                              )
-                            ) : (
-                              <p>{tab.content}</p>
-                            )}
-                            {tab.eventKey === 'agenda' && (
-                              <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-                                Agendar
-                              </Link>
-                            )}
-                          </Tab>
-                        ))}
-
-                      </Tabs>
-                    </Col>
+  <Tabs
+    defaultActiveKey="agenda"
+    id={`tabs-${psicologo.psicologo_id}`}
+    fill
+    activeKey={activeTabs[psicologo.psicologo_id] || 'agenda'}
+    onSelect={(k) => setActiveTabs((prev) => ({ ...prev, [psicologo.psicologo_id]: k }))}
+  >
+    {tabsData.map((tab, i) => (
+      <Tab
+        key={i}
+        className="tabText p-3"
+        eventKey={tab.eventKey}
+        title={
+          <span
+            tabIndex="0"
+            role="tab"
+            aria-selected={activeTabs[psicologo.psicologo_id] === tab.eventKey}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setActiveTabs((prev) => ({ ...prev, [psicologo.psicologo_id]: tab.eventKey }));
+              }
+            }}
+          >
+            {tab.title}
+          </span>
+        }
+      >
+        {tab.eventKey === 'sobre' ? (
+          psicologo.psicologo_id >= 8 ? (
+            <>
+              {editableInfo[psicologo.psicologo_id] ? (
+                <>
+                  <input
+                    type="text"
+                    value={editedText[psicologo.psicologo_id] || psicologo.biografia}
+                    onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
+                  />
+                  <button className="salvarEdicoes" onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
+                </>
+              ) : (
+                <>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <p style={{ marginRight: '10px' }}>{psicologo.biografia}</p>
+                    <button className="editarTabs" onClick={() => handleEditToggle(psicologo.psicologo_id)}>
+                      <Pencil />
+                    </button>
+                  </div>
+                  <Link to={`/psicologo/${psicologo.psicologo_id}`} className="saibaMaisBot mt-3">
+                    Saiba Mais
+                  </Link>
+                </>
+              )}
+            </>
+          ) : (
+            <div>
+              <p>{tabs.find((tab) => tab.id === psicologo.psicologo_id)?.tabs[0].content}</p>
+              {editableInfo[psicologo.psicologo_id] && (
+                <>
+                  <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Editar</button>
+                </>
+              )}
+            </div>
+          )
+        ) : (
+          <p>{tab.content}</p>
+        )}
+        {tab.eventKey === 'agenda' && (
+          <Button to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+            Agendar
+          </Button>
+        )}
+      </Tab>
+    ))}
+  </Tabs>
+</Col>
 
 
                   </Row>
