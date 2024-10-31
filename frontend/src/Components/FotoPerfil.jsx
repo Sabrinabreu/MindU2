@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProfilePicture = ({ name }) => {
+const ProfilePicture = ({ name, src }) => {
     const getInitials = (name) => {
         if (!name) return '';
         const names = name.trim().split(' ').filter(Boolean);
@@ -17,26 +17,43 @@ const ProfilePicture = ({ name }) => {
 
     const initials = getInitials(name);
     const backgroundColor = getColorFromInitials(initials);
-    const textColor = backgroundColor ? (parseInt(backgroundColor.substring(1, 3), 16) * 0.299 + parseInt(backgroundColor.substring(3, 5), 16) * 0.587 + parseInt(backgroundColor.substring(5, 7), 16) * 0.114 > 186 ? '#000' : '#FFF') : '#000';
+    const textColor = backgroundColor ? 
+        (parseInt(backgroundColor.substring(1, 3), 16) * 0.299 + 
+         parseInt(backgroundColor.substring(3, 5), 16) * 0.587 + 
+         parseInt(backgroundColor.substring(5, 7), 16) * 0.114 > 186 ? '#000' : '#FFF') : '#000';
 
     return (
-        <div
-            className="profile-initials"
-            style={{
-                backgroundColor: backgroundColor,
-                color: textColor,
-                width: '150px',
-                height: '150px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '50%',
-                fontSize: '2em',
-                fontWeight: 'bold',
-            }}
-        >
-            {initials}
-        </div>
+        src ? (
+            <img
+                src={src}
+                alt={name}
+                className="profile-image"
+                style={{
+                    width: '150px',
+                    height: '150px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                }}
+            />
+        ) : (
+            <div
+                className="profile-initials"
+                style={{
+                    backgroundColor: backgroundColor,
+                    color: textColor,
+                    width: '150px',
+                    height: '150px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50%',
+                    fontSize: '2em',
+                    fontWeight: 'bold',
+                }}
+            >
+                {initials}
+            </div>
+        )
     );
 };
 

@@ -12,6 +12,7 @@ import Agendarconsulta from "./Pages/AgendarConsulta"; //funcionario e psicologo
 import SaibaMais from './Pages/SaibaMais'; //funcionario e psicologo
 import Planos from './Pages/Planos'; //empresa e usuários nn logados
 import Perfil from './Pages/Perfil'; //funcionario e psicologo
+import PerfilEmpresa from './Pages/PerfilEmpresa'
 import AcessoFuncionarios from './Pages/TabelaFuncionarios'; //empresa
 import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
@@ -139,6 +140,15 @@ const Rotas = () => {
             element={
               <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>
                 <Perfil />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/perfilempresa"
+            element={
+              <ProtectedRoute allowedRoles={['empresa']}>
+                <PerfilEmpresa />
               </ProtectedRoute>
             }
           />

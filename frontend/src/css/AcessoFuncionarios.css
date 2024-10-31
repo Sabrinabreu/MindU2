@@ -83,3 +83,36 @@
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
 }
+
+@media (width: 820px) {
+    .divprint {
+        margin-top: 8px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        display: flex !important;
+        position: absolute !important;
+        z-index: 99 !important;
+        right: 8.5% !important;
+    }
+}
+
+@media (min-width: 310px) and (max-width: 640px) {
+    .egfKAx {
+        flex: 1 !important;
+        font-weight: 400;
+    }
+
+    .divprint {
+        margin-top: 8px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        display: flex !important;
+        position: absolute !important;
+        z-index: 99 !important;
+        right: 36% !important;
+    }
+
+    .rdt_TableHeader {
+        padding-top: 60px;
+    }
+}
