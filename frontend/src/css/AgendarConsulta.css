@@ -629,9 +629,9 @@
 }
 
 @media (min-width: 680px) and (max-width:1130px) {
-    * {
+    /* * {
         max-width: 100% !important;
-    }
+    } */
 
     .nomeAgenda {
         font-size: 22px;

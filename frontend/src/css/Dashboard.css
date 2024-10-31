@@ -131,9 +131,11 @@ body {
     max-width: 100%;
     margin-left: 30px !important;
     margin-bottom: 800px !important;
-
   }
 
+  #nav-footer-title {
+    max-width: 150px !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -151,7 +153,6 @@ body {
     max-width: 100%;
     margin-left: 30px !important;
     margin-bottom: 800px !important;
-
   }
 
 }
@@ -417,7 +418,6 @@ body {
     max-width: 100px;
     margin-left: 30px !important;
     margin-bottom: 400px !important;
-
   }
 }
 
