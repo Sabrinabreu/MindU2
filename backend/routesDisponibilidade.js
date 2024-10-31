@@ -46,15 +46,10 @@ router.post('/disponibilidade/psicologo', async (req, res) => {
         [psicologo_id, data]
     );
 
-<<<<<<< HEAD
-    if (existingDisponibilidades.length > 0) {
-        return res.status(400).json({ error: 'Disponibilidade já existe para essa data.' });
-=======
     // Verifique se os dados foram enviados
     if (!Array.isArray(dataDisponibilidade) || dataDisponibilidade.length === 0) {
         console.log('Dados inválidos:', dataDisponibilidade);
         return res.status(400).json({ error: 'Dados incompletos ou inválidos' });
->>>>>>> e1a8e90b0ea7bd39318f06d0e97695a1a1b80826
     }
 
     // Insira a nova disponibilidade
