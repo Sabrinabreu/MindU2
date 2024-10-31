@@ -601,6 +601,9 @@
         width: 130px;
         height: 150px;
     }
+}
+
+@media (min-width:768px) and (max-width:850px) {
     .sessao {
         padding: 1em 0;
         display: block;
