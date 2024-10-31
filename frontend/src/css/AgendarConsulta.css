@@ -63,7 +63,7 @@
 
 .colCardAgenda {
     /* background-color: #5e40b0; */
-    padding: 3% 0 5% 10%;
+    padding: 0
 }
 
 .imgPerfil {
@@ -73,8 +73,6 @@
     object-fit: cover;
     padding: 10px;
     position: absolute;
-    /* top: -30px; */
-    /* left: -70px; */
     transform: translateX(-40%) translateY(-20%);
     z-index: 1;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -172,22 +170,22 @@
     font-size: 22px;
 }
 
-/* Tabs */
+.tabs-container {
+    margin: 0;
+    padding: 0;
+}
+
 .nav-tabs {
     --bs-nav-tabs-border-width: transparent;
+    width: 100.8%;
+    display: flex;
+    justify-content: center;
 }
 
 .nav-fill .nav-item .nav-link,
 .nav-justified .nav-item .nav-link {
-    width: 108%;
+    width: 100%;
 }
-
-/* .tabs-container {
-    margin-left: 432px;
-    margin-top: -310px;
-    margin-bottom: 350px;
-    width: 53%;
-} */
 
 .nav-tabs .nav-link {
     color: var(--tab);
@@ -601,6 +599,32 @@
 @media (min-width:768px) {
     .colCardAgenda {
         border-right: var(--name) 2px solid;
+        padding: 3% 0 5% 10%;
+    }
+    .imgPerfil {
+        left: 6%;
+        /* transform: translateY(20%); */
+        width: 110px;
+        height: 130px;
+    }
+}
+
+@media (max-width: 767px) {
+    
+    .imgPerfil {
+        position: relative;
+    }
+}
+
+@media (max-width:1131px) and (min-width:767px) {
+    .colCardAgenda {
+        padding-left: 13%;
+    }
+}
+
+@media (min-width: 1130px) and (max-width: 1200px) {
+    .colCardAgenda {
+        padding-left: 8%;
     }
 }
 
@@ -609,27 +633,9 @@
         max-width: 100% !important;
     }
 
-    .imgPerfil {
-        top: -40px;
-        left: -50px;
-    }
-
-    /* .tabs-container {
-        margin-left: 332px;
-        padding-left: 45px;
-        width: 60%;
-        padding-top: 20px;
-    } */
-
     .nomeAgenda {
         font-size: 22px;
         margin-left: -10px;
-    }
-
-    .cardAgenda {
-        margin-bottom: 100px;
-        padding: 0 20px 20px 20px;
-        height: 400px;
     }
 
     .primeiro {
