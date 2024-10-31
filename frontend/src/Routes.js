@@ -3,7 +3,6 @@ import { useAuth } from "./provider/AuthProvider";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { parseJwt } from './Components/jwtUtils';
 
-
 //Páginas
 import Home from "./Pages/Home";  //todos
 import Contato from "./Pages/Contato"; //todos
@@ -19,6 +18,7 @@ import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
 import Dashboard from "./Pages/Dashboard"; //empresa
 import SeuPlano from "./Pages/SeuPlano";
+import AddFuncionarios from "./Pages/AddFuncionario";
 import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -90,10 +90,19 @@ const Rotas = () => {
       />
 
       <Route
-        path="/seuplano"
+        path="/dashboard/seuplano"
         element={
           <ProtectedRoute allowedRoles={['empresa']}>
             <SeuPlano />
+          </ProtectedRoute>
+        }
+      />
+
+<Route
+        path="/dashboard/addfuncionario"
+        element={
+          <ProtectedRoute allowedRoles={['empresa']}>
+            <AddFuncionarios />
           </ProtectedRoute>
         }
       />

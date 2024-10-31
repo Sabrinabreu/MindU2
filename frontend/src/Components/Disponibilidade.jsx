@@ -4,6 +4,7 @@ import "../css/Disponibilidade.css";
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import DatePicker from './DispCalendario';
 import { parseJwt } from '../Components/jwtUtils';
+import axios from 'axios';
 
 const Disponibilidade = () => {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -26,10 +27,25 @@ const Disponibilidade = () => {
     const handleDateSelect = (date) => {
         if (date) {
             setSelectedDate(date);
+            console.log('Data selecionada:', date);
         } else {
             alert("Por favor, selecione uma data válida.");
         }
     };
+
+    const fetchAgendamentos = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/api/agendamentos');
+            const filteredEvents = response.data.filter(event => event.psicologo_id === psicologoId);
+            setEvents(filteredEvents);
+        } catch (error) {
+            console.error('Erro ao buscar agendamentos:', error);
+        }
+    };
+
+    const getEventsForSelectedDate = () => {
+        return events.filter(event => new Date(event.data).toDateString() === selectedDate.toDateString());
+    };  
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -37,6 +53,7 @@ const Disponibilidade = () => {
             const decodedToken = parseJwt(token);
             const id = decodedToken.psicologo_id || decodedToken.id;
             setPsicologoId(id);
+            fetchAgendamentos();
         } else {
             console.log('Token não encontrado.');
         }
@@ -69,28 +86,26 @@ const Disponibilidade = () => {
 
         for (const day of daysOfWeek) {
             if (selectedDays[day]) {
-                // Aqui, você pode gerar as datas para todos os dias correspondentes no mês atual
                 const today = new Date();
                 const year = today.getFullYear();
                 const month = today.getMonth();
-        
+
                 for (let i = 1; i <= 31; i++) {
                     const date = new Date(year, month, i);
-                    if (date.getMonth() !== month) break; // Se o mês mudou, saia do loop
-        
-                    if (date.getDay() === daysOfWeek.indexOf(day)) { // Verifica se é o dia correspondente
-                        const data = date.toISOString().split('T')[0]; // Formata a data para 'YYYY-MM-DD'
+                    if (date.getMonth() !== month) break;
+
+                    if (date.getDay() === daysOfWeek.indexOf(day)) {
+                        const data = date.toISOString().split('T')[0];
                         dataDisponibilidade.push({
                             psicologo_id: psicologoId,
                             data: data,
                             horario_inicio: workingHours[day].start,
                             horario_fim: workingHours[day].end
                         });
-        
-                        // Adiciona a data ao estado de dias atualizados
+
                         setUpdatedDays(prev => ({
                             ...prev,
-                            [data]: true // Armazena a data formatada como chave
+                            [data]: true
                         }));
                     }
                 }
@@ -174,15 +189,14 @@ const Disponibilidade = () => {
                     {selectedDate ? (
                         <>
                             <h4 className='mt-4 text-center textroxo'>Eventos marcados para {selectedDate.toLocaleDateString()}</h4>
-                            {events.length > 0 ? (
-                                events.map((event, index) => (
+                            {getEventsForSelectedDate().length > 0 ? (
+                                getEventsForSelectedDate().map((event, index) => (
                                     <Card key={index} style={{ width: '18rem', marginBottom: '10px' }}>
                                         <Card.Body>
-                                            <Card.Title>Paciente : {event.nomePaciente}</Card.Title>
-                                            <Card.Text>Horário: {event.time}</Card.Text>
-                                            <Card.Text>Idade: {event.idadePaciente}</Card.Text>
-                                            <Card.Text>Tipo de consulta: {event.tipoConsulta}</Card.Text>
-                                            <Card.Text>Assuntos: {event.assuntos}</Card.Text>
+                                            <Card.Title>Paciente: {event.nomePaciente}</Card.Title>
+                                            <Card.Text>Horário: {event.horario_inicio}</Card.Text>
+                                            <Card.Text>Tipo de consulta: {event.tipo}</Card.Text>
+                                            <Card.Text>Assuntos: {event.assunto}</Card.Text>
                                             <Card.Text>Informações adicionais: {event.details || 'Nenhuma informação adicional fornecida.'}</Card.Text>
                                         </Card.Body>
                                     </Card>

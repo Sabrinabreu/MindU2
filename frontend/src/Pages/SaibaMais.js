@@ -39,15 +39,15 @@ const Agendar = () => {
     const fetchPsicologoData = async (psicologo_id) => {
         try {
             const token = localStorage.getItem('token');
-            console.log("Token:", token);
+            console.log("Token:", token);            
             
             const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log("Resposta da API:", response.data);
             
-            console.log("Dados do Psicólogo:", response.data);
             
             if (response.data) {
                 setNomePsico(response.data.nome);
@@ -77,7 +77,6 @@ const Agendar = () => {
                 }
             });
             console.log("Dados do Psicólogo:", response.data);
-            console.log(response.data); // Adicione este log
             const availableTimes = response.data.map(item => ({
                 data: item.data,
                 horario_inicio: item.horario_inicio.substring(0, 5) // (HH:mm)
@@ -85,7 +84,6 @@ const Agendar = () => {
             setAvailableTimes(availableTimes);
             const dias = new Set(availableTimes.map(item => new Date(item.data).toDateString()));
             setDiasDisponiveis(dias);
-            console.log('Dias Disponíveis:', dias); // Adicione este log
         } catch (error) {
             console.error('Erro ao buscar disponibilidades:', error);
         }

@@ -349,27 +349,9 @@ body {
 
   }
 
-
 }
 
-/* versao celular */
-@media (max-width: 500px) {
-  .colPlanos {
-    width: 100% !important;
-  }
-}
-
-/* versao ipad */
-@media (max-width: 900px) {
-  .colPlanos {
-    width: 50%;
-    justify-content: center;
-  }
-
-  .rowPlanos {
-    place-content: center;
-  }
-}
+/* pagina seu plano */
 
 .titleseuplano {
   text-align: center !important;
@@ -502,4 +484,30 @@ body {
 .plusicon {
   padding-right: 6px !important;
   padding-bottom: 2px !important;
+}
+
+.planCard {
+  margin-left: 310px;
+  width: 75.3%;
+  overflow: auto;
+  height: 92vh;
+}
+
+.planCard.collapsed {
+  margin-left: 120px;
+  width: 1494px;
+}
+
+/* pagina add funcionarios */
+
+.addFunc {
+  margin-left: 310px;
+  width: 75.3%;
+  overflow: auto;
+  height: 92vh;
+}
+
+.addFunc.collapsed {
+  margin-left: 120px;
+  width: 1494px;
 }
