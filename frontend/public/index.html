@@ -25,9 +25,12 @@
         tabindex="0" 
         role="button" 
         onkeydown="if(event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault(); 
-            document.getElementById('vlibras-button').click(); 
-        }"
+          event.preventDefault(); 
+          const vlibrasButton = document.getElementById('vlibras-button');
+          if (vlibrasButton) {
+              vlibrasButton.click(); 
+          }
+      }"      
     ></div>
     <div vw-plugin-wrapper>
       <div id="vlibras" class="vw-plugin-top-wrapper" style="display: none;"></div>
