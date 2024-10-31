@@ -12,7 +12,8 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+    margin-top: 16px;
+    margin-bottom: -25px;
 }
 
 .calendario-mes {
@@ -28,7 +29,8 @@
 }
 
 .calendar-title {
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: 300;
     margin: 0 20px;
 }
 
@@ -56,14 +58,51 @@
     vertical-align: top;
 }
 
+
+.calendar-header-day {
+    font-weight: 400;
+    padding: 10px; 
+    text-align: center; 
+    border: none;
+    border-bottom: 1px solid #F9B0C3;
+    color: #333; 
+}
+
+.calendario-dia {
+    font-weight: normal;
+    margin-top: 2px;
+    background: #fff; 
+    padding: 10px; 
+    border-radius: 100%;
+    height: 60px;
+    width: 60px;
+    text-align: center; 
+    transition: background 0.3s; 
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    display: flex; 
+}
+
+.calendario-dia:hover {
+    background: #d9c1f1; 
+}
+
 /*dark mode */
 [data-theme='dark'] .calendarioPerfil{
     background-color: #7e64a8;
     color: #1e1221 !important;
 }
 [data-theme='dark'] .calendario-dia{
-    background-color: #664a88;
+    background-color: #7e64a8;
     color: #fae2ff !important;
+}
+[data-theme='dark'] .calendario-header-day{
+    color: #fae2ff !important;
+}
+[data-theme='dark'] .calendario-dia:hover{
+    background-color: #9d86c2;
+    color: #ffffff !important;
 }
 [data-theme='dark'] .calendar-cell{
     background-color: #dcbaff;

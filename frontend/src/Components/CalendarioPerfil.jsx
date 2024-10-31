@@ -14,7 +14,7 @@ const CalendarioEDetalhes = ({
         nextMonth.setMonth(currentMonth.getMonth() + 1);
         setCurrentMonth(nextMonth);
     };
-    
+
     const goToPreviousMonth = () => {
         const previousMonth = new Date(currentMonth);
         previousMonth.setMonth(currentMonth.getMonth() - 1);
@@ -69,21 +69,21 @@ const CalendarioEDetalhes = ({
         <div className="calendarioEDetalhes">
             <div className="calendarioPerfil p-4 text-center">
                 <div className="calendario-topo">
-                    <button className="calendario-mes" onClick={goToNextMonth}>◀</button>
+                <button className="calendario-mes" onClick={goToPreviousMonth}>◀</button>
                     <h5 className="calendar-title">
                         {currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}
                     </h5>
-                    <button className="calendario-mes" onClick={goToPreviousMonth}>▶</button>
+                    <button className="calendario-mes" onClick={goToNextMonth}>▶</button>
                 </div>
                 <br />
                 <div className="calendar-dias">
-                    <div className="calendario-dia">Dom</div>
-                    <div className="calendario-dia">Seg</div>
-                    <div className="calendario-dia">Ter</div>
-                    <div className="calendario-dia">Qua</div>
-                    <div className="calendario-dia">Qui</div>
-                    <div className="calendario-dia">Sex</div>
-                    <div className="calendario-dia">Sab</div>
+                    <div className="calendar-header-day">Dom</div>
+                    <div className="calendar-header-day">Seg</div>
+                    <div className="calendar-header-day">Ter</div>
+                    <div className="calendar-header-day">Qua</div>
+                    <div className="calendar-header-day">Qui</div>
+                    <div className="calendar-header-day">Sex</div>
+                    <div className="calendar-header-day">Sab</div>
                     {generateCalendar()}
                 </div>
             </div>
