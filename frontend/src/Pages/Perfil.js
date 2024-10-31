@@ -667,12 +667,11 @@ function Perfil() {
                         {tipoUsuario === 'funcionario' && (
                             <Row>
                                 <Col>
-                                    <Button onClick={goToPreviousMonth}>◀</Button>
-                                    <Button onClick={goToNextMonth}>▶</Button>
                                     <Calendario
                                         currentMonth={currentMonth}
                                         consultationDetails={consultasAgendadas}
                                         tipoUsuario={tipoUsuario}
+                                        setCurrentMonth={setCurrentMonth}
                                     />
                                 </Col>
                             </Row>

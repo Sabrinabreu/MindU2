@@ -2,35 +2,19 @@ const express = require('express');
 const router = express.Router();
 const connection = require('./db');
 const cors = require('cors');
-const multer = require('multer');
-const path = require('path');
-
 router.use(cors());
 
-// Configuração do multer para o upload de arquivos
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'img/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Renomeia o arquivo
-    }
-});
-
-const upload = multer({ storage });
-
 // Rota para criar um novo psicólogo
-router.post('/', upload.single('foto'), (req, res) => {
+router.post('/', (req, res) => {
     const { nome, especialidade, localizacao } = req.body;
-    const foto = req.file ? req.file.path.replace(/\\/g, '/') : null; // no caminho da imagem (substitui \ por /)
 
     if (!nome || !especialidade || !localizacao) {
         return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
     }
 
     connection.query(
-        'INSERT INTO psicologos (nome, especialidade, localizacao, foto) VALUES (?, ?, ?, ?)',
-        [nome, especialidade, localizacao, foto],
+        'INSERT INTO psicologos (nome, especialidade, localizacao) VALUES (?, ?, ?)',
+        [nome, especialidade, localizacao],
         (err, result) => {
             if (err) {
                 console.error('Erro ao criar psicólogo:', err);
