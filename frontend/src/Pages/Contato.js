@@ -13,12 +13,7 @@ import clinica5 from "../img/clinica5.jpg";
 import bannerIMG from "../img/bannerContato2.jpg";
 import { Row, Col, Card, CardGroup } from "react-bootstrap";
 
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../provider/AuthProvider";
-
 const Contato = () => {
-  const { setToken } = useAuth();
-  const navegacao = useNavigate();
 
   const [slides] = useState([
     {
@@ -82,22 +77,12 @@ const Contato = () => {
     window.addEventListener('scroll', handleScroll);
     handleScroll();
 
-
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
-    navegacao("/", { replace: true });
-  };
-
 
   return (
     <>
       <BAPO />
-      <button className="btnLog" onClick={handleLogout}>Sair da conta</button>
       <div>
         <div className="bannerContato">
           <Row>
