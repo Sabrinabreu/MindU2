@@ -77,7 +77,7 @@ function Perfil() {
     const handleUpload = async (file) => {
         const formData = new FormData();
         formData.append('fotoPerfil', file); // Certifique-se de que o nome seja 'fotoPerfil'
-        formData.append('empresa');
+        formData.append('tipoUsuario', 'empresa'); // ou 'psicologo', 'funcionario', conforme o contexto
         formData.append('ID', perfil.ID); // Certifique-se de que o ID está presente no `perfil`
 
         try {
