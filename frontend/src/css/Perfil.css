@@ -253,7 +253,7 @@ border-bottom: .8px solid #a0a0a0;
       
       @media (min-width: 576px) {
         .colPerfil .card-body .row .col-sm-3 {
-            width: 30%;
+            width: 35%;
         }
         .colPerfil .card-body .row .text-secondary.col-sm-9 {
             max-width: 270px;
