@@ -17,12 +17,23 @@
 
   <!-- Botão VLibras acessível -->
   <div vw class="enabled">
-    <div id="vlibras-button" vw-access-button class="active libras" aria-label="Ativar tradução em Libras"
-      tabindex="0"></div>
+    <div 
+        id="vlibras-button" 
+        vw-access-button 
+        class="active libras" 
+        aria-label="Ativar tradução em Libras"
+        tabindex="0" 
+        role="button" 
+        onkeydown="if(event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); 
+            document.getElementById('vlibras-button').click(); 
+        }"
+    ></div>
     <div vw-plugin-wrapper>
       <div id="vlibras" class="vw-plugin-top-wrapper" style="display: none;"></div>
     </div>
-  </div>
+</div>
+
 
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
