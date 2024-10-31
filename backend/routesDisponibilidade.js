@@ -40,18 +40,17 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
 router.post('/disponibilidade/psicologo', async (req, res) => {
     const { psicologo_id, data, horario_inicio, horario_fim } = req.body;
 
+    // Verifique se os dados foram enviados
+    if (!psicologo_id || !data || !horario_inicio || !horario_fim) {
+        console.log('Dados inválidos:', req.body);
+        return res.status(400).json({ error: 'Dados incompletos ou inválidos' });
+    }
+
     // Verifique se a data já existe
     const [existingDisponibilidades] = await connection.query(
         'SELECT * FROM disponibilidadepsico WHERE psicologo_id = ? AND data = ?',
         [psicologo_id, data]
     );
-
-
-    // Verifique se os dados foram enviados
-    if (!Array.isArray(dataDisponibilidade) || dataDisponibilidade.length === 0) {
-        console.log('Dados inválidos:', dataDisponibilidade);
-        return res.status(400).json({ error: 'Dados incompletos ou inválidos' });
-    }
 
     // Insira a nova disponibilidade
     const query = 'INSERT INTO disponibilidadepsico (psicologo_id, data, horario_inicio, horario_fim) VALUES (?, ?, ?, ?)';
@@ -63,6 +62,7 @@ router.post('/disponibilidade/psicologo', async (req, res) => {
         res.status(201).json({ message: 'Disponibilidade inserida com sucesso!' });
     });
 });
+
 
 // Rota para listar todas as disponibilidades
 router.get('/disponibilidade', (req, res) => {
