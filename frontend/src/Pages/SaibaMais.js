@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const Agendar = () => {
     const { psicologo_id } = useParams();
+    console.log("Psicólogo ID:", psicologo_id);
 
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -38,11 +39,16 @@ const Agendar = () => {
     const fetchPsicologoData = async (psicologo_id) => {
         try {
             const token = localStorage.getItem('token');
+            console.log("Token:", token);
+            
             const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
+            
+            console.log("Dados do Psicólogo:", response.data);
+            
             if (response.data) {
                 setNomePsico(response.data.nome);
                 setTelefone(response.data.telefone);
@@ -51,7 +57,6 @@ const Agendar = () => {
                 setLocalizacao(response.data.localizacao);
                 setEspecialidade(response.data.especialidade);
                 setBiografia(response.data.biografia);
-
                 setFotoPsico(response.data.foto);
             }
         } catch (error) {
@@ -71,6 +76,7 @@ const Agendar = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log("Dados do Psicólogo:", response.data);
             console.log(response.data); // Adicione este log
             const availableTimes = response.data.map(item => ({
                 data: item.data,
@@ -151,12 +157,12 @@ const Agendar = () => {
                 <Col md={6}>
                     <div className='perfilPsico'>
                         <img className="fundoPsico" src={fundoPsico} alt="Imagem de fundo" />
-                        <img className="psicologo" src={fotoPsico} alt="Perfil do psicólogo" /> {/* Exibe a foto do psicólogo */}
-                        <h4 className='nomePsico container p-4'>{nomePsico}</h4>
+                        <img className="psicologo" src={fotoPsico} alt="Perfil do psicólogo" />
+                        <h4 className='nomePsico container p-4'>{nomePsico || 'Nome não disponível'}</h4>
                         <div className='infoPsico'>
-                            <b>{especialidade}</b>
-                            <h6>{localizacao}</h6>
-                            <h6 className='crp'>{crp}</h6>
+                            <b>{especialidade || 'Especialidade não disponível'}</b>
+                            <h6>{localizacao || 'Localização não disponível'}</h6>
+                            <h6 className='crp'>{crp || 'CRP não disponível'}</h6>
                         </div>
                     </div>
                 </Col>
@@ -171,7 +177,7 @@ const Agendar = () => {
                         <button className='agendaConsulta' onClick={handleShow} disabled={!selectedDate}>
                             Agendar consulta
                         </button>
-
+    
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
                                 <Modal.Title className='agendando'>Agendar Consulta</Modal.Title>
@@ -222,15 +228,15 @@ const Agendar = () => {
                             <span className="material-symbols-outlined iconsSaibaMais">person_book</span> Biografia
                         </h5>
                         <p className='mb-4'>
-                            {biografia || 'Biografia não disponível.'} {/* Exibe a biografia ou uma mensagem padrão */}
+                            {biografia || 'Biografia não disponível.'}
                         </p>
                     </div>
                     <div className='contato p-4'>
                         <h5 className='titulosSobre py-3'>
-                            <span className="material-symbols-outlined iconsSaibaMais">send</span> Contato
+     <span className="material-symbols-outlined iconsSaibaMais">send</span> Contato
                         </h5>
-                        <p>Telefone: {telefone}</p>
-                        <p>Email: {email}</p>
+                        <p>Telefone: {telefone || 'Telefone não disponível'}</p>
+                        <p>Email: {email || 'Email não disponível'}</p>
                     </div>
                 </Col>
             </Row>

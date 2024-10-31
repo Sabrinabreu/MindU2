@@ -58,7 +58,7 @@ function AgendarConsulta() {
     {
       eventKey: "especialidades",
       title: "Especialidades",
-      content: <p>Nenhuma especialidade listada.</p>,
+      content: <p>Clique aqui para listar suas especialidades .</p>,
     },
     {
       eventKey: "agenda",
@@ -233,13 +233,13 @@ function AgendarConsulta() {
           content: (
             <div className="especialidades">
               {[{ description: "Aconselhamento individual e em grupo" }, { description: "Desenvolvimento de autoestima" }, { description: "Coaching" }, { description: "Habilidades para lidar com estresse e ansiedade" }].map((servico, index) => (
-                <div key={index}>
-                  <p className='especialidade'>{servico.description}</p>
-                </div>
+                  <div key={index}>
+                    <p className='especialidade'>{servico.description}</p>
+                  </div>
               ))}
             </div>
           ),
-        },
+        },        
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para ele." }
       ]
     }
@@ -331,10 +331,10 @@ function AgendarConsulta() {
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
         <Row>
-        <Col md={12}>
-          {filteredCards.length > 0 ? (
-            filteredCards.map(psicologo => {
-              const tabsData = getTabsForPsicologo(psicologo);
+          <Col md={12}>
+            {filteredCards.length > 0 ? (
+              filteredCards.map(psicologo => {
+                const tabsData = getTabsForPsicologo(psicologo);
 
               return (
                 <div key={psicologo.psicologo_id}

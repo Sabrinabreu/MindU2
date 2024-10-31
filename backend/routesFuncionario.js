@@ -22,7 +22,6 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(500).send('Falha ao autenticar token.');
     }
-    console.log("Token decodificado:", decoded);
 
     req.empresaId = decoded.id_referencia;  // Seta o empresa id no req
     if (!req.empresaId) {

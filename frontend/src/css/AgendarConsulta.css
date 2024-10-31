@@ -508,7 +508,6 @@
     margin: 7px;
 }
 
-
 [data-theme='dark'] .especialidade {
     background-color: #c6b4f6;
     color: #000;
@@ -669,4 +668,9 @@
     width: 1.5rem;
     height: 1.5rem;
     border-width: .2em;
+}
+
+.textareaSobreMim{
+    width: 100% ;
+    height: 200px !important;
 }
