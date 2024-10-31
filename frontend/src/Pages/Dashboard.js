@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef  } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import '../css/Dashboard.css';
 import '../css/SideBar.css';
@@ -19,6 +19,11 @@ const Dashboard = () => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState(null);
     const [error, setError] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setMenuOpen(prev => !prev);
+    };
 
     useEffect(() => {
         console.log('Dados:', data);
@@ -45,7 +50,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         setPerfil(decodedToken.perfil);
-    }, [decodedToken.perfil]);
+    }, []);
 
 
     const handleLogout = () => {
@@ -223,26 +228,39 @@ const Dashboard = () => {
                                         e.preventDefault();
                                         document.getElementById("nav-footer-toggle").click();
                                     }
-                                }}> <ChevronDown /></i>
+                                }} 
+                                onClick={toggleMenu}> <ChevronDown /></i>
                         </label>
                     </div>
                     <div id="nav-footer-content">
-                        <button onClick={handleLogout} className="logout">Sair<LogOut className="logsvg" /></button>
-                        <button onClick={handleDeleteAccount} className="logout"> Deletar conta <CircleX className="logsvg" /> </button>
+                    <button
+                        onClick={handleLogout}
+                        className="logout"
+                        tabIndex={menuOpen ? 0 : 1}
+                    >
+                        Sair<LogOut className="logsvg" />
+                    </button>
+                    <button
+                        onClick={handleDeleteAccount}
+                        className="logout"
+                        tabIndex={menuOpen ? 0 : 1} 
+                    >
+                        Deletar conta <CircleX className="logsvg" />
+                    </button>
 
-                        {showConfirmation && (
-                            <>
-                            <div className="overlay"></div> 
-                            <div className="confirmation-modal">
+                {showConfirmation && (
+                    <>
+                        <div className="overlay"></div>
+                        <div className="confirmation-modal">
                             <p>Tem certeza de que deseja deletar sua conta? Todos os funcionários associados a esta empresa também serão deletados.</p>
                             <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
                             <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
-                            </div>
-                            </>
-                        )}
-                    </div>
-                </div>
+                        </div>
+                    </>
+                )}
             </div>
+        </div>
+    </div>
 
             {/* Filtro */}
 
