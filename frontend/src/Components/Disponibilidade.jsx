@@ -133,8 +133,7 @@ const Disponibilidade = () => {
                                             checked={selectedDays[day] || false}
                                             onChange={() => handleDayChange(day)}
                                         />
-                                        <span></span>
-                                        {day}
+                                        <span>{day}</span>
                                     </label>
                                     {selectedDays[day] && (
                                         <>
@@ -167,7 +166,7 @@ const Disponibilidade = () => {
                 </Form>
             </Col>
             <Row className='my-4'>
-                <Col md={6}>
+                <Col md={6} className='disponibilidade'>
                     <h1 className='mb-4 text-center textroxo'>Calendário</h1>
                     <DatePicker onDateSelect={handleDateSelect} updatedDays={updatedDays} />
                 </Col>
@@ -189,11 +188,11 @@ const Disponibilidade = () => {
                                     </Card>
                                 ))
                             ) : (
-                                <p className='avisoSemData'>Sem consultas marcadas para esse dia.</p>
+                                <p className='avisoSemData dispon'>Sem consultas marcadas para esse dia.</p>
                             )}
                         </>
                     ) : (
-                        <p className='avisoSemData'>Por favor, selecione uma data para ver ou adicionar eventos.</p>
+                        <p className='avisoSemData dispon'>Por favor, selecione uma data para ver ou adicionar eventos.</p>
                     )}
                 </Col>
             </Row>
