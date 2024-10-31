@@ -37,7 +37,7 @@ router.post('/contaFuncionarios', verifyToken, async (req, res) => {
   const { nomePlano, cpf, nome, cargo, telefone } = req.body;
   const empresa_id = req.empresaId;
 
-  console.log("Inserindo plano:", nomePlano);
+  // console.log("Inserindo plano:", nomePlano);
 
   try {
       const [result] = await connection.query(
@@ -58,8 +58,8 @@ router.get('/contaFuncionarios', verifyToken, async (req, res) => {
     const { loginMethod } = req.query; 
     const { empresaId } = req;
 
-    console.log('Empresa ID recebido na rota:', empresaId);
-    console.log('Filtro loginMethod:', loginMethod);
+    // console.log('Empresa ID recebido na rota:', empresaId);
+    // console.log('Filtro loginMethod:', loginMethod);
 
     let query = 'SELECT * FROM contaFuncionarios WHERE empresa_id = ?';
     const params = [empresaId];

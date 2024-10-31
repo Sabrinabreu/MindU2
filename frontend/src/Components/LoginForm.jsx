@@ -28,7 +28,7 @@ const LoginForm = () => {
         setToken(token);
 
         const decodedToken = parseJwt(token);
-        console.log("Informações do token decodificado: ", decodedToken);
+        // console.log("Informações do token decodificado: ", decodedToken);
 
         navigate("/");
       } else {
