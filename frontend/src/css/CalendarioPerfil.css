@@ -23,6 +23,10 @@
     color: #F9B0C3;
 }
 
+.calendario-mes:hover {
+    color: #dcbaff;
+}
+
 .calendar-title {
     font-size: 18px;
     margin: 0 20px;

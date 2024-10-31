@@ -60,21 +60,6 @@ function Perfil() {
         setShowConfirmation(true);
     };
 
-
-    const goToNextMonth = () => {
-        const nextMonth = new Date(currentMonth);
-        nextMonth.setMonth(currentMonth.getMonth() + 1);
-        setCurrentMonth(nextMonth);
-    };
-    
-    const goToPreviousMonth = () => {
-        const previousMonth = new Date(currentMonth);
-        previousMonth.setMonth(currentMonth.getMonth() - 1);
-        setCurrentMonth(previousMonth);
-    };
-
-
-
     const confirmDelete = async () => {
         try {
             let deleteUrl = '';
@@ -672,12 +657,11 @@ function Perfil() {
                         {tipoUsuario === 'funcionario' && (
                             <Row>
                                 <Col>
-                                    <Button onClick={goToPreviousMonth}>◀</Button>
-                                    <Button onClick={goToNextMonth}>▶</Button>
                                     <Calendario
                                         currentMonth={currentMonth}
                                         consultationDetails={consultasAgendadas}
                                         tipoUsuario={tipoUsuario}
+                                        setCurrentMonth={setCurrentMonth}
                                     />
                                 </Col>
                             </Row>
