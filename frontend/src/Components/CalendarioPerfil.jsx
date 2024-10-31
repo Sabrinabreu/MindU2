@@ -3,12 +3,23 @@ import "../css/CalendarioPerfil.css";
 
 const CalendarioEDetalhes = ({
     currentMonth,
-    handlePrevMonth,
-    handleNextMonth,
+    setCurrentMonth,
     consultationDetails,
     tipoUsuario
 }) => {
     const [hoveredConsultation, setHoveredConsultation] = useState(null);
+
+    const goToNextMonth = () => {
+        const nextMonth = new Date(currentMonth);
+        nextMonth.setMonth(currentMonth.getMonth() + 1);
+        setCurrentMonth(nextMonth);
+    };
+    
+    const goToPreviousMonth = () => {
+        const previousMonth = new Date(currentMonth);
+        previousMonth.setMonth(currentMonth.getMonth() - 1);
+        setCurrentMonth(previousMonth);
+    };
 
     const generateCalendar = () => {
         const startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
@@ -58,11 +69,11 @@ const CalendarioEDetalhes = ({
         <div className="calendarioEDetalhes">
             <div className="calendarioPerfil p-4 text-center">
                 <div className="calendario-topo">
-                    <button className="calendario-mes" onClick={handlePrevMonth}>◀</button>
+                    <button className="calendario-mes" onClick={goToNextMonth}>◀</button>
                     <h5 className="calendar-title">
                         {currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}
                     </h5>
-                    <button className="calendario-mes" onClick={handleNextMonth}>▶</button>
+                    <button className="calendario-mes" onClick={goToPreviousMonth}>▶</button>
                 </div>
                 <br />
                 <div className="calendar-dias">
