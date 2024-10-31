@@ -33,7 +33,7 @@ app.use('/', rotaLogin);
 app.use('/', rotaCadastropsi);
 app.use('/', rotaempresa);
 app.use('/', rotaFuncionario);
-app.use('/', rotaPsicologos);
+app.use('/api/psicologos', rotaPsicologos);
 app.use('/api/', rotaPlanos);
 app.use('/api', agendamentoRoutes);
 app.use('/api/atualizarPerfil/upload-foto', rotaPerfilsuario);

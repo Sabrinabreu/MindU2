@@ -8,7 +8,6 @@ const ChatWidget = () => {
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
-    // Reset loading state when chat is opened
     if (!isOpen) {
       setLoading(true);
     }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import "../css/AgendarConsulta.css";
+import "../css/AgendarConsulta.css";
 import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -13,7 +13,7 @@ import perfilPsicanalista from '../img/perfilPsicanalista.jpeg';
 import perfilEscolar from '../img/perfilEscolar.avif';
 import perfilOrganizacional from '../img/perfilOrganizacional.avif';
 import perfilclinico from '../img/perfilClinico.jpg';
-import padraoPerfil from '../img/padraoPerfil.png'
+import padraoPerfil from '../img/padraoPerfil.png';
 import FiltroBusca from '../Components/FiltroAgendarConsulta';
 import { Pencil } from 'lucide-react';
 
@@ -34,11 +34,10 @@ function AgendarConsulta() {
     }));
   };
 
-  // editar o sobre mim
-  const handleTextChange = (psicologoId, value) => {
+  const handleTextChange = (psicologo_id, value) => {
     setEditedText(prev => ({
       ...prev,
-      [psicologoId]: value
+      [psicologo_id]: value
     }));
   };
 
@@ -282,6 +281,42 @@ function AgendarConsulta() {
     };
   }, [searchTerm]);
 
+  const handleSaveEdit = async (psicologo_id) => {
+    const updatedBiografia = editedText[psicologo_id];
+
+    if (!updatedBiografia) {
+      alert('Por favor, preencha as informações antes de salvar.');
+      return;
+    }
+
+    const psicologoData = {
+      biografia: updatedBiografia,
+    };
+
+    try {
+      await axios.put(`http://localhost:3001/api/psicologos/${psicologo_id}`, psicologoData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Atualiza a biografia na lista de psicólogos
+      setData(prevData =>
+        prevData.map(psicologo =>
+          psicologo.psicologo_id === psicologo_id
+            ? { ...psicologo, biografia: updatedBiografia }
+            : psicologo
+        )
+      );
+
+      alert('Biografia atualizada com sucesso!');
+      handleEditToggle(psicologo_id);
+    } catch (error) {
+      console.error("Erro ao salvar as edições:", error);
+      alert('Erro ao salvar as informações. Tente novamente.');
+    }
+  };
+
   return (
     <>
       <BAPO />
@@ -297,16 +332,23 @@ function AgendarConsulta() {
 
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
+        <Row>
         <Col md={12}>
           {filteredCards.length > 0 ? (
             filteredCards.map(psicologo => {
               const tabsData = getTabsForPsicologo(psicologo);
 
               return (
-                <div key={psicologo.psicologo_id} className="cardAgenda">
-                  <div className="content-container">
+                <div key={psicologo.psicologo_id}
+                // className="cardAgenda"
+                >
+                  <Row className="rowCardAgenda">
                     <img className='imgPerfil' src={tabs.find(tab => tab.id === psicologo.psicologo_id)?.foto || padraoPerfil} alt="Foto de Perfil" />
-                    <div className="primeiro">
+                    <Col md={6} sm={12} className="colCardAgenda">
+                    
+                    <div
+                    // className="primeiro"
+                    >
                       <h3 className='nomeAgenda'>{psicologo.nome}</h3>
                       <p className='profissao'>{psicologo.crp}</p>
                       <p className='profissao'>{psicologo.especialidade}</p>
@@ -317,14 +359,17 @@ function AgendarConsulta() {
                         ))}
                       </div>
                     </div>
-                    <div className='segundo'>
-                      <Col className='p-2'>
+                    <div
+                    // className='segundo'
+                    >
+                      <div className='p-2'>
                         <div className='sessao'>Duração da Sessão<br /><b className='hora'>1 Hora</b></div>
-                      </Col>
+                      </div>
                     </div>
+                    </Col>
 
 
-                    <div className="tabs-container">
+                    <Col md={6} sm={12} className="tabs-container">
                       <Tabs
                         defaultActiveKey="agenda"
                         id={`tabs-${psicologo.psicologo_id}`}
@@ -340,15 +385,15 @@ function AgendarConsulta() {
                                     <>
                                       <input
                                         type="text"
-                                        value={editedText[psicologo.psicologo_id] || ""}
+                                        value={editedText[psicologo.psicologo_id] || psicologo.biografia}
                                         onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
                                       />
-                                      <button className='salvarEdicoes' onClick={() => handleEditToggle(psicologo.psicologo_id)}>Salvar</button>
+                                      <button className='salvarEdicoes' onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
                                     </>
                                   ) : (
                                     <>
                                       <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <p style={{ marginRight: '10px' }}>{editedText[psicologo.psicologo_id] || "Informações não disponíveis."}</p>
+                                        <p style={{ marginRight: '10px' }}>{psicologo.biografia}</p>
                                         <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
                                           <Pencil />
                                         </button>
@@ -381,11 +426,10 @@ function AgendarConsulta() {
                         ))}
 
                       </Tabs>
-                    </div>
+                    </Col>
 
 
-
-                  </div>
+                  </Row>
                 </div>
               );
             })
@@ -393,6 +437,7 @@ function AgendarConsulta() {
             <div className='semResultado'>Nenhum resultado encontrado.</div>
           )}
         </Col >
+        </Row>
       </Container >
     </>
   );

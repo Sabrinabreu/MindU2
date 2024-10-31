@@ -31,11 +31,11 @@ const TabelaFuncionarios = ({ contas }) => {
   const handleRowSelected = React.useCallback(state => {
     setSelectedRows(state.selectedRows);
   }, []);
-  // Exclusão individual e remoção do item do estado local
+
+
   const handleExcluirUsuario = async (login) => {
     try {
       await axios.delete(`http://localhost:3001/contaFuncionarios/${login}`);
-      // Atualiza o estado local removendo o item excluído
       setContasFuncionarios(prevContas => prevContas.filter(conta => conta.login !== login));
       console.log("Usuário excluído com sucesso!");
     } catch (error) {
@@ -57,7 +57,7 @@ const TabelaFuncionarios = ({ contas }) => {
         prevContas.filter(conta => !selectedRows.some(row => row.login === conta.login))
       );
       setSelectedRows([]);
-      setToggleCleared(!toggleCleared); // Reseta a seleção
+      setToggleCleared(!toggleCleared);
       console.log("Usuários excluídos com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir usuários:", error);
@@ -69,12 +69,14 @@ const TabelaFuncionarios = ({ contas }) => {
       name: "Login",
       selector: contaFuncionario => contaFuncionario.login,
       sortable: true,
-    },
-    {
+    },{
       name: "Senha",
       selector: contaFuncionario => contaFuncionario.senha
-    },
-    {
+    },{
+      name: "Plano",
+      selector: contaFuncionario => contaFuncionario.nomePlano,
+      sortable: true,
+    },{
       cell: contaFuncionario => (
         <Trash style={{ color: "red", padding: "1.5px" }} onClick={() => handleExcluirUsuario(contaFuncionario.login)} />
       )
@@ -95,6 +97,7 @@ const TabelaFuncionarios = ({ contas }) => {
     const printWindow = window.open('', '', 'height=400,width=600');
     printWindow.document.write('<html><head><title>Imprimir Logins e Senhas</title>');
 
+    // estilos para a impressão
     printWindow.document.write(`
     <style>
       body { font-family: Arial, sans-serif; }
@@ -112,7 +115,8 @@ const TabelaFuncionarios = ({ contas }) => {
       printWindow.document.write(`
       <div class="login-senha">
         <span>Login:</span> ${conta.login}<br>
-        <span>Senha:</span> ${conta.senha}
+        <span>Senha:</span> ${conta.senha}<br>
+        <span>Plano:</span> ${conta.nomePlano}
       </div>
     `);
     });
@@ -140,7 +144,7 @@ const TabelaFuncionarios = ({ contas }) => {
           data={contasFuncionarios}
           contextActions={contextActions}
           noDataComponent="Não há registros para exibir"
-          clearSelectedRows={toggleCleared} // Passa o estado para resetar a seleção
+          clearSelectedRows={toggleCleared} 
         />
 
       </div></>

@@ -101,20 +101,4 @@ router.put('/cadastroempresa/:id', async (req, res) => {
   }
 });
 
-// // Rota para atualizar um registro existente pelo ID
-// router.put('/cadastroempresaUpdate/:id', (req, res) => {
-//   const { id } = req.params;
-//   const { telefone } = req.body;
-//   connection.query('UPDATE cadastroempresa SET telefone = ? WHERE ID = ?', 
-//     [telefone, id], (err, result) => {
-//     if (err) {
-//       console.error('Erro ao atualizar o registro:', err);
-//       res.status(500).json({ error: 'Erro ao atualizar o registro' });
-//       return;
-//     }
-//     res.json({ message: 'Registro atualizado com sucesso' });
-//   });
-// });
-
-
 module.exports = router;

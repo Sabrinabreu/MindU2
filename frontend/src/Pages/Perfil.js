@@ -28,22 +28,13 @@ function Perfil() {
     const navegacao = useNavigate();
 
     const [consultasAgendadas, setConsultasAgendadas] = useState([]);
-    const [currentMonth] = useState(new Date());
+    const [currentMonth, setCurrentMonth] = useState(new Date());
 
     const [showPassword, setShowPassword] = useState(false);
     const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            if (!perfil.id || !perfil.tipoUsuario) {
-                console.error("Dados do perfil incompletos. ID ou tipo de usuário não definidos.");
-                return;
-            }
-            handleUpload(file); // Chama a função de upload passando o arquivo
-        }
-    };
+
     useEffect(() => {
 
         if (token) {
@@ -52,71 +43,12 @@ function Perfil() {
             console.log("Token decodificado:", decodedToken);
             setTipoUsuario(decodedToken.tipo_usuario);
 
-            // Se for um funcionário, buscar o nome da empresa pelo `empresa_id`
+            // Se for um funcionário, buscar o nome da empresa pelo empresa id
             if (decodedToken.tipo_usuario === 'funcionario') {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
     }, [token]); // adiciona [token] para monitorar mudanças no token    
-
-    const fileInputRef = useRef(null);
-
-    useEffect(() => {
-        async function fetchProfileData() {
-            try {
-                const response = await axios.get('http://localhost:3001/api/atualizarPerfil/dados-perfil');
-                console.log("Dados do perfil carregados:", response.data); // Verifique aqui
-                if (response.data && response.data.id && response.data.tipoUsuario) {
-                    setPerfil(response.data);
-                } else {
-                    console.error("Dados do perfil incompletos:", response.data);
-                }
-            } catch (error) {
-                console.error('Erro ao carregar dados do perfil:', error);
-            }
-        }
-        fetchProfileData();
-    }, []);
-
-    const handleUploadClick = () => {
-        fileInputRef.current.click();
-    };
-
-    const handleUpload = async (file) => {
-        if (!perfil.id) {
-            console.error('ID do perfil não definido.');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('fotoPerfil', file); // Certifique-se de que "file" é do tipo File
-        formData.append('tipoUsuario','funcionario'); // Exemplo: "funcionario" ou "psicologo"
-        formData.append('id', perfil.id); // ID especifico para funcionario
-        if (perfil.tipoUsuario === 'psicologo') {
-            formData.append('psicologo_id', perfil.psicologo_id); // ID específico para psicólogo, se aplicável
-        }
-
-
-        console.log("Enviando dados:", { tipoUsuario: perfil.tipoUsuario, id: perfil.id, psicologo_id: perfil.psicologo_id });
-
-        try {
-            const response = await axios.post('http://localhost:3001/api/atualizarPerfil/upload-foto', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-
-            setPerfil((prevPerfil) => ({
-                ...prevPerfil,
-                foto_perfil: response.data.url,
-            }));
-
-            console.log('Foto enviada com sucesso:', response.data);
-        } catch (error) {
-            console.error('Erro ao fazer upload da foto:', error);
-        }
-    };
-
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -127,7 +59,7 @@ function Perfil() {
     const handleDeleteAccount = () => {
         setShowConfirmation(true);
     };
-
+    
     const confirmDelete = async () => {
         try {
             let deleteUrl = '';
@@ -282,7 +214,7 @@ function Perfil() {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
 
-            fetchConsultasAgendadas(decodedToken.perfil.id);/*pega os agendamentos*/
+            fetchConsultasAgendadas(decodedToken.perfil.id);
         }
     }, [token]);
 
@@ -332,14 +264,7 @@ function Perfil() {
                         <Card className='cardPerfil'>
                             <Card.Body>
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    <div onClick={handleUploadClick} style={{ cursor: 'pointer' }}>
-                                        <FotoPerfil
-                                            src={perfil.foto_perfil ? `http://localhost:3001${perfil.foto_perfil}` : null} name={perfil.nome || ''} />
-                                    </div>
-
-
-                                    <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
-
+                                <FotoPerfil name={perfil.nome || ''} />
                                     <div className="mt-3">
                                         <h4>{perfil.nome}</h4>
                                         <p>{perfil.login}</p>
@@ -373,6 +298,10 @@ function Perfil() {
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 className="mb-0">Cargo</h6>
                                             <span className="text-secondary">{perfil.cargo || "definir"}</span>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 className="mb-0">Plano</h6>
+                                            <span className="text-secondary">{perfil.nomePlano || "definir"}</span>
                                         </ListGroup.Item>
                                     </>
                                 )}
@@ -457,7 +386,6 @@ function Perfil() {
                                                         />
                                                     </Form.Group>
                                                     <Form.Group>
-                                                        {/* //mudar esses ids depois */}
                                                         <Form.Label>Cargo</Form.Label>
                                                         <Form.Control
                                                             className='mb-2'
@@ -729,6 +657,8 @@ function Perfil() {
                         {tipoUsuario === 'funcionario' && (
                             <Row>
                                 <Col>
+                                    <Button onClick={goToPreviousMonth}>◀</Button>
+                                    <Button onClick={goToNextMonth}>▶</Button>
                                     <Calendario
                                         currentMonth={currentMonth}
                                         consultationDetails={consultasAgendadas}

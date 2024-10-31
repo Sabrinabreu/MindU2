@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import "../css/AgendarConsulta.css";
 import '../css/Calendario.css';
 
 const DatePicker = ({ onDateSelect, diasDisponiveis }) => {
@@ -16,6 +15,7 @@ const DatePicker = ({ onDateSelect, diasDisponiveis }) => {
 
     const handleDateClick = (day) => {
         const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+        console.log('Data selecionada:', newDate); 
         setSelectedDate(newDate);
         onDateSelect(newDate);
     };

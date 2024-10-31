@@ -99,7 +99,6 @@ const Contato = () => {
       <BAPO />
       <button className="btnLog" onClick={handleLogout}>Sair da conta</button>
       <div>
-
         <div className="bannerContato">
           <Row>
             <Col md={6} sm={12}>

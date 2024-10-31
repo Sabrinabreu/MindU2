@@ -158,7 +158,16 @@ const Dashboard = () => {
                     <div className={`nav-title ${isSidebarCollapsed ? 'hidden' : ''}`}>
                         <h5>Dashboard</h5>
                     </div>
-                    <label htmlFor="nav-toggle">
+                    <label htmlFor="nav-toggle" 
+                        tabIndex="0" 
+                        role="button"
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault(); 
+                                document.getElementById("nav-toggle").click();
+                            }
+                        }}
+                    >
                         <span id="nav-toggle-burger"></span>
                     </label>
                     <hr />
@@ -204,7 +213,15 @@ const Dashboard = () => {
                             <span id="nav-footer-subtitle">Admin</span>
                         </div>
                         <label htmlFor="nav-footer-toggle">
-                            <i className="fas"> <ChevronDown /></i>
+                            <i  className="fas" 
+                                tabIndex="0" 
+                                role="button"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        document.getElementById("nav-footer-toggle").click();
+                                    }
+                                }}> <ChevronDown /></i>
                         </label>
                     </div>
                     <div id="nav-footer-content">

@@ -1,5 +1,5 @@
 const express = require('express');
-const connection = require('./db'); // Certifique-se de que o caminho está correto
+const connection = require('./db'); 
 const router = express.Router();
 
 // Rota para listar todas as compras
@@ -16,7 +16,6 @@ router.get('/compras', async (req, res) => {
 router.get('/planos', async (req, res) => {
     try {
         const [results] = await connection.query('SELECT * FROM planos');
-        // Verifique se a consulta retornou resultados
         if (results.length === 0) {
             return res.status(404).json({ message: 'Nenhum plano encontrado' });
         }
@@ -27,6 +26,23 @@ router.get('/planos', async (req, res) => {
     }
 });
 
+// Rota para buscar um registro específico pelo ID
+router.get('/planos/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const [results] = await connection.query('SELECT * FROM planos WHERE id = ?', [id]);
+      if (results.length === 0) {
+        res.status(404).json({ error: 'Registro não encontrado' });
+        console.log('Plano ID recebido na rota:', results);
+        return;
+      }
+      res.json(results[0]);
+    } catch (err) {
+      console.error('Erro ao buscar o registro:', err);
+      res.status(500).json({ error: 'Erro ao buscar o registro' });
+    }
+  });
 
 // Rota para criar uma nova compra
 router.post('/compras', async (req, res) => {

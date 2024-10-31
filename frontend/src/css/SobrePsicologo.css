@@ -246,9 +246,10 @@
     border-radius: 4px;
     padding: 10px;
     margin: 5px 0;
-    margin-left: -5%;
+    margin-left: -4%;
     cursor: pointer;
-    width: 40%;
+    width: 20%;
+    margin-right: 25px;
     text-align: left; 
 }
 
@@ -408,50 +409,18 @@
 }
 
 /* versao desktop  */
-@media (max-width: 601px) {
-    .perfilPsico {
-        width: 100%;
-        position: relative;
-        height: 400px;
-    }
 
-    .agenda {
-        width: 100%;
-        margin-left: -1%;
-    }
-
-    .psicologo {
-        width: 100%;
-        max-width: 130px;
-    }
-
-    .valores {
-        margin-top: 10px;
-    }
-
-    .contato, .localizacao, .biografia {
-        left: 16%;
-        width: 100%;
-    }
-
-    .displayCalendario {
-        margin-right: -2%;
-        margin-left: 20px;
-    }
-
-    .agendaConsulta {
-        margin-left: 15%;
-    }
-
-    .date{
-       width:  100%;
-    }
-}
 
 /* versao mobile  */
-@media (max-width: 600) {
+@media (max-width: 600px) {
+
+    .perfilPsico{
+        margin-left: 2px;
+        width: 100%;
+    }
+
     .psicologo {
-        width: 50%;
+        width: 5%;
         max-width: 100px;
         margin-top: 10px;
     }
@@ -460,31 +429,69 @@
         height: 120px;
     }
 
-    .valores {
-        margin-top: 10px;
-    }
-
     .agenda {
         margin-top: 20px;
-        margin-left: 0;
-
+        width: 100%;
+        margin-left: 2px;
     }
 
-    .biografia {
-        margin-right: 0;
+    .contato, .biografia, .agenda {
+        width: 100%;
+        margin-left: 2px;
     }
 
-    .contato {
-        margin-left: 0;
-    }
-
-    .displayCalendario {
-        margin-right: 1%;
-        margin-left: 20%;
+    .datepicker {
+        padding: 0;
+        width: 100%;
     }
 
     .displayCalendario {
+        margin-left: 2%;
+    }
+
+    .displayCalendario {
         margin-left: 0;
+    }
+    .navbar-toggler-icon {
+        height: 1.5em !important;
+    }
+}
+
+/* versao ipad  */
+@media (min-width: 700px) and (max-width: 900px) {
+    .perfilPsico {
+        width: 90%;
+    }
+    .agenda {
+        height: auto;
+        width: 400px;
+        max-width: 150% !important;
+        margin-left: -25px;
+    }
+    .agendaConsulta {
+        padding: 1em 2em;
+        font-size: 14px;
+        margin-left: 30%;
+        margin-top: 10px;
+    }
+    .displayCalendario {
+        margin-left: 2%;
+    }
+    .datepicker-calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+    }
+    .datepicker {
+        padding: 0;
+        width: 100%;
+    }
+    .datepicker-top {
+        margin: 1rem;
+    }
+    .contato, .localizacao, .biografia {
+        margin-left: -25px;
+        width: 400px;
+        max-width: 150% !important;
     }
 }
 
