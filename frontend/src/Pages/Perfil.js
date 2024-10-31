@@ -320,7 +320,7 @@ function Perfil() {
                                 )}
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                     <Button className="editarBot mb-2" onClick={handleLogout}><LogOut /> Sair da conta</Button>
-                                    <Button className="editarBot" onClick={handleDeleteAccount}> Deletar conta <CircleX className="logsvg" /> </Button>
+                                    <Button className="editarBot mb-2" onClick={handleDeleteAccount}> Deletar conta <CircleX className="logsvg" /> </Button>
 
                                     {showConfirmation && (
                                         <>
