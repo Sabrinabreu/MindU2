@@ -71,6 +71,25 @@ router.get('/psicologos/:psicologo_id', (req, res) => {
         res.json(results[0]);
     });
 });
+router.post('/', (req, res) => {
+    const { nome, especialidade, localizacao, crp } = req.body;
+
+    if (!nome || !especialidade || !localizacao || !crp) {
+        return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+    }
+
+    connection.query(
+        'INSERT INTO psicologos (nome, especialidade, localizacao, crp) VALUES (?, ?, ?, ?)',
+        [nome, especialidade, localizacao, crp],
+        (err, result) => {
+            if (err) {
+                console.error('Erro ao criar psicólogo:', err);
+                return res.status(500).json({ error: 'Erro ao criar psicólogo' });
+            }
+            res.status(201).json({ message: 'Psicólogo criado com sucesso!' });
+        }
+    );
+});
 
 // // Rota para atualizar um psicólogo existente pelo ID
 // router.put('/:id', (req, res) => {

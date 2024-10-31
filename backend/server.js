@@ -25,6 +25,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads'));
+
 
 // Usa as rotas do backend
 app.use('/', rotaLogin);
@@ -34,7 +36,7 @@ app.use('/', rotaFuncionario);
 app.use('/', rotaPsicologos);
 app.use('/api/', rotaPlanos);
 app.use('/api', agendamentoRoutes);
-app.use('/api/atualizarPerfil', rotaPerfilsuario);
+app.use('/api/atualizarPerfil/upload-foto', rotaPerfilsuario);
 app.use('/api', disponibilidadesRoutes);
 app.use('/api', rotaEsqueciSenha);
 app.use('/', rotaDelete);
