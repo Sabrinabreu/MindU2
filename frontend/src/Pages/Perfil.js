@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import "../css/Perfil.css";
 import { Container, Row, Col, Card, ListGroup, Button, Form, Alert } from 'react-bootstrap';
@@ -16,7 +16,7 @@ function formatarData(data) {
 
 function Perfil() {
     const [isEditing, setIsEditing] = useState(false);
-    const [perfil, setPerfil] = useState({});
+    const [perfil, setPerfil] = useState({ nome: '', login: '', foto_perfil: '' });
     const [tipoUsuario, setTipoUsuario] = useState('');
     const [nomeEmpresa, setNomeEmpresa] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -34,22 +34,85 @@ function Perfil() {
     const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
+    const fileInputRef = useRef(null);
 
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            handleUpload(file); // Chama a função de upload passando o arquivo
+        }
+    };
+    
+    const handleEditClick = () => {
+        setIsEditing(true);
+        setPerfil(prevData => ({ ...prevData, senha: '' }));
+        setIsEditing(!isEditing); // Alterna o modo de edição
+    };
+    
+    const handleUploadClick = () => {
+        fileInputRef.current.click(); // Abre o seletor de arquivo
+    };
 
+    console.log("iusdhudshzx: ", tipoUsuario)
+    
     useEffect(() => {
-
-        if (token) {
-            const decodedToken = parseJwt(token);
-            setPerfil(decodedToken.perfil);
-            setTipoUsuario(decodedToken.tipo_usuario);
-
-            // Se for um funcionário, buscar o nome da empresa pelo empresa id
-            if (decodedToken.tipo_usuario === 'funcionario') {
-                buscarNomeEmpresa(decodedToken.perfil.empresa_id);
+        async function fetchProfileData() {
+            const usuarioID = tipoUsuario === 'psicologo' ? 'psicologo_id' : 'id';
+    
+            if (!usuarioID || !tipoUsuario) {
+                try {
+                    const response = await axios.get('http://localhost:3001/api/atualizarPerfil/dados-perfil', {
+                        params: {
+                            tipoUsuario,
+                            id: usuarioID
+                        }
+                    });
+                    console.log("Dados do perfil carregados:", response.data);
+                    setPerfil(response.data); // Atualiza o estado do perfil com os dados recebidos
+                } catch (error) {
+                    console.error('Erro ao carregar dados do perfil:', error);
+                }
             }
         }
-    }, [token]); // monitorar mudanças no token    
-
+        fetchProfileData();
+    }, [perfil, tipoUsuario]);
+    
+    const handleUpload = async (file) => {
+        if (!perfil || !perfil.id || !perfil.tipoUsuario) {
+            console.error('Dados do perfil incompletos. ID ou tipo de usuário não definidos.');
+            console.log("ID:", perfil.id, "TIPO: ", perfil.tipoUsuario)
+            return;
+        }
+    
+        const formData = new FormData();
+        formData.append('fotoPerfil', file);
+        formData.append('tipoUsuario', perfil.tipoUsuario);
+        formData.append('id', perfil.id);
+        if (perfil.tipoUsuario === 'psicologo') {
+            formData.append('psicologo_id', perfil.psicologo_id);
+        }
+    
+        console.log("Enviando dados:", { tipoUsuario: perfil.tipoUsuario, id: perfil.id, psicologo_id: perfil.psicologo_id });
+    
+        try {
+            const response = await axios.post('http://localhost:3001/api/atualizarPerfil/upload-foto', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+    
+            // Atualiza o estado do perfil com todos os dados retornados, incluindo a nova URL da foto
+            setPerfil((prevPerfil) => ({
+                ...prevPerfil,
+                ...response.data, // Atualiza todos os dados retornados do perfil
+            }));
+    
+            console.log('Foto enviada com sucesso:', response.data);
+        } catch (error) {
+            console.error('Erro ao fazer upload da foto:', error);
+        }
+    };    
+      
     const handleLogout = () => {
         localStorage.removeItem('token');
         setToken(null);
@@ -59,7 +122,7 @@ function Perfil() {
     const handleDeleteAccount = () => {
         setShowConfirmation(true);
     };
-
+    
     const confirmDelete = async () => {
         try {
             let deleteUrl = '';
@@ -104,11 +167,6 @@ function Perfil() {
         setShowConfirmation(false);
     };
 
-
-    const handleEditClick = () => {
-        setIsEditing(true);
-        setPerfil(prevData => ({ ...prevData, senha: '' }));
-    };
 
     const validateForm = () => {
         const camposComuns = [
@@ -263,13 +321,36 @@ function Perfil() {
                     <Col md={4}>
                         <Card className='cardPerfil'>
                             <Card.Body>
-                                <div className="d-flex flex-column align-items-center text-center">
-                                    <FotoPerfil name={perfil.nome || ''} />
-                                    <div className="mt-3">
-                                        <h4>{perfil.nome}</h4>
-                                        <p>{perfil.login}</p>
-                                        <p className="text-muted font-size-sm">..</p>
+                                <div>
+                                    <div className="d-flex flex-column align-items-center text-center">
+                                        <div style={{ cursor: isEditing ? 'pointer' : 'default' }}>
+                                            <FotoPerfil name={perfil.nome || ''}
+                                                src={perfil.foto_perfil ? `http://localhost:3001${perfil.foto_perfil}` : null}
+
+                                            />
+                                        </div>
+
+                                        <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+
+                                        <div className="mt-3">
+                                            <h4>{perfil.nome}</h4>
+                                            <p>{perfil.login}</p>
+                                            <p className="text-muted font-size-sm">..</p>
+                                        </div>
                                     </div>
+
+
+
+                                    {/* Botão "Editar Foto" visível somente no modo de edição */}
+                                    {isEditing && (
+                                        <Row>
+                                            <Col sm={12}>
+                                                <Button className='editarBot' onClick={isEditing ? handleUploadClick : null} >
+                                                    <Pencil /> Editar Foto
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    )}
                                 </div>
                             </Card.Body>
                         </Card>
@@ -277,31 +358,31 @@ function Perfil() {
                             <ListGroup variant="flush">
                                 {/* informações gerais */}
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Telefone</h6>
-                                    <span className="text-secondary">{perfil.telefone || "definir"}</span>
+                                    <h6 className="mb-0 px-1">Telefone</h6>
+                                    <span className="text-secondary text-reticencias">{perfil.telefone || "definir"}</span>
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">CPF</h6>
-                                    <span className="text-secondary">{perfil.cpf || "definir"}</span>
+                                    <h6 className="mb-0 px-1">CPF</h6>
+                                    <span className="text-secondary text-reticencias">{perfil.cpf || "definir"}</span>
                                 </ListGroup.Item>
                                 {/* informações exclusivas de funcionário */}
                                 {tipoUsuario === 'funcionario' && (
                                     <>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Login</h6>
-                                            <span className="text-secondary">{perfil.login || "definir"}</span>
+                                            <h6 className="mb-0 px-1">Login</h6>
+                                            <span className="text-secondary text-reticencias">{perfil.login || "definir"}</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Empresa</h6>
-                                            <span className="text-secondary">{nomeEmpresa}</span>
+                                            <h6 className="mb-0 px-1">Empresa</h6>
+                                            <span className="text-secondary text-reticencias">{nomeEmpresa}</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Cargo</h6>
-                                            <span className="text-secondary">{perfil.cargo || "definir"}</span>
+                                            <h6 className="mb-0 px-1">Cargo</h6>
+                                            <span className="text-secondary text-reticencias">{perfil.cargo || "definir"}</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Plano</h6>
-                                            <span className="text-secondary">{perfil.nomePlano || "definir"}</span>
+                                            <h6 className="mb-0 px-1">Plano</h6>
+                                            <span className="text-secondary text-reticencias">{perfil.nomePlano || "definir"}</span>
                                         </ListGroup.Item>
                                     </>
                                 )}
@@ -309,12 +390,12 @@ function Perfil() {
                                 {tipoUsuario === 'psicologo' && (
                                     <>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Email</h6>
-                                            <span className="text-secondary">{perfil.email || "definir"}</span>
+                                            <h6 className="mb-0 px-1">Email</h6>
+                                            <span className="text-secondary text-reticencias">{perfil.email || "definir"}</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Data de Nascimento</h6>
-                                            <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
+                                            <h6 className="mb-0 px-1">Data de Nascimento</h6>
+                                            <span className="text-secondary text-reticencias">{formatarData(perfil.dataNascimento)}</span>
                                         </ListGroup.Item>
                                     </>
                                 )}
@@ -337,7 +418,7 @@ function Perfil() {
                         </Card>
                     </Col>
                     <Col md={8}>
-                        <Card className="cardPerfil mb-3">
+                        <Card className="cardPerfil mb-3 colPerfil">
                             {perfil && (
                                 <Card.Body>
                                     {isEditing ? (
@@ -345,7 +426,7 @@ function Perfil() {
                                             <Form.Group controlId="formFullName">
                                                 <Form.Label>Nome</Form.Label>
                                                 <Form.Control
-                                                    className='mb-2'
+                                                    className='mb-2 text-reticencias'
                                                     type="text"
                                                     name="nome"
                                                     value={perfil.nome}
@@ -644,7 +725,9 @@ function Perfil() {
                                             )}
                                             <Row>
                                                 <Col sm={12}>
-                                                    <Button className='editarBot' onClick={handleEditClick}><Pencil /> Editar</Button>
+                                                    <Button className='editarBot' onClick={handleEditClick}>
+                                                        <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
+                                                    </Button>
                                                 </Col>
                                             </Row>
                                         </>
@@ -669,7 +752,7 @@ function Perfil() {
                     </Col>
                 </Row>
 
-            </Container></>
+            </Container ></>
     );
 }
 

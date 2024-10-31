@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { Link } from 'react-router-dom';
 
+
 const Dashboard = () => {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -31,7 +32,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         axios.get('http://localhost:3001/contafuncionarios', {
-            params: {loginMethod: 'email' }
+            params: { loginMethod: 'email' }
         })
             .then(response => {
                 console.log('Dados recebidos:', response.data);
@@ -39,7 +40,7 @@ const Dashboard = () => {
             })
             .catch(error => {
                 console.error("Erro ao buscar os dados:", error);
-            });              
+            });
     }, []);
 
 
@@ -59,50 +60,10 @@ const Dashboard = () => {
         navegacao("/", { replace: true });
     };
 
-    
-    const handleDeleteAccount = () => {
-        setShowConfirmation(true);
+      const toggleSidebar = () => {
+        setSidebarCollapsed(prevState => !prevState);
     };
-    
-    const confirmDelete = async () => {
-        // console.log("ID da empresa:", perfil.ID);
-        // console.log("Token:", decodedToken);
-        try {
-            await axios.delete(`http://localhost:3001/empresa/delete/${perfil.ID}`);
-            setError(false);
-            navegacao('/');
-            localStorage.removeItem('token');
-            setToken(null);
-            console.log("conta excluída com sucesso!");
-            setFeedbackMessage("Conta excluída com sucesso!");
-        } catch (error) {
-            setError(false);
-            console.error("Erro ao excluir conta:", error);
-            setFeedbackMessage("Erro ao excluir conta."); 
-        } finally {
-            setShowConfirmation(false); 
-        }
-    };
-    // A mensagem desaparece após 3 segundos
-    useEffect(() => {
-        if (feedbackMessage) {
-            const timer = setTimeout(() => {
-                setFeedbackMessage(null);
-            }, 3000);
-    
-            return () => clearTimeout(timer);
-        }
-    }, [feedbackMessage]);
-    
-    
-    
-      const cancelDelete = () => {
-        setShowConfirmation(false);
-      };
 
-    const toggleSidebar = () => {
-        setSidebarCollapsed(!isSidebarCollapsed);
-    };
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -128,7 +89,7 @@ const Dashboard = () => {
         const initials = names.slice(0, 2).map(n => n[0].toUpperCase()).join('');
         return initials;
     };
-    
+
     const getColorFromInitials = (initials) => {
         let hash = 0;
         for (let i = 0; i < initials.length; i++) {
@@ -137,7 +98,7 @@ const Dashboard = () => {
         const color = `#${((hash & 0x00FFFFFF) >> 0).toString(16).padStart(6, '0').toUpperCase()}`;
         return color;
     };
-    
+
     const getContrastingColor = (backgroundColor) => {
         const r = parseInt(backgroundColor.substring(1, 3), 16);
         const g = parseInt(backgroundColor.substring(3, 5), 16);
@@ -145,8 +106,6 @@ const Dashboard = () => {
         const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
         return luminosity > 128 ? '#000000' : '#FFFFFF';
     };
-    
-
     return (
         <>
             <BAPO />
@@ -158,12 +117,12 @@ const Dashboard = () => {
             )}
 
             {/* Sidebar */}
-
+          
             <div id="navbar" className={isSidebarCollapsed ? 'collapsed' : ''}>
                 <input id="nav-toggle" type="checkbox" onChange={toggleSidebar} />
                 <div id="nav-header">
                     <div className={`nav-title ${isSidebarCollapsed ? 'hidden' : ''}`}>
-                        <h5>Dashboard</h5>
+                    <Link to="/dashboard"><h5>Dashboard</h5></Link>
                     </div>
                     <label htmlFor="nav-toggle" 
                         tabIndex="0" 
@@ -180,40 +139,34 @@ const Dashboard = () => {
                     <hr />
                 </div>
                 <div id="nav-content">
-                    <div className="nav-button">
-                        <Link to="/seuplano">
-                            <i className="fas"><SquareChartGantt /></i>
-                            <span>Seu Plano</span>
-                        </Link>
-                    </div>
-                    <div className="nav-button">
-                        <Link to="/adicionarfuncionarios">
+                     <Link to="/dashboard/seuplano"><div className="nav-button">
+                       <i className="fas"><SquareChartGantt /></i><span>Seu Plano</span>
+                    </div></Link>
+                    <Link to="/dashboard/addfuncionario">
+                        <div className="nav-button">
                             <i className="fas"><CopyPlus /></i>
                             <span>Adicionar Funcionários</span>
-                        </Link>
-                    </div>
-                    <div className="nav-button">
-                        <Link to="/perfilempresa">
-                            <i className="fas"><UserRoundPen /></i>
-                            <span>Perfil</span>
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
+                     <Link to="/perfilempresa"><div className="nav-button">
+                       <i className="fas"><SquareChartGantt /></i><span>Perfil</span>
+                    </div></Link>
                     <div id="nav-content-highlight"></div>
                 </div>
                 <input id="nav-footer-toggle" type="checkbox" />
                 <div id="nav-footer">
                     <div id="nav-footer-heading">
-                    <div id="nav-footer-avatar">
-                        <div
-                            className="profile-initials"
-                            style={{
-                                backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
-                                color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || '')))
-                            }}
-                        >
-                            {getInitials(perfil.empresa || '')}
+                        <div id="nav-footer-avatar">
+                            <div
+                                className="profile-initials"
+                                style={{
+                                    backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
+                                    color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || '')))
+                                }}
+                            >
+                                {getInitials(perfil.empresa || '')}
+                            </div>
                         </div>
-                    </div>
                         <div id="nav-footer-titlebox">
                             <a id="nav-footer-title"
                                 target="_blank" rel="noopener noreferrer">{perfil.empresa}</a>
@@ -233,34 +186,10 @@ const Dashboard = () => {
                         </label>
                     </div>
                     <div id="nav-footer-content">
-                    <button
-                        onClick={handleLogout}
-                        className="logout"
-                        tabIndex={menuOpen ? 0 : 1}
-                    >
-                        Sair<LogOut className="logsvg" />
-                    </button>
-                    <button
-                        onClick={handleDeleteAccount}
-                        className="logout"
-                        tabIndex={menuOpen ? 0 : 1} 
-                    >
-                        Deletar conta <CircleX className="logsvg" />
-                    </button>
-
-                {showConfirmation && (
-                    <>
-                        <div className="overlay"></div>
-                        <div className="confirmation-modal">
-                            <p>Tem certeza de que deseja deletar sua conta? Todos os funcionários associados a esta empresa também serão deletados.</p>
-                            <button onClick={confirmDelete} className="btn btn-danger confirm-button">Sim, deletar</button>
-                            <button onClick={cancelDelete} className="btn btn-secondary">Cancelar</button>
-                        </div>
-                    </>
-                )}
+                        <button onClick={handleLogout} className="logout">Sair<LogOut className="logsvg" /></button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
             {/* Filtro */}
 

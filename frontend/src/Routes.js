@@ -3,7 +3,6 @@ import { useAuth } from "./provider/AuthProvider";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { parseJwt } from './Components/jwtUtils';
 
-
 //Páginas
 import Home from "./Pages/Home";  //todos
 import Contato from "./Pages/Contato"; //todos
@@ -13,12 +12,14 @@ import Agendarconsulta from "./Pages/AgendarConsulta"; //funcionario e psicologo
 import SaibaMais from './Pages/SaibaMais'; //funcionario e psicologo
 import Planos from './Pages/Planos'; //empresa e usuários nn logados
 import Perfil from './Pages/Perfil'; //funcionario e psicologo
+import PerfilEmpresa from './Pages/PerfilEmpresa'
 import AcessoFuncionarios from './Pages/TabelaFuncionarios'; //empresa
 import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import NotFound from "./Pages/NotFound"; //*
 import Dashboard from "./Pages/Dashboard"; //empresa
 import SeuPlano from "./Pages/SeuPlano";
+import AddFuncionarios from "./Pages/AddFuncionario";
 import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -90,10 +91,19 @@ const Rotas = () => {
       />
 
       <Route
-        path="/seuplano"
+        path="/dashboard/seuplano"
         element={
           <ProtectedRoute allowedRoles={['empresa']}>
             <SeuPlano />
+          </ProtectedRoute>
+        }
+      />
+
+<Route
+        path="/dashboard/addfuncionario"
+        element={
+          <ProtectedRoute allowedRoles={['empresa']}>
+            <AddFuncionarios />
           </ProtectedRoute>
         }
       />
@@ -130,6 +140,15 @@ const Rotas = () => {
             element={
               <ProtectedRoute allowedRoles={['psicologo', 'funcionario']}>
                 <Perfil />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/perfilempresa"
+            element={
+              <ProtectedRoute allowedRoles={['empresa']}>
+                <PerfilEmpresa />
               </ProtectedRoute>
             }
           />

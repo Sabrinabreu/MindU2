@@ -242,3 +242,23 @@ border-bottom: .8px solid #a0a0a0;
     .confirmation-modal p {
       margin-bottom: 23px;
     }}
+
+
+    .text-reticencias {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      
+      @media (min-width: 576px) {
+        .colPerfil .card-body .row .col-sm-3 {
+            width: 35%;
+        }
+        .colPerfil .card-body .row .text-secondary.col-sm-9 {
+            max-width: 270px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
