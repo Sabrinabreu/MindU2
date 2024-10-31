@@ -277,31 +277,31 @@ function Perfil() {
                             <ListGroup variant="flush">
                                 {/* informações gerais */}
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Telefone</h6>
-                                    <span className="text-secondary">{perfil.telefone || "definir"}</span>
+                                    <h6 className="mb-0 px-1">Telefone</h6>
+                                    <span className="text-secondary text-reticencias">{perfil.telefone || "definir"}</span>
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">CPF</h6>
-                                    <span className="text-secondary">{perfil.cpf || "definir"}</span>
+                                    <h6 className="mb-0 px-1">CPF</h6>
+                                    <span className="text-secondary text-reticencias">{perfil.cpf || "definir"}</span>
                                 </ListGroup.Item>
                                 {/* informações exclusivas de funcionário */}
                                 {tipoUsuario === 'funcionario' && (
                                     <>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Login</h6>
-                                            <span className="text-secondary">{perfil.login || "definir"}</span>
+                                            <h6 className="mb-0 px-1">Login</h6>
+                                            <span className="text-secondary text-reticencias">{perfil.login || "definir"}</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Empresa</h6>
-                                            <span className="text-secondary">{nomeEmpresa}</span>
+                                            <h6 className="mb-0 px-1">Empresa</h6>
+                                            <span className="text-secondary text-reticencias">{nomeEmpresa}</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Cargo</h6>
-                                            <span className="text-secondary">{perfil.cargo || "definir"}</span>
+                                            <h6 className="mb-0 px-1">Cargo</h6>
+                                            <span className="text-secondary text-reticencias">{perfil.cargo || "definir"}</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Plano</h6>
-                                            <span className="text-secondary">{perfil.nomePlano || "definir"}</span>
+                                            <h6 className="mb-0 px-1">Plano</h6>
+                                            <span className="text-secondary text-reticencias">{perfil.nomePlano || "definir"}</span>
                                         </ListGroup.Item>
                                     </>
                                 )}
@@ -309,12 +309,12 @@ function Perfil() {
                                 {tipoUsuario === 'psicologo' && (
                                     <>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Email</h6>
-                                            <span className="text-secondary">{perfil.email || "definir"}</span>
+                                            <h6 className="mb-0 px-1">Email</h6>
+                                            <span className="text-secondary text-reticencias">{perfil.email || "definir"}</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 className="mb-0">Data de Nascimento</h6>
-                                            <span className="text-secondary">{formatarData(perfil.dataNascimento)}</span>
+                                            <h6 className="mb-0 px-1">Data de Nascimento</h6>
+                                            <span className="text-secondary text-reticencias">{formatarData(perfil.dataNascimento)}</span>
                                         </ListGroup.Item>
                                     </>
                                 )}
@@ -337,7 +337,7 @@ function Perfil() {
                         </Card>
                     </Col>
                     <Col md={8}>
-                        <Card className="cardPerfil mb-3">
+                        <Card className="cardPerfil mb-3 colPerfil">
                             {perfil && (
                                 <Card.Body>
                                     {isEditing ? (
@@ -345,7 +345,7 @@ function Perfil() {
                                             <Form.Group controlId="formFullName">
                                                 <Form.Label>Nome</Form.Label>
                                                 <Form.Control
-                                                    className='mb-2'
+                                                    className='mb-2 text-reticencias'
                                                     type="text"
                                                     name="nome"
                                                     value={perfil.nome}
