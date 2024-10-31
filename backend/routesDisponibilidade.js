@@ -46,7 +46,6 @@ router.post('/disponibilidade/psicologo', async (req, res) => {
         [psicologo_id, data]
     );
 
-
     // Verifique se os dados foram enviados
     if (!Array.isArray(dataDisponibilidade) || dataDisponibilidade.length === 0) {
         console.log('Dados inválidos:', dataDisponibilidade);
