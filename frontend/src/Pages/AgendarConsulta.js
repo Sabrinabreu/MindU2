@@ -6,13 +6,6 @@ import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import perfilPsicologo from '../img/perfilPsicologo.jfif';
-import perfilPsicologa from '../img/perfilPsicologa.jfif';
-import perfilPsicologaclinica from '../img/perfilPsicologaclinica.png';
-import perfilPsicanalista from '../img/perfilPsicanalista.jpeg';
-import perfilEscolar from '../img/perfilEscolar.avif';
-import perfilOrganizacional from '../img/perfilOrganizacional.avif';
-import perfilclinico from '../img/perfilClinico.jpg';
 import padraoPerfil from '../img/padraoPerfil.png';
 import FiltroBusca from '../Components/FiltroAgendarConsulta';
 import { Pencil } from 'lucide-react';
@@ -72,7 +65,6 @@ function AgendarConsulta() {
   const tabs = [
     {
       id: 1,
-      foto: perfilPsicologa,
       tabs: [
         {
           eventKey: "sobre",
@@ -97,7 +89,6 @@ function AgendarConsulta() {
     },
     {
       id: 2,
-      foto: perfilPsicologo,
       tabs: [
         {
           eventKey: "sobre",
@@ -122,7 +113,6 @@ function AgendarConsulta() {
     },
     {
       id: 3,
-      foto: perfilPsicologaclinica,
       tabs: [
         {
           eventKey: "sobre",
@@ -147,7 +137,6 @@ function AgendarConsulta() {
     },
     {
       id: 4,
-      foto: perfilPsicanalista,
       tabs: [
         {
           eventKey: "sobre",
@@ -172,7 +161,6 @@ function AgendarConsulta() {
     },
     {
       id: 5,
-      foto: perfilEscolar,
       tabs: [
         {
           eventKey: "sobre",
@@ -197,7 +185,6 @@ function AgendarConsulta() {
     },
     {
       id: 6,
-      foto: perfilOrganizacional,
       tabs: [
         {
           eventKey: "sobre",
@@ -222,7 +209,6 @@ function AgendarConsulta() {
     },
     {
       id: 7,
-      foto: perfilclinico,
       tabs: [
         {
           eventKey: "sobre",
@@ -235,13 +221,13 @@ function AgendarConsulta() {
           content: (
             <div className="especialidades">
               {[{ description: "Aconselhamento individual e em grupo" }, { description: "Desenvolvimento de autoestima" }, { description: "Coaching" }, { description: "Habilidades para lidar com estresse e ansiedade" }].map((servico, index) => (
-                  <div key={index}>
-                    <p className='especialidade'>{servico.description}</p>
-                  </div>
+                <div key={index}>
+                  <p className='especialidade'>{servico.description}</p>
+                </div>
               ))}
             </div>
           ),
-        },        
+        },
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para ele." }
       ]
     }
@@ -288,46 +274,46 @@ function AgendarConsulta() {
 
     // Verifica se a biografia está vazia ou contém apenas espaços
     if (!updatedBiografia || updatedBiografia.trim() === '') {
-        alert('Por favor, preencha as informações antes de salvar.');
-        return;
+      alert('Por favor, preencha as informações antes de salvar.');
+      return;
     }
 
     const psicologoData = {
-        biografia: updatedBiografia,
+      biografia: updatedBiografia,
     };
 
     try {
-        // Envia a requisição PUT para atualizar a biografia do psicólogo
-        await axios.put(`http://localhost:3001/api/${psicologo_id}`, psicologoData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        // Atualiza a biografia na lista de psicólogos no estado local
-        setData(prevData =>
-            prevData.map(psicologo =>
-                psicologo.psicologo_id === psicologo_id
-                    ? { ...psicologo, biografia: updatedBiografia }
-                    : psicologo
-            )
-        );
-
-        // Exibe uma mensagem de sucesso para o usuário
-        alert('Biografia atualizada com sucesso!');
-        handleEditToggle(psicologo_id); // Fecha o modo de edição
-    } catch (error) {
-        console.error("Erro ao salvar as edições:", error);
-
-        if (error.response) {
-            // O servidor respondeu com um status diferente de 2xx
-            alert(`Erro: ${error.response.data.error}`);
-        } else {
-            // Algum erro ocorreu ao configurar a requisição
-            alert('Erro ao salvar as informações. Tente novamente.');
+      // Envia a requisição PUT para atualizar a biografia do psicólogo
+      await axios.put(`http://localhost:3001/api/${psicologo_id}`, psicologoData, {
+        headers: {
+          'Content-Type': 'application/json'
         }
+      });
+
+      // Atualiza a biografia na lista de psicólogos no estado local
+      setData(prevData =>
+        prevData.map(psicologo =>
+          psicologo.psicologo_id === psicologo_id
+            ? { ...psicologo, biografia: updatedBiografia }
+            : psicologo
+        )
+      );
+
+      // Exibe uma mensagem de sucesso para o usuário
+      alert('Biografia atualizada com sucesso!');
+      handleEditToggle(psicologo_id); // Fecha o modo de edição
+    } catch (error) {
+      console.error("Erro ao salvar as edições:", error);
+
+      if (error.response) {
+        // O servidor respondeu com um status diferente de 2xx
+        alert(`Erro: ${error.response.data.error}`);
+      } else {
+        // Algum erro ocorreu ao configurar a requisição
+        alert('Erro ao salvar as informações. Tente novamente.');
+      }
     }
-};
+  };
 
 
   return (
@@ -356,7 +342,10 @@ function AgendarConsulta() {
                   // className="cardAgenda"
                   >
                     <Row className="rowCardAgenda">
-                      <img className='imgPerfil' src={tabs.find(tab => tab.id === psicologo.psicologo_id)?.foto || padraoPerfil} alt="Foto de Perfil" />
+                      <img className='imgPerfil'
+                        src={psicologo.foto_perfil ? `http://localhost:3001/uploads/${psicologo.foto_perfil}` : padraoPerfil}
+
+                      />
                       <Col md={6} sm={12} className="colCardAgenda">
 
                         <div

@@ -92,7 +92,7 @@ body {
     padding: 18px 18px 2px 18px !important;
     flex: auto !important;
     width: auto !important;
-    margin: 6% !important;
+    margin: 4% !important;
     padding: 1em 3em;
     font-size: 16px;
     letter-spacing: 1px;
@@ -107,8 +107,19 @@ body {
 }
 
 [data-theme='dark'] .cardcadastropsi {
+    background-color: #2b2b38;
     color: #ffffff;
     box-shadow: 6px 8px 16px #8f5ec8 !important;
+}
+
+.questioncadastro {
+    font-size: 15px !important;
+}
+
+.textocardcadastropsi {
+    margin-top: 30px !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
 }
 
 .conteinerporque {

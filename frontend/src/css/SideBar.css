@@ -26,7 +26,7 @@
   width: 100%;
   padding-bottom: 3px;
   padding-top: 3px;
-  
+
 }
 
 .logout:hover {
@@ -186,7 +186,7 @@ label[for="nav-toggle"] {
   display: none;
 }
 
-.nav-title h5{
+.nav-title h5 {
   color: var(--navbar-light-secondary);
   font-weight: 500;
   font-size: 20px;
@@ -297,16 +297,16 @@ label[for="nav-toggle"] {
     padding-right: 10px;
   }
 
-}  
+}
 
 .nav-button:hover {
-    background: var(--navbar-dark-secondary);
-    color: var(--navbar-light-primary);
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    transform: translateX(8px);
-    transition: transform 0.2s;
-  }
+  background: var(--navbar-dark-secondary);
+  color: var(--navbar-light-primary);
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  transform: translateX(8px);
+  transition: transform 0.2s;
+}
 
 .nav-button a {
   display: flex;
@@ -317,7 +317,7 @@ label[for="nav-toggle"] {
   height: 100%;
   padding: 0 8px;
 }
-    
+
 #nav-footer {
   position: relative;
   width: var(--navbar-width);
@@ -397,6 +397,7 @@ label[for="nav-footer-toggle"] {
   background: var(--navbar-dark-secondary);
 }
 
+
 @media (max-width: 1100px) and (orientation: landscape) {
   #navbar {
     top: 8vh;
@@ -407,7 +408,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 22%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -425,12 +426,12 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 11%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
   }
-  
+
 }
 
 @media (max-width: 992px) {
@@ -443,7 +444,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 12%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -460,7 +461,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 11%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -477,7 +478,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 12%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -494,7 +495,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 14%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -511,7 +512,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 17%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -528,7 +529,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 19%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -545,7 +546,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 15%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -562,7 +563,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 16%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -579,7 +580,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 17%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -597,7 +598,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 20%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -614,7 +615,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 18%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
@@ -631,7 +632,7 @@ label[for="nav-footer-toggle"] {
   #nav-toggle:not(:checked)~#nav-footer-toggle:checked+#nav-footer {
     height: 16%;
     min-height: 54px;
-  
+
     label[for="nav-footer-toggle"] {
       transform: rotateX(180deg) !important;
     }
