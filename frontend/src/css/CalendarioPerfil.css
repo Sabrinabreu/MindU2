@@ -69,7 +69,7 @@
     color: #333; 
     width: 100%;
 }
-
+/*
 .calendario-dia {
     font-weight: normal;
     margin-top: 2px;
@@ -85,7 +85,11 @@
     align-items: center;
     display: flex; 
     margin-left: 20px;
-}
+
+    position: relative;
+    border: 1px solid #ddd;
+    margin: 2px;
+}*/
 
 .calendario-dia:hover {
     background: #d9c1f1; 
@@ -135,4 +139,35 @@
     .calendar-dias{
         width: 20px !important;
     }
+}
+
+
+.calendario-dia {
+    font-weight: normal;
+    margin-top: 2px;
+    background: #fff; 
+    padding: 10px; 
+    border-radius: 100%; /* Ajuste para um canto mais suave */
+    height: auto; /* Permitir que a altura se ajuste ao conteúdo */
+    width: 60px; /* Manter a largura */
+    text-align: center; 
+    transition: background 0.3s; 
+    cursor: pointer;
+    position: relative;
+    border: 1px solid #ddd;
+    margin: 2px;
+    display: block; /* Mudar para block para empilhar o conteúdo */
+}
+
+.consultas {
+    background-color: rgba(0, 123, 255, 0.1); /* Fundo leve para as consultas */
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px; /* Espaço entre o dia e as consultas */
+    text-align: left; /* Alinhar o texto à esquerda */
+}
+
+.consulta {
+    font-size: 12px;
+    margin: 2px 0; /* Espaçamento entre as consultas */
 }
