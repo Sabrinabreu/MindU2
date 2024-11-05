@@ -7,9 +7,7 @@ import axios from "axios";
 import CriarContasFuncionarios from '../Components/CriarContasFuncionarios';
 import { useState, useEffect } from 'react';
 import '../css/SideBar.css';
-import { GiCancel } from 'react-icons/gi';
-import { PlusCircle } from 'lucide-react';
-import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX, UserRoundPen } from 'lucide-react';
+import { SquareChartGantt, CopyPlus, ChevronDown, LogOut } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
@@ -22,17 +20,13 @@ const MyCard = () => {
     const [completedSteps, setCompletedSteps] = useState([false, false, false]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [data, setData] = useState(null);
-    const [planos, setPlanos] = useState([]);
     const [selectedPlan, setSelectedPlan] = useState(null);
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [perfil, setPerfil] = useState({});
     const [compras, setCompras] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [empresaId, setEmpresaId] = useState(null);
     const [tipoUsuario, setTipoUsuario] = useState(null);
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const [feedbackMessage, setFeedbackMessage] = useState(null);
 
     useEffect(() => {
         console.log('Dados:', data);
