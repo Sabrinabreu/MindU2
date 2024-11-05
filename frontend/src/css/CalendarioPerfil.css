@@ -1,4 +1,3 @@
-
 .calendarioPerfil  {
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -57,6 +56,8 @@
 .calendar-cell {
     height: 70px;
     vertical-align: top;
+    height: auto; 
+    border: none;
 }
 
 
@@ -69,30 +70,57 @@
     color: #333; 
     width: 100%;
 }
-/*
+
 .calendario-dia {
-    font-weight: normal;
-    margin-top: 2px;
+    font-weight: bold;
     background: #fff; 
-    padding: 10px; 
-    border-radius: 100%;
-    height: 60px;
-    width: 60px;
-    text-align: center; 
+    border-radius: 50%;
+    height: 60px; 
+    width: 60px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
     transition: background 0.3s; 
     cursor: pointer;
-    justify-content: center;
-    align-items: center;
-    display: flex; 
-    margin-left: 20px;
-
     position: relative;
     border: 1px solid #ddd;
-    margin: 2px;
-}*/
+    margin: 2px auto; 
+}
+
+.consulta {
+    font-size: 12px;
+    margin: 2px 0; 
+}
+
+.consultas {
+    display: none; /* Ocultar as consultas por padrão */
+    background-color: #e0d3f5;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px;
+    margin-left: 2px;
+    text-align: left;
+    border: 1px solid #6852a5;
+}
+
+.calendario-dia:hover + .consultas {
+    display: block; /* Exibir as consultas quando o dia é hovered */
+}
 
 .calendario-dia:hover {
     background: #d9c1f1; 
+}
+
+.bolinha {
+    display: inline-block; 
+    width: 10px;
+    height: 10px;
+    background-color: #F9B0C3;
+    border-radius: 50%;
+    position: absolute;
+    border: 1px solid #F9B0C3;
+    top: 5px; 
+    right: 5px;
 }
 
 /*dark mode */
@@ -139,35 +167,4 @@
     .calendar-dias{
         width: 20px !important;
     }
-}
-
-
-.calendario-dia {
-    font-weight: normal;
-    margin-top: 2px;
-    background: #fff; 
-    padding: 10px; 
-    border-radius: 100%; /* Ajuste para um canto mais suave */
-    height: auto; /* Permitir que a altura se ajuste ao conteúdo */
-    width: 60px; /* Manter a largura */
-    text-align: center; 
-    transition: background 0.3s; 
-    cursor: pointer;
-    position: relative;
-    border: 1px solid #ddd;
-    margin: 2px;
-    display: block; /* Mudar para block para empilhar o conteúdo */
-}
-
-.consultas {
-    background-color: rgba(0, 123, 255, 0.1); /* Fundo leve para as consultas */
-    border-radius: 5px;
-    padding: 5px;
-    margin-top: 5px; /* Espaço entre o dia e as consultas */
-    text-align: left; /* Alinhar o texto à esquerda */
-}
-
-.consulta {
-    font-size: 12px;
-    margin: 2px 0; /* Espaçamento entre as consultas */
 }

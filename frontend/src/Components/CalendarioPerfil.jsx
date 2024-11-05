@@ -38,14 +38,19 @@ const CalendarioEDetalhes = ({
             });
     
             days.push(
-                <div key={i} className="calendario-dia">
-                    <div>{dataFormatada}</div>
+                <div key={i} className="calendar-cell">
+                    <div className="calendario-dia">
+                        {dataFormatada}
+                        {consultasDoDia.length > 0 && <span className="bolinha"></span>}
+                    </div>
                     {consultasDoDia.length > 0 && (
                         <div className="consultas">
                             {consultasDoDia.map((consulta, index) => (
                                 <div key={index} className="consulta">
                                     <p>{consulta.horario} - {consulta.assunto}</p>
-                                    <p><strong>Psicólogo:</strong> {consulta.nomePsico || 'Psicólogo não disponível'}</p>
+                                    <p><strong>Horário:</strong> {consulta.horario || ''}</p>
+                                    <p><strong>Data:</strong> {consulta.data || ':('}</p>
+                                    <p><strong>Psicólogo:</strong> {consulta.nomePsico || ':('}</p>
                                 </div>
                             ))}
                         </div>
