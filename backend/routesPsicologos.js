@@ -95,8 +95,8 @@ router.get('/by-name', (req, res) => {
     });
 });
 
-
-router.put('/:psicologo_id', async (req, res) => {
+// atualiza a biografia
+router.put('/biografia/:psicologo_id', async (req, res) => {
     const { psicologo_id } = req.params;
     const { biografia } = req.body;
 

@@ -301,10 +301,8 @@ function AgendarConsulta() {
     };
 
     try {
-        console.log('ID do psicólogo:', psicologoIdNumerico);
-        console.log('Biografia a ser atualizada:', updatedBiografia);
-
-        const response = await axios.put(`http://localhost:3001/api/${psicologo_id}`, psicologoData, {
+        // Envia a requisição PUT para atualizar a biografia do psicólogo
+        await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
             headers: {
                 'Content-Type': 'application/json',
             },

@@ -738,13 +738,13 @@ function Perfil() {
                                                 </>
                                             )}
                                             <Row>
-                                               
-                                                    <Col sm={12}>
-                                                        <Button className='editarBot' onClick={handleEditClick}>
-                                                            <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
-                                                        </Button>
-                                                    </Col>
-                                               
+
+                                                <Col sm={12}>
+                                                    <Button className='editarBot' onClick={handleEditClick}>
+                                                        <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
+                                                    </Button>
+                                                </Col>
+
 
                                             </Row>
                                         </>
@@ -759,9 +759,9 @@ function Perfil() {
                                 <Col>
                                     <Calendario
                                         currentMonth={currentMonth}
-                                        consultationDetails={consultasAgendadas}
-                                        tipoUsuario={tipoUsuario}
                                         setCurrentMonth={setCurrentMonth}
+                                        tipoUsuario={tipoUsuario}
+                                        consultationDetails={consultasAgendadas}
                                     />
                                 </Col>
                             </Row>
