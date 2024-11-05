@@ -283,12 +283,12 @@ function AgendarConsulta() {
     };
 
     try {
-      // Envia a requisição PUT para atualizar a biografia do psicólogo
-      await axios.put(`http://localhost:3001/api/${psicologo_id}`, psicologoData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+        // Envia a requisição PUT para atualizar a biografia do psicólogo
+        await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
       // Atualiza a biografia na lista de psicólogos no estado local
       setData(prevData =>
