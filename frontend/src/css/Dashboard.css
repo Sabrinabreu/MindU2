@@ -102,6 +102,12 @@ body {
 }
 
 @media (max-width: 992px) {
+  .conteudoADDfuncionario {
+    overflow-x: hidden !important;
+  }
+  .conteudoSeuPlano {
+    overflow-x: hidden !important;
+  }
   .dashboard {
     width: 125% !important;
     margin-left: -210px !important;
@@ -135,6 +141,31 @@ body {
 
   #nav-footer-title {
     max-width: 150px !important;
+  }
+
+  .dashboard.collapsed .cardaddfuncionarios {
+     max-width: 100%;
+     width: 125% ;
+    margin-left: -210px ;
+  }
+  .cardaddfuncionarios {
+    max-width: 100%;
+    width: 98%;
+ }
+
+ .planCard.expanded .titleseuplano{
+    text-align: start !important;
+ }
+
+ .planCard.expanded .colseuplano {
+    max-width: 100%;
+    width: 90%;
+    margin-left: 0px;
+  }
+    .cardseuplano, .cardaddplano {
+    max-width: 100%;
+    width: 90%;
+    margin-left: 0px;
   }
 }
 
@@ -191,6 +222,12 @@ body {
     margin-bottom: 400px !important;
 
   }
+
+ .cardaddfuncionarios {
+   max-width: 100%;
+   width: 20% !important;
+   margin-left: -10px !important;
+}
 }
 
 @media (max-width: 540px) {
@@ -229,6 +266,50 @@ body {
     margin-left: 30px !important;
     margin-bottom: 400px !important;
 
+  }
+
+  .planCard.expanded {
+    width: 100% !important;
+    margin-left: 80px !important;
+  }
+  .planCard.expanded .titleseuplano{
+    width: 100% !important;
+    margin-left: 40px !important;
+  }
+
+  .planCard.expanded .cardseuplano {
+    width: 70%;
+    margin-left: 0px;
+  }
+  .planCard.expanded .cardaddplano {
+    width: 70%;
+    margin-left: 0px;
+  }
+
+  .titleseuplano{
+    text-align: start !important;
+    margin-left: -5px !important;
+ }
+
+  .planCard.expanded .colseuplano {
+    width: 100%;
+    margin-left: 30px;
+  }
+    .cardseuplano, .cardaddplano {
+    max-width: 100%;
+    width: 20%;
+    margin-left: -20px;
+  }
+
+  .addFunc.expanded {
+    width: 100% !important;
+    margin-left: 110px !important;
+  }
+  .addFunc.expanded .cardaddfuncionarios {
+    margin-left: 0px;
+    max-width: 100%;
+    width: 75% !important;
+    margin-left: -210px ;
   }
 }
 

@@ -201,7 +201,7 @@ const MyCard = () => {
         };
 
     return (
-        <>
+        <div className="conteudoADDfuncionario">
 
             {/* SideBar */}
 
@@ -264,7 +264,7 @@ const MyCard = () => {
                 <Row>
                     {listaPlanosUnicos.length > 0 ? (
                         <Col md={10} className="mt-5">
-                            <Card>
+                            <Card className="cardaddfuncionarios">
                                 <Card.Header className="d-flex justify-content-between align-items-center">
                                     <Dropdown>
                                         <Dropdown.Toggle variant="purple" id="dropdown-basic">
@@ -323,7 +323,7 @@ const MyCard = () => {
                     )}
                 </Row>
             </Container>
-        </>
+        </div>
     );
 };
 

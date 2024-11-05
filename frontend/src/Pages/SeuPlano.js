@@ -117,7 +117,7 @@ const comprasFiltradas = compras
 const comprasConsolidadas = Object.values(comprasFiltradas);
 
     return (
-        <>
+        <div className='conteudoSeuPlano'>
             {/* Sidebar */}
 
             <div id="navbar" className={isSidebarCollapsed ? 'collapsed' : ''}>
@@ -180,7 +180,7 @@ const comprasConsolidadas = Object.values(comprasFiltradas);
         <Row>
             {comprasConsolidadas.length > 0 ? (
                 comprasConsolidadas.map(compra => (
-                    <Col md={6} key={compra.id} className="mb-4">
+                    <Col md={6} key={compra.id} className='mb-4 colseuplano'>
                         <Card className='cardseuplano'>
                             <Card.Body className='seuplanobody'>
                                 <Card.Title>{planoNomes[compra.id_plano] || "Desconhecido"}</Card.Title>
@@ -205,7 +205,7 @@ const comprasConsolidadas = Object.values(comprasFiltradas);
             )}
 
             {/* Cartão para adicionar novo plano */}
-            <Col md={6} className="mb-4">
+            <Col md={6} className='mb-6 colseuplano'>
                 <Card className="add-plan-card cardaddplano">
                     <Card.Body className="text-center">
                         <Card.Title>Adicionar Novo Plano</Card.Title>
@@ -220,7 +220,7 @@ const comprasConsolidadas = Object.values(comprasFiltradas);
             </Col>
         </Row>
     </Container>
-        </>
+        </div>
     );
 };
 
