@@ -34,6 +34,7 @@ function Perfil() {
     const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
+    const fileInputRef = useRef(null);
 
 
     useEffect(() => {
@@ -59,7 +60,7 @@ function Perfil() {
     const handleDeleteAccount = () => {
         setShowConfirmation(true);
     };
-    
+
     const confirmDelete = async () => {
         try {
             let deleteUrl = '';
@@ -221,23 +222,23 @@ function Perfil() {
             handleUpload(file); // Chama a função de upload passando o arquivo
         }
     };
-    
+
     const handleEditClick = () => {
         setIsEditing(true);
         setPerfil(prevData => ({ ...prevData, senha: '' }));
         setIsEditing(!isEditing); // Alterna o modo de edição
     };
-    
+
     const handleUploadClick = () => {
         fileInputRef.current.click(); // Abre o seletor de arquivo
     };
 
     console.log("iusdhudshzx: ", tipoUsuario)
-    
+
     useEffect(() => {
         async function fetchProfileData() {
             const usuarioID = tipoUsuario === 'psicologo' ? 'psicologo_id' : 'id';
-    
+
             if (!usuarioID || !tipoUsuario) {
                 try {
                     const response = await axios.get('http://localhost:3001/api/atualizarPerfil/dados-perfil', {
@@ -255,14 +256,14 @@ function Perfil() {
         }
         fetchProfileData();
     }, [perfil, tipoUsuario]);
-    
+
     const handleUpload = async (file) => {
         if (!perfil || !perfil.id || !tipoUsuario) {
             console.error('Dados do perfil incompletos. ID ou tipo de usuário não definidos.');
             console.log("ID:", perfil.id, "TIPO: ", tipoUsuario)
             return;
         }
-    
+
         const formData = new FormData();
         formData.append('fotoPerfil', file);
         formData.append('tipoUsuario', tipoUsuario);
@@ -270,27 +271,27 @@ function Perfil() {
         if (tipoUsuario === 'psicologo') {
             formData.append('psicologo_id', perfil.psicologo_id);
         }
-    
+
         console.log("Enviando dados:", { tipoUsuario: tipoUsuario, id: perfil.id, psicologo_id: perfil.psicologo_id });
-    
+
         try {
             const response = await axios.post('http://localhost:3001/api/atualizarPerfil/upload-foto', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-    
+
             // Atualiza o estado do perfil com todos os dados retornados, incluindo a nova URL da foto
             setPerfil((prevPerfil) => ({
                 ...prevPerfil,
                 ...response.data, // Atualiza todos os dados retornados do perfil
             }));
-    
+
             console.log('Foto enviada com sucesso:', response.data);
         } catch (error) {
             console.error('Erro ao fazer upload da foto:', error);
         }
-    };   
+    };
 
     useEffect(() => {
         const storedConsultas = localStorage.getItem('consultasAgendadas');
