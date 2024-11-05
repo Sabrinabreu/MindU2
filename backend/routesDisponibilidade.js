@@ -3,6 +3,8 @@ const router = express.Router();
 const connection = require('./db');
 
 // Rota para buscar disponibilidades
+
+// Rota para buscar disponibilidades
 router.get('/disponibilidades/:psicologo_id', async (req, res) => {
     const psicologoId = req.params.psicologo_id;
 
@@ -12,24 +14,22 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
             [psicologoId]
         );
 
-        // Verificando os dados retornados
-        console.log('Disponibilidades recebidas do banco:', disponibilidades);
+        console.log('Disponibilidades encontradas:', disponibilidades); // Verifique o que está sendo retornado
 
+        // Formatar a resposta
         const formattedDisponibilidades = disponibilidades.map(item => {
             let horarioFormatado = 'Hora não disponível'; // Valor padrão
 
             if (item.horario_inicio) {
-                horarioFormatado = item.horario_inicio.substring(0, 5);  // Exemplo: "09:30"
+                // Extraindo apenas as horas e minutos (ex: "14:00")
+                horarioFormatado = item.horario_inicio.substring(0, 5);
             }
 
             return {
                 data: item.data.toISOString().split('T')[0], // Formata a data no formato YYYY-MM-DD
-                horario_inicio: horarioFormatado // Formata o horário
+                horario_inicio: horarioFormatado // Apenas as horas e minutos
             };
         });
-
-        // Verificando o que está sendo enviado para o frontend
-        console.log('Disponibilidades formatadas:', formattedDisponibilidades);
 
         if (formattedDisponibilidades.length === 0) {
             return res.status(404).json({ message: 'Nenhuma disponibilidade encontrada.' });
