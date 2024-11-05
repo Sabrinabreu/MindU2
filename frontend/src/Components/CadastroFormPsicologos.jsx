@@ -103,12 +103,20 @@ const CadastroFormPsi = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
+        setError('');  // Limpa o erro antes de enviar
+
+        // Cria o FormData com os dados do formulário
         const data = new FormData();
         for (const key in formData) {
             if (formData[key] !== null && formData[key] !== undefined) {
                 data.append(key, formData[key]);
             }
+        }
+
+        // Verifica se as senhas coincidem
+        if (formData.senha !== formData.senhaconfirma) {
+            setError('As senhas não coincidem. Por favor, verifique e tente novamente.');
+            return;
         }
 
         try {
@@ -145,20 +153,21 @@ const CadastroFormPsi = () => {
         }
         catch (error) {
             console.error('Erro ao criar cadastro:', error);
-            if (error.response && error.response.status === 400) {
-                setError(error.response.data.error);
+
+            // Verifica se o erro é devido a um conflito no banco de dados
+            if (error.response) {
+                if (error.response.status === 409) {
+                    setError('E-mail ou CPF já está cadastrado. Por favor, use dados diferentes.');
+                } else if (error.response.status === 400) {
+                    setError(error.response.data.error);
+                } else {
+                    setError('Erro ao criar cadastro. Verifique se algum campo não foi preenchido corretamente.');
+                }
             } else {
-                setError('Erro ao criar cadastro. Verifique se algum campo não foi preenchido corretamente.');
+                setError('Erro ao criar cadastro. Verifique a conexão com o servidor.');
             }
         }
-        // Verifica se o erro é relacionado a duplicidade de entrada
-        if (error.response && error.response.data && error.response.data.error === 'ER_DUP_ENTRY') {
-            alert('Erro: Este CPF já foi utilizado.');
-            setError(error.response.data.error);
-        }
     };
-
-
 
     return (
         <form onSubmit={handleSubmit}>
@@ -180,8 +189,8 @@ const CadastroFormPsi = () => {
                                     id="dataNascimento"
                                     name="dataNascimento"
                                     value={formData.dataNascimento}
-                                    onChange={handleChange} 
-                                    onBlur={handleBlur} 
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                     max="2024-12-31"
                                     dateFormat="dd/mm/yy"
                                 />

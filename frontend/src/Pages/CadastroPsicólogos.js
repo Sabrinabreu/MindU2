@@ -50,7 +50,7 @@ function CadastroPsicólogos() {
         };
 
         window.addEventListener('scroll', handleScroll);
-        handleScroll(); 
+        handleScroll();
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, [hasScrolled]);
@@ -63,9 +63,10 @@ function CadastroPsicólogos() {
                     <div id="header" className="fundoFormsPsi d-flex">
                         <img className='imgpsi' width={610} height={350} src={PsicologosImg1} alt="desenho de uma mulher fazendo terapia" />
                         <Col md='4' sm='12' className='blococadastropsi'>
-                            <h6 className='questioncadastro'>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? </h6>
+
                             <div className='cardcadastropsi'>
-                                <p> Na MindU, acreditamos que a saúde mental é fundamental para o bem-estar geral, e estamos em busca de profissionais dedicados como você para se juntar à nossa rede de excelência. </p>
+                                <h6 className='questioncadastro'>Você está pronto para levar sua carreira a um novo patamar e ampliar o impacto positivo que pode ter na vida das pessoas? </h6>
+                                <p className='textocardcadastropsi'> Na MindU, acreditamos que a saúde mental é fundamental para o bem-estar geral, e estamos em busca de profissionais dedicados como você para se juntar à nossa rede de excelência. </p>
                             </div>
                         </Col>
 

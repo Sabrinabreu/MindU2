@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProfilePicture = ({ name, src }) => {
+const ProfilePicture = ({ name, src, style }) => {
     const getInitials = (name) => {
         if (!name) return '';
         const names = name.trim().split(' ').filter(Boolean);
@@ -33,6 +33,7 @@ const ProfilePicture = ({ name, src }) => {
                     height: '150px',
                     borderRadius: '50%',
                     objectFit: 'cover',
+                    ...style, // Estilos personalizados
                 }}
             />
         ) : (
@@ -49,6 +50,7 @@ const ProfilePicture = ({ name, src }) => {
                     borderRadius: '50%',
                     fontSize: '2em',
                     fontWeight: 'bold',
+                    ...style, // Estilos personalizados
                 }}
             >
                 {initials}
