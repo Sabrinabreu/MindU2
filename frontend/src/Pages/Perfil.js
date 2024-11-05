@@ -42,23 +42,23 @@ function Perfil() {
             handleUpload(file); // Chama a função de upload passando o arquivo
         }
     };
-    
+
     const handleEditClick = () => {
         setIsEditing(true);
         setPerfil(prevData => ({ ...prevData, senha: '' }));
         setIsEditing(!isEditing); // Alterna o modo de edição
     };
-    
+
     const handleUploadClick = () => {
         fileInputRef.current.click(); // Abre o seletor de arquivo
     };
 
     console.log("iusdhudshzx: ", tipoUsuario)
-    
+
     useEffect(() => {
         async function fetchProfileData() {
             const usuarioID = tipoUsuario === 'psicologo' ? 'psicologo_id' : 'id';
-    
+
             if (!usuarioID || !tipoUsuario) {
                 try {
                     const response = await axios.get('http://localhost:3001/api/atualizarPerfil/dados-perfil', {
@@ -76,14 +76,14 @@ function Perfil() {
         }
         fetchProfileData();
     }, [perfil, tipoUsuario]);
-    
+
     const handleUpload = async (file) => {
         if (!perfil || !perfil.id || !perfil.tipoUsuario) {
             console.error('Dados do perfil incompletos. ID ou tipo de usuário não definidos.');
             console.log("ID:", perfil.id, "TIPO: ", perfil.tipoUsuario)
             return;
         }
-    
+
         const formData = new FormData();
         formData.append('fotoPerfil', file);
         formData.append('tipoUsuario', perfil.tipoUsuario);
@@ -91,28 +91,28 @@ function Perfil() {
         if (perfil.tipoUsuario === 'psicologo') {
             formData.append('psicologo_id', perfil.psicologo_id);
         }
-    
+
         console.log("Enviando dados:", { tipoUsuario: perfil.tipoUsuario, id: perfil.id, psicologo_id: perfil.psicologo_id });
-    
+
         try {
             const response = await axios.post('http://localhost:3001/api/atualizarPerfil/upload-foto', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-    
+
             // Atualiza o estado do perfil com todos os dados retornados, incluindo a nova URL da foto
             setPerfil((prevPerfil) => ({
                 ...prevPerfil,
                 ...response.data, // Atualiza todos os dados retornados do perfil
             }));
-    
+
             console.log('Foto enviada com sucesso:', response.data);
         } catch (error) {
             console.error('Erro ao fazer upload da foto:', error);
         }
-    };    
-      
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         setToken(null);
@@ -122,7 +122,7 @@ function Perfil() {
     const handleDeleteAccount = () => {
         setShowConfirmation(true);
     };
-    
+
     const confirmDelete = async () => {
         try {
             let deleteUrl = '';
@@ -345,7 +345,7 @@ function Perfil() {
                                     {isEditing && (
                                         <Row>
                                             <Col sm={12}>
-                                                <Button className='editarBot' onClick={isEditing ? handleUploadClick : null} >
+                                                <Button className='editarFoto' onClick={isEditing ? handleUploadClick : null} >
                                                     <Pencil /> Editar Foto
                                                 </Button>
                                             </Col>
@@ -724,11 +724,14 @@ function Perfil() {
                                                 </>
                                             )}
                                             <Row>
-                                                <Col sm={12}>
-                                                    <Button className='editarBot' onClick={handleEditClick}>
-                                                        <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
-                                                    </Button>
-                                                </Col>
+                                               
+                                                    <Col sm={12}>
+                                                        <Button className='editarBot' onClick={handleEditClick}>
+                                                            <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
+                                                        </Button>
+                                                    </Col>
+                                               
+
                                             </Row>
                                         </>
                                     )}
