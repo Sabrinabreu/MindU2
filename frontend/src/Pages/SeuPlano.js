@@ -101,11 +101,20 @@ const Compras = () => {
         fetchCompras();
     }, []);
 
-    // Filtrar as compras pelo ID da empresa
-    const comprasFiltradas = compras.filter(compra => compra.id_empresa === empresaId);
-    useEffect(() => {
-        setPerfil(decodedToken.perfil);
-    }, [decodedToken.perfil]);
+    // Filtrar e consolidar as compras pelo ID da empresa e plano
+const comprasFiltradas = compras
+.filter(compra => compra.id_empresa === empresaId)
+.reduce((acumulado, compra) => {
+    if (acumulado[compra.id_plano]) {
+        acumulado[compra.id_plano].qtd_funcionarios += compra.qtd_funcionarios;
+    } else {
+        acumulado[compra.id_plano] = { ...compra };
+    }
+    return acumulado;
+}, {});
+
+// Converter o objeto consolidado em uma lista para renderização
+const comprasConsolidadas = Object.values(comprasFiltradas);
 
     return (
         <>
@@ -123,7 +132,7 @@ const Compras = () => {
                     <hr />
                 </div>
                 <div id="nav-content">
-                    <Link to="/seuplano"><div className="nav-button">
+                    <Link to="/dashboard/seuplano"><div className="nav-button">
                         <i className="fas"><SquareChartGantt /></i><span>Seu Plano</span>
                     </div></Link>
                     <Link to="/dashboard/addfuncionario">
@@ -167,50 +176,50 @@ const Compras = () => {
             </div>
 
             <Container className={`planCard ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
-                <h2 className="titleseuplano">Planos Comprados</h2>
-                <Row>
-                    {comprasFiltradas.length > 0 ? (
-                        comprasFiltradas.map(compra => (
-                            <Col md={6} key={compra.id} className="mb-4">
-                                <Card className='cardseuplano'>
-                                    <Card.Body className='seuplanobody' >
-                                        <Card.Title>{planoNomes[compra.id_plano] || "Desconhecido"}</Card.Title>
-                                        <Card.Text>
-                                            Quantidade de Funcionários: {compra.qtd_funcionarios}
-                                        </Card.Text>
-                                    </Card.Body>
-                                    <div className='upgrade'>
-                                        <button className='cancelbtn'> <GiCancel className='cancelicon' /> Cancelar</button>
-                                    </div>
-                                </Card>
-                            </Col>
-                        ))
-                    ) : (
-                        <Col>
-                            <Card>
-                                <Card.Body>
-                                    <Card.Text>Nenhum plano encontrado.</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    )}
-
-                    {/* Cartão para adicionar novo plano */}
-                    <Col md={6} className="mb-4">
-                        <Card className="add-plan-card cardaddplano">
-                            <Card.Body className="text-center">
-                                <Card.Title>Adicionar Novo Plano</Card.Title>
+        <h2 className="titleseuplano">Planos Comprados</h2>
+        <Row>
+            {comprasConsolidadas.length > 0 ? (
+                comprasConsolidadas.map(compra => (
+                    <Col md={6} key={compra.id} className="mb-4">
+                        <Card className='cardseuplano'>
+                            <Card.Body className='seuplanobody'>
+                                <Card.Title>{planoNomes[compra.id_plano] || "Desconhecido"}</Card.Title>
                                 <Card.Text>
-                                    Clique no botão abaixo para adicionar um novo plano à sua empresa.
+                                    Quantidade de Funcionários: {compra.qtd_funcionarios}
                                 </Card.Text>
-                                <a href='/planos'>
-                                    <button className="addplanbtn"><PlusCircle className='plusicon' />Adicionar Plano</button>
-                                </a>
                             </Card.Body>
+                            <div className='upgrade'>
+                                <button className='cancelbtn'><GiCancel className='cancelicon' /> Cancelar</button>
+                            </div>
                         </Card>
                     </Col>
-                </Row>
-            </Container>
+                ))
+            ) : (
+                <Col>
+                    <Card>
+                        <Card.Body>
+                            <Card.Text>Nenhum plano encontrado.</Card.Text>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            )}
+
+            {/* Cartão para adicionar novo plano */}
+            <Col md={6} className="mb-4">
+                <Card className="add-plan-card cardaddplano">
+                    <Card.Body className="text-center">
+                        <Card.Title>Adicionar Novo Plano</Card.Title>
+                        <Card.Text>
+                            Clique no botão abaixo para adicionar um novo plano à sua empresa.
+                        </Card.Text>
+                        <a href='/planos'>
+                            <button className="addplanbtn"><PlusCircle className='plusicon' />Adicionar Plano</button>
+                        </a>
+                    </Card.Body>
+                </Card>
+            </Col>
+        </Row>
+    </Container>
         </>
     );
 };

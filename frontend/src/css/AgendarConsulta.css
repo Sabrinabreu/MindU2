@@ -62,19 +62,14 @@
 }
 
 .colCardAgenda {
-    /* background-color: #5e40b0; */
     padding: 3% 0 5% 10%;
 }
 
 .imgPerfil {
-    width: 140px;
-    height: 160px;
     border-radius: 6%;
     object-fit: cover;
     padding: 10px;
     position: absolute;
-    /* top: -30px; */
-    /* left: -70px; */
     transform: translateX(-40%) translateY(-20%);
     z-index: 1;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -172,22 +167,22 @@
     font-size: 22px;
 }
 
-/* Tabs */
+.tabs-container {
+    margin: 0;
+    padding: 0;
+}
+
 .nav-tabs {
     --bs-nav-tabs-border-width: transparent;
+    width: 103% !important;
+    display: flex;
+    justify-content: center;
 }
 
 .nav-fill .nav-item .nav-link,
 .nav-justified .nav-item .nav-link {
-    width: 108%;
+    width: 100%;
 }
-
-/* .tabs-container {
-    margin-left: 432px;
-    margin-top: -310px;
-    margin-bottom: 350px;
-    width: 53%;
-} */
 
 .nav-tabs .nav-link {
     color: var(--tab);
@@ -445,10 +440,9 @@
     cursor: pointer;
     outline: none;
     margin-left: 25%;
+    margin-bottom: 20px;
     text-decoration: none;
 }
-
-
 
 .agendarBot {
     padding: 1.3em 3em;
@@ -466,9 +460,8 @@
     outline: none;
     text-align: center !important;
     text-decoration: none;
-    /*
-    position: absolute;   ativar depois
-    */
+    display: block;
+    justify-self: center;
 }
 
 /* colocar no card depois */
@@ -537,6 +530,13 @@
     border: 2px #604c9c;
     border-radius: 20px;
     color: white;
+    padding: 13px;
+    margin-left: 20px;
+}
+
+.salvarEdicoes:hover {
+    background-color: #9e8ad9;
+
 }
 
 @media (max-width: 601px) {
@@ -600,35 +600,59 @@
 @media (min-width:768px) {
     .colCardAgenda {
         border-right: var(--name) 2px solid;
+        padding: 3% 0 5% 10%;
+    }
+    .imgPerfil {
+        left: 7.5%;
+        width: 130px;
+        height: 150px;
     }
 }
 
-@media (min-width: 680px) and (max-width:1130px) {
-    * {
-        max-width: 100% !important;
+@media (min-width:768px) and (max-width:850px) {
+    .sessao {
+        padding: 1em 0;
+        display: block;
+        width: 280px;
+        position: relative;
+        left: -70px;
     }
+}
 
+@media (max-width: 767px) {
     .imgPerfil {
-        top: -40px;
-        left: -50px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-30px);
+        position: relative;
+        justify-self: center;
+        width: 130px;
+        height: 150px;
     }
+    .txtCardAgenda {
+      place-items: center;
+    }
+    .nav-tabs {
+        width: 104% !important;
+    }
+}
 
-    /* .tabs-container {
-        margin-left: 332px;
-        padding-left: 45px;
-        width: 60%;
-        padding-top: 20px;
-    } */
+@media (max-width:1131px) and (min-width:767px) {
+    .colCardAgenda {
+        padding-left: 13%;
+    }
+}
+
+@media (min-width: 1130px) and (max-width: 1200px) {
+    .colCardAgenda {
+        padding-left: 8%;
+    }
+}
+
+@media (min-width: 680px) and (max-width:900px) {
 
     .nomeAgenda {
         font-size: 22px;
         margin-left: -10px;
-    }
-
-    .cardAgenda {
-        margin-bottom: 100px;
-        padding: 0 20px 20px 20px;
-        height: 400px;
     }
 
     .primeiro {
@@ -637,6 +661,13 @@
     .chat-box {
         max-width: 500px !important;
     }
+    }
+
+    @media (min-width: 780px) and (max-width:900px) {
+
+        .nav-tabs {
+            width: 104% !important;
+        }
     }
 
 .spinner-border {
