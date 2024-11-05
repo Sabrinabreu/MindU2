@@ -208,9 +208,9 @@ const Dashboard = () => {
                             onChange={(e) => setSelectedCategory(e.target.value)}
                         >
                             <option value="all">Todos</option>
-                            <option value="Plano1">Plano Bem-Estar</option>
-                            <option value="Plano2">Plano Equilíbrio</option>
-                            <option value="Plano3">Plano Transformação</option>
+                            <option value="Bem-Estar">Plano Bem-Estar</option>
+                            <option value="Equilíbrio">Plano Equilíbrio</option>
+                            <option value="Transformação">Plano Transformação</option>
                         </select>
                     </div>
                     <div className="search">
@@ -242,6 +242,7 @@ const Dashboard = () => {
                                                     <div className="box-bio">
                                                         <h2 className="bio-name">{contafuncionarios.nome}</h2>
                                                         <p className="bio-position">{contafuncionarios.cargo}</p>
+                                                        <p className="bio-position">Plano {contafuncionarios.nomePlano}</p>
                                                     </div>
                                                     <div className="box-actions">
                                                         <button>
