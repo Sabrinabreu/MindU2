@@ -321,7 +321,8 @@ function Perfil() {
                                         <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
 
                                         <div className="mt-3">
-                                            <h4>{perfil.nome}</h4>
+                                            <h4>{perfil.empresa}</h4>
+                                            <p>{perfil.nome}</p>
                                             <p>{perfil.login}</p>
                                             <p className="text-muted font-size-sm">..</p>
                                         </div>
@@ -363,7 +364,7 @@ function Perfil() {
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
                                     <Button className="editarBot mb-2" onClick={handleLogout}><LogOut /> Sair da conta</Button>
-                                    <Button className="editarBot" onClick={handleDeleteAccount}> Deletar conta <CircleX className="logsvg" /> </Button>
+                                    <Button className="editarBot mb-2" onClick={handleDeleteAccount}> Deletar conta <CircleX className="logsvg" /> </Button>
 
                                     {showConfirmation && (
                                         <>
@@ -387,7 +388,7 @@ function Perfil() {
                                         <Form onSubmit={handleSave}>
 
                                             <Form.Group controlId="formFullName">
-                                                <Form.Label>Nome</Form.Label>
+                                                <Form.Label>Nome representante:</Form.Label>
                                                 <Form.Control
                                                     className='mb-2'
                                                     type="text"
@@ -409,7 +410,7 @@ function Perfil() {
                                                 />
                                             </Form.Group>
                                             <Form.Group>
-                                                <Form.Label>Telefone</Form.Label>
+                                                <Form.Label>Telefone:</Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="telefone"
@@ -451,7 +452,7 @@ function Perfil() {
 
                                             </Form.Group>
                                             <Form.Group controlId="formPassword">
-                                                <Form.Label>Senha</Form.Label>
+                                                <Form.Label>Senha:</Form.Label>
                                                 <div className="password-container">
                                                     <Form.Control
                                                         className='mb-2'
@@ -472,7 +473,7 @@ function Perfil() {
                                                 </div>
                                             </Form.Group>
                                             <Form.Group controlId="formSecurityQuestion">
-                                                <Form.Label>Pergunta de Segurança</Form.Label>
+                                                <Form.Label>Pergunta de Segurança:</Form.Label>
                                                 <Form.Control
                                                     className='mb-2'
                                                     as="select"
@@ -486,7 +487,7 @@ function Perfil() {
                                                 </Form.Control>
                                             </Form.Group>
                                             <Form.Group controlId="formSecurityAnswer">
-                                                <Form.Label>Resposta de Segurança</Form.Label>
+                                                <Form.Label>Resposta de Segurança:</Form.Label>
                                                 <Form.Control
                                                     className='mb-2'
                                                     type={showPassword ? "text" : "password"}
@@ -502,7 +503,7 @@ function Perfil() {
                                     ) : (
                                         <>
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Nome </h6></Col>
+                                                <Col sm={3}><h6 className="mb-0">Nome representante:</h6></Col>
                                                 <Col sm={9} className="text-secondary">{perfil.nome}</Col>
                                             </Row>
                                             <hr />
@@ -525,18 +526,19 @@ function Perfil() {
                                             </Row>
                                             <hr />
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
+                                                <Col sm={3}><h6 className="mb-0">Telefone:</h6></Col>
                                                 <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
                                             </Row>
+                                            <hr />
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Senha</h6></Col>
+                                                <Col sm={3}><h6 className="mb-0">Senha:</h6></Col>
                                                 <Col sm={9} className="text-secondary">
                                                     {isEditing ? perfil.senha : '*****'}
                                                 </Col>
                                             </Row>
                                             <hr />
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Pergunta de segurança</h6></Col>
+                                                <Col sm={3}><h6 className="mb-0">Pergunta de segurança:</h6></Col>
                                                 <Col sm={9} className="text-secondary">{perfil.pergunta_seguranca}</Col>
                                             </Row>
                                             <hr />
