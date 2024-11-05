@@ -39,16 +39,16 @@ const Agendar = () => {
     const fetchPsicologoData = async (psicologo_id) => {
         try {
             const token = localStorage.getItem('token');
-            console.log("Token:", token);            
-            
+            console.log("Token:", token);
+
             const response = await axios.get(`http://localhost:3001/api/psicologos/${psicologo_id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             console.log("Resposta da API:", response.data);
-            
-            
+
+
             if (response.data) {
                 setNomePsico(response.data.nome);
                 setTelefone(response.data.telefone);
@@ -175,7 +175,7 @@ const Agendar = () => {
                         <button className='agendaConsulta' onClick={handleShow} disabled={!selectedDate}>
                             Agendar consulta
                         </button>
-    
+
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
                                 <Modal.Title className='agendando'>Agendar Consulta</Modal.Title>
@@ -231,7 +231,7 @@ const Agendar = () => {
                     </div>
                     <div className='contato p-4'>
                         <h5 className='titulosSobre py-3'>
-     <span className="material-symbols-outlined iconsSaibaMais">send</span> Contato
+                            <span className="material-symbols-outlined iconsSaibaMais">send</span> Contato
                         </h5>
                         <p>Telefone: {telefone || 'Telefone não disponível'}</p>
                         <p>Email: {email || 'Email não disponível'}</p>
