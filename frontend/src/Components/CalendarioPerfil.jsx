@@ -25,35 +25,26 @@ const CalendarioEDetalhes = ({
         const startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
         const endDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
         const days = [];
-
+    
         for (let i = startDate.getDate(); i <= endDate.getDate(); i++) {
             const currentDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
             const dataFormatada = currentDay.getDate();
-
+    
             const consultasDoDia = consultationDetails.filter(detail => {
                 const detailDate = new Date(detail.data);
                 return detailDate.getDate() === dataFormatada &&
                     detailDate.getMonth() === currentDay.getMonth() &&
                     detailDate.getFullYear() === currentDay.getFullYear();
             });
-
-            console.log(consultationDetails);
-
+    
             days.push(
                 <div key={i} className="calendario-dia">
                     <div>{dataFormatada}</div>
                     {consultasDoDia.length > 0 && (
-                        <div
-                            className="dot"
-                            onMouseEnter={() => setHoveredConsultation(consultasDoDia)}
-                            onMouseLeave={() => setHoveredConsultation(null)}
-                        ></div>
-                    )}
-                    {hoveredConsultation && hoveredConsultation[0].data === currentDay.toISOString() && (
-                        <div className="tooltip">
-                            {hoveredConsultation.map((consulta, index) => (
-                                <div key={index}>
-                                    <p>{consulta.horario} - {consulta.assunto} ({consulta.tipo})</p>
+                        <div className="consultas">
+                            {consultasDoDia.map((consulta, index) => (
+                                <div key={index} className="consulta">
+                                    <p>{consulta.horario} - {consulta.assunto}</p>
                                     <p><strong>Psicólogo:</strong> {consulta.nomePsico || 'Psicólogo não disponível'}</p>
                                 </div>
                             ))}

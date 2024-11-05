@@ -26,7 +26,6 @@ const Agendar = () => {
     const [localizacao, setLocalizacao] = useState('');
     const [especialidade, setEspecialidade] = useState('');
     const [biografia, setBiografia] = useState('');
-    const [fotoPsico, setFotoPsico] = useState('');
 
     useEffect(() => {
         if (psicologo_id) {
@@ -57,7 +56,6 @@ const Agendar = () => {
                 setLocalizacao(response.data.localizacao);
                 setEspecialidade(response.data.especialidade);
                 setBiografia(response.data.biografia);
-                setFotoPsico(response.data.foto);
             }
         } catch (error) {
             console.error('Erro ao buscar dados do psicólogo:', error);
@@ -155,7 +153,7 @@ const Agendar = () => {
                 <Col md={6}>
                     <div className='perfilPsico'>
                         <img className="fundoPsico" src={fundoPsico} alt="Imagem de fundo" />
-                        <img className="psicologo" src={fotoPsico} alt="Perfil do psicólogo" />
+                        <img className="psicologo"  src={fundoPsico} />
                         <h4 className='nomePsico container p-4'>{nomePsico || 'Nome não disponível'}</h4>
                         <div className='infoPsico'>
                             <b>{especialidade || 'Especialidade não disponível'}</b>
