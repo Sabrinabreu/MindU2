@@ -7,8 +7,6 @@ const CalendarioEDetalhes = ({
     consultationDetails,
     tipoUsuario
 }) => {
-    const [hoveredConsultation, setHoveredConsultation] = useState(null);
-
     const goToNextMonth = () => {
         const nextMonth = new Date(currentMonth);
         nextMonth.setMonth(currentMonth.getMonth() + 1);
@@ -21,22 +19,40 @@ const CalendarioEDetalhes = ({
         setCurrentMonth(previousMonth);
     };
 
+    const formatarHorario = (horario) => {
+        if (!horario) return 'Hora não disponível';
+        const [horas, minutos] = horario.split(':');
+        const horasInt = parseInt(horas, 10);
+        const periodo = horasInt >= 12 ? 'PM' : 'AM';
+        const horasFormatadas = horasInt % 12 || 12; // Converte para 12 horas
+        return `${horasFormatadas}:${minutos} ${periodo}`;
+    };
+
     const generateCalendar = () => {
         const startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
         const endDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
         const days = [];
-    
-        for (let i = startDate.getDate(); i <= endDate.getDate(); i++) {
+
+        // Obter o dia da semana do primeiro dia do mês (0 = domingo, 1 = segunda, etc.)
+        const firstDayOfWeek = startDate.getDay();
+
+        // Adicionar células vazias para os dias antes do primeiro dia do mês
+        for (let i = 0; i < firstDayOfWeek; i++) {
+            days.push(<div key={`empty-${i}`} className="calendar-cell empty"></div>);
+        }
+
+        // Adicionar os dias do mês
+        for (let i = 1; i <= endDate.getDate(); i++) {
             const currentDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
             const dataFormatada = currentDay.getDate();
-    
+
             const consultasDoDia = consultationDetails.filter(detail => {
                 const detailDate = new Date(detail.data);
                 return detailDate.getDate() === dataFormatada &&
                     detailDate.getMonth() === currentDay.getMonth() &&
                     detailDate.getFullYear() === currentDay.getFullYear();
             });
-    
+
             days.push(
                 <div key={i} className="calendar-cell">
                     <div className="calendario-dia">
@@ -47,10 +63,9 @@ const CalendarioEDetalhes = ({
                         <div className="consultas">
                             {consultasDoDia.map((consulta, index) => (
                                 <div key={index} className="consulta">
-                                    <p>{consulta.horario} - {consulta.assunto}</p>
-                                    <p><strong>Horário:</strong> {consulta.horario || ''}</p>
-                                    <p><strong>Data:</strong> {consulta.data || ':('}</p>
-                                    <p><strong>Psicólogo:</strong> {consulta.nomePsico || ':('}</p>
+                                    <p><strong>Horário:</strong> {formatarHorario(consulta.horario) || 'Hora não disponível'}</p>
+                                    <p><strong>Assunto:</strong> {consulta.assunto || 'Assunto não disponível'}</p>
+                                    <p><strong>Psicólogo:</strong> {consulta.nomePsico || 'Psicólogo não disponível'}</p>
                                 </div>
                             ))}
                         </div>
@@ -65,7 +80,7 @@ const CalendarioEDetalhes = ({
         <div className="calendarioEDetalhes">
             <div className="calendarioPerfil p-4 text-center">
                 <div className="calendario-topo">
-                <button className="calendario-mes" onClick={goToPreviousMonth}>◀</button>
+                    <button className="calendario-mes" onClick={goToPreviousMonth}>◀</button>
                     <h5 className="calendar-title">
                         {currentMonth.toLocaleString('default', { month: 'long' })} {currentMonth.getFullYear()}
                     </h5>
@@ -92,7 +107,7 @@ const CalendarioEDetalhes = ({
                             consultationDetails.map((detail, index) => (
                                 <div className='avisoSemData' key={index}>
                                     <p><strong>Data:</strong> {new Date(detail.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) || 'Data não disponível'}</p>
-                                    <p><strong>Hora:</strong> {detail.horario || 'Hora não disponível'}</p>
+                                    <p><strong>Hora:</strong> {formatarHorario(detail.horario) || 'Hora não disponível'}</p>
                                     <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p>
                                     <p><strong>Assunto:</strong> {detail.assunto || 'Assunto não disponível'}</p>
                                     <p><strong>Psicólogo:</strong> {detail.nomePsico || 'Psicólogo não disponível'}</p>

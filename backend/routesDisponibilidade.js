@@ -12,11 +12,13 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
             [psicologoId]
         );
 
+        console.log('Disponibilidades encontradas:', disponibilidades); // Verifique o que está sendo retornado
+
         // Formatar a resposta
         const formattedDisponibilidades = disponibilidades.map(item => {
             const horarioInicio = item.horario_inicio;
-            const horarioFormatado = horarioInicio.substring(0, 5); 
-        
+            const horarioFormatado = horarioInicio ? horarioInicio.substring(0, 5) : 'Hora não disponível'; // Verifique se horarioInicio não é nulo
+            
             return {
                 data: item.data.toISOString().split('T')[0], 
                 horario_inicio: horarioFormatado 
@@ -33,7 +35,6 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
         res.status(500).json({ message: 'Erro ao buscar disponibilidades' });
     }
 });
-
 
 // Rota para inserir a disponibilidade de um psicólogo 
 router.post('/disponibilidade/psicologo', (req, res) => {
