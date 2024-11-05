@@ -298,7 +298,7 @@ function AgendarConsulta() {
 
     try {
         // Envia a requisição PUT para atualizar a biografia do psicólogo
-        await axios.put(`http://localhost:3001/api/${psicologo_id}`, psicologoData, {
+        await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
             headers: {
                 'Content-Type': 'application/json'
             }

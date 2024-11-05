@@ -145,7 +145,7 @@ const Rotas = () => {
           />
 
           <Route
-            path="/perfilempresa"
+            path="/dashboard/perfilempresa"
             element={
               <ProtectedRoute allowedRoles={['empresa']}>
                 <PerfilEmpresa />
