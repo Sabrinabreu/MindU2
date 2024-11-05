@@ -21,6 +21,7 @@ import Dashboard from "./Pages/Dashboard"; //empresa
 import SeuPlano from "./Pages/SeuPlano";
 import AddFuncionarios from "./Pages/AddFuncionario";
 import EsqueciSenha from "./Pages/EsqueciSenha"; //*
+import Quiz from "./Pages/Quiz";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { token, setToken } = useAuth();
@@ -120,6 +121,14 @@ const Rotas = () => {
 
       {/* Rotas somente funcionários */}
 
+      <Route
+            path="/quiz"
+            element={
+              <ProtectedRoute allowedRoles={['funcionario']}>
+                <Quiz />
+              </ProtectedRoute>
+            }
+          />
       {/* Rotas psicologo e funcionários */}
 
 
