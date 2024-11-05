@@ -397,6 +397,8 @@ label[for="nav-footer-toggle"] {
   background: var(--navbar-dark-secondary);
 }
 
+
+
 @media (max-width: 1100px) and (orientation: landscape) {
   #navbar {
     top: 8vh;

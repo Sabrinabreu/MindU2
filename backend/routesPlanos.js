@@ -2,7 +2,7 @@ const express = require('express');
 const connection = require('./db'); 
 const router = express.Router();
 
-// Rota para listar todas as compras
+// Rota para listar todas as compras e planos
 router.get('/compras', async (req, res) => {
     try {
         const [results] = await connection.query('SELECT * FROM compras');

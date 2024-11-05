@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 
 const FiltroBusca = ({ filterType, setFilterType, selectedProfession, setSelectedProfession, professionOptions, searchTerm, setSearchTerm }) => {
     return (
@@ -41,9 +41,9 @@ const FiltroBusca = ({ filterType, setFilterType, selectedProfession, setSelecte
                     />
                 )}
 
-                <div className="searchA">
+                <Button className="searchA">
                     Buscar
-                </div>
+                </Button>
             </div>
         </div>
     );
