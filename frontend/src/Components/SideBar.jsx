@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, LogOut, SquareChartGantt, CopyPlus, UserRoundPen } from 'lucide-react';
 import '../css/SideBar.css'; // Certifique-se de que o CSS da sidebar está configurado corretamente
 
 const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
@@ -34,6 +35,8 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
     return luminosity > 128 ? '#000000' : '#FFFFFF';
   };
 
+  const isActive = (path) => location.pathname === path;
+
   return (
     <div id="navbar" className={isCollapsed ? 'collapsed' : ''}>
       <input id="nav-toggle" type="checkbox" onChange={toggleSidebar} />
@@ -50,7 +53,7 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
       </div>
       <div id="nav-content">
         <Link to="/dashboard/seuplano">
-          <div className="nav-button">
+          <div className={`nav-button ${isActive('/dashboard/seuplano') ? 'active' : ''}`}>
             <i className="fas">
               <SquareChartGantt />
             </i>
@@ -58,7 +61,7 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
           </div>
         </Link>
         <Link to="/dashboard/addfuncionario">
-          <div className="nav-button">
+          <div className={`nav-button ${isActive('/dashboard/addfuncionario') ? 'active' : ''}`}>
             <i className="fas">
               <CopyPlus />
             </i>
@@ -66,7 +69,7 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
           </div>
         </Link>
         <Link to="/dashboard/perfilempresa">
-          <div className="nav-button">
+          <div className={`nav-button ${isActive('/dashboard/perfilempresa') ? 'active' : ''}`}>
             <i className="fas">
               <UserRoundPen />
             </i>
