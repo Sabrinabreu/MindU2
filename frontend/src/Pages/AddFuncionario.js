@@ -1,204 +1,95 @@
-import { Card, Button, Tabs, Tab, Dropdown } from 'react-bootstrap';
-import PaymentForm from '../Components/Pagamento';
-import '../css/ModalPag.css';
-import PagFuncionarios from '../Components/PagFuncionários';
-import { Container, Row, Col } from 'react-bootstrap';
-import axios from "axios";
-import CriarContasFuncionarios from '../Components/CriarContasFuncionarios';
-import { useState, useEffect } from 'react';
-import '../css/SideBar.css';
-import { SquareChartGantt, CopyPlus, ChevronDown, LogOut } from 'lucide-react';
-import { parseJwt } from '../Components/jwtUtils';
-import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Dropdown, Tabs, Tab } from 'react-bootstrap';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../provider/AuthProvider";
+import { parseJwt } from '../Components/jwtUtils';
+import Sidebar from '../Components/SideBar';  // Importando o Sidebar
+import PaymentForm from '../Components/Pagamento';
+import PagFuncionarios from '../Components/PagFuncionários';
+import CriarContasFuncionarios from '../Components/CriarContasFuncionarios';
+import { PlusCircle } from 'lucide-react';
 
 const MyCard = () => {
-    const [nContas, setNContas] = useState(1);
-    const [resultados, setResultados] = useState([]);
-    const [activeTab, setActiveTab] = useState("home");
-    const [completedSteps, setCompletedSteps] = useState([false, false, false]);
-    const [totalPrice, setTotalPrice] = useState(0);
-    const [data, setData] = useState(null);
-    const [selectedPlan, setSelectedPlan] = useState(null);
-    const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
-    const [perfil, setPerfil] = useState({});
-    const [compras, setCompras] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [empresaId, setEmpresaId] = useState(null);
-    const [tipoUsuario, setTipoUsuario] = useState(null);
+  const [nContas, setNContas] = useState(1);
+  const [resultados, setResultados] = useState([]);
+  const [activeTab, setActiveTab] = useState('home');
+  const [completedSteps, setCompletedSteps] = useState([false, false, false]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [data, setData] = useState(null);
+  const [planos, setPlanos] = useState([]);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [perfil, setPerfil] = useState({});
+  const [compras, setCompras] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [empresaId, setEmpresaId] = useState(null);
+  const [tipoUsuario, setTipoUsuario] = useState(null);
 
-    useEffect(() => {
-        console.log('Dados:', data);
-    }, [data]);
+  const { setToken } = useAuth();
+  const navegacao = useNavigate();
+  const token = localStorage.getItem('token');
+  const decodedToken = parseJwt(token);
 
-    const { setToken } = useAuth();
-    const navegacao = useNavigate();
-    const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token);
+  useEffect(() => {
+    setPerfil(decodedToken.perfil);
+  }, [decodedToken.perfil]);
 
-    useEffect(() => {
-        setPerfil(decodedToken.perfil);
-    }, [decodedToken.perfil]);
+  useEffect(() => {
+    if (token) {
+      const decodedToken = parseJwt(token);
+      setTipoUsuario(decodedToken.tipo_usuario);
+      setEmpresaId(decodedToken.id_referencia);
+    }
+  }, [token]);
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setToken(null);
-        navegacao("/", { replace: true });
+  useEffect(() => {
+    const fetchCompras = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/compras');
+        setCompras(response.data);
+      } catch (err) {
+        console.error('Erro ao carregar as compras:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCompras();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+    navegacao('/', { replace: true });
+  };
+
+  const toggleSidebar = () => {
+    setSidebarCollapsed((prevState) => !prevState);
+  };
+
+  const handleTabSelect = (key) => {
+    const tabIndex = key === 'home' ? 0 : key === 'profile' ? 1 : 2;
+    if (tabIndex > 0 && !completedSteps[tabIndex - 1]) {
+      return; // Não pode mudar para a próxima aba se a anterior não estiver completa
+    }
+    setActiveTab(key);
+  };
+
+  const handleSubmitPurchase = async () => {
+    const purchaseData = {
+      id_empresa: empresaId,
+      id_plano: selectedPlan?.id,
+      qtd_funcionarios: nContas,
     };
 
-    const toggleSidebar = () => {
-        setSidebarCollapsed(prevState => !prevState);
-    };
-
-    const getInitials = (name) => {
-        if (!name) return '';
-        const names = name.trim().split(' ').filter(Boolean);
-        if (names.length === 0) return '';
-        const initials = names.slice(0, 2).map(n => n[0].toUpperCase()).join('');
-        return initials;
-    };
-
-    const getColorFromInitials = (initials) => {
-        let hash = 0;
-        for (let i = 0; i < initials.length; i++) {
-            hash = initials.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const color = `#${((hash & 0x00FFFFFF) >> 0).toString(16).padStart(6, '0').toUpperCase()}`;
-        return color;
-    };
-
-    const getContrastingColor = (backgroundColor) => {
-        const r = parseInt(backgroundColor.substring(1, 3), 16);
-        const g = parseInt(backgroundColor.substring(3, 5), 16);
-        const b = parseInt(backgroundColor.substring(5, 7), 16);
-        const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        return luminosity > 128 ? '#000000' : '#FFFFFF';
-    };
-
-    const formatCurrency = (value) => {
-        return parseFloat(value).toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
-    };
-
-    const handleTabSelect = (key) => {
-        const tabIndex = key === "home" ? 0 : key === "profile" ? 1 : 2;
-        if (tabIndex > 0 && !completedSteps[tabIndex - 1]) {
-            return; // Não pode mudar para a próxima aba se a anterior não estiver completa
-        }
-        setActiveTab(key);
-    };
-
-    const handleSubmitPurchase = async () => {
-        const purchaseData = {
-            id_empresa: empresaId,
-            id_plano: selectedPlan?.id,
-            qtd_funcionarios: nContas,
-        };
-
-        try {
-            const response = await axios.post('http://localhost:3001/api/compras', purchaseData);
-            console.log('Compra salva com sucesso:', response.data);
-            setData(response.data);
-        } catch (error) {
-            console.error('Erro ao enviar a compra:', error);
-        }
-    };
-
-    const completeStep = (stepIndex) => {
-        const updatedSteps = [...completedSteps];
-        updatedSteps[stepIndex] = true;
-        setCompletedSteps(updatedSteps);
-
-        if (stepIndex === 1) {
-            handleSubmitPurchase();
-        }
-
-        if (stepIndex < 2) {
-            setActiveTab(stepIndex === 0 ? "profile" : "contact");
-        }
-    };
-
-    const planoNomes = {
-        1: "Bem-Estar",
-        2: "Equilíbrio",
-        3: "Transformação",
-    };
-
-    const planoPrecos = {
-        1: 250,
-        2: 310,
-        3: 600,
-    };
-
-    useEffect(() => {
-        if (token) {
-            const decodedToken = parseJwt(token);
-            setTipoUsuario(decodedToken.tipo_usuario);
-            setEmpresaId(decodedToken.id_referencia);
-        }
-    }, [token]);
-    
-    useEffect(() => {
-        const fetchCompras = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/api/compras');
-                setCompras(response.data);
-            } catch (err) {
-                console.error('Erro ao carregar as compras:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCompras();
-    }, []);
-
-    // Filtrar as compras pelo ID da empresa
-    const compraFiltrada = compras.find(compra => compra.id_empresa === empresaId);
-
-    // const handlePlanSelect = (planId) => {
-    //     setSelectedPlan(planId);
-    //     setTotalPrice(planoPrecos[planId] * nContas);
-    // };
-
-    const handleCreateAccounts = async () => {
-        const accountData = {
-            id_empresa: empresaId,
-            id_plano: selectedPlan?.id,
-            qtd_funcionarios: nContas,
-        };
-
-        try {
-            const response = await axios.post('http://localhost:3001/contafuncionarios', accountData);
-            console.log('Contas criadas com sucesso:', response.data);
-            setResultados(response.data.result); // Armazena os resultados, se necessário
-            // Aqui você pode adicionar lógica para mostrar uma mensagem de sucesso ou redirecionar o usuário
-        } catch (error) {
-            console.error('Erro ao criar contas:', error);
-            // Aqui você pode adicionar lógica para mostrar uma mensagem de erro
-        }
-    };
-
-        // Consolidar as compras para cada plano e empresa
-        const comprasConsolidadas = compras
-        .filter(compra => compra.id_empresa === empresaId)
-        .reduce((acumulado, compra) => {
-            if (!acumulado[compra.id_plano]) {
-                acumulado[compra.id_plano] = { ...compra };
-            }
-            return acumulado;
-        }, {});
-
-        // Converte o objeto consolidado em um array para renderização
-        const listaPlanosUnicos = Object.values(comprasConsolidadas);
-
-        const handlePlanSelect = (planId) => {
-        setSelectedPlan(planId);
-        setTotalPrice(planoPrecos[planId] * nContas);
-        };
+    try {
+      const response = await axios.post('http://localhost:3001/api/compras', purchaseData);
+      console.log('Compra salva com sucesso:', response.data);
+      setData(response.data);
+    } catch (error) {
+      console.error('Erro ao enviar a compra:', error);
+    }
+  };
 
     return (
         <div className="conteudoADDfuncionario">

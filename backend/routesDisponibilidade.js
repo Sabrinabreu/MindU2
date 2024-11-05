@@ -3,6 +3,8 @@ const router = express.Router();
 const connection = require('./db');
 
 // Rota para buscar disponibilidades
+
+// Rota para buscar disponibilidades
 router.get('/disponibilidades/:psicologo_id', async (req, res) => {
     const psicologoId = req.params.psicologo_id;
 
@@ -12,14 +14,20 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
             [psicologoId]
         );
 
+        console.log('Disponibilidades encontradas:', disponibilidades); // Verifique o que está sendo retornado
+
         // Formatar a resposta
         const formattedDisponibilidades = disponibilidades.map(item => {
-            const horarioInicio = item.horario_inicio;
-            const horarioFormatado = horarioInicio.substring(0, 5); 
-        
+            let horarioFormatado = 'Hora não disponível'; // Valor padrão
+
+            if (item.horario_inicio) {
+                // Extraindo apenas as horas e minutos (ex: "14:00")
+                horarioFormatado = item.horario_inicio.substring(0, 5);
+            }
+
             return {
-                data: item.data.toISOString().split('T')[0], 
-                horario_inicio: horarioFormatado 
+                data: item.data.toISOString().split('T')[0], // Formata a data no formato YYYY-MM-DD
+                horario_inicio: horarioFormatado // Apenas as horas e minutos
             };
         });
 
@@ -33,7 +41,6 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
         res.status(500).json({ message: 'Erro ao buscar disponibilidades' });
     }
 });
-
 
 // Rota para inserir a disponibilidade de um psicólogo 
 router.post('/disponibilidade/psicologo', (req, res) => {

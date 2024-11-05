@@ -1,120 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import '../css/Planos.css';
-import '../css/SideBar.css';
 import { GiCancel } from 'react-icons/gi';
 import { PlusCircle } from 'lucide-react';
-import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX, UserRoundPen } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
-import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../provider/AuthProvider";
+import Sidebar from '../Components/SideBar'; 
 
 const Compras = () => {
-    const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
-    const [perfil, setPerfil] = useState({});
-    const [compras, setCompras] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [empresaId, setEmpresaId] = useState(null);
-    const [tipoUsuario, setTipoUsuario] = useState(null);
-    const [data, setData] = useState([]);
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [perfil, setPerfil] = useState({});
+  const [compras, setCompras] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [empresaId, setEmpresaId] = useState(null);
 
-    useEffect(() => {
-        console.log('Dados:', data);
-    }, [data]);
+  const { setToken } = useAuth();
+  const navegacao = useNavigate();
+  const token = localStorage.getItem('token');
+  const decodedToken = parseJwt(token);
 
-    const { setToken } = useAuth();
-    const navegacao = useNavigate();
-    const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token);
+  useEffect(() => {
+    setPerfil(decodedToken.perfil);
+  }, [decodedToken.perfil]);
 
-    useEffect(() => {
-        setPerfil(decodedToken.perfil);
-    }, [decodedToken.perfil]);
-
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setToken(null);
-        navegacao("/", { replace: true });
-    };
-
-    const toggleSidebar = () => {
-        setSidebarCollapsed(prevState => !prevState);
-    };
-
-    // iniciais na foto de perfil
-    const getInitials = (name) => {
-        if (!name) return '';
-        const names = name.trim().split(' ').filter(Boolean);
-        if (names.length === 0) return '';
-        const initials = names.slice(0, 2).map(n => n[0].toUpperCase()).join('');
-        return initials;
-    };
-
-    const getColorFromInitials = (initials) => {
-        let hash = 0;
-        for (let i = 0; i < initials.length; i++) {
-            hash = initials.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const color = `#${((hash & 0x00FFFFFF) >> 0).toString(16).padStart(6, '0').toUpperCase()}`;
-        return color;
-    };
-
-    const getContrastingColor = (backgroundColor) => {
-        const r = parseInt(backgroundColor.substring(1, 3), 16);
-        const g = parseInt(backgroundColor.substring(3, 5), 16);
-        const b = parseInt(backgroundColor.substring(5, 7), 16);
-        const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        return luminosity > 128 ? '#000000' : '#FFFFFF';
-    };
-
-
-    const planoNomes = {
-        1: "Bem-Estar",
-        2: "Equilíbrio",
-        3: "Transformação",
-    };
-
-    useEffect(() => {
-        if (token) {
-            const decodedToken = parseJwt(token);
-            setTipoUsuario(decodedToken.tipo_usuario);
-            setEmpresaId(decodedToken.id_referencia);
-        }
-    }, [token]);
-
-    useEffect(() => {
-        const fetchCompras = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/api/compras');
-                setCompras(response.data);
-            } catch (err) {
-                setError('Erro ao carregar as compras');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCompras();
-    }, []);
-
-    // Filtrar e consolidar as compras pelo ID da empresa e plano
-const comprasFiltradas = compras
-.filter(compra => compra.id_empresa === empresaId)
-.reduce((acumulado, compra) => {
-    if (acumulado[compra.id_plano]) {
-        acumulado[compra.id_plano].qtd_funcionarios += compra.qtd_funcionarios;
-    } else {
-        acumulado[compra.id_plano] = { ...compra };
+  useEffect(() => {
+    if (token) {
+      const decodedToken = parseJwt(token);
+      setEmpresaId(decodedToken.id_referencia);
     }
-    return acumulado;
-}, {});
+  }, [token]);
 
-// Converter o objeto consolidado em uma lista para renderização
-const comprasConsolidadas = Object.values(comprasFiltradas);
+  useEffect(() => {
+    const fetchCompras = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/compras');
+        setCompras(response.data);
+      } catch (err) {
+        console.error('Erro ao carregar as compras', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCompras();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+    navegacao("/", { replace: true });
+  };
+
+  const toggleSidebar = () => {
+    setSidebarCollapsed((prevState) => !prevState);
+  };
+
+  // Filtrando as compras para a empresa específica
+  const comprasFiltradas = compras.filter(compra => compra.id_empresa === empresaId);
+  
+  const planoNomes = {
+    1: 'Bem-Estar',
+    2: 'Equilíbrio',
+    3: 'Transformação',
+  };
 
     return (
         <div className='conteudoSeuPlano'>
@@ -175,7 +124,7 @@ const comprasConsolidadas = Object.values(comprasFiltradas);
                 </div>
             </div>
 
-            <Container className={`planCard ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
+      <Container className={`planCard ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
         <h2 className="titleseuplano">Planos Comprados</h2>
         <Row>
             {comprasConsolidadas.length > 0 ? (

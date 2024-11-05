@@ -62,7 +62,7 @@ router.post('/upload-foto', upload.single('fotoPerfil'), async (req, res) => {
             return res.status(404).json({ message: 'Perfil não encontrado' });
         }
 
-        res.status(200).json({ message: 'Foto de perfil atualizada com sucesso', url: `/uploads/${fotoUrl}` });
+        res.status(200).json({ message: 'Foto de perfil atualizada com sucesso', url: `/${fotoUrl}` });
     } catch (error) {
         console.error('Erro ao atualizar a foto de perfil:', error);
         res.status(500).json({ message: 'Erro ao atualizar a foto de perfil' });

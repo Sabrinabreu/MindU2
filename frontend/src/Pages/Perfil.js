@@ -258,9 +258,9 @@ function Perfil() {
     }, [perfil, tipoUsuario]);
 
     const handleUpload = async (file) => {
-        if (!perfil || !perfil.id || !tipoUsuario) {
+        if ((!perfil.psicologo_id || !perfil.id) && !tipoUsuario) {
             console.error('Dados do perfil incompletos. ID ou tipo de usuário não definidos.');
-            console.log("ID:", perfil.id, "TIPO: ", tipoUsuario)
+            console.log("ID:", perfil.id, perfil.psicologo_id, "TIPO: ", tipoUsuario)
             return;
         }
 
@@ -341,8 +341,9 @@ function Perfil() {
                                 <div>
                                     <div className="d-flex flex-column align-items-center text-center">
                                         <div style={{ cursor: isEditing ? 'pointer' : 'default' }}>
-                                            <FotoPerfil name={perfil.nome || ''}
-                                                src={perfil.foto_perfil ? `http://localhost:3001${perfil.foto_perfil}` : null}
+                                            <FotoPerfil
+                                                name={perfil.nome || ''}
+                                                src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : null}
 
                                             />
                                         </div>
@@ -362,7 +363,7 @@ function Perfil() {
                                     {isEditing && (
                                         <Row>
                                             <Col sm={12}>
-                                                <Button className='editarBot' onClick={isEditing ? handleUploadClick : null} >
+                                                <Button className='editarFoto' onClick={isEditing ? handleUploadClick : null} >
                                                     <Pencil /> Editar Foto
                                                 </Button>
                                             </Col>
@@ -741,11 +742,14 @@ function Perfil() {
                                                 </>
                                             )}
                                             <Row>
-                                                <Col sm={12}>
-                                                    <Button className='editarBot' onClick={handleEditClick}>
-                                                        <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
-                                                    </Button>
-                                                </Col>
+                                               
+                                                    <Col sm={12}>
+                                                        <Button className='editarBot' onClick={handleEditClick}>
+                                                            <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
+                                                        </Button>
+                                                    </Col>
+                                               
+
                                             </Row>
                                         </>
                                     )}
