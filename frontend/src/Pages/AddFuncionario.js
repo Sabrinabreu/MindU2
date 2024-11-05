@@ -91,6 +91,11 @@ const MyCard = () => {
     }
   };
 
+  const planoNomes = {
+    1: 'Bem-Estar',
+    2: 'Equilíbrio',
+    3: 'Transformação',
+  };
   return (
     <>
       <Sidebar
@@ -107,18 +112,21 @@ const MyCard = () => {
               <Card>
                 <Card.Header className="d-flex justify-content-between align-items-center">
                   <Dropdown>
-                    <Dropdown.Toggle variant="purple" id="dropdown-basic">
-                      {selectedPlan ? selectedPlan.name : 'Selecione um plano'}
+                  <Dropdown.Toggle variant="purple" id="dropdown-basic">
+                    {selectedPlan ? planoNomes[selectedPlan.id_plano] : 'Selecione um plano'}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      {compras.map((compra) => (
+                    {Array.from(new Set(compras.map(compra => compra.id_plano))).map(idPlano => (
                         <Dropdown.Item
-                          key={compra.id_plano}
-                          onClick={() => setSelectedPlan(compra)}
+                        key={idPlano}
+                        onClick={() => {
+                            const compraSelecionada = compras.find(compra => compra.id_plano === idPlano);
+                            setSelectedPlan(compraSelecionada);
+                        }}
                         >
-                          {compra.name}
+                        {planoNomes[idPlano] || 'Plano Desconhecido'}
                         </Dropdown.Item>
-                      ))}
+                    ))}
                     </Dropdown.Menu>
                   </Dropdown>
                 </Card.Header>
