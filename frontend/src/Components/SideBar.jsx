@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, LogOut, SquareChartGantt, CopyPlus } from 'lucide-react';
+import { ChevronDown, LogOut, SquareChartGantt, CopyPlus, UserRoundPen } from 'lucide-react';
 import '../css/SideBar.css'; // Certifique-se de que o CSS da sidebar está configurado corretamente
 
 const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
@@ -68,7 +68,7 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
         <Link to="/dashboard/perfilempresa">
           <div className="nav-button">
             <i className="fas">
-              <SquareChartGantt />
+              <UserRoundPen />
             </i>
             <span>Perfil</span>
           </div>
