@@ -132,7 +132,7 @@ const comprasConsolidadas = Object.values(comprasFiltradas);
                     <hr />
                 </div>
                 <div id="nav-content">
-                    <Link to="/seuplano"><div className="nav-button">
+                    <Link to="/dashboard/seuplano"><div className="nav-button">
                         <i className="fas"><SquareChartGantt /></i><span>Seu Plano</span>
                     </div></Link>
                     <Link to="/dashboard/addfuncionario">
