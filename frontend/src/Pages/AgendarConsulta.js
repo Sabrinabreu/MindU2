@@ -281,12 +281,16 @@ function AgendarConsulta() {
     };
   }, [searchTerm]);
 
-  //EDICAO
-
+  //    EDICAO
   const handleSaveEdit = async (psicologo_id) => {
+    const psicologoIdNumerico = parseInt(psicologo_id, 10);
+    if (isNaN(psicologoIdNumerico)) {
+        alert('ID do psicólogo inválido');
+        return;
+    }
+
     const updatedBiografia = editedText[psicologo_id];
 
-    // Verifica se a biografia está vazia ou contém apenas espaços
     if (!updatedBiografia || updatedBiografia.trim() === '') {
         alert('Por favor, preencha as informações antes de salvar.');
         return;
@@ -297,37 +301,38 @@ function AgendarConsulta() {
     };
 
     try {
-        // Envia a requisição PUT para atualizar a biografia do psicólogo
-        await axios.put(`http://localhost:3001/api/${psicologo_id}`, psicologoData, {
+        console.log('ID do psicólogo:', psicologoIdNumerico);
+        console.log('Biografia a ser atualizada:', updatedBiografia);
+
+        const response = await axios.put(`http://localhost:3001/api/${psicologo_id}`, psicologoData, {
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         });
 
-        // Atualiza a biografia na lista de psicólogos no estado local
-        setData(prevData =>
-            prevData.map(psicologo =>
-                psicologo.psicologo_id === psicologo_id
+        setData((prevData) =>
+            prevData.map((psicologo) =>
+                psicologo.psicologo_id === psicologoIdNumerico
                     ? { ...psicologo, biografia: updatedBiografia }
                     : psicologo
             )
         );
 
-        // Exibe uma mensagem de sucesso para o usuário
         alert('Biografia atualizada com sucesso!');
-        handleEditToggle(psicologo_id); // Fecha o modo de edição
+        handleEditToggle(psicologoIdNumerico);
+
     } catch (error) {
-        console.error("Erro ao salvar as edições:", error);
+        console.error('Erro ao salvar as edições:', error);
 
         if (error.response) {
-            // O servidor respondeu com um status diferente de 2xx
-            alert(`Erro: ${error.response.data.error}`);
+            console.error('Erro de resposta do servidor:', error.response);
+            alert(`Erro: ${error.response.data ? error.response.data.error : 'Erro desconhecido'}`);
         } else {
-            // Algum erro ocorreu ao configurar a requisição
             alert('Erro ao salvar as informações. Tente novamente.');
         }
     }
 };
+
 
 
   return (
