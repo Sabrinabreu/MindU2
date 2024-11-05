@@ -290,3 +290,170 @@
         text-overflow: ellipsis;
     }
 }
+
+/* perfil empresa */
+
+.perfilempresa {
+    width: 76.3%;
+    transition: margin-left 0.3s;
+    margin-left: 300px;
+    height: 86vh;
+    overflow: auto;
+  }
+  
+  .perfilempresa.collapsed {
+    margin-left: 100px;
+    width: 100% !important;
+  }
+
+  @media (max-width: 1024px)  and (orientation: landscape) {
+    .perfilempresa {
+      width: 70.7% !important;
+      overflow: auto;
+      height: 82vh !important;
+    }
+  
+    .perfilempresa.collapsed {
+      margin-left: 90px;
+      width: 932px !important;
+    }
+  }
+  
+  @media (max-width: 1024px) and (orientation: portrait) {
+    .perfilempresa {
+      width: 69.5% !important;
+      overflow: auto;
+      height: 80.4vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 120px;
+      width: 850px !important;
+    }
+  }
+  
+  @media (max-width: 920px) {
+    .perfilempresa {
+      margin-left: 110px;
+      width: 90% !important;
+      overflow: auto;
+      height: 80.4vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 120px;
+      width: 850px !important;
+    }
+  }
+  
+  @media (max-width: 860px) {
+    .perfilempresa {
+      margin-left: 130px !important;
+      width: 82.8% !important;
+      overflow: auto;
+      height: 81.5vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 100px !important;
+      width: 700px !important;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .perfilempresa {
+      margin-left: 120px !important;
+      width: 84% !important;
+      overflow: auto;
+      height: 82vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 100px !important;
+      width: 665px !important;
+    }
+  }
+  
+  @media (max-width: 540px) {
+    .perfilempresa {
+      margin-left: 130px !important;
+      width: 75.8% !important;
+      overflow: auto;
+      height: 84vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 100px !important;
+      width: 440px !important;
+    }
+  }
+  
+  @media (max-width: 430px) {
+    .perfilempresa {
+      margin-left: 110px !important;
+      width: 74% !important;
+      overflow: auto;
+      height: 80vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 90px !important;
+      width: 330px !important;
+    }
+  }
+  
+  @media (max-width: 414px) {
+    .perfilempresa {
+      margin-left: 100px !important;
+      width: 75% !important;
+      overflow: auto;
+      height: 80vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 90px !important;
+      width: 322px !important;
+    }
+  }
+  
+  @media (max-width: 390px) {
+    .perfilempresa {
+      margin-left: 90px !important;
+      width: 76% !important;
+      overflow: auto;
+      height: 85vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 80px !important;
+      width: 294px !important;
+    }
+  }
+  
+  @media (max-width: 360px) {
+    .perfilempresa {
+      margin-left: 90px !important;
+      width: 75% !important;
+      overflow: auto;
+      height: 84vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 80px !important;
+      width: 280px !important;
+    }
+  }
+  
+  @media (max-width: 344px) {
+    .perfilempresa {
+      margin-left: 82px !important;
+      width: 75% !important;
+      overflow: auto;
+      height: 83vh !important;
+    }
+    
+    .perfilempresa.collapsed {
+      margin-left: 80px !important;
+      width: 263px !important;
+    }
+  }
