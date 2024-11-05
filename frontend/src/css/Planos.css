@@ -237,7 +237,7 @@ body {
   }
   
   .addFunc.collapsed {
-    margin-left: 120px !important;
+    /* margin-left: 120px !important; */
     width: 700px !important;
   }
 }
