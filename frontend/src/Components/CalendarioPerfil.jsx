@@ -23,30 +23,25 @@ const CalendarioEDetalhes = ({
         const startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
         const endDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
         const days = [];
-    
+
         const firstDayOfWeek = startDate.getDay();
-    
-        // Adiciona as células vazias para o início da semana
+
         for (let i = 0; i < firstDayOfWeek; i++) {
             days.push(<div key={`empty-${i}`} className="calendar-cell empty"></div>);
         }
-    
-        // Adiciona os dias do mês
+
+        // Adicionar os dias do mês
         for (let i = 1; i <= endDate.getDate(); i++) {
             const currentDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i);
             const dataFormatada = currentDay.getDate();
-    
-            // Filtra as consultas para o dia atual
+
             const consultasDoDia = consultationDetails.filter(detail => {
                 const detailDate = new Date(detail.data);
                 return detailDate.getDate() === dataFormatada &&
                     detailDate.getMonth() === currentDay.getMonth() &&
                     detailDate.getFullYear() === currentDay.getFullYear();
             });
-    
-            // Verificando os dados de consulta recebidos para esse dia
-            console.log(`Consultas do dia ${dataFormatada}:`, consultasDoDia);
-    
+
             days.push(
                 <div key={i} className="calendar-cell">
                     <div className="calendario-dia">
@@ -57,7 +52,8 @@ const CalendarioEDetalhes = ({
                         <div className="consultas">
                             {consultasDoDia.map((consulta, index) => (
                                 <div key={index} className="consulta">
-                                    <p><strong>Horário:</strong> {consulta.horario || 'Hora não disponível'}</p>
+                                    {/* Exibindo o horário com o campo correto */}
+                                    <p><strong>Horário:</strong> {consulta.horario_inicio || 'Hora não disponível'}</p>
                                     <p><strong>Assunto:</strong> {consulta.assunto || 'Assunto não disponível'}</p>
                                     <p><strong>Psicólogo:</strong> {consulta.nomePsico || 'Psicólogo não disponível'}</p>
                                 </div>
@@ -69,7 +65,6 @@ const CalendarioEDetalhes = ({
         }
         return days;
     };
-    
 
     return (
         <div className="calendarioEDetalhes">
@@ -102,7 +97,7 @@ const CalendarioEDetalhes = ({
                             consultationDetails.map((detail, index) => (
                                 <div className='avisoSemData' key={index}>
                                     <p><strong>Data:</strong> {new Date(detail.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) || 'Data não disponível'}</p>
-                                    <p><strong>Hora:</strong> {detail.horario || 'Hora não disponível'}</p>
+                                    <p><strong>Hora:</strong> {(detail.horario_inicio) || 'Hora não disponível'}</p>
                                     <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p>
                                     <p><strong>Assunto:</strong> {detail.assunto || 'Assunto não disponível'}</p>
                                     <p><strong>Psicólogo:</strong> {detail.nomePsico || 'Psicólogo não disponível'}</p>
