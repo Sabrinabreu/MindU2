@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
-import { Container, Col, Row, Button, Tab, Tabs } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import perfilPsicologo from '../img/perfilPsicologo.jfif';
 import perfilPsicologa from '../img/perfilPsicologa.jfif';
 import perfilPsicologaclinica from '../img/perfilPsicologaclinica.png';
@@ -233,13 +235,13 @@ function AgendarConsulta() {
           content: (
             <div className="especialidades">
               {[{ description: "Aconselhamento individual e em grupo" }, { description: "Desenvolvimento de autoestima" }, { description: "Coaching" }, { description: "Habilidades para lidar com estresse e ansiedade" }].map((servico, index) => (
-                <div key={index}>
-                  <p className='especialidade'>{servico.description}</p>
-                </div>
+                  <div key={index}>
+                    <p className='especialidade'>{servico.description}</p>
+                  </div>
               ))}
             </div>
           ),
-        },
+        },        
         { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para ele." }
       ]
     }
@@ -279,41 +281,54 @@ function AgendarConsulta() {
     };
   }, [searchTerm]);
 
+  //EDICAO
+
   const handleSaveEdit = async (psicologo_id) => {
     const updatedBiografia = editedText[psicologo_id];
 
-    if (!updatedBiografia) {
-      alert('Por favor, preencha as informações antes de salvar.');
-      return;
+    // Verifica se a biografia está vazia ou contém apenas espaços
+    if (!updatedBiografia || updatedBiografia.trim() === '') {
+        alert('Por favor, preencha as informações antes de salvar.');
+        return;
     }
 
     const psicologoData = {
-      biografia: updatedBiografia,
+        biografia: updatedBiografia,
     };
 
     try {
-      await axios.put(`http://localhost:3001/api/psicologos/${psicologo_id}`, psicologoData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+        // Envia a requisição PUT para atualizar a biografia do psicólogo
+        await axios.put(`http://localhost:3001/api/${psicologo_id}`, psicologoData, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-      // Atualiza a biografia na lista de psicólogos
-      setData(prevData =>
-        prevData.map(psicologo =>
-          psicologo.psicologo_id === psicologo_id
-            ? { ...psicologo, biografia: updatedBiografia }
-            : psicologo
-        )
-      );
+        // Atualiza a biografia na lista de psicólogos no estado local
+        setData(prevData =>
+            prevData.map(psicologo =>
+                psicologo.psicologo_id === psicologo_id
+                    ? { ...psicologo, biografia: updatedBiografia }
+                    : psicologo
+            )
+        );
 
-      alert('Biografia atualizada com sucesso!');
-      handleEditToggle(psicologo_id);
+        // Exibe uma mensagem de sucesso para o usuário
+        alert('Biografia atualizada com sucesso!');
+        handleEditToggle(psicologo_id); // Fecha o modo de edição
     } catch (error) {
-      console.error("Erro ao salvar as edições:", error);
-      alert('Erro ao salvar as informações. Tente novamente.');
+        console.error("Erro ao salvar as edições:", error);
+
+        if (error.response) {
+            // O servidor respondeu com um status diferente de 2xx
+            alert(`Erro: ${error.response.data.error}`);
+        } else {
+            // Algum erro ocorreu ao configurar a requisição
+            alert('Erro ao salvar as informações. Tente novamente.');
+        }
     }
-  };
+};
+
 
   return (
     <>
@@ -344,7 +359,7 @@ function AgendarConsulta() {
                       <img className='imgPerfil' src={tabs.find(tab => tab.id === psicologo.psicologo_id)?.foto || padraoPerfil} alt="Foto de Perfil" />
                       <Col md={6} sm={12} className="colCardAgenda">
 
-                        <div className='txtCardAgenda'
+                        <div
                         // className="primeiro"
                         >
                           <h3 className='nomeAgenda'>{psicologo.nome}</h3>
@@ -366,52 +381,34 @@ function AgendarConsulta() {
                         </div>
                       </Col>
 
-
                       <Col md={6} sm={12} className="tabs-container">
                         <Tabs
                           defaultActiveKey="agenda"
                           id={`tabs-${psicologo.psicologo_id}`}
                           fill
                           activeKey={activeTabs[psicologo.psicologo_id] || 'agenda'}
-                          onSelect={(k) => setActiveTabs((prev) => ({ ...prev, [psicologo.psicologo_id]: k }))}
-                        >
+                          onSelect={(k) => setActiveTabs(prev => ({ ...prev, [psicologo.psicologo_id]: k }))}>
                           {tabsData.map((tab, i) => (
-                            <Tab
-                              key={i}
-                              className="tabText p-3"
-                              eventKey={tab.eventKey}
-                              title={
-                                <span
-                                  tabIndex="0"
-                                  role="tab"
-                                  aria-selected={activeTabs[psicologo.psicologo_id] === tab.eventKey}
-                                  onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                      setActiveTabs((prev) => ({ ...prev, [psicologo.psicologo_id]: tab.eventKey }));
-                                    }
-                                  }}
-                                >
-                                  {tab.title}
-                                </span>
-                              }
-                            >
+                            <Tab key={i} className='tabText p-3' eventKey={tab.eventKey} title={tab.title}>
                               {tab.eventKey === 'sobre' ? (
+                                // Lógica para "Sobre Mim"
                                 psicologo.psicologo_id >= 8 ? (
+                                  // Para IDs 8 ou superiores
                                   <>
                                     {editableInfo[psicologo.psicologo_id] ? (
                                       <>
-                                        <input
-                                          type="text"
+                                        <textarea
+                                          className='textareaSobreMim'
                                           value={editedText[psicologo.psicologo_id] || psicologo.biografia}
                                           onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
-                                        />
-                                        <button className="salvarEdicoes" onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
+                                        ></textarea>
+                                        <button className='salvarEdicoes' onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
                                       </>
                                     ) : (
                                       <>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                           <p style={{ marginRight: '10px' }}>{psicologo.biografia}</p>
-                                          <button className="editarTabs" onClick={() => handleEditToggle(psicologo.psicologo_id)}>
+                                          <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
                                             <Pencil />
                                           </button>
                                         </div>
@@ -419,27 +416,38 @@ function AgendarConsulta() {
                                     )}
                                   </>
                                 ) : (
+                                  // para IDs de 1 a 7
                                   <div>
-                                    <p>{tabs.find((tab) => tab.id === psicologo.psicologo_id)?.tabs[0].content}</p>
+                                    <p>{tabs.find(tab => tab.id === psicologo.psicologo_id)?.tabs[0].content}</p>
                                     {editableInfo[psicologo.psicologo_id] && (
-                                      <>
-                                        <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Editar</button>
-                                      </>
+                                      <button onClick={() => handleEditToggle(psicologo.psicologo_id)}>Editar</button>
                                     )}
+                                  </div>
+                                )
+                              ) : tab.eventKey === 'especialidades' ? (
+                                psicologo.psicologo_id >= 8 ? (
+                                  // para IDs 8 ou superiores
+                                  <div>
+                                    <p>Aqui você pode listar as especialidades de forma editável...</p>
+                                    {/* Coloque a lógica aqui para editar as especialidades, se necessário */}
+                                  </div>
+                                ) : (
+                                  <div className="especialidades">
+                                    {tabs.find(tab => tab.id === psicologo.psicologo_id)?.tabs[1].content}
                                   </div>
                                 )
                               ) : (
                                 <p>{tab.content}</p>
                               )}
 
-                               {tab.eventKey === 'sobre' && (
-                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="saibaMaisBot mt-3">
-                                  Saiba mais
+                              {tab.eventKey === 'sobre' && (
+                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+                                  Saiba Mais
                                 </Link>
                               )}
 
                               {tab.eventKey === 'agenda' && (
-                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="saibaMaisBot mt-3">
+                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
                                   Agendar
                                 </Link>
                               )}
@@ -447,8 +455,6 @@ function AgendarConsulta() {
                           ))}
                         </Tabs>
                       </Col>
-
-
                     </Row>
                   </div>
                 );
