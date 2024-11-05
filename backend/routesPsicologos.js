@@ -7,28 +7,6 @@ const path = require('path');
 
 router.use(cors());
 
-// Rota para criar um novo psicólogo
-router.post('/', upload.single('foto'), (req, res) => {
-    const { nome, especialidade, localizacao } = req.body;
-    const foto = req.file ? req.file.path.replace(/\\/g, '/') : null; // no caminho da imagem (substitui \ por /)
-
-    if (!nome || !especialidade || !localizacao) {
-        return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
-    }
-
-    connection.query(
-        'INSERT INTO psicologos (nome, especialidade, localizacao, foto) VALUES (?, ?, ?, ?)',
-        [nome, especialidade, localizacao, foto],
-        (err, result) => {
-            if (err) {
-                console.error('Erro ao criar psicólogo:', err);
-                return res.status(500).json({ error: 'Erro ao criar psicólogo' });
-            }
-            res.status(201).json({ message: 'Psicólogo criado com sucesso!' });
-        }
-    );
-});
-
 // Rota para listar todos os psicólogos ou filtrar por nome, especialidade e localização
 router.get('/psicologos', (req, res) => {
     const { nome, especialidade, localizacao } = req.query;

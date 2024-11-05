@@ -12,18 +12,24 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
             [psicologoId]
         );
 
-        console.log('Disponibilidades encontradas:', disponibilidades); // Verifique o que está sendo retornado
+        // Verificando os dados retornados
+        console.log('Disponibilidades recebidas do banco:', disponibilidades);
 
-        // Formatar a resposta
         const formattedDisponibilidades = disponibilidades.map(item => {
-            const horarioInicio = item.horario_inicio;
-            const horarioFormatado = horarioInicio ? horarioInicio.substring(0, 5) : 'Hora não disponível'; // Verifique se horarioInicio não é nulo
-            
+            let horarioFormatado = 'Hora não disponível'; // Valor padrão
+
+            if (item.horario_inicio) {
+                horarioFormatado = item.horario_inicio.substring(0, 5);  // Exemplo: "09:30"
+            }
+
             return {
-                data: item.data.toISOString().split('T')[0], 
-                horario_inicio: horarioFormatado 
+                data: item.data.toISOString().split('T')[0], // Formata a data no formato YYYY-MM-DD
+                horario_inicio: horarioFormatado // Formata o horário
             };
         });
+
+        // Verificando o que está sendo enviado para o frontend
+        console.log('Disponibilidades formatadas:', formattedDisponibilidades);
 
         if (formattedDisponibilidades.length === 0) {
             return res.status(404).json({ message: 'Nenhuma disponibilidade encontrada.' });
