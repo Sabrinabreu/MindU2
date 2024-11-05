@@ -65,7 +65,7 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
             <span>Adicionar Funcionários</span>
           </div>
         </Link>
-        <Link to="/perfilempresa">
+        <Link to="/dashboard/perfilempresa">
           <div className="nav-button">
             <i className="fas">
               <SquareChartGantt />
