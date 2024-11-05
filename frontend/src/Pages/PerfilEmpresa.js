@@ -9,9 +9,10 @@ import { useAuth } from "../provider/AuthProvider";
 import BAPO from "../Components/WidgetBAPO";
 import "../css/WidgetBAPO.css";
 import FotoPerfil from "../Components/FotoPerfil";
-
+import Sidebar from '../Components/SideBar';
 
 function Perfil() {
+    const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [perfil, setPerfil] = useState({ nome: '', login: '', foto_perfil: '' });
     const [tipoUsuario, setTipoUsuario] = useState('');
@@ -34,6 +35,10 @@ function Perfil() {
             handleUpload(file); // Chama a função de upload passando o arquivo
         }
     };
+
+    const toggleSidebar = () => {
+        setSidebarCollapsed((prevState) => !prevState);
+      };
 
     // Função para carregar os dados do perfil
     const fetchProfileData = async () => {
@@ -98,7 +103,7 @@ function Perfil() {
         }
     }, [token]); // adiciona [token] para monitorar mudanças no token    
 
-    
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         setToken(null);
@@ -285,12 +290,18 @@ function Perfil() {
     return (
         <>
             <BAPO />
+            <Sidebar
+                isCollapsed={isSidebarCollapsed}
+                toggleSidebar={toggleSidebar}
+                perfil={perfil}
+                handleLogout={handleLogout}
+            />
             {feedbackMessage && (
                 <div className={`confirmation-modal feedback-message ${error ? 'error' : 'success'}`}>
                     {feedbackMessage}
                 </div>
             )}
-            <Container className='mt-4'>
+            <Container className={`perfilempresa mb-3 mt-4 ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
                 {showAlert && (
                     <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
                         <Alert.Heading>Atualização de dados cadastrais necessária!</Alert.Heading>
