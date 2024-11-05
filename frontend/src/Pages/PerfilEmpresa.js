@@ -27,6 +27,7 @@ function Perfil() {
     const [showPassword, setShowPassword] = useState(false);
     const token = localStorage.getItem('token');
     const decodedToken = parseJwt(token);
+    const fileInputRef = useRef(null);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -48,7 +49,6 @@ function Perfil() {
     useEffect(() => {
         fetchProfileData();
     }, []);
-    const fileInputRef = useRef(null);
 
     const handleEditClick = () => {
         setIsEditing(true);

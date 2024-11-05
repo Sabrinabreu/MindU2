@@ -26,10 +26,8 @@ function Perfil() {
     const [error, setError] = useState(false);
     const { setToken } = useAuth();
     const navegacao = useNavigate();
-
     const [consultasAgendadas, setConsultasAgendadas] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date());
-
     const [showPassword, setShowPassword] = useState(false);
     const [isPsicologo] = useState(false);
     const token = localStorage.getItem('token');
@@ -233,8 +231,6 @@ function Perfil() {
         fileInputRef.current.click(); // Abre o seletor de arquivo
     };
 
-    console.log("iusdhudshzx: ", tipoUsuario)
-
     useEffect(() => {
         async function fetchProfileData() {
             const usuarioID = tipoUsuario === 'psicologo' ? 'psicologo_id' : 'id';
@@ -340,7 +336,7 @@ function Perfil() {
                             <Card.Body>
                                 <div>
                                     <div className="d-flex flex-column align-items-center text-center">
-                                        <div style={{ cursor: isEditing ? 'pointer' : 'default' }}>
+                                        <div onClick={isEditing ? handleUploadClick : null} style={{ cursor: isEditing ? 'pointer' : 'default' }}>
                                             <FotoPerfil
                                                 name={perfil.nome || ''}
                                                 src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : null}
