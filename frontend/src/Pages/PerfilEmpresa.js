@@ -39,7 +39,7 @@ function Perfil() {
 
     const toggleSidebar = () => {
         setSidebarCollapsed((prevState) => !prevState);
-      };
+    };
 
     // Função para carregar os dados do perfil
     const fetchProfileData = async () => {
@@ -331,7 +331,7 @@ function Perfil() {
                                             <h4>{perfil.empresa}</h4>
                                             <p>{perfil.nome}</p>
                                             <p>{perfil.login}</p>
-                                            <p className="text-muted font-size-sm">..</p>
+                                            
                                         </div>
                                     </div>
 
@@ -354,11 +354,11 @@ function Perfil() {
                             <ListGroup variant="flush">
                                 {/* informações gerais */}
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Telefone</h6>
+                                    <h6 className="mb-0">Telefone:</h6>
                                     <span className="text-secondary">{perfil.telefone || "definir"}</span>
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">Email</h6>
+                                    <h6 className="mb-0">Email:</h6>
                                     <span className="text-secondary">{perfil.email || "definir"}</span>
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex justify-content-between align-items-center flex-wrap">
@@ -434,21 +434,21 @@ function Perfil() {
                                                     value={perfil.empresa}
                                                     onChange={(e) => setPerfil({ ...perfil, empresa: e.target.value })}
                                                 />
-                                                <Form.Label>Departamento da empresa: </Form.Label>
+                                                <Form.Label>Departamento: </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="departamento"
                                                     value={perfil.departamento}
                                                     onChange={(e) => setPerfil({ ...perfil, departamento: e.target.value })}
                                                 />
-                                                <Form.Label>Quantidade de funcionários da empresa: </Form.Label>
+                                                <Form.Label>Quantidade de funcionários: </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="qtdfuncionarios"
                                                     value={perfil.qtdfuncionarios}
                                                     onChange={(e) => setPerfil({ ...perfil, qtdfuncionarios: e.target.value })}
                                                 />
-                                                <Form.Label>Plano de saúde da empresa: </Form.Label>
+                                                <Form.Label>Plano de saúde: </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="departamento"
@@ -522,13 +522,13 @@ function Perfil() {
                                             <hr />
 
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Departamento da empresa:</h6></Col>
+                                                <Col sm={3}><h6 className="mb-0">:</h6></Col>
                                                 <Col sm={9} className="text-secondary">{perfil.departamento}</Col>
                                             </Row>
                                             <hr />
 
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Plano de saúde da empresa(se possuir):</h6></Col>
+                                                <Col sm={3}><h6 className="mb-0">Plano de saúde(se possuir):</h6></Col>
                                                 <Col sm={9} className="text-secondary">{perfil.planosaude}</Col>
                                             </Row>
                                             <hr />
