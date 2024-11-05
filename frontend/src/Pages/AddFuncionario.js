@@ -33,7 +33,7 @@ const MyCard = () => {
 
   useEffect(() => {
     setPerfil(decodedToken.perfil);
-  }, [decodedToken.perfil]);
+  }, []);
 
   useEffect(() => {
     if (token) {

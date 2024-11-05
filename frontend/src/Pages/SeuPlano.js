@@ -22,7 +22,7 @@ const Compras = () => {
 
   useEffect(() => {
     setPerfil(decodedToken.perfil);
-  }, [decodedToken.perfil]);
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -56,14 +56,24 @@ const Compras = () => {
     setSidebarCollapsed((prevState) => !prevState);
   };
 
-  // Filtrando as compras para a empresa específica
-  const comprasFiltradas = compras.filter(compra => compra.id_empresa === empresaId);
-  
-  const planoNomes = {
-    1: 'Bem-Estar',
-    2: 'Equilíbrio',
-    3: 'Transformação',
-  };
+   // Filtrando e somando funcionários para cada plano da empresa específica
+   const comprasFiltradas = compras
+   .filter(compra => compra.id_empresa === empresaId)
+   .reduce((acc, compra) => {
+     const existing = acc.find(item => item.id_plano === compra.id_plano);
+     if (existing) {
+       existing.qtd_funcionarios += compra.qtd_funcionarios;
+     } else {
+       acc.push({ ...compra });
+     }
+     return acc;
+   }, []);
+ 
+ const planoNomes = {
+   1: 'Bem-Estar',
+   2: 'Equilíbrio',
+   3: 'Transformação',
+ };
 
   return (
     <>
