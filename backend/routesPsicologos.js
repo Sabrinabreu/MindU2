@@ -100,7 +100,7 @@ router.put('/:psicologo_id', async (req, res) => {
     const { psicologo_id } = req.params;
     const { biografia } = req.body;
 
-    if (tipoUsuario === 'psicologo' && !biografia) {
+    if (!biografia) {
         return res.status(400).json({ error: 'A biografia é obrigatória.' });
     }
 
