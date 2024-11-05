@@ -36,7 +36,7 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error('Erro ao autenticar:', error);
-      alert('Erro ao entrar. Verifique o console para mais detalhes.');
+      alert('Usuário ou senha incorretos');
     }
   };
 

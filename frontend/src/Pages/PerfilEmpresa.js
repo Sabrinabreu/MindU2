@@ -282,10 +282,6 @@ function Perfil() {
 
     };
 
-
-
-
-
     return (
         <>
             <BAPO />
@@ -313,7 +309,7 @@ function Perfil() {
                                     <div className="d-flex flex-column align-items-center text-center">
                                         <div onClick={isEditing ? handleUploadClick : null} style={{ cursor: isEditing ? 'pointer' : 'default' }}>
                                             <FotoPerfil
-                                                src={perfil.foto_perfil ? `http://localhost:3001${perfil.foto_perfil}` : null}
+                                                src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : null}
                                                 name={perfil.empresa || ''}
                                             />
                                         </div>
