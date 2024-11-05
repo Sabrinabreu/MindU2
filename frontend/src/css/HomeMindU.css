@@ -879,7 +879,7 @@ body {
     }
 }
 
-@media (min-width: 600px) and (max-width: 1180px) {
+@media (min-width: 600px) and (max-width: 850px) {
 
     .txtSobre {
         top: 4% !important;
@@ -935,14 +935,19 @@ body {
         flex-wrap: wrap !important;
         display: flex !important;
         justify-content: center !important;
-        column-gap: 0px !important;
-        row-gap: 30px !important;
+        column-gap: 100px !important;
+        row-gap: 20px !important;
+        padding: 0em !important;
+
+        max-width: 700px !important;
+        width: 500px !important;
+        height: 700px !important;
     }
 
     .qualidadesMindU {
         text-align: center;
         margin: 0 auto;
-        padding: 80px !important;
+        padding: 50px !important;
         margin-top: 30px !important;
     }
 
