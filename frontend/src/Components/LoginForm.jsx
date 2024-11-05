@@ -28,7 +28,7 @@ const LoginForm = () => {
         setToken(token);
 
         const decodedToken = parseJwt(token);
-        // console.log("Informações do token decodificado: ", decodedToken);
+        console.log("Informações do token decodificado: ", decodedToken);
 
         navigate("/");
       } else {
@@ -36,7 +36,7 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error('Erro ao autenticar:', error);
-      alert('Erro ao entrar. Verifique o console para mais detalhes.');
+      alert('Usuário ou senha incorretos');
     }
   };
 
