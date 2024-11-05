@@ -363,7 +363,7 @@ function Perfil() {
                                     {isEditing && (
                                         <Row>
                                             <Col sm={12}>
-                                                <Button className='editarBot' onClick={isEditing ? handleUploadClick : null} >
+                                                <Button className='editarFoto' onClick={isEditing ? handleUploadClick : null} >
                                                     <Pencil /> Editar Foto
                                                 </Button>
                                             </Col>
@@ -742,11 +742,14 @@ function Perfil() {
                                                 </>
                                             )}
                                             <Row>
-                                                <Col sm={12}>
-                                                    <Button className='editarBot' onClick={handleEditClick}>
-                                                        <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
-                                                    </Button>
-                                                </Col>
+                                               
+                                                    <Col sm={12}>
+                                                        <Button className='editarBot' onClick={handleEditClick}>
+                                                            <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
+                                                        </Button>
+                                                    </Col>
+                                               
+
                                             </Row>
                                         </>
                                     )}

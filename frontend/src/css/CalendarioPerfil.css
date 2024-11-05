@@ -1,4 +1,3 @@
-
 .calendarioPerfil  {
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -57,6 +56,8 @@
 .calendar-cell {
     height: 70px;
     vertical-align: top;
+    height: auto; 
+    border: none;
 }
 
 
@@ -71,46 +72,76 @@
 }
 
 .calendario-dia {
-    font-weight: normal;
-    margin-top: 2px;
+    font-weight: bold;
     background: #fff; 
-    padding: 10px; 
-    border-radius: 100%;
-    height: 60px;
-    width: 60px;
-    text-align: center; 
+    border-radius: 50%;
+    height: 60px; 
+    width: 60px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
     transition: background 0.3s; 
     cursor: pointer;
-    justify-content: center;
-    align-items: center;
-    display: flex; 
-    margin-left: 20px;
+    position: relative;
+    border: 1px solid #ddd;
+    border: none;
+    margin: 2px auto; 
+}
+
+.consulta {
+    font-size: 12px;
+    margin: 2px 0; 
+}
+
+.consultas {
+    display: none;
+    background-color: #e0d3f5;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px;
+    margin-left: 2px;
+    text-align: left;
+    border: 1px solid #6852a5;
+}
+
+.calendario-dia:hover + .consultas {
+    display: block; 
 }
 
 .calendario-dia:hover {
     background: #d9c1f1; 
 }
 
+.bolinha {
+    display: inline-block; 
+    width: 10px;
+    height: 10px;
+    background-color: #F9B0C3;
+    border-radius: 50%;
+    position: absolute;
+    border: 1px solid #e75b81;
+    top: 5px; 
+    right: 5px;
+}
+
 /*dark mode */
 [data-theme='dark'] .calendarioPerfil{
-    background-color: #7e64a8;
+    background-color: #ab90d7;
     color: #1e1221 !important;
 }
 [data-theme='dark'] .calendario-dia{
-    background-color: #7e64a8;
+    background-color: #ab90d7;
     color: #fae2ff !important;
 }
 [data-theme='dark'] .calendario-header-day{
     color: #fae2ff !important;
 }
 [data-theme='dark'] .calendario-dia:hover{
-    background-color: #9d86c2;
+    background-color: #ab90d7;
     color: #ffffff !important;
 }
 [data-theme='dark'] .calendar-cell{
-    background-color: #dcbaff;
     color: #000 !important;
-    border:#564091;
 }
 [data-theme='dark'] .calendario-mes{ /*setinhas*/
     color: #dcbaff !important;

@@ -7,9 +7,7 @@ import axios from "axios";
 import CriarContasFuncionarios from '../Components/CriarContasFuncionarios';
 import { useState, useEffect } from 'react';
 import '../css/SideBar.css';
-import { GiCancel } from 'react-icons/gi';
-import { PlusCircle } from 'lucide-react';
-import { SquareChartGantt, CopyPlus, ChevronDown, LogOut, FilterX, CircleX, UserRoundPen } from 'lucide-react';
+import { SquareChartGantt, CopyPlus, ChevronDown, LogOut } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
@@ -22,17 +20,13 @@ const MyCard = () => {
     const [completedSteps, setCompletedSteps] = useState([false, false, false]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [data, setData] = useState(null);
-    const [planos, setPlanos] = useState([]);
     const [selectedPlan, setSelectedPlan] = useState(null);
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [perfil, setPerfil] = useState({});
     const [compras, setCompras] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [empresaId, setEmpresaId] = useState(null);
     const [tipoUsuario, setTipoUsuario] = useState(null);
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const [feedbackMessage, setFeedbackMessage] = useState(null);
 
     useEffect(() => {
         console.log('Dados:', data);
@@ -165,10 +159,10 @@ const MyCard = () => {
     // Filtrar as compras pelo ID da empresa
     const compraFiltrada = compras.find(compra => compra.id_empresa === empresaId);
 
-    const handlePlanSelect = (planId) => {
-        setSelectedPlan(planId);
-        setTotalPrice(planoPrecos[planId] * nContas);
-    };
+    // const handlePlanSelect = (planId) => {
+    //     setSelectedPlan(planId);
+    //     setTotalPrice(planoPrecos[planId] * nContas);
+    // };
 
     const handleCreateAccounts = async () => {
         const accountData = {
@@ -187,6 +181,24 @@ const MyCard = () => {
             // Aqui você pode adicionar lógica para mostrar uma mensagem de erro
         }
     };
+
+        // Consolidar as compras para cada plano e empresa
+        const comprasConsolidadas = compras
+        .filter(compra => compra.id_empresa === empresaId)
+        .reduce((acumulado, compra) => {
+            if (!acumulado[compra.id_plano]) {
+                acumulado[compra.id_plano] = { ...compra };
+            }
+            return acumulado;
+        }, {});
+
+        // Converte o objeto consolidado em um array para renderização
+        const listaPlanosUnicos = Object.values(comprasConsolidadas);
+
+        const handlePlanSelect = (planId) => {
+        setSelectedPlan(planId);
+        setTotalPrice(planoPrecos[planId] * nContas);
+        };
 
     return (
         <>
@@ -250,8 +262,8 @@ const MyCard = () => {
 
             <Container className={`addFunc ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
                 <Row>
-                    {compraFiltrada ? (
-                        <Col md={10} key={compraFiltrada.id} className="mt-5">
+                    {listaPlanosUnicos.length > 0 ? (
+                        <Col md={10} className="mt-5">
                             <Card>
                                 <Card.Header className="d-flex justify-content-between align-items-center">
                                     <Dropdown>
@@ -260,11 +272,12 @@ const MyCard = () => {
                                         </Dropdown.Toggle>
 
                                         <Dropdown.Menu>
-                                            {compras.map(compra => (
+                                            {listaPlanosUnicos.map(plano => (
                                                 <Dropdown.Item
-                                                    key={compra.id_plano}
-                                                    onClick={() => handlePlanSelect(compra.id_plano)}>
-                                                    {planoNomes[compra.id_plano]}
+                                                    key={plano.id_plano}
+                                                    onClick={() => handlePlanSelect(plano.id_plano)}
+                                                >
+                                                    {planoNomes[plano.id_plano]}
                                                 </Dropdown.Item>
                                             ))}
                                         </Dropdown.Menu>
@@ -281,20 +294,20 @@ const MyCard = () => {
                                         <Tab eventKey="home" title="Passo 1: Escolha a qnt de contas">
                                             <PagFuncionarios setNContas={setNContas} nContas={nContas} completeStep={() => completeStep(0)} />
                                         </Tab>
-                                        <Tab  className='tab' eventKey="profile" title="Passo 2: Pagamento" disabled={!completedSteps[0]}>
+                                        <Tab className='tab' eventKey="profile" title="Passo 2: Pagamento" disabled={!completedSteps[0]}>
                                             <PaymentForm
                                                 selectedPlan={{ price: totalPrice }}
                                                 completeStep={() => completeStep(1)}
                                             />
                                         </Tab>
                                         <Tab className='tab' eventKey="contact" title="Passo 3: Criar Contas" disabled={!completedSteps[1]}>
-                            <CriarContasFuncionarios
-                            nContas={nContas}
-                            empresaId={empresaId}
-                            planoSelecionado={selectedPlan}
-                            setResultados={setResultados}
-                            />
-                        </Tab>
+                                            <CriarContasFuncionarios
+                                                nContas={nContas}
+                                                empresaId={empresaId}
+                                                planoSelecionado={selectedPlan}
+                                                setResultados={setResultados}
+                                            />
+                                        </Tab>
                                     </Tabs>
                                 </Card.Body>
                             </Card>
