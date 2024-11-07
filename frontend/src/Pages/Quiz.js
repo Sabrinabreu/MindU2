@@ -32,9 +32,24 @@ const Contato = () => {
         { texto: "Há um padrão em meus relacionamentos: intensos e instáveis.", categoria: "transtornoPersonalidade" },
     ];
 
+    const [mostrarIntroducao, setMostrarIntroducao] = useState(true);
     const [perguntaAtual, setPerguntaAtual] = useState(0);
     const [respostas, setRespostas] = useState(Array(perguntas.length).fill(null));
+    const [resultadoFinal, setResultadoFinal] = useState(null);
 
+    const iniciarQuiz = () => {
+        setMostrarIntroducao(false);
+    };
+
+    const categoriasDisplay = {
+        ansiedade: "Ansiedade",
+        depressao: "Depressão",
+        conflitos: "Resolução de conflitos",
+        estresseTrabalho: "Estresse no trabalho",
+        luto: "problemas com luto",
+        transtornoPersonalidade: "Transtorno de personalidade",
+    };
+    
      const handleAnswer = (resposta) => {
       const novasRespostas = [...respostas];
       novasRespostas[perguntaAtual] = resposta;
@@ -53,80 +68,111 @@ const Contato = () => {
       }
   };
 
-  const handleSubmit = async () => {
-    // Calcula a pontuação total por categoria
-    const categorias = {
-        ansiedade: 0,
-        depressao: 0,
-        conflitos: 0,
-        estresseTrabalho: 0,
-        luto: 0,
-        transtornoPersonalidade: 0,
-    };
+  const handleSubmit = () => {
+    const pontuacoes = {};
+    let todasDiscordam = true;
 
-    respostas.forEach((resposta, index) => {
-        const categoria = perguntas[index].categoria;
-        if (resposta) {
-            categorias[categoria] += resposta;
+    perguntas.forEach((pergunta, index) => {
+        const categoria = pergunta.categoria;
+        const resposta = respostas[index];
+        if (resposta !== null) {
+            if (resposta !== 1) todasDiscordam = false; // Se a resposta não é 1, nem todas discordam
+            if (!pontuacoes[categoria]) pontuacoes[categoria] = 0;
+            pontuacoes[categoria] += resposta;
         }
     });
-     // Calcula o total de pontos e a porcentagem por categoria
-     const totalPontuacao = Object.values(categorias).reduce((acc, valor) => acc + valor, 0);
-     const resultadoPorcentagens = Object.keys(categorias).map(categoria => ({
-         categoria,
-         porcentagem: (categorias[categoria] / totalPontuacao) * 100,
-     }));
 
-     // Encontra a categoria com maior porcentagem
-     const resultadoFinal = resultadoPorcentagens.reduce((max, categoriaAtual) =>
-         categoriaAtual.porcentagem > max.porcentagem ? categoriaAtual : max
-     );
+    if (todasDiscordam) {
+        setResultadoFinal({
+            mensagem: "Parece que você não identifica problemas significativos nas áreas avaliadas."
+        });
+        return;
+    }
 
-     console.log("Resultado final:", resultadoFinal);
+    const porcentagens = {};
+    const totalRespostas = perguntas.length * 4;
+    for (const categoria in pontuacoes) {
+        porcentagens[categoria] = ((pontuacoes[categoria] / totalRespostas) * 100).toFixed(1);
+    }
 
-     // Envia o resultado para o backend ou exibe na página
-     try {
-         await axios.post('/api/quiz', { resultadoFinal });
-         alert(`O resultado é: ${resultadoFinal.categoria} com ${resultadoFinal.porcentagem.toFixed(2)}% de probabilidade.`);
-     } catch (error) {
-         console.error("Erro ao enviar o resultado:", error);
-     }
- };
+    // Encontrar a(s) categoria(s) com a maior porcentagem
+    const maxPorcentagem = Math.max(...Object.values(porcentagens));
+    const categoriasEmpatadas = Object.keys(porcentagens).filter(categoria => porcentagens[categoria] == maxPorcentagem);
+
+    // Verifica se há mais de uma categoria com a porcentagem máxima
+    if (categoriasEmpatadas.length > 1) {
+        const categoriasNomes = categoriasEmpatadas.map(categoria => categoriasDisplay[categoria]).join(" e ");
+        setResultadoFinal({
+            mensagem: `De acordo com suas respostas, você tem ${maxPorcentagem}% de probabilidade de apresentar características relacionadas a ${categoriasNomes}.`
+        });
+    } else {
+        // Apenas uma categoria tem a maior porcentagem
+        const resultado = categoriasEmpatadas[0];
+        setResultadoFinal({
+            categoria: categoriasDisplay[resultado],
+            porcentagem: porcentagens[resultado],
+        });
+    }
+};
 
 
   return (
-    <>
-      <Card className="cardQuiz">
-      <Card.Body>
-        <Card.Title>{perguntas[perguntaAtual].texto}</Card.Title>
-        <Card.Text>
-        {["Discordo totalmente", "Discordo", "Concordo", "Concordo totalmente"].map((opcao, i) => (
-                <label key={i}>
-                    <input
-                    className="m-2"
-                        type="radio"
-                        name={`pergunta-${perguntaAtual}`}
-                        checked={respostas[perguntaAtual] === i + 1}
-                        onChange={() => handleAnswer(i + 1)}
-                    />
-                    {opcao}
-                </label>
-            ))}
-        </Card.Text>
-      </Card.Body>
-      <Card.Body>
-            <div>
-                <button onClick={handleBack} disabled={perguntaAtual === 0}>Voltar</button>
-                {perguntaAtual < perguntas.length - 1 ? (
-                    <button onClick={handleNext} disabled={respostas[perguntaAtual] === null}>Próximo</button>
-                ) : (
-                    <button onClick={handleSubmit}>Enviar</button>
-                )}
+        <>
+        {mostrarIntroducao ? (
+            <div className="introducaoQuiz">
+                <h2>Quer descobrir o psicólogo ideal pra você? Faça o quiz e descubra!</h2>
+                <button onClick={iniciarQuiz}>Começar</button>
             </div>
-            </Card.Body>
-        </Card>
+        ) : (
+            <Card className="cardQuiz">
+                <Card.Body>
+                    {!resultadoFinal ? (
+                        <>
+                            <Card.Title>{perguntas[perguntaAtual].texto}</Card.Title>
+                            <Card.Text>
+                                {["Discordo totalmente", "Discordo", "Concordo", "Concordo totalmente"].map((opcao, i) => (
+                                    <label key={i}>
+                                        <input
+                                            className="m-2"
+                                            type="radio"
+                                            name={`pergunta-${perguntaAtual}`}
+                                            checked={respostas[perguntaAtual] === i + 1}
+                                            onChange={() => handleAnswer(i + 1)}
+                                        />
+                                        {opcao}
+                                    </label>
+                                ))}
+                            </Card.Text>
+                        </>
+                    ) : (
+                        <div>
+                            {resultadoFinal.mensagem ? (
+                                <p>{resultadoFinal.mensagem}</p>
+                            ) : (
+                                <div>
+                                    <h4>Resultado</h4>
+                                    <p>De acordo com suas respostas, você tem {resultadoFinal.porcentagem}% de probabilidade de {resultadoFinal.categoria}.</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </Card.Body>
+                {!resultadoFinal && (
+                    <Card.Body>
+                        <div>
+                            <button onClick={handleBack} disabled={perguntaAtual === 0}>Voltar</button>
+                            {perguntaAtual < perguntas.length - 1 ? (
+                                <button onClick={handleNext} disabled={respostas[perguntaAtual] === null}>Próximo</button>
+                            ) : (
+                                <button onClick={handleSubmit}>Enviar</button>
+                            )}
+                        </div>
+                    </Card.Body>
+                )}
+            </Card>
+        )}
     </>
-  );
+    );
 };
 
 export default Contato;
