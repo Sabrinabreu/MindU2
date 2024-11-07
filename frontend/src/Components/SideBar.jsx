@@ -84,9 +84,10 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
         <div id="nav-footer-heading">
           <div id="nav-footer-avatar">
           <FotoPerfil
-            name={perfil.nome || ''}
+            name={perfil.empresa || ''}
              src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : null}
              style={{
+              fontSize: '1em',
               width: '32px',
               height: '32px'
              }}
