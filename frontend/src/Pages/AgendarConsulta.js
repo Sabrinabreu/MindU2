@@ -7,7 +7,6 @@ import BAPO from "../Components/WidgetBAPO";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import padraoPerfil from '../img/padraoPerfil.png';
-import iconPsico from '../img/iconpsicologa.png';
 import FiltroBusca from '../Components/FiltroAgendarConsulta';
 import { Pencil } from 'lucide-react';
 import { Plus } from 'lucide-react';
@@ -25,6 +24,8 @@ function AgendarConsulta() {
   const [editedText, setEditedText] = useState({});
   const [editableSpecialties, setEditableSpecialties] = useState({});
   const [editedSpecialties, setEditedSpecialties] = useState({});
+
+  const [specialtiesList, setSpecialtiesList] = useState({});
 
   const handleEditToggle = (psicologoId) => {
     setEditableInfo(prev => ({
@@ -328,23 +329,24 @@ function AgendarConsulta() {
     }));
   };
 
-  const handleSpecialtyEditToggle = (psicologoId) => {
+  const handleSpecialtyEditToggle = (psicologo_id) => {
     setEditableSpecialties(prev => ({
       ...prev,
-      [psicologoId]: !prev[psicologoId]
+      [psicologo_id]: !prev[psicologo_id] // Alterna entre editar e não editar
     }));
   };
 
-  const handleSaveSpecialtyEdit = async (psicologo_id) => {
-    const updatedSpecialties = editedSpecialties[psicologo_id];
 
-    if (!updatedSpecialties || updatedSpecialties.trim() === '') {
-      alert('Por favor, preencha as especialidades antes de salvar.');
+  const handleSaveSpecialtyEdit = async (psicologo_id) => {
+    const updatedSpecialties = specialtiesList[psicologo_id] || [];
+
+    if (updatedSpecialties.some(specialty => specialty.trim() === '')) {
+      alert('Por favor, preencha todas as especialidades antes de salvar.');
       return;
     }
 
     const psicologoData = {
-      especificidade: updatedSpecialties, // Salva como string
+      especificidade: updatedSpecialties.join(', '), // Combine specialties as a string
     };
 
     try {
@@ -357,17 +359,40 @@ function AgendarConsulta() {
       setData(prevData =>
         prevData.map(psicologo =>
           psicologo.psicologo_id === psicologo_id
-            ? { ...psicologo, especificidade: psicologoData.especificidade } // Atualiza como string
+            ? { ...psicologo, especificidade: psicologoData.especificidade } // Update as string
             : psicologo
         )
       );
 
       alert('Especialidades atualizadas com sucesso!');
-      handleSpecialtyEditToggle(psicologo_id); // Fecha o modo de edição
+      handleSpecialtyEditToggle(psicologo_id); // Close edit mode
     } catch (error) {
       console.error("Erro ao salvar as edições:", error);
       alert('Erro ao salvar as informações. Tente novamente.');
     }
+  };
+
+
+
+const addSpecialtyField = (psicologo_id) => {
+  setSpecialtiesList(prevState => {
+    const updatedSpecialties = prevState[psicologo_id] || ['']; // Inicializa com 1 campo se não houver
+    return {
+      ...prevState,
+      [psicologo_id]: [...updatedSpecialties, ''] // Adiciona um novo campo de especialidade
+    };
+  });
+};
+
+  const handleSpecialtyChange = (psicologo_id, index, value) => {
+    setSpecialtiesList(prevState => {
+      const updatedSpecialties = [...(prevState[psicologo_id] || [])];
+      updatedSpecialties[index] = value; // Atualiza o valor do campo de especialidade correspondente
+      return {
+        ...prevState,
+        [psicologo_id]: updatedSpecialties // Atualiza o estado do psicólogo com as novas especialidades
+      };
+    });
   };
 
   return (
@@ -383,18 +408,18 @@ function AgendarConsulta() {
         setSearchTerm={setSearchTerm}
       />
 
-<a href="/quiz"  style={{ textDecoration: 'none', color: 'inherit' }}>
-  <div className="bannerquiz">
-    <h1 className="text-center textBannerQuiz">Muitas opções? Descubra qual o melhor profissional para você!</h1>
-    <button className="botaoBannerQuiz">
-      <span>Clique aqui e descubra</span>
-      <svg width="15px" height="10px" viewBox="0 0 13 10">
-        <path d="M1,5 L11,5"></path>
-        <polyline points="8 1 12 5 8 9"></polyline>
-      </svg>
-    </button>
-  </div>
-</a>
+      <a href="/quiz" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <div className="bannerquiz">
+          <h1 className="text-center textBannerQuiz">Muitas opções? Descubra qual o melhor profissional para você!</h1>
+          <button className="botaoBannerQuiz">
+            <span>Clique aqui e descubra</span>
+            <svg width="15px" height="10px" viewBox="0 0 13 10">
+              <path d="M1,5 L11,5"></path>
+              <polyline points="8 1 12 5 8 9"></polyline>
+            </svg>
+          </button>
+        </div>
+      </a>
 
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
@@ -487,22 +512,40 @@ function AgendarConsulta() {
                                     {tab.eventKey === 'especialidades' ? (
                                       <div>
                                         {editableSpecialties[psicologo.psicologo_id] ? (
-                                          <>
-                                            <textarea
-                                              className='textareaEspecialidades'
-                                              value={editedSpecialties[psicologo.psicologo_id] || psicologo.especificidade}
-                                              onChange={(e) => handleSpecialtyTextChange(psicologo.psicologo_id, e.target.value)}
-                                            ></textarea>
-                                            <button className='salvarEdicoes' onClick={() => handleSaveSpecialtyEdit(psicologo.psicologo_id)}>Salvar</button>
-                                          </>
+                                          <div>
+                                            {/* Exibe as especialidades para o psicólogo */}
+                                            {(specialtiesList[psicologo.psicologo_id] || ['']).map((specialty, index) => (
+                                              <div key={index} className="especialidade-field">
+                                                <textarea
+                                                  value={specialty}
+                                                  onChange={(e) => handleSpecialtyChange(psicologo.psicologo_id, index, e.target.value)}
+                                                  className="textareaEspecialidades"
+                                                />
+                                              </div>
+                                            ))}
+                                            <button className="salvarEdicoes" onClick={() => handleSaveSpecialtyEdit(psicologo.psicologo_id)}>
+                                              Salvar
+                                            </button>
+
+                                            {/* Botão para adicionar nova especialidade */}
+                                            <div className="adicionarEspecialidade">
+                                              <button onClick={() => addSpecialtyField(psicologo.psicologo_id)}>
+                                                <Plus /> Adicionar Especialidade
+                                              </button>
+                                            </div>
+
+                                          </div>
                                         ) : (
                                           <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <p className='especialidadeNova'>{psicologo.especificidade || 'Adicione suas especialidades'}</p>
-                                            <button className='editarTabs' onClick={() => handleSpecialtyEditToggle(psicologo.psicologo_id)}>
-                                            <Plus />
+                                            <p className="especialidadeNova">
+                                              {psicologo.especificidade || 'Adicione suas especialidades aqui'}
+                                            </p>
+                                            <button className="editarTabs" onClick={() => handleSpecialtyEditToggle(psicologo.psicologo_id)}>
+                                              <Plus />
                                             </button>
                                           </div>
                                         )}
+
                                       </div>
                                     ) : (
                                       <p>{tab.content}</p>

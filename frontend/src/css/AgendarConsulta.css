@@ -783,3 +783,15 @@
   .botaoBannerQuiz:active {
     transform: scale(0.95);
   }
+
+
+  .textareaEspecialidades {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .especialidade-field {
+    margin-bottom: 10px;
+  }
+  
