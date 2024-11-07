@@ -118,12 +118,12 @@ router.put('/biografia/:psicologo_id', async (req, res) => {
 });
 
 // Atualiza as especificidades
-router.put('/especifidade/:psicologo_id', async (req, res) => {
+router.put('/especificidade/:psicologo_id', async (req, res) => {
     const { psicologo_id } = req.params;
-    const { especifidade } = req.body;
+    const { especificidade } = req.body;
 
-    const sql = 'UPDATE psicologos SET especifidade = ? WHERE psicologo_id = ?';
-    const params = [especifidade, psicologo_id];
+    const sql = 'UPDATE psicologos SET especificidade = ? WHERE psicologo_id = ?';
+    const params = [especificidade, psicologo_id];
 
     try {
         const [result] = await connection.query(sql, params);
@@ -132,7 +132,7 @@ router.put('/especifidade/:psicologo_id', async (req, res) => {
             return res.status(404).json({ error: 'Psicólogo não encontrado' });
         }
 
-        res.json({ message: 'Especifidade atualizada com sucesso!' });
+        res.json({ message: 'especificidade atualizada com sucesso!' });
     } catch (error) {
         console.error("Erro ao salvar as edições:", error);
         res.status(500).json({ error: 'Erro ao salvar as informações. Tente novamente.' });

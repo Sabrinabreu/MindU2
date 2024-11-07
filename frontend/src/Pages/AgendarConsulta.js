@@ -255,7 +255,7 @@ function AgendarConsulta() {
 
   const filteredCards = data.filter(psicologo => {
     const term = searchTerm.toLowerCase();
-    const isMatchingProfession = selectedProfession === '' || psicologo.especifidade.toLowerCase().includes(selectedProfession.toLowerCase());
+    const isMatchingProfession = selectedProfession === '' || psicologo.especificidade.toLowerCase().includes(selectedProfession.toLowerCase());
     const isMatchingSearchTerm = filterType === 'nome' ? psicologo.nome.toLowerCase().includes(term) :
       filterType === 'local' ? psicologo.localizacao.toLowerCase().includes(term) :
         true; // se nenhum filtro específico, não filtra
@@ -344,11 +344,11 @@ function AgendarConsulta() {
     }
 
     const psicologoData = {
-      especifidade: updatedSpecialties, // Salva como string
+      especificidade: updatedSpecialties, // Salva como string
     };
 
     try {
-      await axios.put(`http://localhost:3001/api/especifidade/${psicologo_id}`, psicologoData, {
+      await axios.put(`http://localhost:3001/api/especificidade/${psicologo_id}`, psicologoData, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -357,7 +357,7 @@ function AgendarConsulta() {
       setData(prevData =>
         prevData.map(psicologo =>
           psicologo.psicologo_id === psicologo_id
-            ? { ...psicologo, especifidade: psicologoData.especifidade } // Atualiza como string
+            ? { ...psicologo, especificidade: psicologoData.especificidade } // Atualiza como string
             : psicologo
         )
       );
@@ -490,14 +490,14 @@ function AgendarConsulta() {
                                           <>
                                             <textarea
                                               className='textareaEspecialidades'
-                                              value={editedSpecialties[psicologo.psicologo_id] || psicologo.especifidade}
+                                              value={editedSpecialties[psicologo.psicologo_id] || psicologo.especificidade}
                                               onChange={(e) => handleSpecialtyTextChange(psicologo.psicologo_id, e.target.value)}
                                             ></textarea>
                                             <button className='salvarEdicoes' onClick={() => handleSaveSpecialtyEdit(psicologo.psicologo_id)}>Salvar</button>
                                           </>
                                         ) : (
                                           <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <p className='especialidadeNova'>{psicologo.especifidade || 'Nenhuma especialidade definida'}</p>
+                                            <p className='especialidadeNova'>{psicologo.especificidade || 'Adicione suas especialidades'}</p>
                                             <button className='editarTabs' onClick={() => handleSpecialtyEditToggle(psicologo.psicologo_id)}>
                                             <Plus />
                                             </button>
