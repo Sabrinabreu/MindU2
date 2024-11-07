@@ -711,9 +711,11 @@
     background-color: #f0edff;
     /* display: flex; */
     padding: 20px 50px;
+    background-color: #f0edff;
     opacity: 1;
-    background: radial-gradient(circle, transparent 20%, #f0edff 20%, #f0edff 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #f0edff 20%, #f0edff 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#e1cbff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #e1cbff 2px, #f0edff 2px) -1px 0;
-    background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px;
+    background-image:  linear-gradient(30deg, #ebdefd 12%, transparent 12.5%, transparent 87%, #ebdefd 87.5%, #ebdefd), linear-gradient(150deg, #ebdefd 12%, transparent 12.5%, transparent 87%, #ebdefd 87.5%, #ebdefd), linear-gradient(30deg, #ebdefd 12%, transparent 12.5%, transparent 87%, #ebdefd 87.5%, #ebdefd), linear-gradient(150deg, #ebdefd 12%, transparent 12.5%, transparent 87%, #ebdefd 87.5%, #ebdefd), linear-gradient(60deg, #ebdefd77 25%, transparent 25.5%, transparent 75%, #ebdefd77 75%, #ebdefd77), linear-gradient(60deg, #ebdefd77 25%, transparent 25.5%, transparent 75%, #ebdefd77 75%, #ebdefd77);
+    background-size: 62px 109px;
+    background-position: 0 0, 0 0, 31px 54px, 31px 54px, 0 0, 31px 54px;
 }
 .textBannerQuiz {
     font-size: 35px;
@@ -748,7 +750,7 @@
     display: block;
     border-radius: 50px;
     background: #ceb2f7;
-    width: 45px;
+    width: 5px;
     height: 45px;
     transition: all 0.3s ease;
   }
