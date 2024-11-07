@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "../css/Quiz.css";
 import axios from 'axios';
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
 
 const Contato = () => {
 
@@ -120,8 +120,8 @@ const Contato = () => {
         <>
         {mostrarIntroducao ? (
             <div className="introducaoQuiz">
-                <h2>Quer descobrir o psicólogo ideal pra você? Faça o quiz e descubra!</h2>
-                <button onClick={iniciarQuiz}>Começar</button>
+                <h2 className="m-2">Quer descobrir o psicólogo ideal pra você? Faça o quiz e descubra!</h2>
+                <Button className="m-2" onClick={iniciarQuiz}>Começar</Button>
             </div>
         ) : (
             <Card className="cardQuiz">
@@ -160,11 +160,11 @@ const Contato = () => {
                 {!resultadoFinal && (
                     <Card.Body>
                         <div>
-                            <button onClick={handleBack} disabled={perguntaAtual === 0}>Voltar</button>
+                            <Button onClick={handleBack} disabled={perguntaAtual === 0}>Voltar</Button>
                             {perguntaAtual < perguntas.length - 1 ? (
-                                <button onClick={handleNext} disabled={respostas[perguntaAtual] === null}>Próximo</button>
+                                <Button onClick={handleNext} disabled={respostas[perguntaAtual] === null}>Próximo</Button>
                             ) : (
-                                <button onClick={handleSubmit}>Enviar</button>
+                                <Button onClick={handleSubmit}>Enviar</Button>
                             )}
                         </div>
                     </Card.Body>
