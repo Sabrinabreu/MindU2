@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import BAPO from "../Components/WidgetBAPO";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import padraoPerfil from '../img/padraoPerfil.png';
+import iconPsico from '../img/iconpsicologa.png';
 import FiltroBusca from '../Components/FiltroAgendarConsulta';
 import { Pencil } from 'lucide-react';
 
@@ -328,6 +329,14 @@ function AgendarConsulta() {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
+
+<div className='bannerquiz'>
+  {/* <img src={iconPsico} width="auto" height="100px"/> */}
+    <h1 className='text-center textBannerQuiz'>Muitas opções? Descubra qual o melhor profissional para você!</h1>
+    <button class="botaoBannerQuiz"><span>Clique aqui e descubra</span>
+  <svg width="15px" height="10px" viewBox="0 0 13 10"><path d="M1,5 L11,5"></path><polyline points="8 1 12 5 8 9"></polyline></svg>
+</button>
+</div>
 
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
