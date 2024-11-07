@@ -41,20 +41,12 @@
     width: 100%;
 }
 
-.calendar-day,
-.calendar-cell {
-    text-align: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-}
-
 .calendario-dia {
     font-weight: bold;
     background: #f0f0f0;
 }
 
 .calendar-cell {
-    height: 70px;
     vertical-align: top;
     height: auto; 
     border: none;

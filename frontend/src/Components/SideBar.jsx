@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, LogOut, SquareChartGantt, CopyPlus, UserRoundPen } from 'lucide-react';
 import '../css/SideBar.css'; // Certifique-se de que o CSS da sidebar está configurado corretamente
+import FotoPerfil from '../Components/FotoPerfil';
 
 const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
@@ -34,6 +36,8 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
     return luminosity > 128 ? '#000000' : '#FFFFFF';
   };
 
+  const isActive = (path) => location.pathname === path;
+
   return (
     <div id="navbar" className={isCollapsed ? 'collapsed' : ''}>
       <input id="nav-toggle" type="checkbox" onChange={toggleSidebar} />
@@ -50,7 +54,7 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
       </div>
       <div id="nav-content">
         <Link to="/dashboard/seuplano">
-          <div className="nav-button">
+          <div className={`nav-button ${isActive('/dashboard/seuplano') ? 'active' : ''}`}>
             <i className="fas">
               <SquareChartGantt />
             </i>
@@ -58,14 +62,14 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
           </div>
         </Link>
         <Link to="/dashboard/addfuncionario">
-          <div className="nav-button">
+          <div className={`nav-button ${isActive('/dashboard/addfuncionario') ? 'active' : ''}`}>
             <i className="fas">
               <CopyPlus />
             </i>
             <span>Adicionar Funcionários</span>
           </div>
         </Link>
-        <Link to="/dashboard/perfilempresa">
+        <Link to="/perfilempresa">
           <div className="nav-button">
             <i className="fas">
               <UserRoundPen />
@@ -79,15 +83,14 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
       <div id="nav-footer">
         <div id="nav-footer-heading">
           <div id="nav-footer-avatar">
-            <div
-              className="profile-initials"
-              style={{
-                backgroundColor: getColorFromInitials(getInitials(perfil.empresa || '')),
-                color: getContrastingColor(getColorFromInitials(getInitials(perfil.empresa || ''))),
-              }}
-            >
-              {getInitials(perfil.empresa || '')}
-            </div>
+          <FotoPerfil
+                                                name={perfil.nome || ''}
+                                                src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : null}
+                                                style={{
+                                                  width: '32px', // Exemplo de largura específica
+                                                  height: '32px', // Exemplo de altura específicaborder: '3px solid #4A90E2' // Exemplo de borda personalizada
+                                              }}
+                                            />
           </div>
           <div id="nav-footer-titlebox">
             <a id="nav-footer-title" target="_blank" rel="noopener noreferrer">

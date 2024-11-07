@@ -225,7 +225,7 @@ body {
 }
 
 .colab {
-    margin-top: 80px !important;
+    margin-top: 40px !important;
     margin-right: auto !important;
     margin-left: 54px !important;
 }
@@ -252,7 +252,8 @@ body {
 }
 
 .Avaliacao-TXT {
-    color: #6a4e93;
+    margin-top: 80px !important;
+    color: #6a4e93 !important;
 }
 
 [data-theme="dark"] .Avaliacao-TXT {
@@ -279,7 +280,7 @@ body {
     letter-spacing: 1px;
     height: 400px !important;
     width: 400px !important;
-    margin-bottom: 10% !important;
+    margin-bottom: 8% !important;
 }
 
 .slick-center .slide {

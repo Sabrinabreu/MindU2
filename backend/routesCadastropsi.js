@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const connection = require('./db'); 
+const connection = require('./db');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { error } = require('console');
@@ -63,7 +63,7 @@ router.get('/psicologos', async (req, res) => {
 router.get('/psicologos/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [results] = await connection.query('SELECT * FROM psicologos WHERE id = ?', [id]);
+    const [results] = await connection.query('SELECT * FROM psicologos WHERE psicologo_id = ?', [id]);
     if (results.length === 0) {
       res.status(404).json({ error: 'Registro não encontrado' });
     } else {
@@ -101,7 +101,7 @@ router.put('/psicologos/:id', async (req, res) => {
     const setClause = updateFields.map(field => `${field} = ?`).join(', ');
 
     const [result] = await connection.query(
-      `UPDATE psicologos SET ${setClause} WHERE id = ?`,
+      `UPDATE psicologos SET ${setClause} WHERE psicologo_id = ?`,
       values
     );
 
@@ -120,7 +120,7 @@ router.put('/psicologos/:id', async (req, res) => {
 router.delete('/psicologos/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [result] = await connection.query('DELETE FROM psicologos WHERE id = ?', [id]);
+    const [result] = await connection.query('DELETE FROM psicologos WHERE psicologo_id = ?', [id]);
     if (result.affectedRows === 0) {
       res.status(404).json({ error: 'Registro não encontrado' });
     } else {

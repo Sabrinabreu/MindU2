@@ -3,8 +3,6 @@ const router = express.Router();
 const connection = require('./db');
 
 // Rota para buscar disponibilidades
-
-// Rota para buscar disponibilidades
 router.get('/disponibilidades/:psicologo_id', async (req, res) => {
     const psicologoId = req.params.psicologo_id;
 
@@ -16,18 +14,15 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
 
         console.log('Disponibilidades encontradas:', disponibilidades); // Verifique o que está sendo retornado
 
-        // Formatar a resposta
         const formattedDisponibilidades = disponibilidades.map(item => {
-            let horarioFormatado = 'Hora não disponível'; // Valor padrão
-
+            let horarioFormatado = 'Hora não disponível';
             if (item.horario_inicio) {
-                // Extraindo apenas as horas e minutos (ex: "14:00")
-                horarioFormatado = item.horario_inicio.substring(0, 5);
+                horarioFormatado = item.horario_inicio.substring(0, 5); // Formata o horário
             }
 
             return {
                 data: item.data.toISOString().split('T')[0], // Formata a data no formato YYYY-MM-DD
-                horario_inicio: horarioFormatado // Apenas as horas e minutos
+                horario_inicio: horarioFormatado
             };
         });
 
