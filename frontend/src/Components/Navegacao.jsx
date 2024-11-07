@@ -41,7 +41,8 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
     { nome: "Dashboard", caminho: "/dashboard", auth: true, tiposPermitidos: ["empresa"] }, // Apenas empresa logada
     { nome: "Disponibilidade", caminho: "/disponibilidade", auth: true, tiposPermitidos: ["psicologo"] }, // Apenas psicólogo logado
     { nome: "Perfil", caminho: "/perfil", auth: true, tiposPermitidos: ["psicologo", "funcionario"] }, // Psicólogos e funcionários logados
-    { nome: "Agendar Consulta", caminho: "/agendarConsulta", auth: true, tiposPermitidos: ["psicologo", "funcionario"] }, // Psicólogos e funcionários logados
+    { nome: "Agendar Consulta", caminho: "/agendarConsulta", auth: true, tiposPermitidos: ["psicologo", "funcionario"] },
+    { nome: "Quiz", caminho: "/quiz", auth: true, tiposPermitidos: ["funcionario"] }, // Psicólogos e funcionários logados
   ];
   
   const canAccessLink = (link, token, tipoUsuario) => {
