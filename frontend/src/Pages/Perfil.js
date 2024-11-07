@@ -349,7 +349,7 @@ function Perfil() {
                                         <div className="mt-3">
                                             <h4>{perfil.nome}</h4>
                                             <p>{perfil.login}</p>
-                                            <p className="text-muted font-size-sm">..</p>
+                                         
                                         </div>
                                     </div>
 
