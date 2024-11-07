@@ -110,8 +110,8 @@ const Compras = () => {
                     </Card.Text>
                   </Card.Body>
                   <div className='upgrade'>
-                    <button className='cancelbtn'>
-                      <GiCancel onClick={cancelarPlano} className='cancelicon' /> Cancelar
+                    <button onClick={cancelarPlano} className='cancelbtn'>
+                      <GiCancel className='cancelicon' /> Cancelar
                     </button>
                   </div>
                 </Card>
