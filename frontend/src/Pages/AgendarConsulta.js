@@ -383,13 +383,18 @@ function AgendarConsulta() {
         setSearchTerm={setSearchTerm}
       />
 
-<div className='bannerquiz'>
-  {/* <img src={iconPsico} width="auto" height="100px"/> */}
-    <h1 className='text-center textBannerQuiz'>Muitas opções? Descubra qual o melhor profissional para você!</h1>
-    <button class="botaoBannerQuiz"><span>Clique aqui e descubra</span>
-  <svg width="15px" height="10px" viewBox="0 0 13 10"><path d="M1,5 L11,5"></path><polyline points="8 1 12 5 8 9"></polyline></svg>
-</button>
-</div>
+<a href="/quiz"  style={{ textDecoration: 'none', color: 'inherit' }}>
+  <div className="bannerquiz">
+    <h1 className="text-center textBannerQuiz">Muitas opções? Descubra qual o melhor profissional para você!</h1>
+    <button className="botaoBannerQuiz">
+      <span>Clique aqui e descubra</span>
+      <svg width="15px" height="10px" viewBox="0 0 13 10">
+        <path d="M1,5 L11,5"></path>
+        <polyline points="8 1 12 5 8 9"></polyline>
+      </svg>
+    </button>
+  </div>
+</a>
 
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
