@@ -47,7 +47,7 @@ function Perfil() {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
-    }, [token]); // monitorar mudanças no token    
+    }, [token]); 
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -256,7 +256,6 @@ function Perfil() {
     const handleUpload = async (file) => {
         if ((!perfil.psicologo_id || !perfil.id) && !tipoUsuario) {
             console.error('Dados do perfil incompletos. ID ou tipo de usuário não definidos.');
-            console.log("ID:", perfil.id, perfil.psicologo_id, "TIPO: ", tipoUsuario)
             return;
         }
 
@@ -309,9 +308,17 @@ function Perfil() {
         } catch (error) {
             console.error('Erro ao buscar consultas agendadas:', error);
         }
-
-
     };
+
+    console.log("metodologin: ", perfil.loginMethod);
+
+    useEffect(() => {
+        if (perfil.loginMethod === 'login_temporario') {
+            setShowAlert(true);
+        } else {
+            setShowAlert(false);
+        }
+    }, [perfil.loginMethod]);
 
     return (
         <>
@@ -322,7 +329,7 @@ function Perfil() {
                 </div>
             )}
             <Container className='mt-4'>
-                {showAlert && (
+            {showAlert && (
                     <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
                         <Alert.Heading>Atualização de dados cadastrais necessária!</Alert.Heading>
                         <p>
@@ -440,7 +447,7 @@ function Perfil() {
                                             <Form.Group controlId="formFullName">
                                                 <Form.Label>Nome</Form.Label>
                                                 <Form.Control
-                                                    className='mb-2 text-reticencias'
+                                                    className='mb-2'
                                                     type="text"
                                                     name="nome"
                                                     value={perfil.nome}
@@ -644,6 +651,11 @@ function Perfil() {
                                             <Row>
                                                 <Col sm={3}><h6 className="mb-0">Telefone</h6></Col>
                                                 <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
+                                            </Row>
+                                            <hr />
+                                            <Row>
+                                                <Col sm={3}><h6 className="mb-0">login</h6></Col>
+                                                <Col sm={9} className="text-secondary">{perfil.login}</Col>
                                             </Row>
                                             {/* informações exclusivas de funcionario */}
                                             {tipoUsuario === 'funcionario' && (
