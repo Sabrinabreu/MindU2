@@ -10,6 +10,7 @@ import padraoPerfil from '../img/padraoPerfil.png';
 import iconPsico from '../img/iconpsicologa.png';
 import FiltroBusca from '../Components/FiltroAgendarConsulta';
 import { Pencil } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 function AgendarConsulta() {
   const [activeTabs, setActiveTabs] = useState({});
@@ -18,8 +19,12 @@ function AgendarConsulta() {
   const [selectedProfession, setSelectedProfession] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [data, setData] = useState([]);
+
+  //editar as informações
   const [editableInfo, setEditableInfo] = useState({});
   const [editedText, setEditedText] = useState({});
+  const [editableSpecialties, setEditableSpecialties] = useState({});
+  const [editedSpecialties, setEditedSpecialties] = useState({});
 
   const handleEditToggle = (psicologoId) => {
     setEditableInfo(prev => ({
@@ -250,7 +255,7 @@ function AgendarConsulta() {
 
   const filteredCards = data.filter(psicologo => {
     const term = searchTerm.toLowerCase();
-    const isMatchingProfession = selectedProfession === '' || psicologo.especialidade.toLowerCase().includes(selectedProfession.toLowerCase());
+    const isMatchingProfession = selectedProfession === '' || psicologo.especificidade.toLowerCase().includes(selectedProfession.toLowerCase());
     const isMatchingSearchTerm = filterType === 'nome' ? psicologo.nome.toLowerCase().includes(term) :
       filterType === 'local' ? psicologo.localizacao.toLowerCase().includes(term) :
         true; // se nenhum filtro específico, não filtra
@@ -284,12 +289,12 @@ function AgendarConsulta() {
     };
 
     try {
-        // Envia a requisição PUT para atualizar a biografia do psicólogo
-        await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+      // Envia a requisição PUT para atualizar a biografia do psicólogo
+      await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
       // Atualiza a biografia na lista de psicólogos no estado local
       setData(prevData =>
@@ -316,6 +321,54 @@ function AgendarConsulta() {
     }
   };
 
+  const handleSpecialtyTextChange = (psicologo_id, value) => {
+    setEditedSpecialties(prev => ({
+      ...prev,
+      [psicologo_id]: value
+    }));
+  };
+
+  const handleSpecialtyEditToggle = (psicologoId) => {
+    setEditableSpecialties(prev => ({
+      ...prev,
+      [psicologoId]: !prev[psicologoId]
+    }));
+  };
+
+  const handleSaveSpecialtyEdit = async (psicologo_id) => {
+    const updatedSpecialties = editedSpecialties[psicologo_id];
+
+    if (!updatedSpecialties || updatedSpecialties.trim() === '') {
+      alert('Por favor, preencha as especialidades antes de salvar.');
+      return;
+    }
+
+    const psicologoData = {
+      especificidade: updatedSpecialties, // Salva como string
+    };
+
+    try {
+      await axios.put(`http://localhost:3001/api/especificidade/${psicologo_id}`, psicologoData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      setData(prevData =>
+        prevData.map(psicologo =>
+          psicologo.psicologo_id === psicologo_id
+            ? { ...psicologo, especificidade: psicologoData.especificidade } // Atualiza como string
+            : psicologo
+        )
+      );
+
+      alert('Especialidades atualizadas com sucesso!');
+      handleSpecialtyEditToggle(psicologo_id); // Fecha o modo de edição
+    } catch (error) {
+      console.error("Erro ao salvar as edições:", error);
+      alert('Erro ao salvar as informações. Tente novamente.');
+    }
+  };
 
   return (
     <>
@@ -430,10 +483,31 @@ function AgendarConsulta() {
                               ) : tab.eventKey === 'especialidades' ? (
                                 psicologo.psicologo_id >= 8 ? (
                                   // para IDs 8 ou superiores
-                                  <div>
-                                    <p>Aqui você pode listar as especialidades de forma editável...</p>
-                                    {/* Coloque a lógica aqui para editar as especialidades, se necessário */}
-                                  </div>
+                                  <>
+                                    {tab.eventKey === 'especialidades' ? (
+                                      <div>
+                                        {editableSpecialties[psicologo.psicologo_id] ? (
+                                          <>
+                                            <textarea
+                                              className='textareaEspecialidades'
+                                              value={editedSpecialties[psicologo.psicologo_id] || psicologo.especificidade}
+                                              onChange={(e) => handleSpecialtyTextChange(psicologo.psicologo_id, e.target.value)}
+                                            ></textarea>
+                                            <button className='salvarEdicoes' onClick={() => handleSaveSpecialtyEdit(psicologo.psicologo_id)}>Salvar</button>
+                                          </>
+                                        ) : (
+                                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <p className='especialidadeNova'>{psicologo.especificidade || 'Adicione suas especialidades'}</p>
+                                            <button className='editarTabs' onClick={() => handleSpecialtyEditToggle(psicologo.psicologo_id)}>
+                                            <Plus />
+                                            </button>
+                                          </div>
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <p>{tab.content}</p>
+                                    )}
+                                  </>
                                 ) : (
                                   <div className="especialidades">
                                     {tabs.find(tab => tab.id === psicologo.psicologo_id)?.tabs[1].content}

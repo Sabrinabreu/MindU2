@@ -41,20 +41,12 @@
     width: 100%;
 }
 
-.calendar-day,
-.calendar-cell {
-    text-align: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-}
-
 .calendario-dia {
     font-weight: bold;
     background: #f0f0f0;
 }
 
 .calendar-cell {
-    height: 70px;
     vertical-align: top;
     height: auto; 
     border: none;
@@ -83,8 +75,6 @@
     transition: background 0.3s; 
     cursor: pointer;
     position: relative;
-    border: 1px solid #ddd;
-    border: none;
     margin: 2px auto; 
 }
 
@@ -152,76 +142,13 @@
 }
 
 @media (max-width: 600px) {
-    .calendar-dias{
-        width: 20px !important;
-    }
-}
-
-/* versao ipad  */
-@media (min-width: 700px) and (max-width: 900px) {
     .calendarioPerfil {
-        width: 100%;
-    }
-
-    .calendar-dias{
-        width: 20px !important;
-    }
-}
-
-
-
-
-
-
-.calendarioPerfil {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px;
-    background-color: #fff;
-    font-size: 20px;
-    max-width: 100%; /* Adiciona largura máxima */
-    overflow: auto; /* Permite rolagem se necessário */
-}
-
-.calendar-dias {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 1px;
-    font-size: 17px;
-    width: 100%;
-}
-
-.calendar-cell {
-    height: auto; /* Remove altura fixa */
-    border: none;
-    padding: 5px; /* Ajusta o padding */
-}
-
-.calendario-dia {
-    font-weight: bold;
-    background: #fff; 
-    border-radius: 50%;
-    height: 60px; 
-    width: 60px; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    transition: background 0.3s; 
-    cursor: pointer;
-    position: relative;
-    border: 1px solid #ddd;
-    margin: 2px auto; 
-}
-
-@media (max-width: 600px) {
-    .calendarioPerfil {
-        font-size: 16px; /* Ajusta o tamanho da fonte */
-        
+        font-size: 16px; 
     }
 
     .calendario-dia {
-        height: 50px; /* Ajusta a altura para telas menores */
-        width: 50px; /* Ajusta a largura para telas menores */
+        height: 50px; 
+        width: 50px; 
     }
 }
 
@@ -231,7 +158,7 @@
     }
 
     .calendario-dia {
-        height: 60px; /* Ajusta a altura para telas médias */
-        width: 60px; /* Ajusta a largura para telas médias */
+        height: 60px; 
+        width: 60px; 
     }
 }

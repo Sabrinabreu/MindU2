@@ -239,3 +239,36 @@
         padding: 15px;
     }
 }
+
+/* dark mode */
+
+[data-theme='dark'] .dias-container {
+    background-color: #6852a5;
+}
+
+
+
+
+
+/* CardStyle.css */
+
+.evento-card {
+    margin: 10px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+.evento-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.event0-details {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}

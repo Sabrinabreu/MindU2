@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../css/CalendarioPerfil.css";
+import { parseJwt } from '../Components/jwtUtils'; 
 
-// Componente CalendarioEDetalhes
 const CalendarioEDetalhes = ({
     currentMonth,
     setCurrentMonth,
-    consultationDetails,
-    tipoUsuario
+    tipoUsuario,
+    consultationDetails 
 }) => {
-    const [psicologos, setPsicologos] = useState({}); // Mapeamento de psicólogos pelo ID
+    const [psicologos, setPsicologos] = useState({}); 
+    const token = localStorage.getItem('token');
+    const decodedToken = parseJwt(token); 
 
     // Função para ir para o próximo mês
     const goToNextMonth = () => {
@@ -100,6 +102,7 @@ const CalendarioEDetalhes = ({
 
     return (
         <div className="calendarioEDetalhes">
+            <h2>ID do Usuário: {decodedToken?.perfil?.psicologo_id || 'ID não disponível'}</h2> {/* Exibe o ID do usuário */}
             <div className="calendarioPerfil p-4 text-center">
                 <div className="calendario-topo">
                     <button className="calendario-mes" onClick={goToPreviousMonth}>◀</button>
@@ -121,27 +124,29 @@ const CalendarioEDetalhes = ({
                 </div>
             </div>
 
-            {tipoUsuario === 'funcionario' && (
-                <div className="calendar-container">
-                    <div className='containeraviso'>
-                        <h5 className='mt-4'>Detalhes da Consulta</h5>
-                        {Array.isArray(consultationDetails) && consultationDetails.length > 0 ? (
-                            consultationDetails.map((detail, index) => (
-                                <div className='avisoSemData' key={index}>
-                                    <p><strong>Data:</strong> {new Date(detail.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) || 'Data não disponível'}</p>
-                                    <p><strong>Hora:</strong> {formatTime(detail.horario_inicio)}</p>
-                                    <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p>
-                                    <p><strong>Assunto:</strong> {detail. assunto || 'Assunto não disponível'}</p>
-                                    <p><strong>Psicólogo:</strong> {psicologos[detail.psicologo_id]?.nome || 'Psicólogo não disponível'}</p>
-                                    <hr />
-                                </div>
-                            ))
-                        ) : (
-                            <p>Nenhuma consulta agendada.</p>
-                        )}
+            {
+                tipoUsuario === 'funcionario' && (
+                    <div className="calendar-container">
+                        <div className='containeraviso'>
+                            <h5 className='mt-4'>Detalhes da Consulta</h5>
+                            {Array.isArray(consultationDetails) && consultationDetails.length > 0 ? (
+                                consultationDetails.map((detail, index) => (
+                                    <div className='avisoSemData' key={index}>
+                                        <p><strong>Data:</strong> {new Date(detail.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) || 'Data não disponível'}</p>
+                                        <p><strong>Hora:</strong> {formatTime(detail.horario_inicio)}</p>
+                                        <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p>
+                                        <p><strong>Assunto:</strong> {detail.assunto || 'Assunto não disponível'}</p>
+                                        <p><strong>Psicólogo:</strong> {psicologos[detail.psicologo_id]?.nome || 'Psicólogo não disponível'}</p>
+                                        <hr />
+                                    </div>
+                                ))
+                            ) : (
+                                <p>Nenhuma consulta agendada.</p>
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
+                )
+            }
         </div>
     );
 };
