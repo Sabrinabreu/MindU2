@@ -22,6 +22,8 @@ import SeuPlano from "./Pages/SeuPlano";
 import AddFuncionarios from "./Pages/AddFuncionario";
 import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 import Quiz from "./Pages/Quiz";
+import Privacidade from "./Pages/Privacidade";
+import Termosuso from "./Pages/TermosUso";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { token, setToken } = useAuth();
@@ -67,6 +69,8 @@ const Rotas = () => {
       <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
       <Route path="/planos" element={<Planos />} />
       <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
+      <Route path="/privacidade" element={<Privacidade />} />
+      <Route path="/termosdeuso" element={<Termosuso />} />
 
       {/* Rotas não autenticados */}
       {!token && (
