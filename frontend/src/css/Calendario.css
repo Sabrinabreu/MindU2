@@ -83,3 +83,18 @@
   font-size: 0.9em;
   border: 1px solid #ccc;
 }
+
+
+
+
+.has-event::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: red; /* Cor da bolinha */
+  border-radius: 50%; /* Faz a bolinha ser redonda */
+  margin: 0 auto; /* Centraliza a bolinha */
+  position: relative;
+  top: -10px; /* Ajusta a posição da bolinha */
+}

@@ -75,6 +75,18 @@ const Compras = () => {
    3: 'Transformação',
  };
 
+ const cancelarPlano = () => {
+  const confirmCancel = window.confirm(
+    "Tem certeza de que deseja cancelar o seu plano? No próximo mês você não terá acesso às contas pertencentes a esse plano."
+  );
+  if (confirmCancel) {
+    alert("O seu plano foi cancelado! No próximo mês você não terá acesso às contas pertencentes a esse plano.");
+    // Adicione aqui qualquer outra lógica para cancelar o plano, se necessário
+  }
+};
+
+
+
   return (
     <>
       <Sidebar
@@ -98,7 +110,7 @@ const Compras = () => {
                     </Card.Text>
                   </Card.Body>
                   <div className='upgrade'>
-                    <button className='cancelbtn'>
+                    <button onClick={cancelarPlano} className='cancelbtn'>
                       <GiCancel className='cancelicon' /> Cancelar
                     </button>
                   </div>
