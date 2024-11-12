@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import "../css/CalendarioPerfil.css";
-import { parseJwt } from '../Components/jwtUtils'; 
+import { parseJwt } from '../Components/jwtUtils';
 
 const CalendarioEDetalhes = ({
     currentMonth,
     setCurrentMonth,
     tipoUsuario,
-    consultationDetails 
+    consultationDetails
 }) => {
-    const [psicologos, setPsicologos] = useState({}); 
+    const [psicologos, setPsicologos] = useState({});
     const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token); 
+    const decodedToken = parseJwt(token);
+    console.log('Decoded Token:', decodedToken);
 
     // Função para ir para o próximo mês
     const goToNextMonth = () => {
@@ -60,13 +61,16 @@ const CalendarioEDetalhes = ({
                     </div>
                     {consultasDoDia.length > 0 && (
                         <div className="consultas">
-                            {consultasDoDia.map((consulta, index) => (
-                                <div key={index} className="consulta">
-                                    <p><strong>Horário:</strong> {formatTime(consulta.horario_inicio)}</p>
-                                    <p><strong>Assunto:</strong> {consulta.assunto || 'Assunto não disponível'}</p>
-                                    <p><strong>Psicólogo:</strong> {psicologos[consulta.psicologo_id]?.nome || 'Psicólogo não disponível'}</p>
-                                </div>
-                            ))}
+                        {consultasDoDia.map((consulta, index) => {
+    const psicologoNome = psicologos[consulta.psicologo_id]?.nome || 'Psicólogo não disponível';
+    return (
+        <div key={index} className="consulta">
+            <p><strong>Horário:</strong> {formatTime(consulta.horario_inicio)}</p>
+            <p><strong>Assunto:</strong> {consulta.assunto || 'Assunto não disponível'}</p>
+            <p><strong>Psicólogo:</strong> {psicologoNome}</p>
+        </div>
+    );
+})}
                         </div>
                     )}
                 </div>
@@ -85,24 +89,26 @@ const CalendarioEDetalhes = ({
     useEffect(() => {
         const loadPsicologos = async () => {
             try {
-                const response = await fetch('http://localhost:3001/api/psicologos'); // API que retorna todos os psicólogos
+                const response = await fetch('http://localhost:3001/psicologos');
                 const data = await response.json();
+                console.log("Dados da API:", data); // Verifique os dados retornados
+    
                 const psicologosMap = data.reduce((acc, psicologo) => {
-                    acc[psicologo.psicologo_id] = psicologo; // Mapeia psicólogos por ID
+                    acc[psicologo.psicologo_id] = psicologo; // Mapeia o ID para o objeto psicólogo
                     return acc;
                 }, {});
-                setPsicologos(psicologosMap); // Atualiza o estado com o mapa de psicólogos
+    
+                setPsicologos(psicologosMap); // Armazena o mapeamento no estado
             } catch (error) {
                 console.error("Erro ao carregar psicólogos:", error);
             }
         };
-
-        loadPsicologos(); // Chama a função para carregar psicólogos
+    
+        loadPsicologos();
     }, []);
 
     return (
         <div className="calendarioEDetalhes">
-            <h2>ID do Usuário: {decodedToken?.perfil?.psicologo_id || 'ID não disponível'}</h2> {/* Exibe o ID do usuário */}
             <div className="calendarioPerfil p-4 text-center">
                 <div className="calendario-topo">
                     <button className="calendario-mes" onClick={goToPreviousMonth}>◀</button>
@@ -122,8 +128,8 @@ const CalendarioEDetalhes = ({
                     <div className="calendar-header-day">Sab</div>
                     {generateCalendar()}
                 </div>
-            </div>
-
+            </div><br></br>
+            {/*
             {
                 tipoUsuario === 'funcionario' && (
                     <div className="calendar-container">
@@ -146,7 +152,7 @@ const CalendarioEDetalhes = ({
                         </div>
                     </div>
                 )
-            }
+            }*/}
         </div>
     );
 };
