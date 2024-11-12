@@ -243,7 +243,7 @@ function AgendarConsulta() {
         },
         {
           eventKey: "especialidades",
-          title: "EspecialidadesA",
+          title: "Especialidades",
           content: (
             <div className="especialidadesA">
               {[{ description: "Aconselhamento individual e em grupo" }, { description: "Desenvolvimento de autoestima" }, { description: "Coaching" }, { description: "Habilidades para lidar com estresse e ansiedade" }].map((servico, index) => (
@@ -586,17 +586,17 @@ function AgendarConsulta() {
                                 <p>{tab.content}</p>
                               )}
 
-                              {tab.eventKey === 'sobre' && (
-                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-                                  Saiba Mais
-                                </Link>
-                              )}
+{tab.eventKey === 'sobre' && perfil.tipo_usuario === "funcionario" && (
+  <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+    Saiba Mais
+  </Link>
+)}
 
-                              {tab.eventKey === 'agenda' && (
-                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-                                  Agendar
-                                </Link>
-                              )}
+{tab.eventKey === 'agenda' && perfil.tipo_usuario === "funcionario" && (
+  <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+    Agendar
+  </Link>
+)}
                             </Tab>
                           ))}
                         </Tabs>
