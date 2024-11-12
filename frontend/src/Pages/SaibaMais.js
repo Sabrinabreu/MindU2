@@ -6,6 +6,7 @@ import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 import DatePicker from "../Components/Calendario";
 import axios from 'axios';
 import padraoPerfil from '../img/padraoPerfil.png';
+import { parseJwt } from '../Components/jwtUtils';
 
 
 
@@ -127,17 +128,17 @@ const Agendar = () => {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-    
+
         // Pega o token JWT
         const token = localStorage.getItem('token');
         const decodedToken = parseJwt(token);
-        
+
         // Verifica se o token e o usuario_id estão presentes
         if (!decodedToken || !decodedToken.id) {
             alert('Usuário não autenticado');
             return;
         }
-    
+
         // Objeto de dados do agendamento
         const agendamentoData = {
             usuario_id: decodedToken.id,  // Adiciona o usuario_id
@@ -147,7 +148,7 @@ const Agendar = () => {
             tipo: selectedTipo,
             assunto,
         };
-    
+
         try {
             // Faz a requisição para salvar o agendamento
             const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
@@ -166,7 +167,7 @@ const Agendar = () => {
             }
         }
     };
-    
+
 
     return (
         <Container className='p-4'>

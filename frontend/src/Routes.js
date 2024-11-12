@@ -20,9 +20,9 @@ import SeuPlano from "./Pages/SeuPlano"; //empresa
 import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import AddFuncionarios from "./Pages/AddFuncionario";
-import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 import Quiz from "./Pages/Quiz";
 import Privacidade from "./Pages/Privacidade";
+import NotFound from "./Pages/NotFound";
 import Termosuso from "./Pages/TermosUso";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -104,7 +104,7 @@ const Rotas = () => {
         }
       />
 
-<Route
+      <Route
         path="/dashboard/addfuncionario"
         element={
           <ProtectedRoute allowedRoles={['empresa']}>
@@ -126,13 +126,13 @@ const Rotas = () => {
       {/* Rotas somente funcionários */}
 
       <Route
-            path="/quiz"
-            element={
-              <ProtectedRoute allowedRoles={['funcionario']}>
-                <Quiz />
-              </ProtectedRoute>
-            }
-          />
+        path="/quiz"
+        element={
+          <ProtectedRoute allowedRoles={['funcionario']}>
+            <Quiz />
+          </ProtectedRoute>
+        }
+      />
       {/* Rotas psicologo e funcionários */}
 
 
