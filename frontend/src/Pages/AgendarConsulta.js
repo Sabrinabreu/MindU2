@@ -299,7 +299,6 @@ function AgendarConsulta() {
   const handleSaveEdit = async (psicologo_id) => {
     const updatedBiografia = editedText[psicologo_id];
 
-    // Verifica se a biografia está vazia ou contém apenas espaços
     if (!updatedBiografia || updatedBiografia.trim() === '') {
       alert('Por favor, preencha as informações antes de salvar.');
       return;
@@ -310,37 +309,56 @@ function AgendarConsulta() {
     };
 
     try {
-      // Envia a requisição PUT para atualizar a biografia do psicólogo
       await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
-      // Atualiza a biografia na lista de psicólogos no estado local
-      setData(prevData =>
-        prevData.map(psicologo =>
+      setData(prevData => {
+        const updatedData = prevData.map(psicologo =>
           psicologo.psicologo_id === psicologo_id
             ? { ...psicologo, biografia: updatedBiografia }
             : psicologo
-        )
-      );
+        );
 
-      // Exibe uma mensagem de sucesso para o usuário
+        console.log("Dados atualizados:", updatedData); 
+        return updatedData;
+      });
+
+      setEditedText(prev => ({
+        ...prev,
+        [psicologo_id]: ''
+      }));
+
       alert('Biografia atualizada com sucesso!');
-      handleEditToggle(psicologo_id); // Fecha o modo de edição
+      handleEditToggle(psicologo_id);
     } catch (error) {
       console.error("Erro ao salvar as edições:", error);
 
       if (error.response) {
-        // O servidor respondeu com um status diferente de 2xx
         alert(`Erro: ${error.response.data.error}`);
       } else {
-        // Algum erro ocorreu ao configurar a requisição
         alert('Erro ao salvar as informações. Tente novamente.');
       }
     }
   };
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/psicologos')
+      .then(response => {
+        const updatedData = response.data.map(psicologo => ({
+          ...psicologo,
+          especificidade: Array.isArray(psicologo.especificidade) ? psicologo.especificidade : psicologo.especificidade ? psicologo.especificidade.split(',') : [],
+        }));
+
+        console.log("Dados carregados:", updatedData); 
+        setData(updatedData);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar os dados:", error);
+      });
+  }, []);
 
   const handleSpecialtyTextChange = (psicologo_id, value) => {
     setEditedSpecialties(prev => ({
@@ -352,7 +370,7 @@ function AgendarConsulta() {
   const handleSpecialtyEditToggle = (psicologo_id) => {
     setEditableSpecialties(prev => ({
       ...prev,
-      [psicologo_id]: !prev[psicologo_id] // Alterna entre editar e não editar
+      [psicologo_id]: !prev[psicologo_id]
     }));
   };
 
@@ -365,9 +383,8 @@ function AgendarConsulta() {
       return;
     }
 
-    // Concatena as especialidades em uma string separada por vírgulas
     const psicologoData = {
-      especificidade: updatedSpecialties.map(s => s.trim()).join(', '), // Salva como string
+      especificidade: updatedSpecialties.map(s => s.trim()).join(', '),
     };
 
     try {
@@ -380,13 +397,13 @@ function AgendarConsulta() {
       setData(prevData =>
         prevData.map(psicologo =>
           psicologo.psicologo_id === psicologo_id
-            ? { ...psicologo, especificidade: psicologoData.especificidade.split(', ').map(s => s.trim()) } // Atualiza como array
+            ? { ...psicologo, especificidade: psicologoData.especificidade.split(', ').map(s => s.trim()) } 
             : psicologo
         )
       );
 
       alert('Especialidades atualizadas com sucesso!');
-      handleSpecialtyEditToggle(psicologo_id); // Fecha o modo de edição
+      handleSpecialtyEditToggle(psicologo_id); 
     } catch (error) {
       console.error("Erro ao salvar as edições:", error);
       alert('Erro ao salvar as informações. Tente novamente.');
