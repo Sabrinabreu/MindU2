@@ -23,19 +23,19 @@ const Footer = () => {
                 <h6>Saiba mais</h6>
                 <ul class="footer-links">
                   <li><a href="/sobre">Sobre Nós</a></li>
-                  <li><a href="/contato">Termos de Uso</a></li>
+                  <li><a href="/termosdeuso">Termos de Uso</a></li>
                   <li><a href="/privacidade">Política de Privacidade</a></li>
-                  <li><a href="/privacidade">FAQ</a></li>
+                  <li><a href="/contato">FAQ</a></li>
                 </ul>
               </Col>
 
               <Col xs={6} md={2}>
                 <h6>Links de atalho</h6>
                 <ul class="footer-links">
-                  <li><a href="/privacidade">Ouvidoria</a></li>
-                  <li><a href="/privacidade">Trabalhe Conosco</a></li>
-                  <li><a href="/privacidade">Fale Conosco</a></li>
-                  <li><a href="/privacidade">Conselho Federal de Psicologia</a></li>
+                  <li><a href="/contato">Ouvidoria</a></li>
+                  <li><a href="/cadastroPsicologos">Trabalhe Conosco</a></li>
+                  <li><a href="/contato">Fale Conosco</a></li>
+                  <li><a href="https://site.cfp.org.br/">Conselho Federal de Psicologia</a></li>
                 </ul>
               </Col>
               <Col xs={6} md={2}>

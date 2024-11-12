@@ -20,8 +20,10 @@ import SeuPlano from "./Pages/SeuPlano"; //empresa
 import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import AddFuncionarios from "./Pages/AddFuncionario";
-import Quiz from "./Pages/Quiz"; //funcionario
-import NotFound from "./Pages/NotFound"; //*
+import Quiz from "./Pages/Quiz";
+import Privacidade from "./Pages/Privacidade";
+import Termosuso from "./Pages/TermosUso";
+import NotFound from "./Pages/NotFound";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { token, setToken } = useAuth();
@@ -67,6 +69,8 @@ const Rotas = () => {
       <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
       <Route path="/planos" element={<Planos />} />
       <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
+      <Route path="/privacidade" element={<Privacidade />} />
+      <Route path="/termosdeuso" element={<Termosuso />} />
 
       {/* Rotas não autenticados */}
       {!token && (
