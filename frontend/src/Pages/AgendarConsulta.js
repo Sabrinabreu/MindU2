@@ -38,6 +38,7 @@ function AgendarConsulta() {
   useEffect(() => {
     if (token) {
       const decodedToken = parseJwt(token);
+      setPerfil(decodedToken);
     }
   }, [token]);
 
@@ -512,9 +513,11 @@ function AgendarConsulta() {
                                               ? psicologo.biografia
                                               : 'Adicionar biografia'}
                                           </p>
-                                          <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
-                                            <Pencil />
-                                          </button>
+                                          {perfil.tipo_usuario === "psicologo" && (
+                                            <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
+                                              <Pencil />
+                                            </button>
+                                          )}
                                         </div>
                                       </>
                                     )}
@@ -567,9 +570,11 @@ function AgendarConsulta() {
                                             ) : (
                                               <p className='especialidade'>Adicione aqui suas especialidades</p>
                                             )}
-                                            <button className="editarTabs" onClick={() => handleSpecialtyEditToggle(psicologo.psicologo_id)}>
-                                              <Plus />
-                                            </button>
+                                            {perfil.tipo_usuario === "psicologo" && (
+                                              <button className="editarTabs" onClick={() => handleSpecialtyEditToggle(psicologo.psicologo_id)}>
+                                                <Plus />
+                                              </button>
+                                            )}
                                           </div>
                                         )}
                                       </div>
@@ -586,17 +591,17 @@ function AgendarConsulta() {
                                 <p>{tab.content}</p>
                               )}
 
-{tab.eventKey === 'sobre' && perfil.tipo_usuario === "funcionario" && (
-  <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-    Saiba Mais
-  </Link>
-)}
+                              {tab.eventKey === 'sobre' && perfil.tipo_usuario === "funcionario" && (
+                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+                                  Saiba Mais
+                                </Link>
+                              )}
 
-{tab.eventKey === 'agenda' && perfil.tipo_usuario === "funcionario" && (
-  <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
-    Agendar
-  </Link>
-)}
+                              {tab.eventKey === 'agenda' && perfil.tipo_usuario === "funcionario" && (
+                                <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
+                                  Agendar
+                                </Link>
+                              )}
                             </Tab>
                           ))}
                         </Tabs>
