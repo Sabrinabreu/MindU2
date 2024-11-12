@@ -8,6 +8,8 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import padraoPerfil from '../img/padraoPerfil.png';
 import FiltroBusca from '../Components/FiltroAgendarConsulta';
+import { useNavigate } from "react-router-dom";
+import { parseJwt } from "../Components/jwtUtils";
 import { Pencil } from 'lucide-react';
 import { Plus } from 'lucide-react';
 
@@ -26,6 +28,18 @@ function AgendarConsulta() {
   const [editedSpecialties, setEditedSpecialties] = useState({});
 
   const [specialtiesList, setSpecialtiesList] = useState({});
+
+  const [perfil, setPerfil] = useState('');
+  const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+    const decodedToken = parseJwt(token);
+    console.log(decodedToken.perfil)
+
+    useEffect(() => {
+        if (token) {
+            const decodedToken = parseJwt(token);
+        }
+    }, [token]);
 
   const handleEditToggle = (psicologoId) => {
     setEditableInfo(prev => ({
@@ -412,19 +426,20 @@ function AgendarConsulta() {
         setSearchTerm={setSearchTerm}
       />
 
-      <a href="/quiz" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <div className="bannerquiz">
-          <h1 className="text-center textBannerQuiz">Muitas opções? Descubra qual o melhor profissional para você!</h1>
-          <button className="botaoBannerQuiz">
-            <span>Clique aqui e descubra</span>
-            <svg width="15px" height="10px" viewBox="0 0 13 10">
-              <path d="M1,5 L11,5"></path>
-              <polyline points="8 1 12 5 8 9"></polyline>
-            </svg>
-          </button>
-        </div>
-      </a>
-
+{perfil.tipo_usuario === "funcionario" && (
+ <a href="/quiz" style={{ textDecoration: 'none', color: 'inherit' }}>
+ <div className="bannerquiz">
+   <h1 className="text-center textBannerQuiz">Muitas opções? Descubra qual o melhor profissional para você!</h1>
+   <button className="botaoBannerQuiz">
+     <span>Clique aqui e descubra</span>
+     <svg width="15px" height="10px" viewBox="0 0 13 10">
+       <path d="M1,5 L11,5"></path>
+       <polyline points="8 1 12 5 8 9"></polyline>
+     </svg>
+   </button>
+ </div>
+</a>
+)}
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
         <Row>
