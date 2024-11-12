@@ -56,7 +56,7 @@
 
 
 .updated-working-day {
-    background-color: lightgreen; 
+    background-color: lightgreen;
 }
 
 
@@ -77,18 +77,18 @@
 
 .updated-day {
     background-color: green;
-    color: white; 
+    color: white;
 }
 
 
 
 
-/* CHECKMARK*/ 
+/* CHECKMARK*/
 .cl-checkbox {
     position: relative;
-   }
+}
 
-   .cl-checkbox > input {
+.cl-checkbox>input {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -108,16 +108,16 @@
     transform: scale(1);
     pointer-events: none;
     transition: opacity 0.3s, transform 0.2s;
-   }
- 
-   .cl-checkbox > span {
+}
+
+.cl-checkbox>span {
     display: flex;
     width: 100%;
     cursor: pointer;
-    
-   }
 
-   .cl-checkbox > span::before {
+}
+
+.cl-checkbox>span::before {
     content: "";
     display: inline-block;
     box-sizing: border-box;
@@ -131,9 +131,9 @@
     height: 18px;
     vertical-align: top;
     transition: border-color 0.2s, background-color 0.2s;
-   }
+}
 
-   .cl-checkbox > span::after {
+.cl-checkbox>span::after {
     content: "";
     display: block;
     position: absolute;
@@ -145,113 +145,123 @@
     border-right: none;
     border-top: none;
     transform: translate(3px, 4px) rotate(-45deg);
-   }
-   
-   /* Checked, Indeterminate */
-   .cl-checkbox > input:checked,
-   .cl-checkbox > input:indeterminate {
+}
+
+/* Checked, Indeterminate */
+.cl-checkbox>input:checked,
+.cl-checkbox>input:indeterminate {
     background-color: purple;
-   }
-   
-   .cl-checkbox > input:checked + span::before,
-   .cl-checkbox > input:indeterminate + span::before {
+}
+
+.cl-checkbox>input:checked+span::before,
+.cl-checkbox>input:indeterminate+span::before {
     border-color: pink;
     background-color: pink;
-   }
-   
-   .cl-checkbox > input:checked + span::after,
-   .cl-checkbox > input:indeterminate + span::after {
+}
+
+.cl-checkbox>input:checked+span::after,
+.cl-checkbox>input:indeterminate+span::after {
     border-color: #fff;
-   }
-   
-   .cl-checkbox > input:indeterminate + span::after {
+}
+
+.cl-checkbox>input:indeterminate+span::after {
     border-left: none;
     transform: translate(4px, 3px);
-   }
-   
-   /* Hover, Focus */
-   .cl-checkbox:hover > input {
+}
+
+/* Hover, Focus */
+.cl-checkbox:hover>input {
     opacity: 0.04;
-   }
-   
-   .cl-checkbox > input:focus {
+}
+
+.cl-checkbox>input:focus {
     opacity: 0.12;
-   }
-   
-   .cl-checkbox:hover > input:focus {
+}
+
+.cl-checkbox:hover>input:focus {
     opacity: 0.16;
-   }
-   
-   /* Active */
-   .cl-checkbox > input:active {
+}
+
+/* Active */
+.cl-checkbox>input:active {
     opacity: 1;
     transform: scale(0);
     transition: transform 0s, opacity 0s;
-   }
-   
-   .cl-checkbox > input:active + span::before {
+}
+
+.cl-checkbox>input:active+span::before {
     border-color: #85b8b7;
-   }
-   
-   .cl-checkbox > input:checked:active + span::before {
+}
+
+.cl-checkbox>input:checked:active+span::before {
     border-color: transparent;
     background-color: pink;
-   }
-   
-   /* Disabled */
-   .cl-checkbox > input:disabled {
+}
+
+/* Disabled */
+.cl-checkbox>input:disabled {
     opacity: 0;
-   }
-   
-   .cl-checkbox > input:disabled + span {
+}
+
+.cl-checkbox>input:disabled+span {
     color: rgba(0, 0, 0, 0.38);
     cursor: initial;
-   }
-   
-   .cl-checkbox > input:disabled + span::before {
+}
+
+.cl-checkbox>input:disabled+span::before {
     border-color: currentColor;
-   }
-   
-   .cl-checkbox > input:checked:disabled + span::before,
-   .cl-checkbox > input:indeterminate:disabled + span::before {
+}
+
+.cl-checkbox>input:checked:disabled+span::before,
+.cl-checkbox>input:indeterminate:disabled+span::before {
     border-color: transparent;
     background-color: currentColor;
-   }
-   
-   @media (min-width: 700px) and (max-width: 900px) {
-    .disponibilidade .datepicker {
-        padding: 0 !important;
-        width: calc(100% + 20px);
-        height: 350px;
-    }
-    .datepicker-calendar {
-        width: 20% !important;
-    }
-    .avisoSemData.dispon {
-        position: relative;
-        left: 20px;
-        width: calc(100% - 20px);
-    }
 }
 
-@media (min-width: 400px) and (max-width: 699px) {
-    .disponibilidade .datepicker {
-        padding: 15px;
-    }
-}
 
 /* dark mode */
-
 [data-theme='dark'] .dias-container {
-    background-color: #6852a5;
+    background-color: #7e64a8 !important;
 }
 
-
-
-
+[data-theme='dark'] .evento-card {
+    background-color: #866bb3;
+    color: #ffff;
+}
+[data-theme='dark'] .evento-title {
+    color: #ffffff;
+}
+[data-theme='dark'] .datepicker {
+    background-color: #9379bd;
+    color: #ffff;
+}
+[data-theme='dark'] .day {
+    color: #ffff;
+}
+[data-theme='dark'] .textroxo {
+    color: #f1defd;
+}
+[data-theme='dark'] .date {
+    color: #ffff;
+}
+[data-theme='dark'] .month-name {
+    color: #ffff;
+}
+[data-theme='dark'] .arrow {
+    color: rgb(255, 225, 255);
+    background-color: transparent;
+}
+[data-theme='dark'] .cl-checkbox>span::before {
+    border: solid 1px rgb(255, 255, 255);
+}
+[data-theme='dark'] .cl-checkbox>input:checked+span::before .btnAtualizar  {
+    background-color: rgb(189, 142, 158);
+}
+[data-theme='dark']  .btnAtualizar  {
+    background-color: rgba(170, 137, 226, 0.678) !important;
+}
 
 /* CardStyle.css */
-
 .evento-card {
     margin: 10px;
     background-color: #f9f9f9;
@@ -271,4 +281,26 @@
     font-size: 1rem;
     color: #555;
     margin-bottom: 0.5rem;
+}
+
+@media (min-width: 700px) and (max-width: 900px) {
+    .disponibilidade .datepicker {
+        padding: 0 !important;
+        width: calc(100% + 20px);
+        height: 350px;
+    }
+    .datepicker-calendar {
+        width: 20% !important;
+    }
+    .avisoSemData.dispon {
+        position: relative;
+        left: 20px;
+        width: calc(100% - 20px);
+    }
+}
+
+@media (min-width: 400px) and (max-width: 699px) {
+    .disponibilidade .datepicker {
+        padding: 15px;
+    }
 }

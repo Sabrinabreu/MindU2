@@ -31,15 +31,15 @@ function AgendarConsulta() {
 
   const [perfil, setPerfil] = useState('');
   const navigate = useNavigate();
-    const token = localStorage.getItem('token');
-    const decodedToken = parseJwt(token);
-    console.log(decodedToken.perfil)
+  const token = localStorage.getItem('token');
+  const decodedToken = parseJwt(token);
+  console.log(decodedToken.perfil)
 
-    useEffect(() => {
-        if (token) {
-            const decodedToken = parseJwt(token);
-        }
-    }, [token]);
+  useEffect(() => {
+    if (token) {
+      const decodedToken = parseJwt(token);
+    }
+  }, [token]);
 
   const handleEditToggle = (psicologoId) => {
     setEditableInfo(prev => ({
@@ -101,7 +101,7 @@ function AgendarConsulta() {
           eventKey: "especialidades",
           title: "Especialidades",
           content: (
-            <div className="especialidades">
+            <div className="especialidadesA">
               {[{ description: "Identidade" }, { description: "Dinâmica familiar" }, { description: "Comunicação" }, { description: "Resolução de conflitos" }, { description: "Autoestima e confiança" }, { description: "Depressão" }, { description: "Ansiedade" }, { description: "Transtorno obsessivo-compulsivo" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
@@ -125,7 +125,7 @@ function AgendarConsulta() {
           eventKey: "especialidades",
           title: "Especialidades",
           content: (
-            <div className="especialidades">
+            <div className="especialidadesA">
               {[{ description: "Transtornos mentais" }, { description: "Atenção" }, { description: "Insônia" }, { description: "Pensamentos negativos e distorcidos" }, { description: "Autoestima e confiança" }, { description: "Memória" }, { description: "Luto" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
@@ -149,7 +149,7 @@ function AgendarConsulta() {
           eventKey: "especialidades",
           title: "Especialidades",
           content: (
-            <div className="especialidades">
+            <div className="especialidadesA">
               {[{ description: "Ansiedade" }, { description: "Apoio a doenças crônicas" }, { description: "Saúde mental de crianças e adolescentes" }, { description: "Luto e perda" }, { description: "Coping e resiliência" }, { description: "Resolução de conflitos" }, { description: "Trabalho" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
@@ -173,7 +173,7 @@ function AgendarConsulta() {
           eventKey: "especialidades",
           title: "Especialidades",
           content: (
-            <div className="especialidades">
+            <div className="especialidadesA">
               {[{ description: "Transtornos de personalidade" }, { description: "Identidade" }, { description: "Sexualidade" }, { description: "Autoestima e confiança" }, { description: "Carreira" }, { description: "Análise da dinâmica familiar" }, { description: "Resolução de conflitos" }, { description: "Trabalho" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
@@ -197,7 +197,7 @@ function AgendarConsulta() {
           eventKey: "especialidades",
           title: "Especialidades",
           content: (
-            <div className="especialidades">
+            <div className="especialidadesA">
               {[{ description: "Dificuldades de aprendizagem" }, { description: "Habilidades emocionais" }, { description: "Técnicas de estudo" }, { description: "Intervenção em bullying" }, { description: "Adaptação escolar" }, { description: "Análise de clima organizacional" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
@@ -221,7 +221,7 @@ function AgendarConsulta() {
           eventKey: "especialidades",
           title: "Especialidades",
           content: (
-            <div className="especialidades">
+            <div className="especialidadesA">
               {[{ description: "Aconselhamento individual" }, { description: "Ansiedade" }, { description: "Habilidades para liderança" }, { description: "Estresse" }, { description: "Treinamento em comunicação eficaz" }, { description: "Análise de clima organizacional" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
@@ -243,9 +243,9 @@ function AgendarConsulta() {
         },
         {
           eventKey: "especialidades",
-          title: "Especialidades",
+          title: "EspecialidadesA",
           content: (
-            <div className="especialidades">
+            <div className="especialidadesA">
               {[{ description: "Aconselhamento individual e em grupo" }, { description: "Desenvolvimento de autoestima" }, { description: "Coaching" }, { description: "Habilidades para lidar com estresse e ansiedade" }].map((servico, index) => (
                 <div key={index}>
                   <p className='especialidade'>{servico.description}</p>
@@ -426,20 +426,20 @@ function AgendarConsulta() {
         setSearchTerm={setSearchTerm}
       />
 
-{perfil.tipo_usuario === "funcionario" && (
- <a href="/quiz" style={{ textDecoration: 'none', color: 'inherit' }}>
- <div className="bannerquiz">
-   <h1 className="text-center textBannerQuiz">Muitas opções? Descubra qual o melhor profissional para você!</h1>
-   <button className="botaoBannerQuiz">
-     <span>Clique aqui e descubra</span>
-     <svg width="15px" height="10px" viewBox="0 0 13 10">
-       <path d="M1,5 L11,5"></path>
-       <polyline points="8 1 12 5 8 9"></polyline>
-     </svg>
-   </button>
- </div>
-</a>
-)}
+      {perfil.tipo_usuario === "funcionario" && (
+        <a href="/quiz" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div className="bannerquiz">
+            <h1 className="text-center textBannerQuiz">Muitas opções? Descubra qual o melhor profissional para você!</h1>
+            <button className="botaoBannerQuiz">
+              <span>Clique aqui e descubra</span>
+              <svg width="15px" height="10px" viewBox="0 0 13 10">
+                <path d="M1,5 L11,5"></path>
+                <polyline points="8 1 12 5 8 9"></polyline>
+              </svg>
+            </button>
+          </div>
+        </a>
+      )}
       <Container>
         <h2 className='centralizar textroxo textclaro p-4 m-4'>Agendar Consulta</h2>
         <Row>
@@ -557,7 +557,7 @@ function AgendarConsulta() {
                                             </div>
                                           </div>
                                         ) : (
-                                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                                          <div className="especialidades">
                                             {(Array.isArray(psicologo.especificidade) && psicologo.especificidade.length > 0) ? (
                                               psicologo.especificidade.map((specialty, index) => (
                                                 <div key={index} className="especialidadeNova">

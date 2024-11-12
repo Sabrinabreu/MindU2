@@ -61,16 +61,17 @@ const CalendarioEDetalhes = ({
                     </div>
                     {consultasDoDia.length > 0 && (
                         <div className="consultas">
-                        {consultasDoDia.map((consulta, index) => {
-    const psicologoNome = psicologos[consulta.psicologo_id]?.nome || 'Psicólogo não disponível';
-    return (
-        <div key={index} className="consulta">
-            <p><strong>Horário:</strong> {formatTime(consulta.horario_inicio)}</p>
-            <p><strong>Assunto:</strong> {consulta.assunto || 'Assunto não disponível'}</p>
-            <p><strong>Psicólogo:</strong> {psicologoNome}</p>
-        </div>
-    );
-})}
+                            {consultasDoDia.map((consulta, index) => {
+                                const psicologoNome = psicologos[consulta.psicologo_id]?.nome || 'Psicólogo não disponível';
+                                return (
+                                    <div key={index} className="consulta">
+                                        <p><strong>Horário:</strong> {formatTime(consulta.horario_inicio)}</p>
+                                        <p><strong>Assunto:</strong> {consulta.assunto || 'Assunto não disponível'}</p>
+                                        <p><strong>Psicólogo:</strong> {psicologoNome}</p>
+                                        <hr />
+                                    </div>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
@@ -82,7 +83,7 @@ const CalendarioEDetalhes = ({
     // Função para formatar o horário
     const formatTime = (time) => {
         if (!time) return 'Hora não disponível';
-        return time.substring(0, 5);  // Exibe apenas HH:mm (hora e minuto)
+        return time.substring(0, 5);
     };
 
     // Carregar os psicólogos ao inicializar
@@ -91,19 +92,18 @@ const CalendarioEDetalhes = ({
             try {
                 const response = await fetch('http://localhost:3001/psicologos');
                 const data = await response.json();
-                console.log("Dados da API:", data); // Verifique os dados retornados
-    
+                console.log("Dados da API:", data); 
                 const psicologosMap = data.reduce((acc, psicologo) => {
-                    acc[psicologo.psicologo_id] = psicologo; // Mapeia o ID para o objeto psicólogo
+                    acc[psicologo.psicologo_id] = psicologo; 
                     return acc;
                 }, {});
-    
-                setPsicologos(psicologosMap); // Armazena o mapeamento no estado
+
+                setPsicologos(psicologosMap);
             } catch (error) {
                 console.error("Erro ao carregar psicólogos:", error);
             }
         };
-    
+
         loadPsicologos();
     }, []);
 
@@ -129,30 +129,6 @@ const CalendarioEDetalhes = ({
                     {generateCalendar()}
                 </div>
             </div><br></br>
-            {/*
-            {
-                tipoUsuario === 'funcionario' && (
-                    <div className="calendar-container">
-                        <div className='containeraviso'>
-                            <h5 className='mt-4'>Detalhes da Consulta</h5>
-                            {Array.isArray(consultationDetails) && consultationDetails.length > 0 ? (
-                                consultationDetails.map((detail, index) => (
-                                    <div className='avisoSemData' key={index}>
-                                        <p><strong>Data:</strong> {new Date(detail.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) || 'Data não disponível'}</p>
-                                        <p><strong>Hora:</strong> {formatTime(detail.horario_inicio)}</p>
-                                        <p><strong>Tipo de consulta:</strong> {detail.tipo || 'Tipo não disponível'}</p>
-                                        <p><strong>Assunto:</strong> {detail.assunto || 'Assunto não disponível'}</p>
-                                        <p><strong>Psicólogo:</strong> {psicologos[detail.psicologo_id]?.nome || 'Psicólogo não disponível'}</p>
-                                        <hr />
-                                    </div>
-                                ))
-                            ) : (
-                                <p>Nenhuma consulta agendada.</p>
-                            )}
-                        </div>
-                    </div>
-                )
-            }*/}
         </div>
     );
 };
