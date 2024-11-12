@@ -6,22 +6,24 @@ import { parseJwt } from './Components/jwtUtils';
 //Páginas
 import Home from "./Pages/Home";  //todos
 import Contato from "./Pages/Contato"; //todos
+import EsqueciSenha from "./Pages/EsqueciSenha"; //todos
 import Cadastroempresa from "./Pages/CadastroEmpresa"; //não logados
 import CadastroPsicólogos from './Pages/CadastroPsicólogos' //não logados
 import Agendarconsulta from "./Pages/AgendarConsulta"; //funcionario e psicologo
 import SaibaMais from './Pages/SaibaMais'; //funcionario e psicologo
-import Planos from './Pages/Planos'; //empresa e usuários nn logados
 import Perfil from './Pages/Perfil'; //funcionario e psicologo
-import PerfilEmpresa from './Pages/PerfilEmpresa'
+import Planos from './Pages/Planos'; //empresa e usuários nn logados
+import PerfilEmpresa from './Pages/PerfilEmpresa' //empresa
 import AcessoFuncionarios from './Pages/TabelaFuncionarios'; //empresa
+import Dashboard from "./Pages/Dashboard"; //empresa
+import SeuPlano from "./Pages/SeuPlano"; //empresa
 import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
-import NotFound from "./Pages/NotFound"; //*
-import Dashboard from "./Pages/Dashboard"; //empresa
-import SeuPlano from "./Pages/SeuPlano";
 import AddFuncionarios from "./Pages/AddFuncionario";
 import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 import Quiz from "./Pages/Quiz";
+import Privacidade from "./Pages/Privacidade";
+import Termosuso from "./Pages/TermosUso";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { token, setToken } = useAuth();
@@ -67,6 +69,8 @@ const Rotas = () => {
       <Route path="/cadastroPsicologos" element={<CadastroPsicólogos />} />
       <Route path="/planos" element={<Planos />} />
       <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
+      <Route path="/privacidade" element={<Privacidade />} />
+      <Route path="/termosdeuso" element={<Termosuso />} />
 
       {/* Rotas não autenticados */}
       {!token && (

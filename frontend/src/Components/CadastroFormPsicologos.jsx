@@ -31,57 +31,58 @@ const CadastroFormPsi = () => {
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
-
+    
         if (type === 'file') {
             setFormData({
                 ...formData,
                 [name]: files[0]
             });
         } else if (name === 'CPF') {
-            let input = value.replace(/\D/g, ''); // Remove tudo que não for número
-            if (input.length > 11) {
-                input = input.slice(0, 11);
+            let CPFNoMask = value.replace(/\D/g, ''); // Remove tudo que não for número
+    
+            if (CPFNoMask.length > 11) {
+                CPFNoMask = CPFNoMask.slice(0, 11); 
             }
-
-            // Formata o CPF 
-            if (input.length > 9) {
-                input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}-${input.slice(9, 11)}`;
-            } else if (input.length > 6) {
-                input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}`;
-            } else if (input.length > 3) {
-                input = `${input.slice(0, 3)}.${input.slice(3, 6)}`;
+    
+            // Formata o CPF para exibição
+            let CPFFormatado = CPFNoMask;
+            if (CPFNoMask.length > 9) {
+                CPFFormatado = `${CPFNoMask.slice(0, 3)}.${CPFNoMask.slice(3, 6)}.${CPFNoMask.slice(6, 9)}-${CPFNoMask.slice(9, 11)}`;
+            } else if (CPFNoMask.length > 6) {
+                CPFFormatado = `${CPFNoMask.slice(0, 3)}.${CPFNoMask.slice(3, 6)}.${CPFNoMask.slice(6, 9)}`;
+            } else if (CPFNoMask.length > 3) {
+                CPFFormatado = `${CPFNoMask.slice(0, 3)}.${CPFNoMask.slice(3, 6)}`;
             }
-
+    
             setFormData({
                 ...formData,
-                [name]: input
+                CPF: CPFFormatado, // Exibição formatada
+                CPFNoMask // Valor sem máscara para envio
             });
         } else if (name === 'telefone') {
             let input = value.replace(/\D/g, ''); // Remove tudo que não for número
             if (input.length > 11) {
                 input = input.slice(0, 11);
             }
-
+    
             // Formata o telefone
             if (input.length > 6) {
                 input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}-${input.slice(7, 11)}`;
             } else if (input.length > 2) {
                 input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}`;
             }
-
+    
             setFormData({
                 ...formData,
                 [name]: input
             });
-        }
-
-        else {
+        } else {
             setFormData({
                 ...formData,
                 [name]: value
             });
         }
-    };
+    };    
 
     const handleBlur = (e) => {
         const { name, value } = e.target;
@@ -104,7 +105,7 @@ const CadastroFormPsi = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');  // Limpa o erro antes de enviar
-
+    
         // Cria o FormData com os dados do formulário
         const data = new FormData();
         for (const key in formData) {
@@ -112,20 +113,23 @@ const CadastroFormPsi = () => {
                 data.append(key, formData[key]);
             }
         }
-
+    
+        // Substitui CPF formatado pelo CPF sem máscara
+        data.set('CPF', formData.CPFNoMask);
+    
         // Verifica se as senhas coincidem
         if (formData.senha !== formData.senhaconfirma) {
             setError('As senhas não coincidem. Por favor, verifique e tente novamente.');
             return;
         }
-
+    
         try {
             const response = await axios.post('http://localhost:3001/psicologos', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
+    
             if (response.status === 201) {
                 alert('Cadastro criado com sucesso!');
                 setFormData({
@@ -135,6 +139,7 @@ const CadastroFormPsi = () => {
                     telefone: '',
                     email: '',
                     CPF: '',
+                    CPFNoMask: '',
                     endereco: '',
                     crp: '',
                     especialidade: '',
@@ -153,8 +158,7 @@ const CadastroFormPsi = () => {
         }
         catch (error) {
             console.error('Erro ao criar cadastro:', error);
-
-            // Verifica se o erro é devido a um conflito no banco de dados
+    
             if (error.response) {
                 if (error.response.status === 409) {
                     setError('E-mail ou CPF já está cadastrado. Por favor, use dados diferentes.');
@@ -168,6 +172,7 @@ const CadastroFormPsi = () => {
             }
         }
     };
+    
 
     return (
         <form onSubmit={handleSubmit}>

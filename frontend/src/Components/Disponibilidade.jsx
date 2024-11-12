@@ -20,7 +20,7 @@ const Disponibilidade = () => {
     });
     const [selectedDays, setSelectedDays] = useState({});
     const [updatedDays, setUpdatedDays] = useState({});
-    const isUpdated = selectedDate ? updatedDays[selectedDate?.toISOString().split('T')[0]] ?? false : false; // Correção aqui
+    const isUpdated = selectedDate ? updatedDays[selectedDate?.toISOString().split('T')[0]] ?? false : false;
 
     const [psicologoId, setPsicologoId] = useState(null);
 
@@ -34,28 +34,48 @@ const Disponibilidade = () => {
     const fetchAgendamentos = async () => {
         try {
             const response = await axios.get('http://localhost:3001/api/agendamentos');
+            console.log('Eventos recebidos:', response.data);
+
             const filteredEvents = response.data.filter(event => event.psicologo_id === psicologoId);
-            setEvents(filteredEvents);  // Salva os eventos no estado
+
+            setEvents(filteredEvents);
+            console.log('Eventos filtrados:', filteredEvents);
         } catch (error) {
             console.error('Erro ao buscar agendamentos:', error);
         }
     };
 
+    console.log('ID do psicólogo:', psicologoId);
+
     const getEventsForSelectedDate = () => {
-        if (!selectedDate) return []; // Retorna um array vazio se selectedDate for nulo
+        if (!selectedDate) return [];
         return events.filter(event => new Date(event.data).toDateString() === selectedDate.toDateString());
     };
 
     useEffect(() => {
-        // Busca o ID do psicólogo e os agendamentos
         const token = localStorage.getItem('token');
         if (token) {
             const decodedToken = parseJwt(token);
-            const id = decodedToken.psicologo_id || decodedToken.id;
-            setPsicologoId(id);
-            fetchAgendamentos();
+            console.log('Token decodificado:', decodedToken);
+
+            const id = decodedToken.perfil.psicologo_id || decodedToken.id;
+
+            if (id) {
+                setPsicologoId(id);
+                console.log('ID do psicólogo extraído do token:', id);
+
+            } else {
+                console.log('ID do psicólogo não encontrado no token.');
+            }
         } else {
             console.log('Token não encontrado.');
+        }
+    }, []);
+
+    useEffect(() => {
+        if (psicologoId) {
+            console.log('ID do psicólogo antes de buscar agendamentos:', psicologoId);
+            fetchAgendamentos();
         }
     }, [psicologoId]);
 
@@ -194,20 +214,20 @@ const Disponibilidade = () => {
                             <h4 className='mt-4 text-center textroxo'>Eventos marcados para {selectedDate.toLocaleDateString()}</h4>
                             {getEventsForSelectedDate().length > 0 ? (
                                 getEventsForSelectedDate().map((event, index) => (
-                                    <Card className="evento-card" style={{ width: '100%', borderRadius: '10px', border: '1px solid #ddd' }}>
-                                    <Card.Body>
-                                        <Card.Title className="evento-title">Paciente: Carol {event.nomePaciente}</Card.Title>
-                                        <Card.Text className="evento-details">
-                                            <strong>Horário:</strong> {event.horario_inicio}
-                                        </Card.Text>
-                                        <Card.Text className="evento-details">
-                                            <strong>Tipo de consulta:</strong> {event.tipo}
-                                        </Card.Text>
-                                        <Card.Text className="evento-details">
-                                            <strong>Assuntos:</strong> {event.assunto}
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
+                                    <Card className="evento-card" key={index} style={{ width: '100%', borderRadius: '10px', border: '1px solid #ddd' }}>
+                                        <Card.Body>
+                                            <Card.Title className="evento-title">Paciente: {event.nomePaciente}</Card.Title>
+                                            <Card.Text className="evento-details">
+                                                <strong>Horário:</strong> {event.horario_inicio}
+                                            </Card.Text>
+                                            <Card.Text className="evento-details">
+                                                <strong>Tipo de consulta:</strong> {event.tipo}
+                                            </Card.Text>
+                                            <Card.Text className="evento-details">
+                                                <strong>Assuntos:</strong> {event.assunto}
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
                                 ))
                             ) : (
                                 <p className='avisoSemData dispon'>Sem consultas marcadas para esse dia.</p>

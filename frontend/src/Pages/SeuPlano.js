@@ -32,19 +32,21 @@ const Compras = () => {
   }, [token]);
 
   useEffect(() => {
-    const fetchCompras = async () => {
+    const fetchPlanos = async () => {
+      if (!empresaId) return;
       try {
-        const response = await axios.get('http://localhost:3001/api/compras');
+        const response = await axios.get(`http://localhost:3001/empresa/${empresaId}/planos`);
         setCompras(response.data);
       } catch (err) {
-        console.error('Erro ao carregar as compras', err);
+        console.error('Erro ao carregar os planos da empresa', err);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchCompras();
-  }, []);
+  
+    fetchPlanos();
+  }, [empresaId]);
+  
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -56,25 +58,6 @@ const Compras = () => {
     setSidebarCollapsed((prevState) => !prevState);
   };
 
-   // Filtrando e somando funcionários para cada plano da empresa específica
-   const comprasFiltradas = compras
-   .filter(compra => compra.id_empresa === empresaId)
-   .reduce((acc, compra) => {
-     const existing = acc.find(item => item.id_plano === compra.id_plano);
-     if (existing) {
-       existing.qtd_funcionarios += compra.qtd_funcionarios;
-     } else {
-       acc.push({ ...compra });
-     }
-     return acc;
-   }, []);
- 
- const planoNomes = {
-   1: 'Bem-Estar',
-   2: 'Equilíbrio',
-   3: 'Transformação',
- };
-
  const cancelarPlano = () => {
   const confirmCancel = window.confirm(
     "Tem certeza de que deseja cancelar o seu plano? No próximo mês você não terá acesso às contas pertencentes a esse plano."
@@ -84,8 +67,6 @@ const Compras = () => {
     // Adicione aqui qualquer outra lógica para cancelar o plano, se necessário
   }
 };
-
-
 
   return (
     <>
@@ -99,14 +80,14 @@ const Compras = () => {
       <Container className={`planCard ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
         <h2 className="titleseuplano">Planos Comprados</h2>
         <Row>
-          {comprasFiltradas.length > 0 ? (
-            comprasFiltradas.map(compra => (
-              <Col md={6} key={compra.id} className="mb-4">
+          {compras.length > 0 ? (
+            compras.map(plano => (
+              <Col md={6} key={plano.plano} className="mb-4">
                 <Card className='cardseuplano'>
                   <Card.Body className='seuplanobody'>
-                    <Card.Title>{planoNomes[compra.id_plano] || "Desconhecido"}</Card.Title>
+                    <Card.Title>{plano.plano || "Desconhecido"}</Card.Title>
                     <Card.Text>
-                      Quantidade de Funcionários: {compra.qtd_funcionarios}
+                      Quantidade de Funcionários: {plano.qtd_funcionarios}
                     </Card.Text>
                   </Card.Body>
                   <div className='upgrade'>
