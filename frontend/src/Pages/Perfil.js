@@ -141,6 +141,7 @@ function Perfil() {
 
         const updatedPerfil = {
             ...perfil,
+            cpf: perfil.cpfSemMascara,
             loginMethod: 'email',
             tipoUsuario,
         };
@@ -460,26 +461,32 @@ function Perfil() {
                                                 className='mb-2'
                                                 type="text"
                                                 name="cpf"
-                                                value={perfil.cpf}
+                                                value={perfil.cpf} // Exibe o valor formatado no input
                                                 onChange={(e) => {
-                                                    let input = e.target.value.replace(/\D/g, '');
-
-                                                    if (input.length > 11) {
-                                                        input = input.slice(0, 11); 
+                                                    // Remove caracteres não numéricos para o CPF sem máscara
+                                                    let cpfSemMascara = e.target.value.replace(/\D/g, '');
+                                                    
+                                                    // Limita o CPF a 11 caracteres
+                                                    if (cpfSemMascara.length > 11) {
+                                                        cpfSemMascara = cpfSemMascara.slice(0, 11); 
                                                     }
-
-                                                    // máscara de CPF
-                                                    if (input.length > 9) {
-                                                        input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}-${input.slice(9, 11)}`;
-                                                    } else if (input.length > 6) {
-                                                        input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}`;
-                                                    } else if (input.length > 3) {
-                                                        input = `${input.slice(0, 3)}.${input.slice(3, 6)}`;
+                                                
+                                                    // Formata o CPF para exibição
+                                                    let cpfFormatado = cpfSemMascara;
+                                                    if (cpfSemMascara.length > 9) {
+                                                        cpfFormatado = `${cpfSemMascara.slice(0, 3)}.${cpfSemMascara.slice(3, 6)}.${cpfSemMascara.slice(6, 9)}-${cpfSemMascara.slice(9, 11)}`;
+                                                    } else if (cpfSemMascara.length > 6) {
+                                                        cpfFormatado = `${cpfSemMascara.slice(0, 3)}.${cpfSemMascara.slice(3, 6)}.${cpfSemMascara.slice(6, 9)}`;
+                                                    } else if (cpfSemMascara.length > 3) {
+                                                        cpfFormatado = `${cpfSemMascara.slice(0, 3)}.${cpfSemMascara.slice(3, 6)}`;
                                                     }
-
-                                                    setPerfil({ ...perfil, cpf: input });
+                                                
+                                                    // Atualiza o estado com CPF sem máscara e formatado
+                                                    setPerfil({ ...perfil, cpf: cpfFormatado, cpfSemMascara });
                                                 }}
                                             />
+
+
                                         </Form.Group>
                                             <Form.Group>
                                             <Form.Label>Telefone</Form.Label>
