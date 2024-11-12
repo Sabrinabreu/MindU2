@@ -135,7 +135,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Flávio." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Flávio e agendar sua consulta." }
       ]
     },
     {
@@ -159,7 +159,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Cris." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Cris e agendar sua consulta." }
       ]
     },
     {
@@ -183,7 +183,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Roberto." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Roberta e agendar sua consulta." }
       ]
     },
     {
@@ -207,7 +207,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Lidiane." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Lidiane e agendar sua consulta." }
       ]
     },
     {
@@ -231,7 +231,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marilia." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Marilia e agendar sua consulta." }
       ]
     },
     {
@@ -255,7 +255,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para ele." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Caio e agendar sua consulta." }
       ]
     }
   ];
