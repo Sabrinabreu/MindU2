@@ -508,22 +508,37 @@
 
 .especialidades {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Permite que os itens se movam para a próxima linha */
+    gap: 10px; /* Espaçamento entre as especialidades */
 }
 
-.especialidadeNova{
+.especialidadeNova {
     background-color: #f7f7f7;
     padding: 5px;
     border-radius: 6px;
     cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     border: #e9e7e7 solid 2px;
+    flex: 1 1 150px; /* Define que cada especialidade deve ter largura mínima de 150px e pode crescer */
+    max-width: calc(100% - 20px); /* Limita a largura máxima */
 }
 
 .especialidades,
 .especialidade {
     flex-basis: 100%;
     margin: 7px;
+}
+
+.botaoAdiconarEspecialidade{
+    border-radius: 20px;
+    background-color: #9077d7;
+    color: white;
+    border: none;
+    padding: 10px;
+}
+
+.botaoAdiconarEspecialidade:hover{
+    background-color: var(--profi);
 }
 
 [data-theme='dark'] .especialidade {
