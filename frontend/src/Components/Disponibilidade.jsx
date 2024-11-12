@@ -211,7 +211,7 @@ const Disponibilidade = () => {
                 <Col md={6}>
                     {selectedDate ? (
                         <div>
-                            <h4 className='mt-4 text-center textroxo'>Eventos marcados para {selectedDate.toLocaleDateString()}</h4>
+                            <h4 className='mt-4 p-4 text-center textroxo'>Eventos marcados para {selectedDate.toLocaleDateString()}</h4>
                             {getEventsForSelectedDate().length > 0 ? (
                                 getEventsForSelectedDate().map((event, index) => (
                                     <Card className="evento-card" key={index} style={{ width: '100%', borderRadius: '10px', border: '1px solid #ddd' }}>

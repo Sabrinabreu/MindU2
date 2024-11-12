@@ -117,11 +117,11 @@
 
 /*dark mode */
 [data-theme='dark'] .calendarioPerfil{
-    background-color: #ab90d7;
+    background-color: #7e64a8;
     color: #1e1221 !important;
 }
 [data-theme='dark'] .calendario-dia{
-    background-color: #ab90d7;
+    background-color: transparent;
     color: #fae2ff !important;
 }
 [data-theme='dark'] .calendario-dia:hover{
@@ -135,7 +135,7 @@
     color: #dcbaff !important;
 }
 
-[data-theme='dark'] .calendar-title, .calendar-header-day {
+[data-theme='dark'] .calendar-title .calendar-header-day {
     color: #fae2ff;
     font-weight: 700;
 }
