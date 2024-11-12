@@ -85,18 +85,8 @@
     console.warn('VLibras button not found on the page.');
   }
 
-  // Evento para as setas do teclado, garantindo a verificação antes do click
-  document.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-        const vlibrasButton = document.getElementById('vlibras-button');
-        if (vlibrasButton && document.activeElement === vlibrasButton) {
-          event.preventDefault(); // Evita o comportamento padrão da seta
-          vlibrasButton.click(); // Ativa o VLibras somente se o foco está no botão
-        }
-      }
-    });
   });
-  
+
   </script>
 
   <script>
