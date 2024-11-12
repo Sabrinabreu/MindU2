@@ -15,58 +15,89 @@
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
 
- <!-- Botão VLibras acessível -->
- <div vw class="enabled">
-  <div 
-    id="vlibras-button" 
-    vw-access-button 
-    class="active libras" 
-    aria-label="Ativar tradução em Libras"
-    tabindex="0" 
-    role="button" 
-    onkeydown="if(event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault(); 
-      const vlibrasButton = document.getElementById('vlibras-button');
-      if (vlibrasButton && typeof vlibrasButton.click === 'function') {
-        vlibrasButton.click(); 
-      } else {
-        console.warn('vlibrasButton não está disponível');
-      }
-    }"      
-  ></div>
-  <div vw-plugin-wrapper>
-    <div id="vlibras" class="vw-plugin-top-wrapper" style="display: none;"></div>
+  <!-- Botão VLibras acessível -->
+  <div vw class="enabled">
+    <div 
+      id="vlibras-button" 
+      vw-access-button 
+      class="active libras" 
+      aria-label="Ativar tradução em Libras"
+      tabindex="0" 
+      role="button"
+    ></div>
+    <div vw-plugin-wrapper>
+      <div id="vlibras" class="vw-plugin-top-wrapper" style="display: none;"></div>
+    </div>
   </div>
-</div>
 
-<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 
-<script>
-  // Função para ativar o VLibras
-  function activateVLibras() {
-    const vlibrasWidget = document.getElementById('vlibras');
-    if (vlibrasWidget) {
-      // Lógica para ativar o widget
+  <script>
+    // Função para ativar o VLibras
+    function activateVLibras() {
+      const vlibrasWidget = document.getElementById('vlibras');
+      if (vlibrasWidget) {
+        // Lógica para ativar o widget
+        console.log('VLibras ativado');
+      }
     }
-  }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const vlibrasButton = document.getElementById('vlibras-button');
+    // Observador para monitorar mudanças na DOM
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          const vlibrasButton = document.getElementById('vlibras-button');
+          if (vlibrasButton) {
+            // Adicionar eventos ao botão assim que ele for encontrado
+            vlibrasButton.addEventListener('click', activateVLibras);
+            vlibrasButton.addEventListener('keydown', (event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                activateVLibras();
+              }
+            });
 
-    // Verifica se o botão existe antes de registrar eventos
-    if (vlibrasButton) {
-      vlibrasButton.addEventListener('click', activateVLibras);
-      vlibrasButton.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          activateVLibras();
+            // Depois que encontramos e configuramos o botão, podemos desconectar o observer
+            observer.disconnect();
+          }
         }
       });
-    } else {
-      console.warn('VLibras button not found on the page.');
-    }
+    });
+
+    // Configura o observer para observar mudanças no corpo da página
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    document.addEventListener('DOMContentLoaded', function () {
+  const vlibrasButton = document.getElementById('vlibras-button');
+  
+  if (vlibrasButton) {
+    // Adiciona o evento de clique para ativar VLibras
+    vlibrasButton.addEventListener('click', activateVLibras);
+
+    // Adiciona o evento de tecla para ativar VLibras ao pressionar Enter ou Espaço
+    vlibrasButton.addEventListener('keydown', (event) => {
+      if ((event.key === 'Enter' || event.key === ' ') && document.activeElement === vlibrasButton) {
+        event.preventDefault();
+        activateVLibras();
+      }
+    });
+  } else {
+    console.warn('VLibras button not found on the page.');
+  }
+
+  // Evento para as setas do teclado, garantindo a verificação antes do click
+  document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+        const vlibrasButton = document.getElementById('vlibras-button');
+        if (vlibrasButton && document.activeElement === vlibrasButton) {
+          event.preventDefault(); // Evita o comportamento padrão da seta
+          vlibrasButton.click(); // Ativa o VLibras somente se o foco está no botão
+        }
+      }
+    });
   });
-</script>
+  
+  </script>
 
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
