@@ -4,27 +4,23 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../provider/AuthProvider";
 import { parseJwt } from '../Components/jwtUtils';
-import Sidebar from '../Components/SideBar';  // Importando o Sidebar
+import Sidebar from '../Components/SideBar';
 import PaymentForm from '../Components/Pagamento';
 import PagFuncionarios from '../Components/PagFuncionários';
 import CriarContasFuncionarios from '../Components/CriarContasFuncionarios';
-import { PlusCircle } from 'lucide-react';
 
 const MyCard = () => {
-  const [nContas, setNContas] = useState(1);
-  const [resultados, setResultados] = useState([]);
+  const [nContas, setNContas] = useState(1);  // Número de contas selecionadas
+  const [selectedPlan, setSelectedPlan] = useState(null);  // Plano selecionado
+  const [plans, setPlans] = useState([]);  // Lista de planos disponíveis
   const [activeTab, setActiveTab] = useState('home');
   const [completedSteps, setCompletedSteps] = useState([false, false, false]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [data, setData] = useState(null);
-  const [planos, setPlanos] = useState([]);
-  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(0);  // Inicializando o totalPrice
+  const [empresaId, setEmpresaId] = useState(null);
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [perfil, setPerfil] = useState({});
-  const [compras, setCompras] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [empresaId, setEmpresaId] = useState(null);
-  const [tipoUsuario, setTipoUsuario] = useState(null);
+  const [contasFuncionarios, setContasFuncionarios] = useState([]);  // Estado para armazenar os funcionários não cadastrados
+  const [resultados, setResultados] = useState([]);  // Definindo o estado resultados
 
   const { setToken } = useAuth();
   const navegacao = useNavigate();
@@ -32,30 +28,49 @@ const MyCard = () => {
   const decodedToken = parseJwt(token);
 
   useEffect(() => {
-    setPerfil(decodedToken.perfil);
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      const decodedToken = parseJwt(token);
-      setTipoUsuario(decodedToken.tipo_usuario);
-      setEmpresaId(decodedToken.id_referencia);
-    }
+    setPerfil(decodedToken?.perfil || {});
+    setEmpresaId(decodedToken?.id_referencia || null);
   }, [token]);
 
+  // Buscar funcionários não cadastrados
   useEffect(() => {
-    const fetchCompras = async () => {
+    const fetchFuncionariosNaoCadastrados = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/compras');
-        setCompras(response.data);
-      } catch (err) {
-        console.error('Erro ao carregar as compras:', err);
-      } finally {
-        setLoading(false);
+        const response = await axios.get('http://localhost:3001/contaFuncionarios', {
+          params: { empresaId }
+        });
+        setContasFuncionarios(response.data);  // Atualiza a lista de contas de funcionários
+      } catch (error) {
+        console.error('Erro ao buscar funcionários não cadastrados:', error);
       }
     };
-    fetchCompras();
-  }, []);
+
+    if (empresaId) {
+      fetchFuncionariosNaoCadastrados();
+    }
+  }, [empresaId]);
+
+  // Calcular o totalPrice baseado no plano e no número de contas
+  useEffect(() => {
+    if (selectedPlan && nContas) {
+      setTotalPrice(selectedPlan.preco * nContas);  // Ajuste conforme a estrutura do seu plano
+    }
+  }, [selectedPlan, nContas]);
+
+  // Definir planos disponíveis sem filtrar por número de funcionários
+  useEffect(() => {
+    const availablePlans = [
+      { id: 1, nome: 'Bem-Estar', preco: 250 },
+      { id: 2, nome: 'Equilíbrio', preco: 310 },
+      { id: 3, nome: 'Transformação', preco: 600 },
+    ];
+
+    setPlans(availablePlans);
+
+    if (availablePlans.length > 0) {
+      setSelectedPlan(availablePlans[0]);  // Se houver planos, define o primeiro como selecionado
+    }
+  }, []);  // Agora, o estado de planos é carregado sem qualquer filtro
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -64,7 +79,7 @@ const MyCard = () => {
   };
 
   const toggleSidebar = () => {
-    setSidebarCollapsed((prevState) => !prevState);
+    setSidebarCollapsed(prevState => !prevState);
   };
 
   const handleTabSelect = (key) => {
@@ -75,27 +90,15 @@ const MyCard = () => {
     setActiveTab(key);
   };
 
-  const handleSubmitPurchase = async () => {
-    const purchaseData = {
-      id_empresa: empresaId,
-      id_plano: selectedPlan?.id,
-      qtd_funcionarios: nContas,
-    };
-
-    try {
-      const response = await axios.post('http://localhost:3001/api/compras', purchaseData);
-      console.log('Compra salva com sucesso:', response.data);
-      setData(response.data);
-    } catch (error) {
-      console.error('Erro ao enviar a compra:', error);
+  const completeStep = (stepIndex) => {
+    const updatedSteps = [...completedSteps];
+    updatedSteps[stepIndex] = true;
+    setCompletedSteps(updatedSteps);
+    if (stepIndex < 2) {
+      setActiveTab(stepIndex === 0 ? 'profile' : 'contact');
     }
   };
 
-  const planoNomes = {
-    1: 'Bem-Estar',
-    2: 'Equilíbrio',
-    3: 'Transformação',
-  };
   return (
     <>
       <Sidebar
@@ -104,67 +107,59 @@ const MyCard = () => {
         perfil={perfil}
         handleLogout={handleLogout}
       />
-
       <Container className={`addFunc ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
         <Row>
-          {compras.length > 0 ? (
-            <Col md={10} className="mt-5">
-              <Card>
-                <Card.Header className="d-flex justify-content-between align-items-center">
-                  <Dropdown>
-                  <Dropdown.Toggle variant="purple" id="dropdown-basic">
-                    {selectedPlan ? planoNomes[selectedPlan.id_plano] : 'Selecione um plano'}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                    {Array.from(new Set(compras.map(compra => compra.id_plano))).map(idPlano => (
-                        <Dropdown.Item
-                        key={idPlano}
-                        onClick={() => {
-                            const compraSelecionada = compras.find(compra => compra.id_plano === idPlano);
-                            setSelectedPlan(compraSelecionada);
-                        }}
-                        >
-                        {planoNomes[idPlano] || 'Plano Desconhecido'}
-                        </Dropdown.Item>
-                    ))}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Card.Header>
+          <Col md={10} className="mt-5">
+            <Card className="card-modal" style={{ width: '100%', margin: '20px auto' }}>
+              <Card.Header className="d-flex justify-content-between align-items-center">
+                <h5 className="m-0">
+                  Plano Selecionado: {selectedPlan ? selectedPlan.nome : "Nenhum Plano Selecionado"}
+                </h5>
+                <Dropdown>
+                  <Dropdown.Toggle variant="purple" id="dropdown-custom-components">
+                    Selecionar Plano
+                  </Dropdown.Toggle>
 
-                <Card.Body>
-                  <Tabs
-                    activeKey={activeTab}
-                    onSelect={handleTabSelect}
-                    id="controlled-tab-example"
-                    className="mb-3"
-                  >
-                    <Tab eventKey="home" title="Passo 1: Escolha a qnt de contas">
-                      <PagFuncionarios setNContas={setNContas} nContas={nContas} />
-                    </Tab>
-                    <Tab eventKey="profile" title="Passo 2: Pagamento">
-                      <PaymentForm selectedPlan={selectedPlan} />
-                    </Tab>
-                    <Tab eventKey="contact" title="Passo 3: Criar Contas">
-                      <CriarContasFuncionarios
-                        nContas={nContas}
-                        empresaId={empresaId}
-                        planoSelecionado={selectedPlan}
-                        setResultados={setResultados}
-                      />
-                    </Tab>
-                  </Tabs>
-                </Card.Body>
-              </Card>
-            </Col>
-          ) : (
-            <Col>
-              <Card className="mt-5">
-                <Card.Body>
-                  <Card.Text>Nenhum plano encontrado.</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          )}
+                  <Dropdown.Menu>
+                    {plans.length > 0 ? (
+                      plans.map((plan) => (
+                        <Dropdown.Item 
+                          key={plan.id} 
+                          onClick={() => {
+                            setSelectedPlan(plan);  // Seleciona o plano
+                          }}
+                        >
+                          {plan.nome}
+                        </Dropdown.Item>
+                      ))
+                    ) : (
+                      <Dropdown.Item disabled>
+                        Nenhum plano disponível
+                      </Dropdown.Item>
+                    )}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Card.Header>
+              <Card.Body>
+                <Tabs activeKey={activeTab} onSelect={handleTabSelect} id="controlled-tab-example" className="mb-3 tabpag">
+                  <Tab eventKey="home" title="Passo 1: Escolha a qnt de contas">
+                    <PagFuncionarios setNContas={setNContas} nContas={nContas} completeStep={() => completeStep(0)} />
+                  </Tab>
+                  <Tab eventKey="profile" title="Passo 2: Pagamento" disabled={!completedSteps[0]}>
+                    <PaymentForm selectedPlan={{ name: selectedPlan?.nome, price: totalPrice }} completeStep={() => completeStep(1)} />
+                  </Tab>
+                  <Tab eventKey="contact" title="Passo 3: Criar Contas" disabled={!completedSteps[1]}>
+                    <CriarContasFuncionarios
+                      nContas={nContas}
+                      empresaId={empresaId}
+                      planoSelecionado={selectedPlan}
+                      setResultados={setResultados}  // Passando setResultados corretamente
+                    />
+                  </Tab>
+                </Tabs>
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
       </Container>
     </>
