@@ -7,10 +7,12 @@ import DatePicker from "../Components/Calendario";
 import axios from 'axios';
 import padraoPerfil from '../img/padraoPerfil.png';
 
+
+
 const Agendar = () => {
     const { psicologo_id } = useParams();
     console.log("Psicólogo ID:", psicologo_id);
-    const [perfil, setPerfil] = useState({ nome: '', login: '', foto_perfil: '' });
+    const [perfil, setPerfil] = useState('');
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -28,12 +30,18 @@ const Agendar = () => {
     const [especialidade, setEspecialidade] = useState('');
     const [biografia, setBiografia] = useState('');
 
+
+
     useEffect(() => {
         if (psicologo_id) {
             fetchPsicologoData(psicologo_id);
             fetchDisponibilidades(psicologo_id);
+            // fetchPsicologoFoto(psicologo_id);
         }
     }, [psicologo_id]);
+
+
+
 
     // Função para buscar os dados do psicólogo
     const fetchPsicologoData = async (psicologo_id) => {
@@ -47,6 +55,7 @@ const Agendar = () => {
                 }
             });
             console.log("Resposta da API:", response.data);
+            console.log("jdasdkkasdnk: ", response.data.foto_perfil)
 
 
             if (response.data) {
@@ -57,6 +66,7 @@ const Agendar = () => {
                 setLocalizacao(response.data.localizacao);
                 setEspecialidade(response.data.especialidade);
                 setBiografia(response.data.biografia);
+                setPerfil(response.data.foto_perfil);
             }
         } catch (error) {
             console.error('Erro ao buscar dados do psicólogo:', error);
@@ -155,7 +165,7 @@ const Agendar = () => {
                     <div className='perfilPsico'>
                         <img className="fundoPsico" src={fundoPsico} alt="Imagem de fundo" />
                         <img className="psicologo"
-                            src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : padraoPerfil}
+                            src={perfil ? `http://localhost:3001/uploads/${perfil}` : padraoPerfil}
                         />
 
                         <h4 className='nomePsico container p-4'>{nomePsico || 'Nome não disponível'}</h4>

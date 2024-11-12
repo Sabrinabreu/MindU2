@@ -315,7 +315,7 @@ function Perfil() {
                         <Card className='cardPerfil'>
                             <Card.Body>
 
-                                <div>
+                                <div key={perfil.psicologo_id}>
                                     <div className="d-flex flex-column align-items-center text-center">
                                         <div onClick={isEditing ? handleUploadClick : null} style={{ cursor: isEditing ? 'pointer' : 'default' }}>
                                             <FotoPerfil

@@ -112,6 +112,8 @@ const Contato = () => {
                 categoria: categoriasDisplay[resultado],
                 porcentagem: porcentagens[resultado],
             });
+
+          
         }
     };
 
@@ -149,7 +151,7 @@ const Contato = () => {
                                 ) : (
                                     <div className="resultadoFinal">
                                         <h4 className="resultadoTitulo">Resultado:</h4>
-                                
+
                                         <p className="resultadoTexto">
                                             De acordo com suas respostas, você tem{" "}
                                             <span className="resultadoPorcentagem">{resultadoFinal.porcentagem}%</span> de probabilidade de{" "}
