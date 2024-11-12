@@ -508,8 +508,8 @@
 
 .especialidades {
     display: flex;
-    flex-wrap: wrap; /* Permite que os itens se movam para a próxima linha */
-    gap: 10px; /* Espaçamento entre as especialidades */
+    flex-wrap: wrap; 
+    gap: 10px; 
 }
 
 .especialidadeNova {
@@ -519,8 +519,9 @@
     cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     border: #e9e7e7 solid 2px;
-    flex: 1 1 150px; /* Define que cada especialidade deve ter largura mínima de 150px e pode crescer */
-    max-width: calc(100% - 20px); /* Limita a largura máxima */
+    flex: 1 1 150px;
+    margin-right: 20px;
+    max-width: calc(100% - 20px); 
 }
 
 .especialidades,
