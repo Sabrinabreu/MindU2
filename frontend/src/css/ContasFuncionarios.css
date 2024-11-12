@@ -7,7 +7,27 @@
     border-width: 1.4px;
     border-color: #46467a89;
     padding: 0 15px;
-    margin: 0;
+    margin: auto;
+    text-align: center;
+    align-self: center;
+}
+
+.divGeralAcesso form .btnCreate {
+    align-self: center;
+}
+
+.formContainer .btnCreate {
+    display: flex;
+    align-self: center;
+}
+
+.divGeralAcesso form {
+    text-align: center !important;
+    align-items: center !important;
+}
+
+.divGeralAcesso {
+    display: grid;
 }
 
 [data-theme='dark'] .btnCreate {
@@ -38,4 +58,6 @@
 
 .formPag {
     padding: 4% !important;
+    align-self: center;
+    text-align: center;
 }
