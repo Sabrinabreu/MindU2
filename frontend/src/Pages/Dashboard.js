@@ -6,7 +6,10 @@ import Sidebar from '../Components/SideBar';
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
-import FotoPerfil from '../Components/FotoPerfil'
+import FotoPerfil from '../Components/FotoPerfil';
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
+
 const Dashboard = () => {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -59,6 +62,7 @@ const Dashboard = () => {
 
     return (
         <>
+            <BAPO />
             <Sidebar
                 perfil={perfil}
                 isCollapsed={isSidebarCollapsed}

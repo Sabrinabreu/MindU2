@@ -24,7 +24,6 @@ import Quiz from "./Pages/Quiz";
 import Privacidade from "./Pages/Privacidade";
 import NotFound from "./Pages/NotFound";
 import Termosuso from "./Pages/TermosUso";
-import NotFound from "./Pages/NotFound";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { token, setToken } = useAuth();
