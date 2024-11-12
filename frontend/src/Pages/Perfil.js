@@ -679,21 +679,21 @@ function Perfil() {
                                                 <Col sm={9} className="text-secondary">{perfil.telefone}</Col>
                                             </Row>
                                             <hr />
-                                            <Row>
-                                                <Col sm={3}><h6 className="mb-0">login</h6></Col>
-                                                <Col sm={9} className="text-secondary">{perfil.login}</Col>
-                                            </Row>
                                             {/* informações exclusivas de funcionario */}
                                             {tipoUsuario === 'funcionario' && (
                                                 <>
-                                                    <hr />
                                                     <Row>
                                                         <Col sm={3}><h6 className="mb-0">Cargo</h6></Col>
                                                         <Col sm={9} className="text-secondary">{perfil.cargo}</Col>
                                                     </Row>
+                                                    <hr />
+                                                    <Row>
+                                                        <Col sm={3}><h6 className="mb-0">login</h6></Col>
+                                                        <Col sm={9} className="text-secondary">{perfil.login}</Col>
+                                                    </Row>
+                                                    <hr />
                                                 </>
                                             )}
-                                            <hr />
                                             {/* informações exclusivas de psicologo */}
                                             {tipoUsuario === 'psicologo' && (
                                                 <>

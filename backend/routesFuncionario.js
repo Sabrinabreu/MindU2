@@ -82,6 +82,25 @@ router.get('/contaFuncionarios', verifyToken, async (req, res) => {
   }
 });
 
+  // Rota para buscar a quantidade de funcionários em cada plano da empresa
+  router.get('/empresa/:empresaId/planos', async (req, res) => {
+    const { empresaId } = req.params;
+    try {
+        const query = `
+            SELECT nomePlano AS plano, COUNT(*) AS qtd_funcionarios
+            FROM contaFuncionarios
+            WHERE empresa_id = ?
+            GROUP BY nomePlano
+        `;
+        const [results] = await connection.query(query, [empresaId]);
+        res.json(results);
+    } catch (err) {
+        console.error('Erro ao buscar os planos da empresa:', err);
+        res.status(500).json({ error: 'Erro ao buscar os planos da empresa' });
+    }
+  });
+
+
 // Rota para atualizar um registro existente pelo ID
 router.put('/contaFuncionarios/:id', async (req, res) => {
   const { id } = req.params;

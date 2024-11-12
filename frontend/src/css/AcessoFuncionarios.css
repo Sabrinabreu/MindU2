@@ -33,6 +33,7 @@
     justify-content: center;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
+    margin-right: 40px;
 }
 
 [data-theme="dark"] .btnprint {
