@@ -11,25 +11,25 @@ const Contato = () => {
         { texto: "Tenho dificuldades para relaxar ou sinto tensão muscular sem motivo aparente.", categoria: "ansiedade" },
         { texto: "Evito situações ou lugares por medo de interagir com as pessoas.", categoria: "ansiedade" },
 
-        // { texto: "Frequentemente me sinto triste ou desanimado por longos períodos de tempo.", categoria: "depressao" },
-        // { texto: "Tenho notado uma falta de interesse em atividades que antes gostava.", categoria: "depressao" },
-        // { texto: "É comum me sentir cansado ou com falta de energia mesmo sem ter feito esforço físico.", categoria: "depressao" },
+        { texto: "Frequentemente me sinto triste ou desanimado por longos períodos de tempo.", categoria: "depressao" },
+        { texto: "Tenho notado uma falta de interesse em atividades que antes gostava.", categoria: "depressao" },
+        { texto: "É comum me sentir cansado ou com falta de energia mesmo sem ter feito esforço físico.", categoria: "depressao" },
 
-        // { texto: "Tenho dificuldades em me comunicar ou resolver desentendimentos com outras pessoas.", categoria: "conflitos" },
-        // { texto: "Frequentemente me sinto incompreendido ou magoado em discussões", categoria: "conflitos" },
-        // { texto: "Muitas vezes evito confrontos/discussões por medo de piorar a situação.", categoria: "conflitos" },
+        { texto: "Tenho dificuldades em me comunicar ou resolver desentendimentos com outras pessoas.", categoria: "conflitos" },
+        { texto: "Frequentemente me sinto incompreendido ou magoado em discussões", categoria: "conflitos" },
+        { texto: "Muitas vezes evito confrontos/discussões por medo de piorar a situação.", categoria: "conflitos" },
 
-        // { texto: "Frequentemente me sinto sobrecarregado ou com falta de tempo para realizar minhas tarefas de trabalho", categoria: "estresseTrabalho" },
-        // { texto: "Tenho dificuldade em separar problemas de trabalho da vida pessoal.", categoria: "estresseTrabalho" },
-        // { texto: "Sinto que meu trabalho tem impactado negativamente na minha saúde mental.", categoria: "estresseTrabalho" },
+        { texto: "Frequentemente me sinto sobrecarregado ou com falta de tempo para realizar minhas tarefas de trabalho", categoria: "estresseTrabalho" },
+        { texto: "Tenho dificuldade em separar problemas de trabalho da vida pessoal.", categoria: "estresseTrabalho" },
+        { texto: "Sinto que meu trabalho tem impactado negativamente na minha saúde mental.", categoria: "estresseTrabalho" },
 
-        // { texto: "Recentemente perdi alguém importante e se sinto incapaz de lidar com a perda.", categoria: "luto" },
-        // { texto: "Evito pensar ou falar sobre a perda por medo de reações emocionais fortes.", categoria: "luto" },
-        // { texto: "Sinto que a perda afeta seu humor e dificulta as atividades diárias.", categoria: "luto" },
+        { texto: "Recentemente perdi alguém importante e se sinto incapaz de lidar com a perda.", categoria: "luto" },
+        { texto: "Evito pensar ou falar sobre a perda por medo de reações emocionais fortes.", categoria: "luto" },
+        { texto: "Sinto que a perda afeta seu humor e dificulta as atividades diárias.", categoria: "luto" },
 
-        // { texto: "Sinto que minhas emoções mudam rapidamente, sem motivo aparente.", categoria: "transtornoPersonalidade" },
-        // { texto: "As pessoas já comentaram que tenho reações intensas a situações que outros consideram neutras.", categoria: "transtornoPersonalidade" },
-        // { texto: "Há um padrão em meus relacionamentos: intensos e instáveis.", categoria: "transtornoPersonalidade" },
+        { texto: "Sinto que minhas emoções mudam rapidamente, sem motivo aparente.", categoria: "transtornoPersonalidade" },
+        { texto: "As pessoas já comentaram que tenho reações intensas a situações que outros consideram neutras.", categoria: "transtornoPersonalidade" },
+        { texto: "Há um padrão em meus relacionamentos: intensos e instáveis.", categoria: "transtornoPersonalidade" },
     ];
 
     const [mostrarIntroducao, setMostrarIntroducao] = useState(true);

@@ -16,7 +16,7 @@
   <div id="root"></div>
 
  <!-- Botão VLibras acessível -->
-<div vw class="enabled">
+ <div vw class="enabled">
   <div 
     id="vlibras-button" 
     vw-access-button 
@@ -27,8 +27,10 @@
     onkeydown="if(event.key === 'Enter' || event.key === ' ') {
       event.preventDefault(); 
       const vlibrasButton = document.getElementById('vlibras-button');
-      if (vlibrasButton) {
+      if (vlibrasButton && typeof vlibrasButton.click === 'function') {
         vlibrasButton.click(); 
+      } else {
+        console.warn('vlibrasButton não está disponível');
       }
     }"      
   ></div>
@@ -38,6 +40,7 @@
 </div>
 
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
 <script>
   // Função para ativar o VLibras
   function activateVLibras() {
