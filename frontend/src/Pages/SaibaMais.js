@@ -5,11 +5,12 @@ import fundoPsico from '../img/fundoPsico.webp';
 import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 import DatePicker from "../Components/Calendario";
 import axios from 'axios';
+import padraoPerfil from '../img/padraoPerfil.png';
 
 const Agendar = () => {
     const { psicologo_id } = useParams();
     console.log("Psicólogo ID:", psicologo_id);
-
+    const [perfil, setPerfil] = useState({ nome: '', login: '', foto_perfil: '' });
     const [show, setShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -153,7 +154,10 @@ const Agendar = () => {
                 <Col md={6}>
                     <div className='perfilPsico'>
                         <img className="fundoPsico" src={fundoPsico} alt="Imagem de fundo" />
-                        <img className="psicologo"  src={fundoPsico} />
+                        <img className="psicologo"
+                            src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : padraoPerfil}
+                        />
+
                         <h4 className='nomePsico container p-4'>{nomePsico || 'Nome não disponível'}</h4>
                         <div className='infoPsico'>
                             <b>{especialidade || 'Especialidade não disponível'}</b>

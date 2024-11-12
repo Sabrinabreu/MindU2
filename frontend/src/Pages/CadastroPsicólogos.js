@@ -105,7 +105,7 @@ function CadastroPsicólogos() {
                         <Col md='4' sm='12'>
 
                             <div className="scroll-section" id="section6">
-                                <h4 className='txtporque'>2. Desenvolvimento profissional</h4>
+                                <h4 className='txtporque'>2. Avanço Profissional</h4>
                                 <div className='cardporque'>
                                     <p>
                                         <h6>Treinamentos Contínuos:</h6> Acesso a cursos, workshops e seminários para aprimorar habilidades e conhecimentos.

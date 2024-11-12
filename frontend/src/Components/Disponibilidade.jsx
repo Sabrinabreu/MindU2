@@ -20,34 +20,34 @@ const Disponibilidade = () => {
     });
     const [selectedDays, setSelectedDays] = useState({});
     const [updatedDays, setUpdatedDays] = useState({});
+    const isUpdated = selectedDate ? updatedDays[selectedDate?.toISOString().split('T')[0]] ?? false : false; // Correção aqui
+
     const [psicologoId, setPsicologoId] = useState(null);
 
     const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 
     const handleDateSelect = (date) => {
-        if (date) {
-            setSelectedDate(date);
-            console.log('Data selecionada:', date);
-        } else {
-            alert("Por favor, selecione uma data válida.");
-        }
+        setSelectedDate(date);
+        console.log('Data selecionada:', date);
     };
 
     const fetchAgendamentos = async () => {
         try {
             const response = await axios.get('http://localhost:3001/api/agendamentos');
             const filteredEvents = response.data.filter(event => event.psicologo_id === psicologoId);
-            setEvents(filteredEvents);
+            setEvents(filteredEvents);  // Salva os eventos no estado
         } catch (error) {
             console.error('Erro ao buscar agendamentos:', error);
         }
     };
 
     const getEventsForSelectedDate = () => {
+        if (!selectedDate) return []; // Retorna um array vazio se selectedDate for nulo
         return events.filter(event => new Date(event.data).toDateString() === selectedDate.toDateString());
-    };  
+    };
 
     useEffect(() => {
+        // Busca o ID do psicólogo e os agendamentos
         const token = localStorage.getItem('token');
         if (token) {
             const decodedToken = parseJwt(token);
@@ -57,7 +57,7 @@ const Disponibilidade = () => {
         } else {
             console.log('Token não encontrado.');
         }
-    }, []);
+    }, [psicologoId]);
 
     const handleTimeChange = (day, type, value) => {
         setWorkingHours(prevHours => ({
@@ -183,28 +183,36 @@ const Disponibilidade = () => {
             <Row className='my-4'>
                 <Col md={6} className='disponibilidade'>
                     <h1 className='mb-4 text-center textroxo'>Calendário</h1>
-                    <DatePicker onDateSelect={handleDateSelect} updatedDays={updatedDays} />
+                    <DatePicker
+                        onDateSelect={handleDateSelect}
+                        events={events} // Passando os eventos para o calendário
+                    />
                 </Col>
                 <Col md={6}>
                     {selectedDate ? (
-                        <>
+                        <div>
                             <h4 className='mt-4 text-center textroxo'>Eventos marcados para {selectedDate.toLocaleDateString()}</h4>
                             {getEventsForSelectedDate().length > 0 ? (
                                 getEventsForSelectedDate().map((event, index) => (
-                                    <Card key={index} style={{ width: '18rem', marginBottom: '10px' }}>
-                                        <Card.Body>
-                                            <Card.Title>Paciente: {event.nomePaciente}</Card.Title>
-                                            <Card.Text>Horário: {event.horario_inicio}</Card.Text>
-                                            <Card.Text>Tipo de consulta: {event.tipo}</Card.Text>
-                                            <Card.Text>Assuntos: {event.assunto}</Card.Text>
-                                            <Card.Text>Informações adicionais: {event.details || 'Nenhuma informação adicional fornecida.'}</Card.Text>
-                                        </Card.Body>
-                                    </Card>
+                                    <Card className="evento-card" style={{ width: '100%', borderRadius: '10px', border: '1px solid #ddd' }}>
+                                    <Card.Body>
+                                        <Card.Title className="evento-title">Paciente: Carol {event.nomePaciente}</Card.Title>
+                                        <Card.Text className="evento-details">
+                                            <strong>Horário:</strong> {event.horario_inicio}
+                                        </Card.Text>
+                                        <Card.Text className="evento-details">
+                                            <strong>Tipo de consulta:</strong> {event.tipo}
+                                        </Card.Text>
+                                        <Card.Text className="evento-details">
+                                            <strong>Assuntos:</strong> {event.assunto}
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
                                 ))
                             ) : (
                                 <p className='avisoSemData dispon'>Sem consultas marcadas para esse dia.</p>
                             )}
-                        </>
+                        </div>
                     ) : (
                         <p className='avisoSemData dispon'>Por favor, selecione uma data para ver ou adicionar eventos.</p>
                     )}

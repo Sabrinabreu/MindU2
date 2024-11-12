@@ -454,26 +454,52 @@ function Perfil() {
                                                     onChange={(e) => setPerfil({ ...perfil, nome: e.target.value })}
                                                 />
                                             </Form.Group>
-                                            <Form.Group
-                                            >
-                                                <Form.Label>CPF</Form.Label>
-                                                <Form.Control
-                                                    className='mb-2'
-                                                    type="text"
-                                                    name="cpf"
-                                                    value={perfil.cpf}
-                                                    onChange={(e) => setPerfil({ ...perfil, cpf: e.target.value })}
-                                                />
-                                            </Form.Group>
                                             <Form.Group>
-                                                <Form.Label>Telefone</Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    name="telefone"
-                                                    value={perfil.telefone}
-                                                    onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
-                                                />
-                                            </Form.Group>
+                                            <Form.Label>CPF</Form.Label>
+                                            <Form.Control
+                                                className='mb-2'
+                                                type="text"
+                                                name="cpf"
+                                                value={perfil.cpf}
+                                                onChange={(e) => {
+                                                    let input = e.target.value.replace(/\D/g, '');
+
+                                                    if (input.length > 11) {
+                                                        input = input.slice(0, 11); 
+                                                    }
+
+                                                    // máscara de CPF
+                                                    if (input.length > 9) {
+                                                        input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}-${input.slice(9, 11)}`;
+                                                    } else if (input.length > 6) {
+                                                        input = `${input.slice(0, 3)}.${input.slice(3, 6)}.${input.slice(6, 9)}`;
+                                                    } else if (input.length > 3) {
+                                                        input = `${input.slice(0, 3)}.${input.slice(3, 6)}`;
+                                                    }
+
+                                                    setPerfil({ ...perfil, cpf: input });
+                                                }}
+                                            />
+                                        </Form.Group>
+                                            <Form.Group>
+                                            <Form.Label>Telefone</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="telefone"
+                                                value={perfil.telefone}
+                                                onChange={(e) => {
+                                                    let input = e.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+                                                    if (input.length > 6) {
+                                                        input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}-${input.slice(7, 11)}`;
+                                                    } else if (input.length > 2) {
+                                                        input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}`;
+                                                    }
+
+                                                    setPerfil({ ...perfil, telefone: input });
+                                                }}
+                                            />
+                                        </Form.Group>
                                             {/* informações exclusivas de funcionario */}
                                             {tipoUsuario === 'funcionario' && (
                                                 <>
@@ -750,13 +776,13 @@ function Perfil() {
                                                 </>
                                             )}
                                             <Row>
-                                               
-                                                    <Col sm={12}>
-                                                        <Button className='editarBot' onClick={handleEditClick}>
-                                                            <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
-                                                        </Button>
-                                                    </Col>
-                                               
+
+                                                <Col sm={12}>
+                                                    <Button className='editarBot' onClick={handleEditClick}>
+                                                        <Pencil /> {isEditing ? 'Salvar' : 'Editar Perfil'}
+                                                    </Button>
+                                                </Col>
+
 
                                             </Row>
                                         </>
@@ -771,9 +797,9 @@ function Perfil() {
                                 <Col>
                                     <Calendario
                                         currentMonth={currentMonth}
-                                        consultationDetails={consultasAgendadas}
-                                        tipoUsuario={tipoUsuario}
                                         setCurrentMonth={setCurrentMonth}
+                                        tipoUsuario={tipoUsuario}
+                                        consultationDetails={consultasAgendadas}
                                     />
                                 </Col>
                             </Row>

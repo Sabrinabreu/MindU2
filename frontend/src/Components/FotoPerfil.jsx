@@ -48,7 +48,7 @@ const ProfilePicture = ({ name, src, style }) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    fontSize: '2em',
+                    fontSize: '3em',
                     fontWeight: 'bold',
                     ...style, // Estilos personalizados
                 }}

@@ -7,6 +7,7 @@ import FotoPerfil from '../Components/FotoPerfil';
 const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const [isExpanded, setIsExpanded] = useState(true); // Começar com o conteúdo expandido
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
@@ -84,13 +85,14 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
         <div id="nav-footer-heading">
           <div id="nav-footer-avatar">
           <FotoPerfil
-            name={perfil.nome || ''}
+            name={perfil.empresa || ''}
              src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : null}
              style={{
+              fontSize: '1em',
               width: '32px',
               height: '32px'
              }}
-                                            />
+            />
           </div>
           <div id="nav-footer-titlebox">
             <a id="nav-footer-title" target="_blank" rel="noopener noreferrer">
@@ -98,7 +100,16 @@ const Sidebar = ({ perfil, isCollapsed, toggleSidebar, handleLogout }) => {
             </a>
             <span id="nav-footer-subtitle">Admin</span>
           </div>
-          <label htmlFor="nav-footer-toggle">
+          <label 
+            htmlFor="nav-footer-toggle" 
+            tabIndex="0" 
+            role="button"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                document.getElementById("nav-footer-toggle").click();
+              }
+            }}
+          >
             <i className="fas">
               <ChevronDown />
             </i>

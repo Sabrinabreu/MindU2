@@ -33,7 +33,7 @@ function Perfil() {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            handleUpload(file); // Chama a função de upload passando o arquivo
+            handleUpload(file);
         }
     };
 
@@ -58,17 +58,17 @@ function Perfil() {
     const handleEditClick = () => {
         setIsEditing(true);
         setPerfil(prevData => ({ ...prevData, senha: '' }));
-        setIsEditing(!isEditing); // Alterna o modo de edição
+        setIsEditing(!isEditing);
     };
 
     const handleUploadClick = () => {
-        fileInputRef.current.click(); // Abre o seletor de arquivo
+        fileInputRef.current.click();
     };
 
     const handleUpload = async (file) => {
         const formData = new FormData();
         formData.append('fotoPerfil', file);
-        formData.append('tipoUsuario', 'empresa'); // Ajuste conforme necessário
+        formData.append('tipoUsuario', 'empresa');
         formData.append('ID', perfil.ID);
 
         try {
@@ -78,10 +78,10 @@ function Perfil() {
                 }
             });
 
-            // Atualiza o perfil com a nova URL da foto de perfil
+            // Atualiza o perfil com a nova foto de perfil
             setPerfil((prevPerfil) => ({
                 ...prevPerfil,
-                foto_perfil: response.data.url, // Usa a URL retornada pelo backend
+                foto_perfil: response.data.url,
             }));
             console.log('Foto enviada com sucesso:', response.data);
         } catch (error) {
@@ -101,7 +101,7 @@ function Perfil() {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
-    }, [token]); // adiciona [token] para monitorar mudanças no token    
+    }, [token]); 
 
 
     const handleLogout = () => {
@@ -196,7 +196,6 @@ function Perfil() {
             tipoUsuario,
         };
 
-        // Remove senha do payload se não fornecida
         if (!perfil.senha) delete updatedPerfil.senha;
 
         try {
@@ -259,7 +258,7 @@ function Perfil() {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
 
-            fetchConsultasAgendadas(decodedToken.perfil.id);/*pega os agendamentos*/
+            fetchConsultasAgendadas(decodedToken.perfil.id);
         }
     }, [token]);
 
@@ -321,7 +320,7 @@ function Perfil() {
                                         <div onClick={isEditing ? handleUploadClick : null} style={{ cursor: isEditing ? 'pointer' : 'default' }}>
                                             <FotoPerfil
                                                 src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : null}
-                                                name={perfil.empresa || ''}
+                                                name={perfil.psicologos || ''}
                                             />
                                         </div>
 
@@ -417,15 +416,24 @@ function Perfil() {
                                                 />
                                             </Form.Group>
                                             <Form.Group>
-                                                <Form.Label>Telefone:</Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    name="telefone"
-                                                    value={perfil.telefone}
-                                                    onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
-                                                />
-                                            </Form.Group>
+                                            <Form.Label>Telefone:</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="telefone"
+                                                value={perfil.telefone}
+                                                onChange={(e) => {
+                                                    let input = e.target.value.replace(/\D/g, ''); 
+                                                    
+                                                    if (input.length > 6) {
+                                                        input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}-${input.slice(7, 11)}`;
+                                                    } else if (input.length > 2) {
+                                                        input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}`;
+                                                    }
 
+                                                    setPerfil({ ...perfil, telefone: input });
+                                                }}
+                                            />
+                                        </Form.Group>
                                             <Form.Group>
                                                 <Form.Label>Nome da empresa: </Form.Label>
                                                 <Form.Control
@@ -434,7 +442,7 @@ function Perfil() {
                                                     value={perfil.empresa}
                                                     onChange={(e) => setPerfil({ ...perfil, empresa: e.target.value })}
                                                 />
-                                                <Form.Label>Departamento: </Form.Label>
+                                                <Form.Label>Setor: </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="departamento"
@@ -522,13 +530,13 @@ function Perfil() {
                                             <hr />
 
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">:</h6></Col>
+                                                <Col sm={3}><h6 className="mb-0">Setor:</h6></Col>
                                                 <Col sm={9} className="text-secondary">{perfil.departamento}</Col>
                                             </Row>
                                             <hr />
 
                                             <Row>
-                                                <Col sm={3}><h6 className="mb-0">Plano de saúde(se possuir):</h6></Col>
+                                                <Col sm={3}><h6 className="mb-0">Plano de saúde:</h6></Col>
                                                 <Col sm={9} className="text-secondary">{perfil.planosaude}</Col>
                                             </Row>
                                             <hr />

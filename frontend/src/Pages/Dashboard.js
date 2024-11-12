@@ -6,7 +6,7 @@ import Sidebar from '../Components/SideBar';
 import { parseJwt } from '../Components/jwtUtils';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
-
+import FotoPerfil from '../Components/FotoPerfil'
 const Dashboard = () => {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -105,7 +105,15 @@ const Dashboard = () => {
                                             <Col lg={4} md={6} sm={6} xs={12}>
                                                 <div key={contafuncionarios.id} className="person-box">
                                                     <div className="box-avatar">
-                                                        <img src={contafuncionarios.foto} />
+                                                        <FotoPerfil className="profile-image"
+                                                            name={contafuncionarios.nome || ''}
+                                                            src={contafuncionarios.foto_perfil ? `http://localhost:3001/uploads/${contafuncionarios.foto_perfil}` : null}
+                                                            style={{
+                                                                width: '100px', // Exemplo de largura específica
+                                                                height: '100px', // Exemplo de altura específicaborder: '3px solid #4A90E2' // Exemplo de borda personalizada
+                                                            }}
+                                                        />
+
                                                     </div>
                                                     <div className="box-bio">
                                                         <h2 className="bio-name">{contafuncionarios.nome}</h2>

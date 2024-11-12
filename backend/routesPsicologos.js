@@ -100,10 +100,6 @@ router.put('/biografia/:psicologo_id', async (req, res) => {
     const { psicologo_id } = req.params;
     const { biografia } = req.body;
 
-    if (!biografia) {
-        return res.status(400).json({ error: 'A biografia é obrigatória.' });
-    }
-
     const sql = 'UPDATE psicologos SET biografia = ? WHERE psicologo_id = ?';
     const params = [biografia, psicologo_id];
 
@@ -115,15 +111,33 @@ router.put('/biografia/:psicologo_id', async (req, res) => {
         }
 
         res.json({ message: 'Biografia atualizada com sucesso!' });
-    }catch (error) {
+    } catch (error) {
         console.error("Erro ao salvar as edições:", error);
-        if (error.response) {
-            alert(`Erro: ${error.response.data.error}`); // Exibe o erro retornado pelo backend
-        } else {
-            alert('Erro ao salvar as informações. Tente novamente.');
-        }
+        res.status(500).json({ error: 'Erro ao salvar as informações. Tente novamente.' });
     }
-    
 });
+
+// Atualiza as especificidades
+router.put('/especificidade/:psicologo_id', async (req, res) => {
+    const { psicologo_id } = req.params;
+    const { especificidade } = req.body;
+
+    const sql = 'UPDATE psicologos SET especificidade = ? WHERE psicologo_id = ?';
+    const params = [especificidade, psicologo_id];
+
+    try {
+        const [result] = await connection.query(sql, params);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Psicólogo não encontrado' });
+        }
+
+        res.json({ message: 'especificidade atualizada com sucesso!' });
+    } catch (error) {
+        console.error("Erro ao salvar as edições:", error);
+        res.status(500).json({ error: 'Erro ao salvar as informações. Tente novamente.' });
+    }
+});
+
 
 module.exports = router;
