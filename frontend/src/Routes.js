@@ -20,10 +20,10 @@ import SeuPlano from "./Pages/SeuPlano"; //empresa
 import Login from './Pages/Login'; //não autenticado
 import Disponibilidade from './Pages/Disponibilidade' //psicologo
 import AddFuncionarios from "./Pages/AddFuncionario";
-import EsqueciSenha from "./Pages/EsqueciSenha"; //*
 import Quiz from "./Pages/Quiz";
 import Privacidade from "./Pages/Privacidade";
 import Termosuso from "./Pages/TermosUso";
+import NotFound from "./Pages/NotFound";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { token, setToken } = useAuth();
