@@ -6,7 +6,7 @@ import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 import DatePicker from "../Components/Calendario";
 import axios from 'axios';
 import padraoPerfil from '../img/padraoPerfil.png';
-
+import { parseJwt } from '../Components/jwtUtils';
 
 
 const Agendar = () => {
