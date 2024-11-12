@@ -42,7 +42,9 @@ const Navegacao = ({ isDarkMode, toggleTheme }) => {
     { nome: "Disponibilidade", caminho: "/disponibilidade", auth: true, tiposPermitidos: ["psicologo"] },
     { nome: "Perfil", caminho: "/perfil", auth: true, tiposPermitidos: ["psicologo", "funcionario"] },
     { nome: "Agendar Consulta", caminho: "/agendarConsulta", auth: true, tiposPermitidos: ["psicologo", "funcionario"] },
-    { nome: "Quiz", caminho: "/quiz", auth: true, tiposPermitidos: ["funcionario"] },
+    { nome: "Quiz", caminho: "/quiz", auth: true, tiposPermitidos: ["funcionario"] }, // Psicólogos e funcionários logados
+    { nome: "Privacidade", caminho: "/privacidade", auth: true, tiposPermitidos: [] },
+    { nome: "Termos de uso", caminho: "/termosdeuso", auth: true, tiposPermitidos: [] },
   ];
 
   const canAccessLink = (link) => {
