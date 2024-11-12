@@ -164,8 +164,10 @@ body {
 }
 
 .txtporque {
+    font-size: 18px;
     margin-left: 24px !important;
     color: #6852a5;
+    margin-top: 1em !important;
 }
 
 [data-theme='dark'] .txtporque {
@@ -283,9 +285,9 @@ body {
     }
 
     .cardporque {
-        width: 80% !important;
+        width: 120% !important;
         height: 200px !important;
-        margin-left: 10% !important;
+        margin-left: -10% !important;
         margin-bottom: 3% !important;
         font-size: 14px !important;
         display: flex;
@@ -300,12 +302,14 @@ body {
         font-size: 14px !important;
     }
 
+
     .questioncadastro {
-        width: 530px !important;
+        width: 100% !important;
         font-size: 1.5em;
-        margin: 2% !important;
-        padding-bottom: 20px !important;
+        margin: 2px !important;
+        padding-bottom: 10px !important;
     }
+
 
     .cardcadastropsi {
         width: 500px !important;
@@ -328,6 +332,7 @@ body {
         flex-wrap: wrap !important;
         display: flex !important;
         margin-right: 89px !important;
+        margin-left: 6% !important;
     }
 
     .cardporque {
@@ -342,7 +347,7 @@ body {
     }
 
     .questioncadastro {
-        width: 732px !important;
+        width: 100% !important;
         font-size: 1.8em;
         margin: 2% !important;
         padding-bottom: 20px !important;
@@ -370,7 +375,42 @@ body {
     .cardporque h6 {
         font-size: 1.5rem;
     }
+
+    .txtporque {
+        font-size: 1.5em !important;
+    }
+
+    .cardporque {
+        width: 100% !important;
+        height: 280px !important;
+        font-size: 1em !important;
+    }
+
+    .conteinerporque {
+        display: flex !important;
+    }
+
+    .imgporque {
+        width: 0 !important;
+        height: 0 !important;
+        margin: 0px !important;
+    }
 }
+
+@media (width: 1280px) {
+    .cardporque {
+        height: 280px !important;
+        font-size: 1em !important;
+    }
+
+    .txtporque {
+        font-size: 1.5em !important;
+        text-align: center;
+
+    }
+
+}
+
 
 @media (width: 540px) {
 
@@ -381,7 +421,7 @@ body {
     }
 
     .questioncadastro {
-        width: 450px !important;
+        width: 100% !important;
         font-size: 1.4em;
         margin: 2% !important;
         padding-bottom: 20px !important;
@@ -407,7 +447,7 @@ body {
     }
 
     .txtporque {
-        font-size: 1em !important;
+        font-size: 2em !important;
     }
 
     .cardporque h6 {
@@ -416,7 +456,7 @@ body {
 
     .cardporque {
         width: 90% !important;
-        height: 240px !important;
+        height: 120px !important;
         font-size: 0.8em !important;
         margin: 14px !important;
     }
@@ -435,9 +475,7 @@ body {
     .conteinerporque {
         flex-wrap: wrap !important;
         display: flex !important;
-        margin-right: 89px !important;
     }
-
 
     .cardporque {
         width: 120% !important;
@@ -451,7 +489,7 @@ body {
     }
 
     .questioncadastro {
-        width: 540px !important;
+        width: 100% !important;
         font-size: 1.8em;
         margin: 2% !important;
         padding-bottom: 20px !important;

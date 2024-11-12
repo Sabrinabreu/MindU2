@@ -321,7 +321,7 @@ function Perfil() {
                                         <div onClick={isEditing ? handleUploadClick : null} style={{ cursor: isEditing ? 'pointer' : 'default' }}>
                                             <FotoPerfil
                                                 src={perfil.foto_perfil ? `http://localhost:3001/uploads/${perfil.foto_perfil}` : null}
-                                                name={perfil.empresa || ''}
+                                                name={perfil.psicologos || ''}
                                             />
                                         </div>
 
