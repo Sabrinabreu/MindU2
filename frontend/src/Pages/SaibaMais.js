@@ -35,6 +35,14 @@ const Agendar = () => {
         }
     }, [psicologo_id]);
 
+    const parseJwt = (token) => {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+        } catch (e) {
+            return null;
+        }
+    };    
+
     // Função para buscar os dados do psicólogo
     const fetchPsicologoData = async (psicologo_id) => {
         try {
@@ -120,24 +128,36 @@ const Agendar = () => {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-
+    
+        // Pega o token JWT
+        const token = localStorage.getItem('token');
+        const decodedToken = parseJwt(token);
+        
+        // Verifica se o token e o usuario_id estão presentes
+        if (!decodedToken || !decodedToken.id) {
+            alert('Usuário não autenticado');
+            return;
+        }
+    
+        // Objeto de dados do agendamento
         const agendamentoData = {
-            psicologo_id,
-            data: selectedDate.toISOString().split('T')[0],
+            usuario_id: decodedToken.id,  // Adiciona o usuario_id
+            psicologo_id,                 // Usando o psicólogo id da URL
+            data: selectedDate.toISOString().split('T')[0],  // Converte para data no formato YYYY-MM-DD
             horario_inicio: selectedTime,
             tipo: selectedTipo,
             assunto,
         };
-
+    
         try {
-            const token = localStorage.getItem('token');
+            // Faz a requisição para salvar o agendamento
             const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
                 }
             });
-            alert(response.data.message);
-            handleClose();
+            alert(response.data.message);  // Exibe a mensagem de sucesso
+            handleClose();  // Fecha o modal
         } catch (error) {
             console.error('Erro ao agendar consulta:', error);
             if (error.response) {
@@ -147,6 +167,7 @@ const Agendar = () => {
             }
         }
     };
+    
 
     return (
         <Container className='p-4'>

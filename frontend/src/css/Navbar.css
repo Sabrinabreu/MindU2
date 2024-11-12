@@ -170,3 +170,9 @@ input:checked+.slider:before {
     box-shadow: inset 8px -4px 0px 0px #46467a;
     background: var(--background);
 }
+
+.disabled-link {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: default;
+  }  

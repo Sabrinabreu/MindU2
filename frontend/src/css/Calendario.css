@@ -100,7 +100,8 @@
   display: block;
   width: 8px;
   height: 8px;
-  background-color: pink; 
+  background-color: rgb(255, 182, 194); 
+  border: solid 1px rgb(231, 127, 144);
   border-radius: 50%; 
   position: relative;
   margin-top: -20px;
