@@ -8,6 +8,8 @@ import Sidebar from '../Components/SideBar';
 import PaymentForm from '../Components/Pagamento';
 import PagFuncionarios from '../Components/PagFuncionários';
 import CriarContasFuncionarios from '../Components/CriarContasFuncionarios';
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
 
 const MyCard = () => {
   const [nContas, setNContas] = useState(1);  // Número de contas selecionadas
@@ -21,7 +23,6 @@ const MyCard = () => {
   const [perfil, setPerfil] = useState({});
   const [contasFuncionarios, setContasFuncionarios] = useState([]);  // Estado para armazenar os funcionários não cadastrados
   const [resultados, setResultados] = useState([]);  // Definindo o estado resultados
-
   const { setToken } = useAuth();
   const navegacao = useNavigate();
   const token = localStorage.getItem('token');
@@ -101,6 +102,7 @@ const MyCard = () => {
 
   return (
     <>
+      <BAPO />
       <Sidebar
         isCollapsed={isSidebarCollapsed}
         toggleSidebar={toggleSidebar}
@@ -123,8 +125,8 @@ const MyCard = () => {
                   <Dropdown.Menu>
                     {plans.length > 0 ? (
                       plans.map((plan) => (
-                        <Dropdown.Item 
-                          key={plan.id} 
+                        <Dropdown.Item
+                          key={plan.id}
                           onClick={() => {
                             setSelectedPlan(plan);  // Seleciona o plano
                           }}

@@ -16,7 +16,7 @@ const getUserIdFromToken = (token) => {
 
 // Rota para criar um novo agendamento
 router.post('/agendamentos', async (req, res) => {
-    const { usuario_id, psicologo_id, data, horario_inicio, tipo, assunto } = req.body;
+    const { psicologo_id, data, horario_inicio, tipo, assunto, paciente_id } = req.body;
 
     console.log('Dados recebidos:', { usuario_id, psicologo_id, data, horario_inicio, tipo, assunto });
 

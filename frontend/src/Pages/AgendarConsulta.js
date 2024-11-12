@@ -38,6 +38,7 @@ function AgendarConsulta() {
   useEffect(() => {
     if (token) {
       const decodedToken = parseJwt(token);
+      setPerfil(decodedToken);
     }
   }, [token]);
 
@@ -134,7 +135,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Flávio." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Flávio e agendar sua consulta." }
       ]
     },
     {
@@ -158,7 +159,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Cris." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Cris e agendar sua consulta." }
       ]
     },
     {
@@ -182,7 +183,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Roberto." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Roberta e agendar sua consulta." }
       ]
     },
     {
@@ -206,7 +207,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Lidiane." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Lidiane e agendar sua consulta." }
       ]
     },
     {
@@ -230,7 +231,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para Marilia." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Marilia e agendar sua consulta." }
       ]
     },
     {
@@ -243,7 +244,7 @@ function AgendarConsulta() {
         },
         {
           eventKey: "especialidades",
-          title: "EspecialidadesA",
+          title: "Especialidades",
           content: (
             <div className="especialidadesA">
               {[{ description: "Aconselhamento individual e em grupo" }, { description: "Desenvolvimento de autoestima" }, { description: "Coaching" }, { description: "Habilidades para lidar com estresse e ansiedade" }].map((servico, index) => (
@@ -254,7 +255,7 @@ function AgendarConsulta() {
             </div>
           ),
         },
-        { eventKey: "agenda", title: "Agenda", content: "Conteúdo da Agenda para ele." }
+        { eventKey: "agenda", title: "Agenda", content: "Clique aqui para ver a agenda de Caio e agendar sua consulta." }
       ]
     }
   ];
@@ -512,9 +513,11 @@ function AgendarConsulta() {
                                               ? psicologo.biografia
                                               : 'Adicionar biografia'}
                                           </p>
-                                          <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
-                                            <Pencil />
-                                          </button>
+                                          {perfil.tipo_usuario === "psicologo" && (
+                                            <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
+                                              <Pencil />
+                                            </button>
+                                          )}
                                         </div>
                                       </>
                                     )}
@@ -567,9 +570,11 @@ function AgendarConsulta() {
                                             ) : (
                                               <p className='especialidade'>Adicione aqui suas especialidades</p>
                                             )}
-                                            <button className="editarTabs" onClick={() => handleSpecialtyEditToggle(psicologo.psicologo_id)}>
-                                              <Plus />
-                                            </button>
+                                            {perfil.tipo_usuario === "psicologo" && (
+                                              <button className="editarTabs" onClick={() => handleSpecialtyEditToggle(psicologo.psicologo_id)}>
+                                                <Plus />
+                                              </button>
+                                            )}
                                           </div>
                                         )}
                                       </div>
@@ -586,13 +591,13 @@ function AgendarConsulta() {
                                 <p>{tab.content}</p>
                               )}
 
-                              {tab.eventKey === 'sobre' && (
+                              {tab.eventKey === 'sobre' && perfil.tipo_usuario === "funcionario" && (
                                 <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
                                   Saiba Mais
                                 </Link>
                               )}
 
-                              {tab.eventKey === 'agenda' && (
+                              {tab.eventKey === 'agenda' && perfil.tipo_usuario === "funcionario" && (
                                 <Link to={`/psicologo/${psicologo.psicologo_id}`} className="agendarBot mt-3">
                                   Agendar
                                 </Link>

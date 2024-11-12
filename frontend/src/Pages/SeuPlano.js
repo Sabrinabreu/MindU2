@@ -6,7 +6,10 @@ import { PlusCircle } from 'lucide-react';
 import { parseJwt } from '../Components/jwtUtils';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../provider/AuthProvider";
-import Sidebar from '../Components/SideBar'; 
+import Sidebar from '../Components/SideBar';
+import BAPO from "../Components/WidgetBAPO";
+import "../css/WidgetBAPO.css";
+
 
 const Compras = () => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -43,10 +46,10 @@ const Compras = () => {
         setLoading(false);
       }
     };
-  
+
     fetchPlanos();
   }, [empresaId]);
-  
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -58,18 +61,19 @@ const Compras = () => {
     setSidebarCollapsed((prevState) => !prevState);
   };
 
- const cancelarPlano = () => {
-  const confirmCancel = window.confirm(
-    "Tem certeza de que deseja cancelar o seu plano? No próximo mês você não terá acesso às contas pertencentes a esse plano."
-  );
-  if (confirmCancel) {
-    alert("O seu plano foi cancelado! No próximo mês você não terá acesso às contas pertencentes a esse plano.");
-    // Adicione aqui qualquer outra lógica para cancelar o plano, se necessário
-  }
-};
+  const cancelarPlano = () => {
+    const confirmCancel = window.confirm(
+      "Tem certeza de que deseja cancelar o seu plano? No próximo mês você não terá acesso às contas pertencentes a esse plano."
+    );
+    if (confirmCancel) {
+      alert("O seu plano foi cancelado! No próximo mês você não terá acesso às contas pertencentes a esse plano.");
+      // Adicione aqui qualquer outra lógica para cancelar o plano, se necessário
+    }
+  };
 
   return (
     <>
+      <BAPO />
       <Sidebar
         perfil={perfil}
         isCollapsed={isSidebarCollapsed}
