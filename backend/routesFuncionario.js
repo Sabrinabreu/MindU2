@@ -104,12 +104,12 @@ router.get('/contaFuncionarios', verifyToken, async (req, res) => {
 // Rota para atualizar um registro existente pelo ID
 router.put('/contaFuncionarios/:id', async (req, res) => {
   const { id } = req.params;
-  const { login, senha, cpf, nome, cargo, telefone, email, cadastrado, loginMethod } = req.body;
+  const { login, senha, cpf, nome, cargo, telefone, cadastrado, loginMethod } = req.body;
 
   try {
     await connection.query(
-      'UPDATE contaFuncionarios SET login = ?, senha = ?, cpf = ?, nome = ?, cargo = ?, telefone = ?, email = ?, cadastrado = ?, loginMethod = ? WHERE id = ?',
-      [login, senha, cpfSemMascara, nome, cargo, telefone, email, cadastrado, loginMethod, id] // Use cpfSemMascara aqui
+      'UPDATE contaFuncionarios SET login = ?, senha = ?, cpf = ?, nome = ?, cargo = ?, telefone = ?, cadastrado = ?, loginMethod = ? WHERE id = ?',
+      [login, senha, cpf, nome, cargo, telefone, cadastrado, loginMethod, id]
     );
     res.json({ message: 'Registro atualizado com sucesso' });
   } catch (err) {
