@@ -22,6 +22,9 @@ const Agendar = () => {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
 
+    const [nomePaciente, setNomePaciente] = useState('');
+
+
     // Estados para armazenar os dados do psicólogo
     const [nomePsico, setNomePsico] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -128,17 +131,16 @@ const Agendar = () => {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-
-        // Pega o token JWT
+    
         const token = localStorage.getItem('token');
         const decodedToken = parseJwt(token);
-
+    
         // Verifica se o token e o usuario_id estão presentes
         if (!decodedToken || !decodedToken.id) {
             alert('Usuário não autenticado');
             return;
         }
-
+    
         // Objeto de dados do agendamento
         const agendamentoData = {
             usuario_id: decodedToken.id,  // Adiciona o usuario_id
@@ -147,8 +149,9 @@ const Agendar = () => {
             horario_inicio: selectedTime,
             tipo: selectedTipo,
             assunto,
+            nome_paciente: 'Caroll'  // Adiciona o nome do paciente aqui
         };
-
+    
         try {
             // Faz a requisição para salvar o agendamento
             const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
@@ -167,8 +170,8 @@ const Agendar = () => {
             }
         }
     };
-
-
+    
+    
     return (
         <Container className='p-4'>
             <Row>
@@ -204,40 +207,59 @@ const Agendar = () => {
                                 <Modal.Title className='agendando'>Agendar Consulta</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                {selectedDate ? (
-                                    <>
-                                        <b className='dataSelecionada'>Data selecionada:</b>
-                                        {selectedDate.toLocaleDateString()}
-                                        <p className='tipoConsulta mb-1'>Tipo de consulta:</p>
-                                        <button className={`botTipo ${selectedTipo === 'Online' ? 'active' : ''}`} onClick={() => handleTipoClick('Online')}>Online</button>
-                                        <button className={`botTipo ${selectedTipo === 'Presencial' ? 'active' : ''}`} onClick={() => handleTipoClick('Presencial')}>Presencial</button>
-                                        <Form>
-                                            <Form.Group className="mb-3">
-                                                <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
-                                                <Form.Control as="textarea" rows={3} value={assunto} onChange={handleAssuntoChange} />
-                                            </Form.Group>
-                                        </Form>
-                                        <h6>Horários disponíveis:</h6>
-                                        {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).length > 0 ? (
-                                            <ul>
-                                                {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario_inicio }) => (
-                                                    <button
-                                                        key={horario_inicio}
-                                                        className={`horarioBotao ${selectedTime === horario_inicio ? 'active' : ''}`}
-                                                        onClick={() => handleTimeClick(horario_inicio)}
-                                                    >
-                                                        {horario_inicio}
-                                                    </button>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <p>Sem horários disponíveis.</p>
-                                        )}
-                                    </>
-                                ) : (
-                                    <p>Selecione uma data primeiro.</p>
-                                )}
-                            </Modal.Body>
+    {selectedDate ? (
+        <>
+            <b className='dataSelecionada'>Data selecionada:</b>
+            {selectedDate.toLocaleDateString()}
+            <p className='tipoConsulta mb-1'>Tipo de consulta:</p>
+            <button className={`botTipo ${selectedTipo === 'Online' ? 'active' : ''}`} onClick={() => handleTipoClick('Online')}>Online</button>
+            <button className={`botTipo ${selectedTipo === 'Presencial' ? 'active' : ''}`} onClick={() => handleTipoClick('Presencial')}>Presencial</button>
+            
+            {/* Novo campo para nome do paciente */}
+            <Form>
+            <Form.Group className="mb-3">
+    <Form.Label>Nome do Paciente:</Form.Label>
+    <Form.Control 
+        type="text" 
+        value={nomePaciente}  // Certifique-se de que está usando nomePaciente
+        onChange={(e) => setNomePaciente(e.target.value)} 
+        required 
+    />
+</Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
+                    <Form.Control 
+                        as="textarea" 
+                        rows={3} 
+                        value={assunto} 
+                        onChange={handleAssuntoChange} 
+                    />
+                </Form.Group>
+            </Form>
+
+            <h6>Horários disponíveis:</h6>
+            {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).length > 0 ? (
+                <ul>
+                    {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario_inicio }) => (
+                        <button
+                            key={horario_inicio}
+                            className={`horarioBotao ${selectedTime === horario_inicio ? 'active' : ''}`}
+                            onClick={() => handleTimeClick(horario_inicio)}
+                        >
+                            {horario_inicio}
+                        </button>
+                    ))}
+                </ul>
+            ) : (
+                <p>Sem horários disponíveis.</p>
+            )}
+        </>
+    ) : (
+        <p>Selecione uma data primeiro.</p>
+    )}
+</Modal.Body>
+
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={handleClose}>Fechar</Button>
                                 <Button className='salvar' onClick={handleSave}>Salvar</Button>
