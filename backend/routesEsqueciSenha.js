@@ -7,7 +7,7 @@ router.post('/verificar-email', async (req, res) => {
   const { email } = req.body;
 
   try {
-    const [funcionarios] = await connection.execute('SELECT * FROM contaFuncionarios WHERE email = ?', [email]);
+    const [funcionarios] = await connection.execute('SELECT * FROM contaFuncionarios WHERE login = ?', [email]);
     if (funcionarios.length > 0) {
       return res.json({ success: true });
     }
@@ -32,7 +32,7 @@ router.post('/verificar-resposta', async (req, res) => {
   const { email, respostaSeguranca } = req.body;
 
   try {
-    const [funcionarios] = await connection.execute('SELECT resposta_seguranca FROM contaFuncionarios WHERE email = ?', [email]);
+    const [funcionarios] = await connection.execute('SELECT resposta_seguranca FROM contaFuncionarios WHERE login = ?', [email]);
     if (funcionarios.length > 0 && funcionarios[0].resposta_seguranca === respostaSeguranca) {
       return res.json({ success: true });
     }
@@ -58,7 +58,7 @@ router.post('/redefinir-senha', async (req, res) => {
   const { email, novaSenha } = req.body;
 
   try {
-    const [resultFunc] = await connection.execute('UPDATE contaFuncionarios SET senha = ? WHERE email = ?', [novaSenha, email]);
+    const [resultFunc] = await connection.execute('UPDATE contaFuncionarios SET senha = ? WHERE login = ?', [novaSenha, email]);
     if (resultFunc.affectedRows > 0) {
       return res.json({ success: true });
     }
