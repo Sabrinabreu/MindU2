@@ -216,7 +216,7 @@ const Disponibilidade = () => {
                                 getEventsForSelectedDate().map((event, index) => (
                                     <Card className="evento-card" key={index} style={{ width: '100%', borderRadius: '10px', border: '1px solid #ddd' }}>
                                         <Card.Body>
-                                            <Card.Title className="evento-title">Paciente: {event.nomePaciente}</Card.Title>
+                                            <Card.Title className="evento-title">Paciente: {event.nomePaciente}Alexandre</Card.Title>
                                             <Card.Text className="evento-details">
                                                 <strong>Horário:</strong> {event.horario_inicio}
                                             </Card.Text>

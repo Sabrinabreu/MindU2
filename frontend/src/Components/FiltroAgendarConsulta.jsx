@@ -21,7 +21,10 @@ const FiltroBusca = ({ filterType, setFilterType, selectedProfession, setSelecte
                     <Form.Control
                         as="select"
                         value={selectedProfession}
-                        onChange={(e) => setSelectedProfession(e.target.value)}
+                        onChange={(e) => {
+                            console.log("Selected Profession: ", e.target.value); // Log do valor selecionado
+                            setSelectedProfession(e.target.value);
+                        }}
                         className="buscaPor mr-2"
                     >
                         <option value="" className={selectedProfession === '' ? 'selected-option' : ''}>Todas as profissões...</option>
