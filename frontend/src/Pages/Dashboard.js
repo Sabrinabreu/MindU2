@@ -56,8 +56,8 @@ const Dashboard = () => {
     const filteredCards = data.filter((contafuncionarios) => {
         const nome = contafuncionarios.nome ? contafuncionarios.nome.toLowerCase() : "";
         const matchesSearch = nome.includes(searchTerm.toLowerCase());
-        const matchesCategory = selectedCategory === "all" || contafuncionarios.cargo === selectedCategory;
-        return matchesSearch && matchesCategory;
+    
+        return matchesSearch;
     });
 
     return (
@@ -73,20 +73,6 @@ const Dashboard = () => {
             <div className={`dashboard ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
                 {/* Filtro */}
                 <aside className="search-wrap">
-                    <div className={`filter ${selectedCategory !== 'all' ? 'filter-selected' : ''}`}>
-                        <label htmlFor="categoryFilter">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={`filtersvg ${selectedCategory !== 'all' ? 'hidden' : ''}`}>
-                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                            </svg>
-                            {selectedCategory !== 'all' && <span onClick={() => setSelectedCategory("all")}>Resetar Filtro</span>}
-                        </label>
-                        <select id="categoryFilter" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-                            <option value="all">Todos</option>
-                            <option value="Bem-Estar">Plano Bem-Estar</option>
-                            <option value="Equilíbrio">Plano Equilíbrio</option>
-                            <option value="Transformação">Plano Transformação</option>
-                        </select>
-                    </div>
                     <div className="search">
                         <label htmlFor="search">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -150,4 +136,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
