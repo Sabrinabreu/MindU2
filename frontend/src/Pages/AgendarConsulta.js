@@ -47,14 +47,23 @@ function AgendarConsulta() {
       ...prev,
       [psicologoId]: !prev[psicologoId]
     }));
-  };
 
+    if (!editableInfo[psicologoId]) {
+      // Se estamos habilitando a edição, inicialize o estado com a biografia atual
+      const psicologo = data.find(psicologo => psicologo.psicologo_id === psicologoId);
+      setEditedText(prev => ({
+        ...prev,
+        [psicologoId]: psicologo.biografia // Pega a biografia atual
+      }));
+    }
+  };
+  
   const handleTextChange = (psicologo_id, value) => {
     setEditedText(prev => ({
-      ...prev,
-      [psicologo_id]: value
+        ...prev,
+        [psicologo_id]: value // Atualiza o estado com o valor do textarea
     }));
-  };
+};
 
   useEffect(() => {
     axios.get('http://localhost:3001/psicologos')
@@ -300,49 +309,46 @@ function AgendarConsulta() {
     const updatedBiografia = editedText[psicologo_id];
 
     if (!updatedBiografia || updatedBiografia.trim() === '') {
-      alert('Por favor, preencha as informações antes de salvar.');
-      return;
+        alert('Por favor, preencha as informações antes de salvar.');
+        return;
     }
 
     const psicologoData = {
-      biografia: updatedBiografia,
+        biografia: updatedBiografia,
     };
 
     try {
-      await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+        await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-      setData(prevData => {
-        const updatedData = prevData.map(psicologo =>
-          psicologo.psicologo_id === psicologo_id
-            ? { ...psicologo, biografia: updatedBiografia }
-            : psicologo
-        );
+        // Atualiza o estado local com a nova biografia
+        setData(prevData => {
+            return prevData.map(psicologo =>
+                psicologo.psicologo_id === psicologo_id
+                    ? { ...psicologo, biografia: updatedBiografia }
+                    : psicologo
+            );
+        });
 
-        console.log("Dados atualizados:", updatedData); 
-        return updatedData;
-      });
+        // Limpa o campo de edição
+        setEditedText(prev => ({
+            ...prev,
+            [psicologo_id]: '' // Limpa o campo de edição após salvar
+        }));
 
-      setEditedText(prev => ({
-        ...prev,
-        [psicologo_id]: ''
-      }));
-
-      alert('Biografia atualizada com sucesso!');
-      handleEditToggle(psicologo_id);
+        // Desabilita o modo de edição
+        setEditableInfo(prev => ({
+            ...prev,
+            [psicologo_id]: false
+        }));
     } catch (error) {
-      console.error("Erro ao salvar as edições:", error);
-
-      if (error.response) {
-        alert(`Erro: ${error.response.data.error}`);
-      } else {
-        alert('Erro ao salvar as informações. Tente novamente.');
-      }
+        console.error('Erro ao salvar a biografia:', error);
+        alert('Ocorreu um erro ao salvar a biografia. Tente novamente.');
     }
-  };
+};
 
   useEffect(() => {
     axios.get('http://localhost:3001/psicologos')
@@ -352,7 +358,7 @@ function AgendarConsulta() {
           especificidade: Array.isArray(psicologo.especificidade) ? psicologo.especificidade : psicologo.especificidade ? psicologo.especificidade.split(',') : [],
         }));
 
-        console.log("Dados carregados:", updatedData); 
+        console.log("Dados carregados:", updatedData);
         setData(updatedData);
       })
       .catch(error => {
@@ -397,13 +403,13 @@ function AgendarConsulta() {
       setData(prevData =>
         prevData.map(psicologo =>
           psicologo.psicologo_id === psicologo_id
-            ? { ...psicologo, especificidade: psicologoData.especificidade.split(', ').map(s => s.trim()) } 
+            ? { ...psicologo, especificidade: psicologoData.especificidade.split(', ').map(s => s.trim()) }
             : psicologo
         )
       );
 
       alert('Especialidades atualizadas com sucesso!');
-      handleSpecialtyEditToggle(psicologo_id); 
+      handleSpecialtyEditToggle(psicologo_id);
     } catch (error) {
       console.error("Erro ao salvar as edições:", error);
       alert('Erro ao salvar as informações. Tente novamente.');
@@ -513,31 +519,29 @@ function AgendarConsulta() {
                                 psicologo.psicologo_id >= 8 ? (
                                   // Para IDs 8 ou superiores
                                   <>
-                                    {editableInfo[psicologo.psicologo_id] ? (
-                                      <>
-                                        <textarea
-                                          className='textareaSobreMim'
-                                          value={editedText[psicologo.psicologo_id] || psicologo.biografia}
-                                          onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)}
-                                        ></textarea>
-                                        <button className='salvarEdicoes' onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                          <p style={{ marginRight: '10px' }}>
-                                            {psicologo.biografia && psicologo.biografia.trim() !== ''
-                                              ? psicologo.biografia
-                                              : 'Adicionar biografia'}
-                                          </p>
-                                          {perfil.tipo_usuario === "psicologo" && (
-                                            <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
-                                              <Pencil />
-                                            </button>
-                                          )}
-                                        </div>
-                                      </>
-                                    )}
+                            {editableInfo[psicologo.psicologo_id] ? (
+    <>
+        <textarea
+            className='textareaSobreMim'
+            value={editedText[psicologo.psicologo_id] || ''} // Usa o valor editado ou vazio
+            onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)} // Atualiza o estado ao digitar
+        ></textarea>
+        <button className='salvarEdicoes' onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
+    </>
+) : (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+        <p style={{ marginRight: '10px' }}>
+            {psicologo.biografia && psicologo.biografia.trim() !== ''
+                ? psicologo.biografia
+                : 'Adicionar biografia'}
+        </p>
+        {perfil.tipo_usuario === "psicologo" && (
+            <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
+                <Pencil />
+            </button>
+        )}
+    </div>
+)}
                                   </>
                                 ) : (
                                   // para IDs de 1 a 7
