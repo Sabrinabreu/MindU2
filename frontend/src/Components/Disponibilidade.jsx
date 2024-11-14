@@ -22,7 +22,7 @@ const Disponibilidade = () => {
     const [updatedDays, setUpdatedDays] = useState({});
     const [psicologoId, setPsicologoId] = useState(null);
 
-    const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+    const daysOfWeek = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
     // Função para selecionar a data
     const handleDateSelect = (date) => {

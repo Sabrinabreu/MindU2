@@ -130,7 +130,7 @@
 
 .sessao {
     width: 300px;
-    margin-right: 15px;
+    margin-right: 14px;
 }
 
 
@@ -595,7 +595,7 @@
     .sessao,
     .valor {
         width: 100%;
-        margin-left: 0;
+        margin-left: -5%;
     }
 
     .cardAgenda {
