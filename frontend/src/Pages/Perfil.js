@@ -47,7 +47,7 @@ function Perfil() {
                 buscarNomeEmpresa(decodedToken.perfil.empresa_id);
             }
         }
-    }, [token]); 
+    }, [token]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -136,7 +136,7 @@ function Perfil() {
         e.preventDefault();
 
         if (!validateForm()) return;
-        
+
         setErrorMessage('');
         const updatedPerfil = {
             ...perfil,
@@ -329,7 +329,7 @@ function Perfil() {
                 </div>
             )}
             <Container className='mt-4'>
-            {showAlert && (
+                {showAlert && (
                     <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
                         <Alert.Heading>Atualização de dados cadastrais necessária!</Alert.Heading>
                         <p>
@@ -356,7 +356,7 @@ function Perfil() {
                                         <div className="mt-3">
                                             <h4>{perfil.nome}</h4>
                                             <p>{perfil.login}</p>
-                                         
+
                                         </div>
                                     </div>
 
@@ -455,52 +455,52 @@ function Perfil() {
                                                 />
                                             </Form.Group>
                                             <Form.Group>
-    <Form.Label>CPF</Form.Label>
-    <Form.Control
-        className='mb-2'
-        type="text"
-        name="cpf"
-        value={perfil.cpf} // Exibe o valor formatado no input
-        onChange={(e) => {
-            // Remove caracteres não numéricos para o CPF sem máscara
-            let cpfSemMascara = e.target.value.replace(/\D/g, '');  
-            // Limita o CPF a 11 caracteres
-            if (cpfSemMascara.length > 11) {
-                cpfSemMascara = cpfSemMascara.slice(0, 11); 
-            }
-            // Formata o CPF para exibição
-            let cpfFormatado = cpfSemMascara;
-            if (cpfSemMascara.length > 9) {
-                cpfFormatado = `${cpfSemMascara.slice(0, 3)}.${cpfSemMascara.slice(3, 6)}.${cpfSemMascara.slice(6, 9)}-${cpfSemMascara.slice(9, 11)}`;
-            } else if (cpfSemMascara.length > 6) {
-                cpfFormatado = `${cpfSemMascara.slice(0, 3)}.${cpfSemMascara.slice(3, 6)}.${cpfSemMascara.slice(6, 9)}`;
-            } else if (cpfSemMascara.length > 3) {
-                cpfFormatado = `${cpfSemMascara.slice(0, 3)}.${cpfSemMascara.slice(3, 6)}`;
-            }
-            // Atualiza o estado com CPF sem máscara e formatado
-            setPerfil({ ...perfil, cpf: cpfFormatado, cpfSemMascara }); // Armazene cpfSemMascara se necessário
-        }}
-    />
-</Form.Group>
+                                                <Form.Label>CPF</Form.Label>
+                                                <Form.Control
+                                                    className='mb-2'
+                                                    type="text"
+                                                    name="cpf"
+                                                    value={perfil.cpf} // Exibe o valor formatado no input
+                                                    onChange={(e) => {
+                                                        // Remove caracteres não numéricos para o CPF sem máscara
+                                                        let cpfSemMascara = e.target.value.replace(/\D/g, '');
+                                                        // Limita o CPF a 11 caracteres
+                                                        if (cpfSemMascara.length > 11) {
+                                                            cpfSemMascara = cpfSemMascara.slice(0, 11);
+                                                        }
+                                                        // Formata o CPF para exibição
+                                                        let cpfFormatado = cpfSemMascara;
+                                                        if (cpfSemMascara.length > 9) {
+                                                            cpfFormatado = `${cpfSemMascara.slice(0, 3)}.${cpfSemMascara.slice(3, 6)}.${cpfSemMascara.slice(6, 9)}-${cpfSemMascara.slice(9, 11)}`;
+                                                        } else if (cpfSemMascara.length > 6) {
+                                                            cpfFormatado = `${cpfSemMascara.slice(0, 3)}.${cpfSemMascara.slice(3, 6)}.${cpfSemMascara.slice(6, 9)}`;
+                                                        } else if (cpfSemMascara.length > 3) {
+                                                            cpfFormatado = `${cpfSemMascara.slice(0, 3)}.${cpfSemMascara.slice(3, 6)}`;
+                                                        }
+                                                        // Atualiza o estado com CPF sem máscara e formatado
+                                                        setPerfil({ ...perfil, cpf: cpfFormatado, cpfSemMascara }); // Armazene cpfSemMascara se necessário
+                                                    }}
+                                                />
+                                            </Form.Group>
                                             <Form.Group>
-                                            <Form.Label>Telefone</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="telefone"
-                                                value={perfil.telefone}
-                                                onChange={(e) => {
-                                                    let input = e.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+                                                <Form.Label>Telefone</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    name="telefone"
+                                                    value={perfil.telefone}
+                                                    onChange={(e) => {
+                                                        let input = e.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
 
-                                                    if (input.length > 6) {
-                                                        input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}-${input.slice(7, 11)}`;
-                                                    } else if (input.length > 2) {
-                                                        input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}`;
-                                                    }
+                                                        if (input.length > 6) {
+                                                            input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}-${input.slice(7, 11)}`;
+                                                        } else if (input.length > 2) {
+                                                            input = `(${input.slice(0, 2)}) ${input.slice(2, 7)}`;
+                                                        }
 
-                                                    setPerfil({ ...perfil, telefone: input });
-                                                }}
-                                            />
-                                        </Form.Group>
+                                                        setPerfil({ ...perfil, telefone: input });
+                                                    }}
+                                                />
+                                            </Form.Group>
                                             {/* informações exclusivas de funcionario */}
                                             {tipoUsuario === 'funcionario' && (
                                                 <>

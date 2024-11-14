@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "../css/AgendarConsulta.css";
 import "../css/Disponibilidade.css";
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
-import DatePicker from './DispCalendario'; // Supondo que você tenha um componente de calendário
+import DatePicker from './DispCalendario';
 import { parseJwt } from '../Components/jwtUtils';
 import axios from 'axios';
 
@@ -24,19 +24,16 @@ const Disponibilidade = () => {
 
     const daysOfWeek = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
-    // Função para selecionar a data
     const handleDateSelect = (date) => {
         setSelectedDate(date);
         console.log('Data selecionada:', date);
     };
 
-    // Função para buscar os agendamentos do psicólogo
     const fetchAgendamentos = async () => {
         try {
             const response = await axios.get('http://localhost:3001/api/agendamentos');
             console.log('Eventos recebidos:', response.data);
 
-            // Filtra os eventos com base no psicologo_id
             const filteredEvents = response.data.filter(event => event.psicologo_id === psicologoId);
 
             setEvents(filteredEvents);
@@ -46,17 +43,15 @@ const Disponibilidade = () => {
         }
     };
 
-    // Filtra os eventos com base na data selecionada
     const getEventsForSelectedDate = () => {
         if (!selectedDate) return [];
-        const selectedDateString = selectedDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+        const selectedDateString = selectedDate.toISOString().split('T')[0];
         return events.filter(event => {
-            const eventDate = new Date(event.data).toISOString().split('T')[0]; // Formato YYYY-MM-DD
+            const eventDate = new Date(event.data).toISOString().split('T')[0]; 
             return eventDate === selectedDateString;
         });
     };
 
-    // Efeito que captura o token de autenticação e extrai o ID do psicólogo
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -75,7 +70,6 @@ const Disponibilidade = () => {
         }
     }, []);
 
-    // Efeito que busca os agendamentos quando o psicólogo é identificado
     useEffect(() => {
         if (psicologoId) {
             console.log('ID do psicólogo antes de buscar agendamentos:', psicologoId);
@@ -83,7 +77,6 @@ const Disponibilidade = () => {
         }
     }, [psicologoId]);
 
-    // Função para atualizar os horários de trabalho
     const handleTimeChange = (day, type, value) => {
         setWorkingHours(prevHours => ({
             ...prevHours,
@@ -94,7 +87,6 @@ const Disponibilidade = () => {
         }));
     };
 
-    // Função para alternar os dias da semana
     const handleDayChange = (day) => {
         setSelectedDays(prev => ({
             ...prev,
@@ -102,7 +94,6 @@ const Disponibilidade = () => {
         }));
     };
 
-    // Função que lida com a atualização da disponibilidade
     const handleUpdate = () => {
         if (!psicologoId) {
             alert('ID do psicólogo não encontrado.');
@@ -141,7 +132,6 @@ const Disponibilidade = () => {
 
         console.log('Dados a serem enviados:', dataDisponibilidade);
 
-        // Envia os dados para o servidor
         fetch('http://localhost:3001/api/disponibilidade/psicologo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -213,7 +203,7 @@ const Disponibilidade = () => {
                     <h1 className='mb-4 text-center textroxo'>Calendário</h1>
                     <DatePicker
                         onDateSelect={handleDateSelect}
-                        events={events} // Passando os eventos para o calendário
+                        events={events} 
                     />
                 </Col>
                 <Col md={6}>
@@ -224,7 +214,7 @@ const Disponibilidade = () => {
                                 getEventsForSelectedDate().map((event, index) => (
                                     <Card className="evento-card" key={index} style={{ width: '100%', borderRadius: '10px', border: '1px solid #ddd' }}>
                                         <Card.Body>
-                                            <Card.Title className="evento-title">Paciente: {event.nome_paciente}</Card.Title> {/* Aqui está o nome do paciente */}
+                                            <Card.Title className="evento-title">Paciente: {event.nome_paciente}</Card.Title> 
                                             <Card.Text className="evento-details">
                                                 <strong>Horário:</strong> {event.horario_inicio}
                                             </Card.Text>

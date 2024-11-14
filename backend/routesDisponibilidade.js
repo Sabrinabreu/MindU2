@@ -12,16 +12,16 @@ router.get('/disponibilidades/:psicologo_id', async (req, res) => {
             [psicologoId]
         );
 
-        console.log('Disponibilidades encontradas:', disponibilidades); // Verifique o que está sendo retornado
+        console.log('Disponibilidades encontradas:', disponibilidades); 
 
         const formattedDisponibilidades = disponibilidades.map(item => {
             let horarioFormatado = 'Hora não disponível';
             if (item.horario_inicio) {
-                horarioFormatado = item.horario_inicio.substring(0, 5); // Formata o horário
+                horarioFormatado = item.horario_inicio.substring(0, 5); 
             }
 
             return {
-                data: item.data.toISOString().split('T')[0], // Formata a data no formato YYYY-MM-DD
+                data: item.data.toISOString().split('T')[0], 
                 horario_inicio: horarioFormatado
             };
         });
@@ -43,13 +43,11 @@ router.post('/disponibilidade/psicologo', (req, res) => {
 
     console.log('Dados recebidos para inserção:', dataDisponibilidade);
 
-    // Verifique se os dados necessários foram enviados
     if (!Array.isArray(dataDisponibilidade) || dataDisponibilidade.length === 0) {
         console.log('Dados inválidos:', dataDisponibilidade);
         return res.status(400).json({ error: 'Dados incompletos ou inválidos' });
     }
 
-    // Cria uma query para inserir múltiplos registros
     const query = 'INSERT INTO disponibilidadepsico (psicologo_id, data, horario_inicio, horario_fim) VALUES ?';
     const values = dataDisponibilidade.map(item => [item.psicologo_id, item.data, item.horario_inicio, item.horario_fim]);
 

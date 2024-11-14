@@ -57,13 +57,13 @@ function AgendarConsulta() {
       }));
     }
   };
-  
+
   const handleTextChange = (psicologo_id, value) => {
     setEditedText(prev => ({
-        ...prev,
-        [psicologo_id]: value // Atualiza o estado com o valor do textarea
+      ...prev,
+      [psicologo_id]: value // Atualiza o estado com o valor do textarea
     }));
-};
+  };
 
   useEffect(() => {
     axios.get('http://localhost:3001/psicologos')
@@ -285,23 +285,23 @@ function AgendarConsulta() {
 
   const filteredCards = data.filter(psicologo => {
     const term = searchTerm.toLowerCase();
-  
-    const isMatchingProfession = selectedProfession === '' || 
+
+    const isMatchingProfession = selectedProfession === '' ||
       (psicologo.especialidade && psicologo.especialidade.toLowerCase().includes(selectedProfession.toLowerCase()));
-  
-    const isMatchingSearchTerm = filterType === 'nome' 
-      ? (psicologo.nome && psicologo.nome.toLowerCase().includes(term)) 
-      : filterType === 'local' 
-        ? (psicologo.localizacao && psicologo.localizacao.toLowerCase().includes(term)) 
-        : true; 
-  
+
+    const isMatchingSearchTerm = filterType === 'nome'
+      ? (psicologo.nome && psicologo.nome.toLowerCase().includes(term))
+      : filterType === 'local'
+        ? (psicologo.localizacao && psicologo.localizacao.toLowerCase().includes(term))
+        : true;
+
     const isVisible = isMatchingProfession && isMatchingSearchTerm;
-  
-    console.log(`Psicólogo: ${psicologo.nome}, Visível: ${isVisible}`); 
-    
+
+    console.log(`Psicólogo: ${psicologo.nome}, Visível: ${isVisible}`);
+
     return isVisible;
   });
-  
+
   console.log("Filtered Cards: ", filteredCards);
 
   useEffect(() => {
@@ -315,51 +315,50 @@ function AgendarConsulta() {
   }, [searchTerm]);
 
   //EDICAO
-
   const handleSaveEdit = async (psicologo_id) => {
     const updatedBiografia = editedText[psicologo_id];
 
     if (!updatedBiografia || updatedBiografia.trim() === '') {
-        alert('Por favor, preencha as informações antes de salvar.');
-        return;
+      alert('Por favor, preencha as informações antes de salvar.');
+      return;
     }
 
     const psicologoData = {
-        biografia: updatedBiografia,
+      biografia: updatedBiografia,
     };
 
     try {
-        await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+      await axios.put(`http://localhost:3001/api/biografia/${psicologo_id}`, psicologoData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
-        // Atualiza o estado local com a nova biografia
-        setData(prevData => {
-            return prevData.map(psicologo =>
-                psicologo.psicologo_id === psicologo_id
-                    ? { ...psicologo, biografia: updatedBiografia }
-                    : psicologo
-            );
-        });
+      // Atualiza o estado local com a nova biografia
+      setData(prevData => {
+        return prevData.map(psicologo =>
+          psicologo.psicologo_id === psicologo_id
+            ? { ...psicologo, biografia: updatedBiografia }
+            : psicologo
+        );
+      });
 
-        // Limpa o campo de edição
-        setEditedText(prev => ({
-            ...prev,
-            [psicologo_id]: '' // Limpa o campo de edição após salvar
-        }));
+      // Limpa o campo de edição
+      setEditedText(prev => ({
+        ...prev,
+        [psicologo_id]: ''
+      }));
 
-        // Desabilita o modo de edição
-        setEditableInfo(prev => ({
-            ...prev,
-            [psicologo_id]: false
-        }));
+      // Desabilita o modo de edição
+      setEditableInfo(prev => ({
+        ...prev,
+        [psicologo_id]: false
+      }));
     } catch (error) {
-        console.error('Erro ao salvar a biografia:', error);
-        alert('Ocorreu um erro ao salvar a biografia. Tente novamente.');
+      console.error('Erro ao salvar a biografia:', error);
+      alert('Ocorreu um erro ao salvar a biografia. Tente novamente.');
     }
-};
+  };
 
   useEffect(() => {
     axios.get('http://localhost:3001/psicologos')
@@ -530,29 +529,29 @@ function AgendarConsulta() {
                                 psicologo.psicologo_id >= 8 ? (
                                   // Para IDs 8 ou superiores
                                   <>
-                            {editableInfo[psicologo.psicologo_id] ? (
-    <>
-        <textarea
-            className='textareaSobreMim'
-            value={editedText[psicologo.psicologo_id] || ''} // Usa o valor editado ou vazio
-            onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)} // Atualiza o estado ao digitar
-        ></textarea>
-        <button className='salvarEdicoes' onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
-    </>
-) : (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-        <p style={{ marginRight: '10px' }}>
-            {psicologo.biografia && psicologo.biografia.trim() !== ''
-                ? psicologo.biografia
-                : 'Adicionar biografia'}
-        </p>
-        {perfil.tipo_usuario === "psicologo" && (
-            <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
-                <Pencil />
-            </button>
-        )}
-    </div>
-)}
+                                    {editableInfo[psicologo.psicologo_id] ? (
+                                      <>
+                                        <textarea
+                                          className='textareaSobreMim'
+                                          value={editedText[psicologo.psicologo_id] || ''} // Usa o valor editado ou vazio
+                                          onChange={(e) => handleTextChange(psicologo.psicologo_id, e.target.value)} // Atualiza o estado ao digitar
+                                        ></textarea>
+                                        <button className='salvarEdicoes' onClick={() => handleSaveEdit(psicologo.psicologo_id)}>Salvar</button>
+                                      </>
+                                    ) : (
+                                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <p style={{ marginRight: '10px' }}>
+                                          {psicologo.biografia && psicologo.biografia.trim() !== ''
+                                            ? psicologo.biografia
+                                            : 'Adicionar biografia'}
+                                        </p>
+                                        {perfil.tipo_usuario === "psicologo" && (
+                                          <button className='editarTabs' onClick={() => handleEditToggle(psicologo.psicologo_id)}>
+                                            <Pencil />
+                                          </button>
+                                        )}
+                                      </div>
+                                    )}
                                   </>
                                 ) : (
                                   // para IDs de 1 a 7

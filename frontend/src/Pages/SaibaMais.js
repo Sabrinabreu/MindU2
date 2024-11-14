@@ -20,7 +20,6 @@ const Agendar = () => {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
 
-    // Estados para armazenar os dados do psicólogo
     const [nomePsico, setNomePsico] = useState('');
     const [telefone, setTelefone] = useState('');
     const [email, setEmail] = useState('');
@@ -37,7 +36,6 @@ const Agendar = () => {
         }
     }, [psicologo_id]);
 
-    // Função para buscar os dados do psicólogo
     const fetchPsicologoData = async (psicologo_id) => {
         try {
             const token = localStorage.getItem('token');
@@ -68,7 +66,6 @@ const Agendar = () => {
         }
     };
 
-    // Função para buscar as disponibilidades do psicólogo
     const fetchDisponibilidades = async (psicologo_id) => {
         try {
             const token = localStorage.getItem('token');
@@ -126,7 +123,6 @@ const Agendar = () => {
         const token = localStorage.getItem('token');
         const decodedToken = parseJwt(token);
 
-        // Verifica se o token e o usuario_id estão presentes
         if (!decodedToken || !decodedToken.id) {
             alert('Usuário não autenticado');
             return;
@@ -139,7 +135,7 @@ const Agendar = () => {
             horario_inicio: selectedTime,
             tipo: selectedTipo,
             assunto,
-            nome_paciente: nomePaciente // Usando o nome do paciente do campo
+            nome_paciente: nomePaciente 
         };
 
         try {
