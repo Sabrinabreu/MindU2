@@ -8,8 +8,6 @@ import axios from 'axios';
 import padraoPerfil from '../img/padraoPerfil.png';
 import { parseJwt } from '../Components/jwtUtils';
 
-
-
 const Agendar = () => {
     const { psicologo_id } = useParams();
     console.log("Psicólogo ID:", psicologo_id);
@@ -22,9 +20,6 @@ const Agendar = () => {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
 
-    const [nomePaciente, setNomePaciente] = useState('');
-
-
     // Estados para armazenar os dados do psicólogo
     const [nomePsico, setNomePsico] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -33,14 +28,12 @@ const Agendar = () => {
     const [localizacao, setLocalizacao] = useState('');
     const [especialidade, setEspecialidade] = useState('');
     const [biografia, setBiografia] = useState('');
-
-
+    const [nomePaciente, setNomePaciente] = useState('');
 
     useEffect(() => {
         if (psicologo_id) {
             fetchPsicologoData(psicologo_id);
             fetchDisponibilidades(psicologo_id);
-            // fetchPsicologoFoto(psicologo_id);
         }
     }, [psicologo_id]);
 
@@ -56,8 +49,6 @@ const Agendar = () => {
                 }
             });
             console.log("Resposta da API:", response.data);
-            console.log("jdasdkkasdnk: ", response.data.foto_perfil)
-
 
             if (response.data) {
                 setNomePsico(response.data.nome);
@@ -127,40 +118,38 @@ const Agendar = () => {
     const handleAssuntoChange = (e) => setAssunto(e.target.value);
 
     const handleSave = async () => {
-        if (!selectedDate || !selectedTime || !selectedTipo || !assunto) {
+        if (!selectedDate || !selectedTime || !selectedTipo || !assunto || !nomePaciente) {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-    
+
         const token = localStorage.getItem('token');
         const decodedToken = parseJwt(token);
-    
+
         // Verifica se o token e o usuario_id estão presentes
         if (!decodedToken || !decodedToken.id) {
             alert('Usuário não autenticado');
             return;
         }
-    
-        // Objeto de dados do agendamento
+
         const agendamentoData = {
-            usuario_id: decodedToken.id,  // Adiciona o usuario_id
-            psicologo_id,                 // Usando o psicólogo id da URL
-            data: selectedDate.toISOString().split('T')[0],  // Converte para data no formato YYYY-MM-DD
+            usuario_id: decodedToken.id,
+            psicologo_id,
+            data: selectedDate.toISOString().split('T')[0],
             horario_inicio: selectedTime,
             tipo: selectedTipo,
             assunto,
-            nome_paciente: 'Caroll'  // Adiciona o nome do paciente aqui
+            nome_paciente: nomePaciente // Usando o nome do paciente do campo
         };
-    
+
         try {
-            // Faz a requisição para salvar o agendamento
             const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             });
-            alert(response.data.message);  // Exibe a mensagem de sucesso
-            handleClose();  // Fecha o modal
+            alert(response.data.message);
+            handleClose();
         } catch (error) {
             console.error('Erro ao agendar consulta:', error);
             if (error.response) {
@@ -170,8 +159,7 @@ const Agendar = () => {
             }
         }
     };
-    
-    
+
     return (
         <Container className='p-4'>
             <Row>
@@ -207,58 +195,56 @@ const Agendar = () => {
                                 <Modal.Title className='agendando'>Agendar Consulta</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-    {selectedDate ? (
-        <>
-            <b className='dataSelecionada'>Data selecionada:</b>
-            {selectedDate.toLocaleDateString()}
-            <p className='tipoConsulta mb-1'>Tipo de consulta:</p>
-            <button className={`botTipo ${selectedTipo === 'Online' ? 'active' : ''}`} onClick={() => handleTipoClick('Online')}>Online</button>
-            <button className={`botTipo ${selectedTipo === 'Presencial' ? 'active' : ''}`} onClick={() => handleTipoClick('Presencial')}>Presencial</button>
-            
-            {/* Novo campo para nome do paciente */}
-            <Form>
-            <Form.Group className="mb-3">
-    <Form.Label>Nome do Paciente:</Form.Label>
-    <Form.Control 
-        type="text" 
-        value={nomePaciente}  // Certifique-se de que está usando nomePaciente
-        onChange={(e) => setNomePaciente(e.target.value)} 
-        required 
-    />
-</Form.Group>
+                                {selectedDate ? (
+                                    <>
+                                        <b className='dataSelecionada'>Data selecionada:</b>
+                                        {selectedDate.toLocaleDateString()}
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Como gostaria de ser chamado durante a consulta:</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                value={nomePaciente}
+                                                onChange={(e) => setNomePaciente(e.target.value)}
+                                                required
+                                            />
+                                        </Form.Group>
+                                        <p className='tipoConsulta mb-1'>Tipo de consulta:</p>
+                                        <button className={`botTipo ${selectedTipo === 'Online' ? 'active' : ''}`} onClick={() => handleTipoClick('Online')}>Online</button>
+                                        <button className={`botTipo ${selectedTipo === 'Presencial' ? 'active' : ''}`} onClick={() => handleTipoClick('Presencial')}>Presencial</button>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
-                    <Form.Control 
-                        as="textarea" 
-                        rows={3} 
-                        value={assunto} 
-                        onChange={handleAssuntoChange} 
-                    />
-                </Form.Group>
-            </Form>
+                                        <Form>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Assuntos que deseja tratar durante a sessão:</Form.Label>
+                                                <Form.Control
+                                                    as="textarea"
+                                                    rows={3}
+                                                    value={assunto}
+                                                    onChange={handleAssuntoChange}
+                                                />
+                                            </Form.Group>
+                                        </Form>
 
-            <h6>Horários disponíveis:</h6>
-            {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).length > 0 ? (
-                <ul>
-                    {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario_inicio }) => (
-                        <button
-                            key={horario_inicio}
-                            className={`horarioBotao ${selectedTime === horario_inicio ? 'active' : ''}`}
-                            onClick={() => handleTimeClick(horario_inicio)}
-                        >
-                            {horario_inicio}
-                        </button>
-                    ))}
-                </ul>
-            ) : (
-                <p>Sem horários disponíveis.</p>
-            )}
-        </>
-    ) : (
-        <p>Selecione uma data primeiro.</p>
-    )}
-</Modal.Body>
+                                        <h6>Horários disponíveis:</h6>
+                                        {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).length > 0 ? (
+                                            <ul>
+                                                {availableTimes.filter(({ data }) => new Date(data).toDateString() === selectedDate.toDateString()).map(({ data, horario_inicio }) => (
+                                                    <button
+                                                        key={horario_inicio}
+                                                        className={`horarioBotao ${selectedTime === horario_inicio ? 'active' : ''}`}
+                                                        onClick={() => handleTimeClick(horario_inicio)}
+                                                    >
+                                                        {horario_inicio}
+                                                    </button>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p>Sem horários disponíveis.</p>
+                                        )}
+                                    </>
+                                ) : (
+                                    <p>Selecione uma data primeiro.</p>
+                                )}
+                            </Modal.Body>
 
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={handleClose}>Fechar</Button>
