@@ -1,6 +1,8 @@
 const express = require('express');
 const connection = require('./db');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 // Rota para verificar se o email existe em uma das 3 tabelas
 router.post('/verificar-email', async (req, res) => {
@@ -51,25 +53,26 @@ router.post('/verificar-resposta', async (req, res) => {
   }
 });
 
-
-
-// Rota para redefinir a senha nas tres tabelas
 router.post('/redefinir-senha', async (req, res) => {
   const { email, novaSenha } = req.body;
 
   try {
-    const [resultFunc] = await connection.execute('UPDATE contaFuncionarios SET senha = ? WHERE login = ?', [novaSenha, email]);
+    // Criptografar a nova senha
+    const hashedPassword = await bcrypt.hash(novaSenha, saltRounds);
+
+    const [resultFunc] = await connection.execute('UPDATE contaFuncionarios SET senha = ? WHERE login = ?', [hashedPassword, email]);
     if (resultFunc.affectedRows > 0) {
       return res.json({ success: true });
     }
-    const [resultEmp] = await connection.execute('UPDATE cadastroempresa SET senha = ? WHERE email = ?', [novaSenha, email]);
+    const [resultEmp] = await connection.execute('UPDATE cadastroempresa SET senha = ? WHERE email = ?', [hashedPassword, email]);
     if (resultEmp.affectedRows > 0) {
       return res.json({ success: true });
     }
-    const [resultPsi] = await connection.execute('UPDATE psicologos SET senha = ? WHERE email = ?', [novaSenha, email]);
+    const [resultPsi] = await connection.execute('UPDATE psicologos SET senha = ? WHERE email = ?', [hashedPassword, email]);
     if (resultPsi.affectedRows > 0) {
       return res.json({ success: true });
     }
+
     return res.json({ success: false });
   } catch (error) {
     console.error("Erro ao redefinir senha:", error);
