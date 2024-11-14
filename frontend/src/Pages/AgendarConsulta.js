@@ -286,24 +286,20 @@ function AgendarConsulta() {
   const filteredCards = data.filter(psicologo => {
     const term = searchTerm.toLowerCase();
   
-    // Verifica se a profissão selecionada é uma string vazia ou se a profissão do psicólogo corresponde
     const isMatchingProfession = selectedProfession === '' || 
       (psicologo.especialidade && psicologo.especialidade.toLowerCase().includes(selectedProfession.toLowerCase()));
   
-    // Verifica a correspondência do termo de pesquisa
     const isMatchingSearchTerm = filterType === 'nome' 
       ? (psicologo.nome && psicologo.nome.toLowerCase().includes(term)) 
       : filterType === 'local' 
         ? (psicologo.localizacao && psicologo.localizacao.toLowerCase().includes(term)) 
-        : true; // se nenhum filtro específico, não filtra
+        : true; 
   
-    // Define se o psicólogo é visível
     const isVisible = isMatchingProfession && isMatchingSearchTerm;
   
-    // Log para verificar se o psicólogo é visível
     console.log(`Psicólogo: ${psicologo.nome}, Visível: ${isVisible}`); 
     
-    return isVisible; // Retorna o resultado da filtragem
+    return isVisible;
   });
   
   console.log("Filtered Cards: ", filteredCards);
