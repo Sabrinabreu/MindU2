@@ -70,10 +70,18 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice, selected
         }
     };
 
+    const resetSteps = () => {
+        setCompletedSteps([false, false, false]); // Reinicia as fases
+        setActiveTab("home"); // Volta para a primeira aba
+    };    
+
     return (
         <Modal
             show={show}
-            onHide={onHide}
+            onHide={() => {
+                resetSteps();
+                onHide();
+            }}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -105,7 +113,10 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice, selected
                             empresaId={empresaId}
                             planoSelecionado={selectedPlan}
                             setResultados={setResultados}
-                            onHide={onHide}
+                            onHide={() => {
+                                resetSteps(); // Reinicia as fases
+                                onHide(); // Fecha o modal
+                            }}
                             />
                         </Tab>
                     </Tabs>
