@@ -33,15 +33,19 @@ const Disponibilidade = () => {
         try {
             const response = await axios.get('http://localhost:3001/api/agendamentos');
             console.log('Eventos recebidos:', response.data);
-
-            const filteredEvents = response.data.filter(event => event.psicologo_id === psicologoId);
-
+    
+            const filteredEvents = response.data.filter(event => {
+                const eventDate = new Date(event.data);
+                return event.psicologo_id === psicologoId && eventDate >= new Date();
+            });
+    
             setEvents(filteredEvents);
             console.log('Eventos filtrados:', filteredEvents);
         } catch (error) {
             console.error('Erro ao buscar agendamentos:', error);
         }
     };
+    
 
     const getEventsForSelectedDate = () => {
         if (!selectedDate) return [];
