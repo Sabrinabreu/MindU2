@@ -30,6 +30,17 @@ body {
   color: #46467A;
 }
 
+@media (min-width: 1500px) and (orientation: landscape) {
+  .planCard {
+    height: 94vh !important;
+  }
+
+  .addFunc {
+    height: 94vh !important;
+  }
+}
+
+
 @media (max-width: 1024px)  and (orientation: landscape) {
 
   .caixaPlanos {
