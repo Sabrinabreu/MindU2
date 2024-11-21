@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -9,133 +10,140 @@ html, body {
   min-height: 100%;
 }
 
-.site-footer {
-  margin-top: auto;
-}
- 
- /* versao mobile  */
- @media (max-width: 600px) {
-  .site-footer .copyright-text,.site-footer .social-icons
-  {
-    text-align:center
+/* versao mobile  */
+@media (max-width: 600px) {
+
+  .site-footer .copyright-text,
+  .site-footer .social-icons {
+    text-align: center
   }
+
   .logoContainer {
     text-align: center;
   }
+
   .logoFooter {
     width: 100px;
     margin: 8px 0;
   }
+
   .text-justify {
-    font-size:19px;
+    font-size: 19px;
   }
+
   .site-footer {
     padding: 10px !important;
   }
+
   .site-footer h6 {
-    font-size:20px !important;
+    font-size: 20px !important;
     margin-top: 15px;
   }
+
   .certificado {
     display: none;
   }
+
   .footer-links {
-    font-size:19px;
+    font-size: 19px;
   }
- }
+}
 
 .site-footer {
-  background-color:#46467A;
-  padding:45px 0 20px;
-  font-size:15px;
-  line-height:24px;
-  color:#e3e3f7;
+  background-color: #46467A;
+  padding: 45px 0 20px;
+  font-size: 15px;
+  line-height: 24px;
+  color: #e3e3f7;
+  margin-top: auto;
 }
 
-      .site-footer hr
-      {
-        border-top-color:#191944;
-        opacity:0.5
-      }
-      .site-footer h6
-      {
-        color:#fff;
-        font-size:16px;
-        text-transform:uppercase;
-        letter-spacing:2px
-      }
-      .logoFooter {
-        width: 80px;
-        margin: 8px;
-      }
-
-.footer-links
-{
-  padding-left:0;
-  list-style:none
+.site-footer hr {
+  border-top-color: #191944;
+  opacity: 0.5
 }
-      .footer-links a
-      {
-        color:#ffffff;
-        text-decoration: none;
-      }
-      .footer-links a:active,.footer-links a:focus,.footer-links a:hover
-      {
-        color:#316fea;
-        text-decoration:none;
-      }
 
-
-.social-icons
-{
-  text-align:right
+.site-footer h6 {
+  color: #fff;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px
 }
-      ul.social-icons {
-        margin: 0;
-        padding: 0;
-      }
-      .social-icons li
-      {
-        display:inline-block;
-        margin-bottom:4px
-      }
-      /* icone */
-      .social-icons a{
-        font-size:16px;
-        display:inline-block;
-        text-align:center;
-        transition:all .2s linear
-      }
-       /* bolinha em volta do icone */
-      .site-footer .social-icons a
-      {
-        width:40px;
-        height:40px;
-        line-height:40px;
-        margin-left:6px;
-        margin-right:0;
-        border-radius:100%;
-        background-color:#32325f
-      }
-      .social-icons a.facebook:hover
-      {
-        background-color:#3b5998
-      }
-      .social-icons a.twitter:hover
-      {
-        background-color:#00aced
-      }
-      .social-icons a.linkedin:hover
-      {
-        background-color:#007bb6
-      }
-      .social-icons a.instagram:hover
-      {
-        background-color:#ea4c89
-      }
+
+.logoFooter {
+  width: 80px;
+  margin: 8px;
+}
+
+.footer-links {
+  padding-left: 0;
+  list-style: none
+}
+
+.footer-links a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-links a:active,
+.footer-links a:focus,
+.footer-links a:hover {
+  color: #316fea;
+  text-decoration: none;
+}
+
+
+.social-icons {
+  text-align: right
+}
+
+ul.social-icons {
+  margin: 0;
+  padding: 0;
+}
+
+.social-icons li {
+  display: inline-block;
+  margin-bottom: 4px
+}
+
+/* icone */
+.social-icons a {
+  font-size: 16px;
+  display: inline-block;
+  text-align: center;
+  transition: all .2s linear
+}
+
+/* bolinha em volta do icone */
+.site-footer .social-icons a {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin-left: 6px;
+  margin-right: 0;
+  border-radius: 100%;
+  background-color: #32325f
+}
+
+.social-icons a.facebook:hover {
+  background-color: #3b5998
+}
+
+.social-icons a.twitter:hover {
+  background-color: #00aced
+}
+
+.social-icons a.linkedin:hover {
+  background-color: #007bb6
+}
+
+.social-icons a.instagram:hover {
+  background-color: #ea4c89
+}
 
 
 /* acessibilidade */
-    button:focus {
-      outline: 2px solid blue;
-    }
+button:focus {
+  outline: 2px solid blue;
+}
