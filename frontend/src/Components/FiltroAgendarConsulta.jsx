@@ -1,7 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler); 
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+};
+
 const FiltroBusca = ({ filterType, setFilterType, selectedProfession, setSelectedProfession, professionOptions, searchTerm, setSearchTerm }) => {
+    const [isTyping, setIsTyping] = useState(false); 
+    const [animationDone, setAnimationDone] = useState(false); //
+    const [isSearching, setIsSearching] = useState(false);
+
+    const debouncedSearchTerm = useDebounce(searchTerm, 500); // Atraso de 500ms
+
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        setIsTyping(value.length > 0); // Se estiver digitando, ativa a animação
+        setIsSearching(value.length > 0); // Indica que está buscando
+    };
+
+    // Efeito para controlar o tempo da animação
+    useEffect(() => {
+        if (isTyping) {
+            setAnimationDone(false); 
+            setTimeout(() => {
+                setAnimationDone(true); 
+            }, 1000); 
+        } else {
+            setIsSearching(false); 
+        }
+    }, [isTyping]);
+
+    useEffect(() => {
+        // Quando o campo de pesquisa estiver vazio ou o usuário parar de digitar
+        if (debouncedSearchTerm === "") {
+            setIsTyping(false); 
+            setIsSearching(false); 
+        }
+    }, [debouncedSearchTerm]);
+
     return (
         <div className='fundoFiltro'>
             <div className="d-flex mb-4 containerfiltro">
@@ -22,7 +71,7 @@ const FiltroBusca = ({ filterType, setFilterType, selectedProfession, setSelecte
                         as="select"
                         value={selectedProfession}
                         onChange={(e) => {
-                            console.log("Selected Profession: ", e.target.value); // Log do valor selecionado
+                            console.log("Selected Profession: ", e.target.value); 
                             setSelectedProfession(e.target.value);
                         }}
                         className="buscaPor mr-2"
@@ -39,13 +88,13 @@ const FiltroBusca = ({ filterType, setFilterType, selectedProfession, setSelecte
                         type="text"
                         placeholder={`Buscar por ${filterType || '...'}`}
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onChange={handleSearchChange}
                         className="buscaPor mr-2"
                     />
                 )}
 
-                <Button className="searchA">
-                    Buscar
+                <Button className={`searchA ${isTyping ? 'typing' : ''}`}>
+                    {isSearching && !animationDone ? <span>...</span> : 'Buscar'} {/* Exibe '...' durante a animação, depois volta para 'Buscar' */}
                 </Button>
             </div>
         </div>
