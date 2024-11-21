@@ -1,3 +1,18 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.site-footer {
+  margin-top: auto;
+}
+ 
  /* versao mobile  */
  @media (max-width: 600px) {
   .site-footer .copyright-text,.site-footer .social-icons
@@ -29,15 +44,14 @@
   }
  }
 
-
-.site-footer
-{
+.site-footer {
   background-color:#46467A;
   padding:45px 0 20px;
   font-size:15px;
   line-height:24px;
   color:#e3e3f7;
 }
+
       .site-footer hr
       {
         border-top-color:#191944;

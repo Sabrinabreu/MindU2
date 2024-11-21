@@ -1,6 +1,6 @@
-# Sistema de Cadastro de Usuários
+# Sistema MindU
 
-Este é um sistema de cadastro de usuários desenvolvido em React no frontend e Node.js no backend, utilizando MySQL como banco de dados.
+Este é um sistema da empresa MindU desenvolvido em React no frontend e Node.js no backend, utilizando MySQL como banco de dados.
 
 ## Funcionalidades
 
@@ -18,7 +18,7 @@ Antes de iniciar, você precisa ter o Node.js e o MySQL instalados na sua máqui
 1. Clone este repositório:
 
    ```bash
-   git clone https://github.com/willreis/sistemaCadastro.git
+   git clone https://github.com/Sabrinabreu/MindU2.git
 
    ```
 

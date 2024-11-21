@@ -22,7 +22,7 @@ function gerarNovoToken(usuario, tipoUsuario) {
     console.log("payload :", payload)
 
     // Gera um novo token com as informações atualizadas
-    return jwt.sign(payload, 'sua_chave_secreta', { expiresIn: '1h' });
+    return jwt.sign(payload, 'sua_chave_secreta', { expiresIn: '24h' });
 }
 
 
