@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import '../css/ContasFuncionarios.css';
 
-const CriarContasFuncionarios = ({ nContas, setResultados, planoSelecionado, empresaId }) => {
+const CriarContasFuncionarios = ({ nContas, setResultados, planoSelecionado, empresaId, onHide }) => {
     const handleSubmit = async () => {
         try {
             const contasCriadas = [];
@@ -15,6 +15,7 @@ const CriarContasFuncionarios = ({ nContas, setResultados, planoSelecionado, emp
             }
             alert('Contas criadas com sucesso!');
             setResultados(contasCriadas);
+            onHide();
         } catch (error) {
             console.error('Erro ao criar contas:', error);
             alert('Erro ao criar contas. Verifique o console para mais detalhes.');

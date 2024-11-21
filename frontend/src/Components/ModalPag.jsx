@@ -105,6 +105,7 @@ const MyVerticallyCenteredModal = ({ show, onHide, planName, planPrice, selected
                             empresaId={empresaId}
                             planoSelecionado={selectedPlan}
                             setResultados={setResultados}
+                            onHide={onHide}
                             />
                         </Tab>
                     </Tabs>

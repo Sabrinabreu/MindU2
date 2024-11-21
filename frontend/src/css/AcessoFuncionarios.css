@@ -33,7 +33,6 @@
     justify-content: center;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
-    margin-right: 40px;
 }
 
 [data-theme="dark"] .btnprint {
@@ -61,13 +60,10 @@
 
 
 .divprint {
-    margin-top: 6.5px !important;
-    justify-content: center !important;
+    margin-bottom: 6.5px !important;
+    justify-content: end !important;
     align-items: center !important;
     display: flex !important;
-    position: absolute !important;
-    z-index: 99 !important;
-    right: 7% !important;
 }
 
 .tablefuncionarios {
@@ -83,18 +79,6 @@
 .rdt_Pagination {
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
-}
-
-@media (width: 820px) {
-    .divprint {
-        margin-top: 8px !important;
-        justify-content: center !important;
-        align-items: center !important;
-        display: flex !important;
-        position: absolute !important;
-        z-index: 99 !important;
-        right: 8.5% !important;
-    }
 }
 
 @media (min-width: 310px) and (max-width: 640px) {
