@@ -49,11 +49,14 @@ function Avaliacoes() {
     // Função para detectar teclas de seta e acionar os botões de navegação
     document.addEventListener('keydown', function (event) {
         if (event.key === 'ArrowLeft') {
-            document.querySelector('.slick-prev').click();
+            const prevButton = document.querySelector('.slick-prev');
+            if (prevButton) prevButton.click(); // Verifica se o botão existe
         } else if (event.key === 'ArrowRight') {
-            document.querySelector('.slick-next').click();
+            const nextButton = document.querySelector('.slick-next');
+            if (nextButton) nextButton.click(); // Verifica se o botão existe
         }
     });
+    
     return (
         <>
             <h1 className='text-center Avaliacao-TXT'>O que os colaboradores falam de nós: </h1>

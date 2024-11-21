@@ -13,13 +13,18 @@ function gerarNovoToken(usuario, tipoUsuario) {
     const payload = {
         id: usuario.id,
         tipo_usuario: tipoUsuario,
-        id_referencia: usuario.id_referencia,
+        id_referencia: tipoUsuario === 'empresa' ? usuario.ID : (tipoUsuario === 'psicologo' ? usuario.psicologo_id : usuario.id),
+        // id_referencia: usuario.id_referencia,
         perfil: { ...usuario }
     };
 
+    console.log("id_referencia: ", usuario.id_referencia)
+    console.log("payload :", payload)
+
     // Gera um novo token com as informações atualizadas
-    return jwt.sign(payload, 'chave_secreta', { expiresIn: '1h' });
+    return jwt.sign(payload, 'sua_chave_secreta', { expiresIn: '1h' });
 }
+
 
 // Configuração do multer para upload de arquivos
 const storage = multer.diskStorage({

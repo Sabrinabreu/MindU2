@@ -18,12 +18,14 @@ const verifyToken = (req, res, next) => {
     return res.status(403).send('Token não fornecido.');
   }
 
+  console.log("Token recebido:", token); // Log do token recebido
+
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(500).send('Falha ao autenticar token.');
     }
 
-    req.empresaId = decoded.id_referencia;  // Seta o empresa id no req
+    req.empresaId = decoded.id_referencia;
     if (!req.empresaId) {
       return res.status(403).send('Empresa não identificada no token.');
     }
