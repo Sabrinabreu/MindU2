@@ -46,8 +46,6 @@ const Agendar = () => {
         }
     }, [psicologo_id]);
 
-
-
     const fetchPsicologoData = async (psicologo_id) => {
         try {
             const token = localStorage.getItem('token');
@@ -162,7 +160,7 @@ const Agendar = () => {
 
             setTimeout(() => {
                 setShowConfirmationModal(true);
-            }, 100);  // Espera um pequeno intervalo de tempo antes de abrir o modal
+            }, 100);  // intervalo de tempo antes de abrir o modal
         } catch (error) {
             console.error('Erro ao agendar consulta:', error);
             if (error.response) {
