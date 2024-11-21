@@ -148,6 +148,8 @@
     color: black;
     transition: background 0.3s, transform 0.3s;
     text-align: center;
+    --bs-btn-active-bg: #dc7e97;
+    --bs-btn-active-border-color: #d68097;
 }
 
 [data-theme='dark'] .accessibility-button {
