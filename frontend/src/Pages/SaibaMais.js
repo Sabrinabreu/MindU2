@@ -29,6 +29,8 @@ const Agendar = () => {
     const [biografia, setBiografia] = useState('');
     const [nomePaciente, setNomePaciente] = useState('');
 
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
     useEffect(() => {
         if (psicologo_id) {
             fetchPsicologoData(psicologo_id);
@@ -119,15 +121,15 @@ const Agendar = () => {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-
+    
         const token = localStorage.getItem('token');
         const decodedToken = parseJwt(token);
-
+    
         if (!decodedToken || !decodedToken.id) {
             alert('Usuário não autenticado');
             return;
         }
-
+    
         const agendamentoData = {
             usuario_id: decodedToken.id,
             psicologo_id,
@@ -137,15 +139,15 @@ const Agendar = () => {
             assunto,
             nome_paciente: nomePaciente 
         };
-
+    
         try {
-            const response = await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
+            await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             });
-            alert(response.data.message);
-            handleClose();
+            handleClose(); // Fecha o modal de agendamento
+            setShowConfirmationModal(true); // Abre o modal de confirmação
         } catch (error) {
             console.error('Erro ao agendar consulta:', error);
             if (error.response) {
@@ -155,7 +157,6 @@ const Agendar = () => {
             }
         }
     };
-
     return (
         <Container className='p-4'>
             <Row>
@@ -165,7 +166,6 @@ const Agendar = () => {
                         <img className="psicologo"
                             src={perfil ? `http://localhost:3001/uploads/${perfil}` : padraoPerfil}
                         />
-
                         <h4 className='nomePsico container p-4'>{nomePsico || 'Nome não disponível'}</h4>
                         <div className='infoPsico'>
                             <b>{especialidade || 'Especialidade não disponível'}</b>
@@ -245,6 +245,20 @@ const Agendar = () => {
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={handleClose}>Fechar</Button>
                                 <Button className='salvar' onClick={handleSave}>Salvar</Button>
+                            </Modal.Footer>
+                        </Modal>
+
+                        <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Consulta Agendada com sucesso 🎉</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                Mais informações sobre sua consula foram enviadas para o seu email!
+                            </Modal.Body>
+                            <Modal.Footer>
+                            <Button className='fecharSaibaMaisAgendada' variant="secondary" onClick={() => setShowConfirmationModal(false)}>
+                                    Fechar
+                                </Button>
                             </Modal.Footer>
                         </Modal>
                     </div>
