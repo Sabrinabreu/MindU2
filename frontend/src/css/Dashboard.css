@@ -49,6 +49,12 @@ body {
   color: var(--color-dark);
 }
 
+@media (min-width: 1500px) and (orientation: landscape) {
+  .dashboard {
+    height: 91vh;
+  }
+}
+
 @media (max-width: 1100px) and (orientation: landscape) {
   .dashboard {
     width: 101% !important;

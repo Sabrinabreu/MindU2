@@ -407,8 +407,15 @@
     margin-left: 10px;
 }
 
-/* versao desktop  */
+.fecharSaibaMaisAgendada{
+    background-color: #6852a5;
+    border: none;
+}
 
+.fecharSaibaMaisAgendada:hover{
+    background-color: #947fd1;
+    border: none;
+}
 
 /* versao mobile  */
 @media (max-width: 600px) {
