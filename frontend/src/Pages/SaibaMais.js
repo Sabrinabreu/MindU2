@@ -20,6 +20,7 @@ const Agendar = () => {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [diasDisponiveis, setDiasDisponiveis] = useState(new Set());
 
+    // informações pessoais
     const [nomePsico, setNomePsico] = useState('');
     const [telefone, setTelefone] = useState('');
     const [email, setEmail] = useState('');
@@ -29,14 +30,23 @@ const Agendar = () => {
     const [biografia, setBiografia] = useState('');
     const [nomePaciente, setNomePaciente] = useState('');
 
+    // modal agendamento
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        console.log("Token:", token);
+
+        const decodedToken = parseJwt(token);
+        console.log("Token Decodificado:", decodedToken);
+
         if (psicologo_id) {
             fetchPsicologoData(psicologo_id);
             fetchDisponibilidades(psicologo_id);
         }
     }, [psicologo_id]);
+
+
 
     const fetchPsicologoData = async (psicologo_id) => {
         try {
@@ -121,15 +131,15 @@ const Agendar = () => {
             alert('Por favor, preencha todos os campos antes de salvar.');
             return;
         }
-    
+
         const token = localStorage.getItem('token');
         const decodedToken = parseJwt(token);
-    
+
         if (!decodedToken || !decodedToken.id) {
             alert('Usuário não autenticado');
             return;
         }
-    
+
         const agendamentoData = {
             usuario_id: decodedToken.id,
             psicologo_id,
@@ -137,17 +147,22 @@ const Agendar = () => {
             horario_inicio: selectedTime,
             tipo: selectedTipo,
             assunto,
-            nome_paciente: nomePaciente 
+            nome_paciente: nomePaciente,
         };
-    
+
+        console.log("Dados do agendamento:", agendamentoData);
+
         try {
             await axios.post('http://localhost:3001/api/agendamentos', agendamentoData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             });
-            handleClose(); // Fecha o modal de agendamento
-            setShowConfirmationModal(true); // Abre o modal de confirmação
+            handleClose();
+
+            setTimeout(() => {
+                setShowConfirmationModal(true);
+            }, 100);  // Espera um pequeno intervalo de tempo antes de abrir o modal
         } catch (error) {
             console.error('Erro ao agendar consulta:', error);
             if (error.response) {
@@ -157,6 +172,8 @@ const Agendar = () => {
             }
         }
     };
+
+
     return (
         <Container className='p-4'>
             <Row>
@@ -253,14 +270,16 @@ const Agendar = () => {
                                 <Modal.Title>Consulta Agendada com sucesso 🎉</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                Mais informações sobre sua consula foram enviadas para o seu email!
+                                <p>Mais informações sobre sua consulta foram enviadas para o seu email!
+                                </p>
                             </Modal.Body>
                             <Modal.Footer>
-                            <Button className='fecharSaibaMaisAgendada' variant="secondary" onClick={() => setShowConfirmationModal(false)}>
+                                <Button className='fecharSaibaMaisAgendada' variant="secondary" onClick={() => setShowConfirmationModal(false)}>
                                     Fechar
                                 </Button>
                             </Modal.Footer>
                         </Modal>
+
                     </div>
                     <div className='biografia p-4'>
                         <h5 className='titulosSobre py-3'>
